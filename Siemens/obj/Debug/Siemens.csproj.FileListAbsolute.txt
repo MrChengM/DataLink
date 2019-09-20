@@ -1,0 +1,5 @@
+D:\C#Projects\DriverLibrary\Siemens\bin\Debug\Siemens.dll
+D:\C#Projects\DriverLibrary\Siemens\bin\Debug\Siemens.pdb
+D:\C#Projects\DriverLibrary\Siemens\obj\Debug\Siemens.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\Siemens\obj\Debug\Siemens.dll
+D:\C#Projects\DriverLibrary\Siemens\obj\Debug\Siemens.pdb

@@ -1,0 +1,7 @@
+D:\C#Projects\DriverLibrary\Modbus\bin\Debug\Modbus.dll
+D:\C#Projects\DriverLibrary\Modbus\bin\Debug\Modbus.pdb
+D:\C#Projects\DriverLibrary\Modbus\bin\Debug\DataServer.dll
+D:\C#Projects\DriverLibrary\Modbus\bin\Debug\DataServer.pdb
+D:\C#Projects\DriverLibrary\Modbus\obj\Debug\Modbus.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\Modbus\obj\Debug\Modbus.dll
+D:\C#Projects\DriverLibrary\Modbus\obj\Debug\Modbus.pdb
