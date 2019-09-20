@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverLibrary", "DriverLibrary\DriverLibrary.csproj", "{B68445D5-4856-4CA6-8715-DDAADC30C30F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "General", "General\General.csproj", "{45BC48E7-C7A9-48BA-BB72-A213DDF042AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modbus", "..\..\CommunicationDriverLib\Modbus\Modbus.csproj", "{E444A643-E1E6-4370-9C0F-770AA24BB949}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDEDriver", "..\..\CommunicationDriverLib\DDEDriver\DDEDriver.csproj", "{1515067D-ED34-401F-B2EA-4A3A2A8D108D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCDriver", "..\..\CommunicationDriverLib\OPCDriver\OPCDriver.csproj", "{B862934A-977A-4716-935D-A11CF50B38FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siemens", "Siemens\Siemens.csproj", "{19848109-9F5A-49AD-A647-9CF01E5E577B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron", "Omron\Omron.csproj", "{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B68445D5-4856-4CA6-8715-DDAADC30C30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68445D5-4856-4CA6-8715-DDAADC30C30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68445D5-4856-4CA6-8715-DDAADC30C30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68445D5-4856-4CA6-8715-DDAADC30C30F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45BC48E7-C7A9-48BA-BB72-A213DDF042AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BC48E7-C7A9-48BA-BB72-A213DDF042AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BC48E7-C7A9-48BA-BB72-A213DDF042AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BC48E7-C7A9-48BA-BB72-A213DDF042AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E444A643-E1E6-4370-9C0F-770AA24BB949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E444A643-E1E6-4370-9C0F-770AA24BB949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E444A643-E1E6-4370-9C0F-770AA24BB949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E444A643-E1E6-4370-9C0F-770AA24BB949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1515067D-ED34-401F-B2EA-4A3A2A8D108D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1515067D-ED34-401F-B2EA-4A3A2A8D108D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1515067D-ED34-401F-B2EA-4A3A2A8D108D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1515067D-ED34-401F-B2EA-4A3A2A8D108D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B862934A-977A-4716-935D-A11CF50B38FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B862934A-977A-4716-935D-A11CF50B38FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B862934A-977A-4716-935D-A11CF50B38FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B862934A-977A-4716-935D-A11CF50B38FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19848109-9F5A-49AD-A647-9CF01E5E577B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19848109-9F5A-49AD-A647-9CF01E5E577B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19848109-9F5A-49AD-A647-9CF01E5E577B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19848109-9F5A-49AD-A647-9CF01E5E577B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
