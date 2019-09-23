@@ -2,6 +2,7 @@
 using System.IO.Ports;
 namespace DataServer
 {
+# region
     public interface IRead
     {
         //读取单个数据
@@ -60,7 +61,7 @@ namespace DataServer
         bool Connect();
         bool DisConnect();
         bool IsClose { get; }
-        int TimeOut { get; set; }
+        TimeOut TimeOut { get; set; }
         ILog Log { get; set; }
 
     }
@@ -71,6 +72,7 @@ namespace DataServer
         DeviceAddress GetDeviceAddress(string address);
         string GetAddress(DeviceAddress deviceAddress);
     }
+    #endregion
     public enum DriverType
     {
         Serialport = 0x01,
@@ -98,7 +100,7 @@ namespace DataServer
             OddEvenCheck = oddEvenCheck;
         }
 
-        public static SerialportSetUp Default = new SerialportSetUp("COM1", 9600, 8, 1, Parity.None);
+        public static SerialportSetUp Default = new SerialportSetUp("COM1", 9600, 8, StopBits.One, Parity.None);
     }
     /// <summary>
     /// 以太网端口设置
@@ -155,6 +157,11 @@ namespace DataServer
         }
 
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Item<T>
     {
         public T Vaule { get; set; }

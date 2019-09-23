@@ -73,5 +73,11 @@ namespace DataServer
             byte[] chk = CalculateCrc(frame, len - 2);
             return (chk[0] == frame[len - 2] && chk[1] == frame[len - 1]);
         }
+        #region
+        public static byte[] IntToBytes(int data,ByteOrder byteOrder)
+        {
+
+        }
+        #endregion
     }
 }
