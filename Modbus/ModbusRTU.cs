@@ -156,7 +156,7 @@ namespace Modbus
             }
             catch(Exception ex)
             {
-                Log.ErrorLog("ModbusRTU DisConnect Error:" + ex.Message);
+                Log.ErrorLog("Modbus DisConnect Error:" + ex.Message);
                 _isConnect = false;
                 return false;
             }
@@ -171,12 +171,12 @@ namespace Modbus
         /// <param name="startAddress"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        private byte[] readHead(byte slaveId,byte func,ushort startAddress, ushort count)
+        private byte[] readHeader(byte slaveId,byte func,ushort startAddress, ushort count)
         {
             byte[] sendBytes = new byte[8];
             sendBytes[0] = slaveId;
             sendBytes[1] = func;
-            byte[] addressBytes = BitConverter.GetBytes(startAddress);
+            byte[] addressBytes = BitConverter.GetBytes(startAddress-1);//起始位为0，偏移1位
             sendBytes[2] = addressBytes[1];//高位在前
             sendBytes[3] = addressBytes[0];//低位在后
             byte[] countBytes= BitConverter.GetBytes(count);
@@ -187,82 +187,311 @@ namespace Modbus
             sendBytes[7] = CRCBytes[1];
             return sendBytes;
         }
-
+        public  delegate byte[] GetWriteHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas,ushort count);
         /// <summary>
-        /// 功能码01，读线圈状态
-        /// 地址：00001-09999，类型：bit
-        /// 最大个数2000线圈
+        /// 写单个线圈或寄存器，包括：
+        /// 从地址 功能码 地址位 数据位 CRC共8位bytes
+        /// </summary>
+        /// <param name="slaveID"></param>
+        /// <param name="startAddress"></param>
+        /// <param name="funcCode"></param>
+        /// <param name="datas"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        private byte[] getWriteSigHeader(byte slaveID, ushort startAddress, byte funcCode,byte[] datas,ushort count)
+        {
+            byte[] sendBytes = new byte[8];
+            sendBytes[0] = slaveID;
+            sendBytes[1] = funcCode;
+            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
+            sendBytes[2] = addressBytes[1];//高位在前
+            sendBytes[3] = addressBytes[0];//低位在后
+            sendBytes[4] = datas[1];
+            sendBytes[5] = datas[0];
+            byte[] CRCBytes = Utility.CalculateCrc(sendBytes, sendBytes.Length - 2);
+            sendBytes[6] = CRCBytes[0];
+            sendBytes[7] = CRCBytes[1];
+            return sendBytes;
+        }
+        /// <summary>
+        /// 写多个线圈或寄存器，包括：
+        /// 从地址 功能码 地址位 数量 字节长度 数据数组 CRC校验组成 共9+length（发送字节数）
+        /// </summary>
+        /// <param name="slaveID"></param>
+        /// <param name="startAddress"></param>
+        /// <param name="funcCode"></param>
+        /// <param name="datas"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        private byte[] getWriteMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas, ushort count)
+        {
+            byte[] sendBytes = new byte[9+ datas.Length];
+            sendBytes[0] = slaveID;
+            sendBytes[1] = funcCode;
+            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
+            sendBytes[2] = addressBytes[1];//高位在前
+            sendBytes[3] = addressBytes[0];//低位在后
+            byte[] CountBytes = BitConverter.GetBytes(count);
+            sendBytes[4] = CountBytes[1];
+            sendBytes[5] = CountBytes[0];
+
+            sendBytes[6] = (byte)datas.Length;
+            Array.ConstrainedCopy(datas, 0, sendBytes, 7, datas.Length);
+
+            byte[] CRCBytes = Utility.CalculateCrc(sendBytes, sendBytes.Length - 2);
+            sendBytes[sendBytes.Length-2] = CRCBytes[0];
+            sendBytes[sendBytes.Length - 1] = CRCBytes[1];
+            return sendBytes;
+        }
+        /// <summary>
+        /// 读数据
+        /// 0x01读线圈，地址：00001-09999，类型：bit
+        /// 0x02读输入状态，地址：10001-19999，类型：bit
+        /// 0x03读保持寄存器，地址：40001-49999，类型：Word
+        /// 0x04读输入寄存器，地址：30001-39999，类型：Word
         /// </summary>
         /// <returns>返回带CRC校验8位字节数组</returns>
         object _async = new object();
-        private byte[] readCoil(byte slaveID, ushort startAddress, ushort count)
+        private byte[] readBytes(byte slaveID, ushort startAddress,byte funcCode, ushort count)
         {
-            
             try
             {
                 if (IsConnect)
                 {
-                    byte[] sendBytes = readHead(slaveID, (byte)FucthionCode.ReadCoil, startAddress, count);
+                    byte byteCount = Function.GetReadBytesCount(funcCode, count);
+                    if(byteCount==0)
+                    {
+                        _log.ErrorLog("Modbus 读取功能码不正常");
+                        return null;
+                    }
+                    byte[] sendBytes = readHeader(slaveID, funcCode, startAddress, count);
                     lock (_async)
                     {
-                        byte byteCount =(byte)((count % 8 == 0) ? count / 8 : (count / 8 + 1));
                         byte[] receiveBytes = new byte[3 + byteCount + 2];
                         byte[] dataBytes = new byte[byteCount];
+                        byte errorFuncCode = (byte)(0x80 + funcCode);
                         _serialPort.Write(sendBytes, 0, sendBytes.Length);
-                        Thread.Sleep(100);
-                        _timeOut.StartTime = DateTime.Now;
-                        _timeOut.EndTime = DateTime.Now;
+                        Thread.Sleep(10);
                         int index =0;
                         bool continueFlag = true;
-                        /*---------------------------------------------------------
-                         * 先找收到数据报文头（从站地址，功能码），读取3个字节
-                         * 是否符合正确报文数据
-                         * 若为正常响应，读取剩下的Length-2长度
-                         * 若为不正常响应，读取剩下3位长度
-                        ----------------------------------------------------------*/
+                        _timeOut.InitAndClear();
+                        /*----------------------------------------
+                        *循环找头：
+                        * 先读一个字节判断是否为SlaveID
+                        * 如果是,则开启循环
+                        * 则再读一个字节判断是否为功能码或者是错误码
+                        * 判断是，则指针index+2并跳出循环
+                        * 若第二个字节等于SlaveID则复制给头
+                        * 否则将头置0
+                     ------------------------------------------ */
                         while (_timeOut.TimeOutFlag&continueFlag)
                         {
                             if (index < 2)
                             {
-                                _serialPort.Read(receiveBytes, index, 2);
-                                if (receiveBytes[0] == slaveID)
+                                _serialPort.Read(receiveBytes, 0, 1);
+                                while (receiveBytes[0] == slaveID)
                                 {
-                                    switch (receiveBytes[1])
+                                    _serialPort.Read(receiveBytes, 1, 1);
+                                    if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
                                     {
-                                        case (byte)FucthionCode.ReadCoil:
-                                            index += 2;
-                                            break;
-                                        case (0x80 + (byte)FucthionCode.ReadCoil):
-                                            index += 2;
-                                            break;
+                                        index += 2;
+                                        break;
+                                    }
+                                    else if (receiveBytes[1] == slaveID)
+                                    {
+                                        receiveBytes[0] = receiveBytes[1];
+                                    }
+                                    else
+                                    {
+                                        receiveBytes[0] = 0;
                                     }
                                 }
                             }
-                            if(receiveBytes[1]== (byte)FucthionCode.ReadCoil)
+                            else
                             {
-                                index += _serialPort.Read(receiveBytes, index, byteCount +3);
-                                continueFlag = index == receiveBytes.Length ? false : true;
+                                if (receiveBytes[1] == funcCode)
+                                {
+                                    index += _serialPort.Read(receiveBytes, index, byteCount + 3);
+                                    continueFlag = index == receiveBytes.Length ? false : true;
+                                }
+                                else if (receiveBytes[1] == errorFuncCode)
+                                {
+                                    index += _serialPort.Read(receiveBytes, index, 3);
+                                    continueFlag = index == 5 ? false : true;
+                                }
                             }
-                            if (receiveBytes[1] == 0x80 + (byte)FucthionCode.ReadCoil)
+                            
+                            _timeOut.EndTime = DateTime.Now;
+                        }
+
+                        //判断是否超时，并复位
+                        if (_timeOut.TimeOutFlag)
+                        {
+                            _timeOut.LogTimeOutError();
+                            return null;
+                        }
+
+                        //获取正确报文并处理
+                        if(receiveBytes[1]==funcCode)
+                        {
+                            if (!Utility.CheckSumCRC(receiveBytes, receiveBytes.Length))
                             {
-                                index += _serialPort.Read(receiveBytes, index,  3);
-                                continueFlag = index == 5 ? false : true;
+                                _log.ErrorLog("Modbus CRC校验错误");
+                                return null;
+                            }
+                            Array.ConstrainedCopy(receiveBytes, 3,dataBytes,0, byteCount);
+                            return dataBytes;
+                        }
+                        else if(receiveBytes[1] == errorFuncCode)
+                        {
+                            if (!Utility.CheckSumCRC(receiveBytes, 5))
+                            {
+                                _log.ErrorLog("Modbus CRC校验错误");
+                                return null;
+                            }
+                            _log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
+                        }
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception ex)
+            {
+                _log.ErrorLog(string.Format("Modbus {0} ",ex.Message ));
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 0x05强制单个线圈
+        /// 0x06预置单个寄存器
+        /// 0x0F强制多个线圈
+        /// 0x10预置多个寄存器
+        /// </summary>
+        /// <param name="slaveID"></param>
+        /// <param name="startAddress"></param>
+        /// <param name="funcCode"></param>
+        /// <param name="datas"></param>
+        /// <returns></returns>
+        private int writeDatas(byte slaveID,byte funcCode, ushort startAddress,byte[] datas,ushort count, GetWriteHeader getHeader)
+        {
+            try
+            {
+                if (_isConnect)
+                {
+                    byte errorFuncCode = (byte)(0x80 + funcCode);
+                    byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas, count);
+          
+                    lock (_async)
+                    {
+                        _serialPort.Write(sendBytes, 0, sendBytes.Length);
+                        Thread.Sleep(10);
+
+                        int index = 0;
+                        bool continueFlag = true;
+                        _timeOut.InitAndClear();
+                        byte[] receiveBytes = new byte[8];
+
+                        /*----------------------------------------
+                         *循环找头：
+                         * 先读一个字节判断是否为SlaveID
+                         * 如果是,则开启循环
+                         * 则再读一个字节判断是否为功能码或者是错误码
+                         * 判断是，则指针index+2并跳出循环
+                         * 若第二个字节等于SlaveID则复制给头
+                         * 否则将头置0
+                         ------------------------------------------ */
+
+                        while (_timeOut.TimeOutFlag & continueFlag)
+                        {
+                            if (index < 2)
+                            {
+                                _serialPort.Read(receiveBytes, 0, 1);
+                                while (receiveBytes[0] == slaveID)
+                                {
+                                    _serialPort.Read(receiveBytes, 1, 1);
+                                    if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
+                                    {
+                                        index += 2;
+                                        break;
+                                    }
+                                    else if (receiveBytes[1] == slaveID)
+                                    {
+                                        receiveBytes[0] = receiveBytes[1];
+                                    }
+                                    else
+                                    {
+                                        receiveBytes[0] = 0;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (receiveBytes[1] == funcCode)
+                                {
+                                    index += _serialPort.Read(receiveBytes, index, 6);
+                                    continueFlag = index == 8 ? false : true;
+                                }
+                                else if (receiveBytes[1] == errorFuncCode)
+                                {
+                                    index += _serialPort.Read(receiveBytes, index, 3);
+                                    continueFlag = index == 5 ? false : true;
+                                }
                             }
                             _timeOut.EndTime = DateTime.Now;
                         }
 
+                        if (_timeOut.TimeOutFlag)
+                        {
+                            _timeOut.LogTimeOutError();
+                            return -1;
+                        }
+
+                        //获取正确报文并处理
+                        if (receiveBytes[1] == funcCode)
+                        {
+                            if (Utility.CheckSumCRC(receiveBytes, receiveBytes.Length))
+                            {
+                                return 1;
+                            }
+                            else
+                            {
+                                _log.ErrorLog("Modbus CRC校验错误");
+                                return -1;
+                            }
+
+                        }
+                        else if (receiveBytes[1] == errorFuncCode)
+                        {
+                            if (Utility.CheckSumCRC(receiveBytes, 5))
+                            {
+                                _log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
+                            }
+                            else
+                            {
+                                _log.ErrorLog("Modbus CRC校验错误");
+                            }
+                            return -1;
+                        }
+                        return -1;
                     }
- 
+
                 }
                 else
                 {
-                    return default(byte[]);
+                    return -1;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                _log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
+                return -1;
             }
+
         }
         public string GetAddress(DeviceAddress deviceAddress)
         {
@@ -276,7 +505,9 @@ namespace Modbus
 
         public Item<bool> ReadBool(DeviceAddress deviceAddress)
         {
-            throw new NotImplementedException();
+            var datas = readBytes((byte)deviceAddress.SlaveID, (ushort)deviceAddress.Address, (byte)deviceAddress.FuctionNumber, 1);
+            return datas == null ? Item<bool>.Default : 
+                new Item<bool>() { Vaule =Utility.BytesToBool(datas), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)

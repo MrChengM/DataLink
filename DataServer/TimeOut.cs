@@ -107,15 +107,12 @@ namespace DataServer
         /// <summary>
         /// 错误清除并复位
         /// </summary>
-        public void ClearError()
+        public void InitAndClear()
         {
-            if (_timeOutFlag)
-            {
-                _startTime = DateTime.Now;
-                _endTime = DateTime.Now;
-                _durationTime = 0;
-                _timeOutFlag = false;
-            }
+            _startTime = DateTime.Now;
+            _endTime = DateTime.Now;
+            _durationTime = 0;
+            _timeOutFlag = false;
         }
     }
 }

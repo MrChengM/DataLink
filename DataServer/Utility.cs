@@ -67,16 +67,20 @@ namespace DataServer
         /// </summary>
         /// <param name="frame">获取字节数组，后两位为校验数据</param>
         /// <returns>CRC校验是否匹配 </returns>
-        public static bool CheckSumCRC(byte[] frame)
+        public static bool CheckSumCRC(byte[] frame,int len)
         {
-            int len = frame.Length;
+            //int len = frame.Length;
             byte[] chk = CalculateCrc(frame, len - 2);
             return (chk[0] == frame[len - 2] && chk[1] == frame[len - 1]);
         }
-        #region
+        #region 数据转换 
         public static byte[] IntToBytes(int data,ByteOrder byteOrder)
         {
-
+            return null;
+        }
+        public static bool BytesToBool(byte[] bytes)
+        {
+           return BitConverter.ToBoolean(bytes,0);
         }
         #endregion
     }

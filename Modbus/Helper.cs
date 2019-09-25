@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modbus
 {
-    public enum FucthionCode
+    public enum FunctionCode
     {
         /// <summary>
         /// 读线圈，地址：00001-09999，类型：bit
@@ -31,7 +31,7 @@ namespace Modbus
         /// <summary>
         /// 写单个寄存器，地址：40001-49999，类型：Word
         /// </summary>
-        WriteSingleCoil = 0x06,
+        WriteSingleRegister = 0x06,
         /// <summary>
         /// 读不正常状态
         /// </summary>
@@ -57,7 +57,7 @@ namespace Modbus
         /// </summary>
         RecordComEvent=0x0C,
         /// <summary>
-        /// 强制多个寄存器，地址：30001-39999，类型：Word
+        /// 强制多个线圈，地址：00001-9999，类型：bit
         /// </summary>
         ForceMulRegister = 0x0F,
         /// <summary>
@@ -106,10 +106,10 @@ namespace Modbus
     }
     public static class Function
     {
-        public static string GetErrorString(byte Code)
+        public static string GetErrorString(byte errorCode)
         {
 
-            switch (Code)
+            switch (errorCode)
             {
                 case (byte)ErrorCode.LllegalFuctionCode:
                     return "不合法功能代码";
@@ -128,7 +128,32 @@ namespace Modbus
                 case (byte)ErrorCode.OddEvenError:
                     return "内存奇偶校验错误";
             }
-            return default(string);
+            return "Unknow";
+        }
+        /// <summary>
+        /// 通过功能码及数量获取对应的字节数
+        /// 0x01,0x02属于Bit类型,最大readCount为2000
+        /// 0x03,0x04属于Word类型,最大readCount为125
+        /// 其他功能代码返回0值
+        /// </summary>
+        /// <param name="funcCod">功能码</param>
+        /// <param name="readCount">读取数量</param>
+        /// <returns></returns>
+        public static byte GetReadBytesCount(byte funcCod,ushort readCount )
+        {
+            byte byteCount=0;
+            switch (funcCod)
+            {
+                case (byte)FunctionCode.ReadCoil:
+                    return byteCount = (byte)((readCount % 8 == 0) ? readCount / 8 : (readCount / 8 + 1));
+                case (byte)FunctionCode.ReadInputStatus:
+                    return byteCount = (byte)((readCount % 8 == 0) ? readCount / 8 : (readCount / 8 + 1));
+                case (byte)FunctionCode.ReadHoldRegister:
+                    return byteCount = (byte)(readCount*2);
+                case (byte)FunctionCode.ReadInputRegister:
+                    return byteCount = (byte)(readCount * 2);
+            }
+            return byteCount;
         }
     }
 }
