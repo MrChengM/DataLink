@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataServer
 {
-    public static class  Utility
+    public static class Utility
     {
         private static readonly ushort[] crcTable = {
             0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
@@ -67,21 +68,515 @@ namespace DataServer
         /// </summary>
         /// <param name="frame">获取字节数组，后两位为校验数据</param>
         /// <returns>CRC校验是否匹配 </returns>
-        public static bool CheckSumCRC(byte[] frame,int len)
+        public static bool CheckSumCRC(byte[] frame, int len)
         {
             //int len = frame.Length;
             byte[] chk = CalculateCrc(frame, len - 2);
             return (chk[0] == frame[len - 2] && chk[1] == frame[len - 1]);
         }
         #region 数据转换 
-        public static byte[] IntToBytes(int data,ByteOrder byteOrder)
+        public static byte[] ShortToBytes(short data, ByteOrder byteOrder)
         {
+            byte[] result;
+            switch (byteOrder)
+            {
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.None:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.BigEndian:
+                    var bytes = BitConverter.GetBytes(data);
+                    int count = bytes.Length;
+                    result = new byte[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        result[count - i] = bytes[i];
+                    }
+                    return result;
+            }
             return null;
         }
-        public static bool BytesToBool(byte[] bytes)
+        /// <summary>
+        /// 32整形转换为字节数组
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="byteOrder"></param>
+        /// <returns></returns>
+        public static byte[] IntToBytes(int data, ByteOrder byteOrder)
         {
-           return BitConverter.ToBoolean(bytes,0);
+            byte[] result;
+            switch (byteOrder)
+            {
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.None:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.BigEndian:
+                    var bytes = BitConverter.GetBytes(data);
+                    int count = bytes.Length;
+                    result = new byte[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        result[count - i] = bytes[i];
+                    }
+                    return result;
+            }
+            return null;
+        }
+        public static byte[] LongToBytes(long data, ByteOrder byteOrder)
+        {
+            byte[] result;
+            switch (byteOrder)
+            {
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.None:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.BigEndian:
+                    var bytes = BitConverter.GetBytes(data);
+                    int count = bytes.Length;
+                    result = new byte[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        result[count - i] = bytes[i];
+                    }
+                    return result;
+            }
+            return null;
+        }
+
+        public static byte[] SingleToBytes(float data, ByteOrder byteOrder)
+        {
+            byte[] result;
+            switch (byteOrder)
+            {
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.None:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.BigEndian:
+                    var bytes = BitConverter.GetBytes(data);
+                    int count = bytes.Length;
+                    result = new byte[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        result[count - i] = bytes[i];
+                    }
+                    return result;
+            }
+            return null;
+        }
+        public static byte[] DoubleToBytes(double data, ByteOrder byteOrder)
+        {
+            byte[] result;
+            switch (byteOrder)
+            {
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.None:
+                    return result = BitConverter.GetBytes(data);
+                case ByteOrder.BigEndian:
+                    var bytes = BitConverter.GetBytes(data);
+                    int count = bytes.Length;
+                    result = new byte[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        result[count - i] = bytes[i];
+                    }
+                    return result;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 求字节指定位的状态
+        /// </summary>
+        /// <param name="sourceByte">源数据字节,</param>
+        /// <param name="positon">定位,小于等于8</param>
+        /// <returns></returns>
+        public static bool ByteToBool(byte sourceByte, int positon)
+        {
+            if (positon > 8)
+                throw new NotImplementedException();
+            byte a = 1;
+            return (sourceByte >> positon & a) != 0;
+        }
+        /// <summary>
+        /// 字节数组转bool数组
+        /// </summary>
+        /// <param name="sourceBytes">源目标字节数组</param>
+        /// <param name="length">转换长度，最大值为byte[].length*8</param>
+        /// <returns></returns>
+        public static bool[] BytesToBools(byte[] sourceBytes, int length)
+        {
+            if (length > sourceBytes.Length * 8)
+                throw new NotImplementedException();
+            bool[] result = new bool[length];
+            int index = 0;
+            for (int i = 0; i < sourceBytes.Length; i++)
+            {
+                index += 8 * i;
+                for (int j = 0; j < 8; j++)
+                {
+                    index += j;
+                    if (index >= length)
+                        return result;
+                    result[index] = ByteToBool(sourceBytes[i], j);
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 字节数组转换为16位整型
+        /// </summary>
+        /// <param name="data"> 输入值</param>
+        /// <param name="startIndex"> 起始位置，小于数组长度</param>
+        /// <param name="byteOrder"></param>
+        /// <returns></returns>
+        public static short BytesToShort(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            short result;
+            byte[] bytes = new byte[2];
+            if (startIndex > data.Length - 2)
+            {
+                bytes[0] = data[startIndex];
+            }
+            else
+            {
+                bytes[0] = data[startIndex];
+                bytes[1] = data[startIndex + 1];
+            }
+            switch (byteOrder)
+            {
+                case ByteOrder.None:
+                    return result = BitConverter.ToInt16(bytes, 0);
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.ToInt16(bytes, 0);
+                case ByteOrder.BigEndian:
+                    byte[] value = new byte[] { bytes[1], bytes[0] };
+                    return result = BitConverter.ToInt16(value, 0);
+            }
+            return default(short);
+        }
+        /// <summary>
+        /// 字节数组转换为16位整型数组
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="count"></param>
+        /// <param name="byteOrder"></param>
+        /// <returns></returns>
+        public static short[] BytesToShorts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            short[] result = new short[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = BytesToShort(data, startIndex + i * 2, byteOrder);
+            }
+            return result;
+        }
+        public static int BytesToInt(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+
+            int result;
+            byte[] bytes = new byte[4];
+            if (startIndex > data.Length - 4)
+            {
+
+                for (int i = 0; i < data.Length - startIndex; i++)
+                {
+                    bytes[i] = data[startIndex + i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    bytes[i] = data[startIndex + i];
+                }
+            }
+            switch (byteOrder)
+            {
+                case ByteOrder.None:
+                    return result = BitConverter.ToInt32(bytes, 0);
+                case ByteOrder.LittleEndian:
+                    return result = BitConverter.ToInt32(bytes, 0);
+                case ByteOrder.BigEndian:
+                    byte[] value = new byte[4];
+                    return result = BitConverter.ToInt32(value, 0);
+            }
+            return default(short);
+        }
+        public static int[] BytesToInts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            int[] result = new int[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToInt(data, startIndex + i * 4, byteOrder);
+            }
+            return result;
         }
         #endregion
+    }
+    public class UnSafeUtility
+    {
+        
+        private unsafe static byte[] ToBytes(byte* bytePtr,int size, ByteOrder byteOrder)
+        {
+            //int count = sizeof(short);
+            byte* p = bytePtr;
+            byte[] result = new byte[size];
+            fixed (byte* q = result)
+            {
+                if (byteOrder == ByteOrder.None || byteOrder == ByteOrder.LittleEndian)
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        q[i] = *(p + i);
+                    }
+                }
+                if (byteOrder == ByteOrder.BigEndian)
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        q[size - i - 1] = *(p + i);
+                    }
+                }
+
+            }
+            return result;
+        }
+        public unsafe static byte[] ShortToBytes(short data, ByteOrder byteOrder)
+        {
+            int count = sizeof(short);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        public unsafe static byte[] UshortToBytes(ushort data, ByteOrder byteOrder)
+        {
+
+            int count = sizeof(ushort);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        public unsafe static byte[] IntToBytes(int data, ByteOrder byteOrder)
+        {
+            int count = sizeof(int);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        public unsafe static byte[] UIntToBytes(uint data, ByteOrder byteOrder)
+        {
+            int count = sizeof(uint);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        public unsafe static byte[] LongToBytes(long data, ByteOrder byteOrder)
+        {
+            int count = sizeof(long);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+
+        public unsafe static byte[] ULongToBytes(ulong data, ByteOrder byteOrder)
+        {
+
+            int count = sizeof(ulong);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        public unsafe static byte[] SingleToBytes(float data, ByteOrder byteOrder)
+        {
+
+            int count = sizeof(float);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        public unsafe static byte[] DoubleToBytes(double data, ByteOrder byteOrder)
+        {
+
+            int count = sizeof(double);
+            byte* p = (byte*)&data;
+            return ToBytes(p, count, byteOrder);
+        }
+        private unsafe static void BytesToStruct(byte* bytePtr,int size, byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            fixed (byte* q = &data[startIndex])
+            {
+                if (data.Length - startIndex < size)
+                    size = data.Length - startIndex;
+                if (byteOrder == ByteOrder.None || byteOrder == ByteOrder.LittleEndian)
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        *(bytePtr + i) = q[i];
+                    }
+                }
+                if (byteOrder == ByteOrder.BigEndian)
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        *(bytePtr + i) = q[size - i - 1];
+                    }
+                }
+            }
+        }
+        public unsafe static short BytesToShort(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            short result;
+            int size = sizeof(short);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static ushort BytesToUShort(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            ushort result;
+            int size = sizeof(ushort);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static int BytesToInt(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            int result;
+            int size = sizeof(int);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static uint BytesToUInt(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            uint result;
+            int size = sizeof(uint);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static long BytesToLong(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            long result;
+            int size = sizeof(long);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static ulong BytesToULong(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            ulong result;
+            int size = sizeof(ulong);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static float BytesToFloat(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            float result;
+            int size = sizeof(float);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+        public unsafe static double BytesToDouble(byte[] data, int startIndex, ByteOrder byteOrder)
+        {
+            if (data == null || startIndex >= data.Length)
+                throw new NotImplementedException();
+            double result;
+            int size = sizeof(double);
+            byte* p = (byte*)&result;
+            BytesToStruct(p, size, data, startIndex, byteOrder);
+            return result;
+        }
+
+        public static short[] BytesToShorts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            short[] result = new short[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = BytesToShort(data, startIndex + i * 2, byteOrder);
+            }
+            return result;
+        }
+        public static ushort[] BytesToUShorts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            ushort[] result = new ushort[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = BytesToUShort(data, startIndex + i * 2, byteOrder);
+            }
+            return result;
+        }
+        public static int[] BytesToInts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            int[] result = new int[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToInt(data, startIndex + i * 4, byteOrder);
+            }
+            return result;
+        }
+        public static uint[] BytesToUInts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            uint[] result = new uint[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToUInt(data, startIndex + i * 4, byteOrder);
+            }
+            return result;
+        }
+        public static long[] BytesToLongs(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            long[] result = new long[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToLong(data, startIndex + i * 8, byteOrder);
+            }
+            return result;
+        }
+        public static ulong[] BytesToULongs(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            ulong[] result = new ulong[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToULong(data, startIndex + i * 8, byteOrder);
+            }
+            return result;
+        }
+        public static float[] BytesToFloats(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            float[] result = new float[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToFloat(data, startIndex + i * 4, byteOrder);
+            }
+            return result;
+        }
+        public static double[] BytesToDoubls(byte[] data, int startIndex, int count, ByteOrder byteOrder)
+        {
+            double[] result = new double[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[count] = BytesToFloat(data, startIndex + i * 8, byteOrder);
+            }
+            return result;
+        }
     }
 }

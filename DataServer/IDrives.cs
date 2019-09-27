@@ -5,9 +5,10 @@ namespace DataServer
 # region
     public interface IRead
     {
+        byte[] ReadBytes(DeviceAddress deviceAddress, ushort length);
         //读取单个数据
         Item<bool> ReadBool(DeviceAddress deviceAddress);
-        Item<byte> ReadByte(DeviceAddress deviceAddress);
+        //Item<byte> ReadByte(DeviceAddress deviceAddress);
         Item<short> ReadShort(DeviceAddress deviceAddress);
         Item<ushort> ReadUShort(DeviceAddress deviceAddress);
         Item<int> ReadInt(DeviceAddress deviceAddress);
@@ -18,7 +19,7 @@ namespace DataServer
 
         //读取连续数据
         Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length);
-        Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length);
+        //Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length);
         Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length);
         Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress,ushort length);
         Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length);
@@ -218,10 +219,16 @@ namespace DataServer
     public enum ByteOrder : byte
     {
         None = 0,
+        /// <summary>
+        /// 大端法，高位存储在字节低位，低位存储在字节高位
+        /// </summary>
         BigEndian = 1,
+        /// <summary>
+        /// 小端法，低位存储在字节低位，高位存储在字节高位
+        /// </summary>
         LittleEndian = 2,
-        Network = 4,
-        Host = 8
+        //Network = 4,
+        //Host = 8
     }
     public static class EthProtocolType
     {
