@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DataServer;
 using System.IO.Ports;
 using System.Threading;
-
+ 
 namespace Modbus
 {
     /// <summary>
@@ -22,7 +22,7 @@ namespace Modbus
         private bool _isConnect = false;
         // private bool _isClose = true;
         private ILog _log;
-        private int _pdu = 248;
+        private int _pdu = 252;
 
         public ModbusRTUSalve() { }
 
@@ -187,7 +187,7 @@ namespace Modbus
             sendBytes[7] = CRCBytes[1];
             return sendBytes;
         }
-        public delegate byte[] GetWriteHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas, ushort count);
+        public delegate byte[] GetWriteHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas);
         /// <summary>
         /// 写单个线圈或寄存器，包括：
         /// 从地址 功能码 地址位 数据位 CRC共8位bytes
@@ -198,7 +198,7 @@ namespace Modbus
         /// <param name="datas"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        private byte[] writeSigHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas, ushort count)
+        private byte[] writeSigHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
         {
             byte[] sendBytes = new byte[8];
             sendBytes[0] = slaveID;
@@ -223,7 +223,7 @@ namespace Modbus
         /// <param name="datas"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        private byte[] writeMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas, ushort count)
+        private byte[] writeMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
         {
             byte[] sendBytes = new byte[9 + datas.Length];
             sendBytes[0] = slaveID;
@@ -231,7 +231,7 @@ namespace Modbus
             byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
             sendBytes[2] = addressBytes[1];//高位在前
             sendBytes[3] = addressBytes[0];//低位在后
-            byte[] CountBytes = BitConverter.GetBytes(count);
+            byte[] CountBytes = BitConverter.GetBytes((ushort)datas.Length);
             sendBytes[4] = CountBytes[1];
             sendBytes[5] = CountBytes[0];
 
@@ -384,7 +384,7 @@ namespace Modbus
                 if (_isConnect)
                 {
                     byte errorFuncCode = (byte)(0x80 + funcCode);
-                    byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas, count);
+                    byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas);
 
                     lock (_async)
                     {
@@ -511,32 +511,15 @@ namespace Modbus
         {
             var datas = ReadBytes(deviceAddress, 1);
             return datas == null ? Item<bool>.Default :
-                new Item<bool>() { Vaule = Utility.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
         {
-            Item<bool>[] result = new Item<bool>[length];
             var datas = ReadBytes(deviceAddress, length);
-            if (datas == null)
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = Item<bool>.Default;
-                }
-            }
-            else
-            {
-                bool[] bdatas = Utility.BytesToBools(datas, length);
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = new Item<bool>() { Vaule = bdatas[i], UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-                }
-            }
-            return result;
+            bool[] bdatas = NetConvert.BytesToBools(datas, length);
+            return NetConvert.ToItems(bdatas, 0, length);
         }
-
-
         public Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress)
         {
             throw new NotImplementedException();
@@ -550,21 +533,30 @@ namespace Modbus
 
         public Item<short> ReadShort(DeviceAddress deviceAddress)
         {
-            throw new NotImplementedException();
+
+            var datas = ReadBytes(deviceAddress, 1);
+            return datas == null ? Item<short>.Default :
+                new Item<short>() { Vaule = UNetConvert.BytesToShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length)
         {
-            throw new NotImplementedException();
+            var datas = ReadBytes(deviceAddress, 1);
+            var bdatas = UNetConvert.BytesToShorts(datas, 0, length, deviceAddress.ByteOrder);
+            return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<ushort> ReadUShort(DeviceAddress deviceAddress)
         {
-            throw new NotImplementedException();
+            var datas = ReadBytes(deviceAddress, 1);
+            return datas == null ? Item<ushort>.Default :
+                new Item<ushort>() { Vaule = UNetConvert.BytesToUShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
         {
-            throw new NotImplementedException();
+            var datas = ReadBytes(deviceAddress, 1);
+            var bdatas = UNetConvert.BytesToUShorts(datas, 0, length, deviceAddress.ByteOrder);
+            return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<int> ReadInt(DeviceAddress deviceAddress)
         {
@@ -572,32 +564,18 @@ namespace Modbus
             return datas == null ? Item<int>.Default :
                 new Item<int>()
                 {
-                    Vaule = UnSafeUtility.BytesToInt(datas, 0, deviceAddress.ByteOrder),
+                    Vaule = UNetConvert.BytesToInt(datas, 0, deviceAddress.ByteOrder),
                     UpdateTime = DateTime.Now,
                     Quality = QUALITIES.QUALITY_GOOD
                 };
+
         }
 
         public Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length)
         {
-            Item<int>[] result = new Item<int>[length];
             var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            if (datas == null)
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = Item<int>.Default;
-                }
-            }
-            else
-            {
-                int[] bdatas = UnSafeUtility.BytesToInts(datas, 0, length, deviceAddress.ByteOrder);
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = new Item<int>() { Vaule = bdatas[i], UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-                }
-            }
-            return result;
+            int[] bdatas = UNetConvert.BytesToInts(datas, 0, length, deviceAddress.ByteOrder);
+            return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<uint> ReadUInt(DeviceAddress deviceAddress)
         {
@@ -605,7 +583,7 @@ namespace Modbus
             return datas == null ? Item<uint>.Default :
                 new Item<uint>()
                 {
-                    Vaule = UnSafeUtility.BytesToUInt(datas, 0, deviceAddress.ByteOrder),
+                    Vaule = UNetConvert.BytesToUInt(datas, 0, deviceAddress.ByteOrder),
                     UpdateTime = DateTime.Now,
                     Quality = QUALITIES.QUALITY_GOOD
                 };
@@ -613,24 +591,9 @@ namespace Modbus
 
         public Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length)
         {
-            Item<uint>[] result = new Item<uint>[length];
             var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            if (datas == null)
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = Item<uint>.Default;
-                }
-            }
-            else
-            {
-                uint[] bdatas = UnSafeUtility.BytesToUInts(datas, 0, length, deviceAddress.ByteOrder);
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = new Item<uint>() { Vaule = bdatas[i], UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-                }
-            }
-            return result;
+            uint[] bdatas = UNetConvert.BytesToUInts(datas, 0, length, deviceAddress.ByteOrder);
+            return NetConvert.ToItems(bdatas, 0, length);
         }
 
         public Item<float> Readfloat(DeviceAddress deviceAddress)
@@ -639,7 +602,7 @@ namespace Modbus
             return datas == null ? Item<float>.Default :
                       new Item<float>()
                       {
-                          Vaule = UnSafeUtility.BytesToFloat(datas, 0, deviceAddress.ByteOrder),
+                          Vaule = UNetConvert.BytesToFloat(datas, 0, deviceAddress.ByteOrder),
                           UpdateTime = DateTime.Now,
                           Quality = QUALITIES.QUALITY_GOOD
                       };
@@ -647,24 +610,9 @@ namespace Modbus
 
         public Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
         {
-            Item<float>[] result = new Item<float>[length];
             var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            if (datas == null)
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = Item<float>.Default;
-                }
-            }
-            else
-            {
-                float[] bdatas = UnSafeUtility.BytesToFloats(datas, 0, length, deviceAddress.ByteOrder);
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = new Item<float>() { Vaule = bdatas[i], UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-                }
-            }
-            return result;
+            float[] bdatas = UNetConvert.BytesToFloats(datas, 0, length, deviceAddress.ByteOrder);
+            return NetConvert.ToItems(bdatas, 0, length);
         }
 
         public Item<string> ReadString(DeviceAddress deviceAddress)
@@ -678,12 +626,18 @@ namespace Modbus
         }
         public int WriteBool(DeviceAddress deviceAddress, bool datas)
         {
-            throw new NotImplementedException();
+            byte[] sendBytes = new byte[2];
+            if (datas)
+                sendBytes[1] = 0xFF; 
+            GetWriteHeader getHeader = writeSigHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber,(ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
         }
 
         public int WriteBools(DeviceAddress deviceAddress, bool[] datas)
         {
-            throw new NotImplementedException();
+            byte[] sendBytes = NetConvert.BoolstoBytes(datas);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
         }
 
         public int WriteByte(DeviceAddress deviceAddress, byte datas)
@@ -705,35 +659,75 @@ namespace Modbus
         {
             throw new NotImplementedException();
         }
-
-        public int WriteFloat(DeviceAddress deviceAddress, float datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteFloats(DeviceAddress deviceAddress, float[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteInt(DeviceAddress deviceAddress, int datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteInts(DeviceAddress deviceAddress, int[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
         public int WriteShort(DeviceAddress deviceAddress, short datas)
         {
-            throw new NotImplementedException();
+            byte[] sendBytes = UNetConvert.ShortToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeSigHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteUShort(DeviceAddress deviceAddress, ushort datas)
+        {
+            byte[] sendBytes = UNetConvert.UShortToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeSigHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
         }
 
         public int WriteShorts(DeviceAddress deviceAddress, short[] datas)
         {
-            throw new NotImplementedException();
+            byte[] sendBytes = UNetConvert.ShortsToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteUShorts(DeviceAddress deviceAddress, ushort[] datas)
+        {
+            byte[] sendBytes = UNetConvert.UShortsToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+       
+        public int WriteInt(DeviceAddress deviceAddress, int datas)
+        {
+            byte[] sendBytes = UNetConvert.IntToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteInts(DeviceAddress deviceAddress, int[] datas)
+        {
+            byte[] sendBytes = UNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteUInt(DeviceAddress deviceAddress, uint datas)
+        {
+            byte[] sendBytes = UNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteUInts(DeviceAddress deviceAddress, uint[] datas)
+        {
+            byte[] sendBytes = UNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteFloat(DeviceAddress deviceAddress, float datas)
+        {
+            byte[] sendBytes = UNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+        }
+
+        public int WriteFloats(DeviceAddress deviceAddress, float[] datas)
+        {
+            byte[] sendBytes = UNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder);
+            GetWriteHeader getHeader = writeMulHeader;
+            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
         }
 
         public int WriteString(DeviceAddress deviceAddress, string datas)
@@ -746,25 +740,9 @@ namespace Modbus
             throw new NotImplementedException();
         }
 
-        public int WriteUInt(DeviceAddress deviceAddress, uint datas)
-        {
-            throw new NotImplementedException();
-        }
+ 
 
-        public int WriteUInts(DeviceAddress deviceAddress, uint[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteUShort(DeviceAddress deviceAddress, ushort datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteUShorts(DeviceAddress deviceAddress, ushort[] datas)
-        {
-            throw new NotImplementedException();
-        }
+  
         public void Dispose()
         {
             throw new NotImplementedException();
