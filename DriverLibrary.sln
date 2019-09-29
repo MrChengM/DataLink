@@ -5,13 +5,13 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverLibrary", "DriverLibrary\DriverLibrary.csproj", "{B68445D5-4856-4CA6-8715-DDAADC30C30F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siemens", "Siemens\Siemens.csproj", "{19848109-9F5A-49AD-A647-9CF01E5E577B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiemensDrivers", "Siemens\SiemensDrivers.csproj", "{19848109-9F5A-49AD-A647-9CF01E5E577B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron", "Omron\Omron.csproj", "{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmronDrivers", "Omron\OmronDrivers.csproj", "{660E4F20-CCD3-41BD-B9BD-4C93BFB520B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataServer", "DataServer\DataServer.csproj", "{45BC48E7-C7A9-48BA-BB72-A213DDF042AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modbus", "Modbus\Modbus.csproj", "{E444A643-E1E6-4370-9C0F-770AA24BB949}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusDrivers", "Modbus\ModbusDrivers.csproj", "{E444A643-E1E6-4370-9C0F-770AA24BB949}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

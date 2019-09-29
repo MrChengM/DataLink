@@ -1,0 +1,7 @@
+D:\GitHub\DriverLibrary\Modbus\bin\Debug\ModbusDrivers.dll
+D:\GitHub\DriverLibrary\Modbus\bin\Debug\ModbusDrivers.pdb
+D:\GitHub\DriverLibrary\Modbus\bin\Debug\DataServer.dll
+D:\GitHub\DriverLibrary\Modbus\bin\Debug\DataServer.pdb
+D:\GitHub\DriverLibrary\Modbus\obj\Debug\ModbusDrivers.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\Modbus\obj\Debug\ModbusDrivers.dll
+D:\GitHub\DriverLibrary\Modbus\obj\Debug\ModbusDrivers.pdb

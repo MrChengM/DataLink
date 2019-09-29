@@ -1,0 +1,5 @@
+D:\GitHub\DriverLibrary\Siemens\bin\Debug\SiemensDrivers.dll
+D:\GitHub\DriverLibrary\Siemens\bin\Debug\SiemensDrivers.pdb
+D:\GitHub\DriverLibrary\Siemens\obj\Debug\SiemensDrivers.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\Siemens\obj\Debug\SiemensDrivers.dll
+D:\GitHub\DriverLibrary\Siemens\obj\Debug\SiemensDrivers.pdb
