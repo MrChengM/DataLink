@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO.Ports;
+using System.Net.Sockets;
+
 namespace DataServer
 {
 # region
@@ -110,13 +112,13 @@ namespace DataServer
     {
         public string IPAddress { get; set; }
         public int PortNumber { get; set; }
-        public string ProtocolType { get; set; }
+        public ProtocolType ProtocolType { get; set; }
         public EthernetSetUp() { }
-        public EthernetSetUp(string ipAddress,int portNumber, string protocolTyp =EthProtocolType.TCPIP)
+        public EthernetSetUp(string ipAddress,int portNumber,  ProtocolType protocolType = ProtocolType.Tcp)
         {
             IPAddress = ipAddress;
             PortNumber = portNumber;
-            ProtocolType = protocolTyp;
+            ProtocolType = protocolType;
         }
     }
 

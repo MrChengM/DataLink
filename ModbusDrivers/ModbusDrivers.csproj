@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Helper.cs" />
     <Compile Include="ModbusRTU.cs" />
+    <Compile Include="ModbusTCP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

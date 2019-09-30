@@ -12,7 +12,7 @@ namespace ModbusDrivers
     /// <summary>
     /// ModbusRTU Slave协议 IPLCDriver:IRead IWrite IDriver IDisposable
     /// </summary>
-    public class ModbusRTUSalve : IPLCDriver
+    public sealed class ModbusRTUSalve : IPLCDriver
     {
         // 内部成员定义
         private DriverType _driverType = DriverType.Serialport;
@@ -61,7 +61,7 @@ namespace ModbusDrivers
         {
             get
             {
-                return _serialPort.IsOpen == false;
+                return _serialPort ==null|| _serialPort.IsOpen == false;
             }
         }
         public bool IsConnect
@@ -169,9 +169,9 @@ namespace ModbusDrivers
         /// <param name="slaveId"></param>
         /// <param name="func"></param>
         /// <param name="startAddress"></param>
-        /// <param name="count"></param>
+        /// <param name="byteCount"></param>
         /// <returns></returns>
-        private byte[] readHeader(byte slaveId, byte func, ushort startAddress, ushort count)
+        private byte[] readHeader(byte slaveId, byte func, ushort startAddress, ushort byteCount)
         {
             byte[] sendBytes = new byte[8];
             sendBytes[0] = slaveId;
@@ -179,7 +179,7 @@ namespace ModbusDrivers
             byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);//起始位为0，偏移1位
             sendBytes[2] = addressBytes[1];//高位在前
             sendBytes[3] = addressBytes[0];//低位在后
-            byte[] countBytes = BitConverter.GetBytes(count);
+            byte[] countBytes = BitConverter.GetBytes(byteCount);
             sendBytes[4] = countBytes[1];//高位在前
             sendBytes[5] = countBytes[0];//低位在后
             byte[] CRCBytes = Utility.CalculateCrc(sendBytes, sendBytes.Length - 2);
@@ -739,14 +739,15 @@ namespace ModbusDrivers
         {
             throw new NotImplementedException();
         }
-
- 
-
   
         public void Dispose()
         {
-            throw new NotImplementedException();
-        }
+            _portSetUp = null;
+            _serialPort.Close();
+            _serialPort.Dispose();
+            _timeOut = null;
+            _log = null;
+                }
 
     }
 }
