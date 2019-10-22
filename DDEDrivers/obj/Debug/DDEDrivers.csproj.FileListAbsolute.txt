@@ -1,0 +1,5 @@
+D:\GitHub\DriverLibrary\DDEDrivers\bin\Debug\DDEDrivers.dll
+D:\GitHub\DriverLibrary\DDEDrivers\bin\Debug\DDEDrivers.pdb
+D:\GitHub\DriverLibrary\DDEDrivers\obj\Debug\DDEDrivers.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\DDEDrivers\obj\Debug\DDEDrivers.dll
+D:\GitHub\DriverLibrary\DDEDrivers\obj\Debug\DDEDrivers.pdb
