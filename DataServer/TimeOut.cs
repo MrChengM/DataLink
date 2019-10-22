@@ -107,7 +107,7 @@ namespace DataServer
         /// <summary>
         /// 错误清除并复位
         /// </summary>
-        public void InitAndClear()
+        public void Init()
         {
             _startTime = DateTime.Now;
             _endTime = DateTime.Now;

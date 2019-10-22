@@ -12,25 +12,21 @@ namespace ModbusDrivers
     /// <summary>
     /// ModbusRTU Slave协议 IPLCDriver:IRead IWrite IDriver IDisposable
     /// </summary>
-    public sealed class ModbusRTUSalve : IPLCDriver
+    public sealed class ModbusRTUSalve : ModbusSalve
     {
         // 内部成员定义
-        private DriverType _driverType = DriverType.Serialport;
+
         private SerialportSetUp _portSetUp = SerialportSetUp.Default;
         private SerialPort _serialPort = new SerialPort();
-        private TimeOut _timeOut;
-        private bool _isConnect = false;
-        // private bool _isClose = true;
-        private ILog _log;
-        private int _pdu = 252;
 
         public ModbusRTUSalve() { }
 
         public ModbusRTUSalve(SerialportSetUp portSetUp, TimeOut timeOut, ILog log)
         {
             _portSetUp = portSetUp;
-            _timeOut = timeOut;
-            _log = log;
+            DriType = DriverType.Serialport;
+            TimeOut = timeOut;
+            Log = log;
         }
 
 
@@ -45,72 +41,12 @@ namespace ModbusDrivers
                 _portSetUp = value;
             }
         }
-        public DriverType DriType
-        {
-            get
-            {
-                return _driverType;
-            }
-            private set
-            {
-                _driverType = value;
-            }
-        }
-
-        public bool IsClose
+       
+        public override bool IsClose
         {
             get
             {
                 return _serialPort ==null|| _serialPort.IsOpen == false;
-            }
-        }
-        public bool IsConnect
-        {
-            get
-            {
-                return _isConnect;
-            }
-            private set
-            {
-                _isConnect = value;
-            }
-        }
-
-        public int PDU
-        {
-            get
-            {
-                return _pdu;
-            }
-
-            set
-            {
-                _pdu = value;
-            }
-        }
-
-        public TimeOut TimeOut
-        {
-            get
-            {
-                return _timeOut;
-            }
-            set
-            {
-                _timeOut = value;
-            }
-        }
-
-        public ILog Log
-        {
-            get
-            {
-                return _log;
-            }
-
-            set
-            {
-                _log = value;
             }
         }
 
@@ -118,46 +54,46 @@ namespace ModbusDrivers
         /// COM口设置并打开
         /// </summary>
         /// <returns></returns>
-        public bool Connect()
+        public override bool Connect()
         {
             try
             {
                 if (_serialPort.IsOpen)
                     _serialPort.Close();
-                if (_timeOut.TimeOutSet < 1000)
-                    _timeOut.TimeOutSet = 1000;
+                if (TimeOut.TimeOutSet < 1000)
+                    TimeOut.TimeOutSet = 1000;
                 _serialPort.PortName = _portSetUp.ComPort;
                 _serialPort.BaudRate = _portSetUp.BuadRate;
                 _serialPort.DataBits = _portSetUp.DataBit;
                 _serialPort.StopBits = _portSetUp.StopBit;
                 _serialPort.Parity = _portSetUp.OddEvenCheck;
-                _serialPort.WriteTimeout = (int)_timeOut.TimeOutSet;
-                _serialPort.ReadTimeout = (int)_timeOut.TimeOutSet;
+                _serialPort.WriteTimeout = (int)TimeOut.TimeOutSet;
+                _serialPort.ReadTimeout = (int)TimeOut.TimeOutSet;
                 _serialPort.Open();
-                _isConnect = true;
+                IsConnect = true;
                 return true;
             }
             catch (Exception ex)
             {
                 Log.ErrorLog("ModbusRTU Connect Error:" + ex.Message);
-                _isConnect = false;
+                IsConnect = false;
                 return false;
             }
         }
 
-        public bool DisConnect()
+        public override bool DisConnect()
         {
             try
             {
                 if (_serialPort.IsOpen)
                     _serialPort.Close();
-                _isConnect = false;
+                IsConnect = false;
                 return true;
             }
             catch (Exception ex)
             {
                 Log.ErrorLog("Modbus DisConnect Error:" + ex.Message);
-                _isConnect = false;
+                IsConnect = false;
                 return false;
             }
         }
@@ -171,7 +107,7 @@ namespace ModbusDrivers
         /// <param name="startAddress"></param>
         /// <param name="byteCount"></param>
         /// <returns></returns>
-        private byte[] readHeader(byte slaveId, byte func, ushort startAddress, ushort byteCount)
+        protected override  byte[] readHeader(byte slaveId, byte func, ushort startAddress, ushort byteCount)
         {
             byte[] sendBytes = new byte[8];
             sendBytes[0] = slaveId;
@@ -187,7 +123,6 @@ namespace ModbusDrivers
             sendBytes[7] = CRCBytes[1];
             return sendBytes;
         }
-        public delegate byte[] GetWriteHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas);
         /// <summary>
         /// 写单个线圈或寄存器，包括：
         /// 从地址 功能码 地址位 数据位 CRC共8位bytes
@@ -198,7 +133,7 @@ namespace ModbusDrivers
         /// <param name="datas"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        private byte[] writeSigHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
+        protected override byte[] writeSigHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
         {
             byte[] sendBytes = new byte[8];
             sendBytes[0] = slaveID;
@@ -223,7 +158,7 @@ namespace ModbusDrivers
         /// <param name="datas"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        private byte[] writeMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
+        protected override byte[] writeMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
         {
             byte[] sendBytes = new byte[9 + datas.Length];
             sendBytes[0] = slaveID;
@@ -252,7 +187,7 @@ namespace ModbusDrivers
         /// </summary>
         /// <returns>返回带CRC校验8位字节数组</returns>
         object _async = new object();
-        private byte[] readBytes(byte slaveID, ushort startAddress, byte funcCode, ushort count)
+        protected override byte[] readBytes(byte slaveID, ushort startAddress, byte funcCode, ushort count)
         {
             try
             {
@@ -261,7 +196,7 @@ namespace ModbusDrivers
                     byte byteCount = Function.GetReadBytesCount(funcCode, count);
                     if (byteCount == 0)
                     {
-                        _log.ErrorLog("Modbus 读取功能码不正常");
+                        Log.ErrorLog("Modbus 读取功能码不正常");
                         return null;
                     }
                     byte[] sendBytes = readHeader(slaveID, funcCode, startAddress, count);
@@ -274,7 +209,7 @@ namespace ModbusDrivers
                         Thread.Sleep(10);
                         int index = 0;
                         bool continueFlag = true;
-                        _timeOut.InitAndClear();
+                        TimeOut.Init();
                         /*----------------------------------------
                         *循环找头：
                         * 先读一个字节判断是否为SlaveID
@@ -284,7 +219,7 @@ namespace ModbusDrivers
                         * 若第二个字节等于SlaveID则复制给头
                         * 否则将头置0
                      ------------------------------------------ */
-                        while (_timeOut.TimeOutFlag & continueFlag)
+                        while (TimeOut.TimeOutFlag & continueFlag)
                         {
                             if (index < 2)
                             {
@@ -321,13 +256,12 @@ namespace ModbusDrivers
                                 }
                             }
 
-                            _timeOut.EndTime = DateTime.Now;
+                            TimeOut.EndTime = DateTime.Now;
                         }
-
                         //判断是否超时，并复位
-                        if (_timeOut.TimeOutFlag)
+                        if (TimeOut.TimeOutFlag)
                         {
-                            _timeOut.LogTimeOutError();
+                            TimeOut.LogTimeOutError();
                             return null;
                         }
 
@@ -336,7 +270,7 @@ namespace ModbusDrivers
                         {
                             if (!Utility.CheckSumCRC(receiveBytes, receiveBytes.Length))
                             {
-                                _log.ErrorLog("Modbus CRC校验错误");
+                                Log.ErrorLog("Modbus CRC校验错误");
                                 return null;
                             }
                             Array.ConstrainedCopy(receiveBytes, 3, dataBytes, 0, byteCount);
@@ -346,10 +280,10 @@ namespace ModbusDrivers
                         {
                             if (!Utility.CheckSumCRC(receiveBytes, 5))
                             {
-                                _log.ErrorLog("Modbus CRC校验错误");
+                                Log.ErrorLog("Modbus CRC校验错误");
                                 return null;
                             }
-                            _log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
+                            Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
                         }
                         return null;
                     }
@@ -361,11 +295,10 @@ namespace ModbusDrivers
             }
             catch (Exception ex)
             {
-                _log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
+                Log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
                 return null;
             }
         }
-
         /// <summary>
         /// 0x05强制单个线圈
         /// 0x06预置单个寄存器
@@ -377,11 +310,11 @@ namespace ModbusDrivers
         /// <param name="funcCode"></param>
         /// <param name="datas"></param>
         /// <returns></returns>
-        private int writeDatas(byte slaveID, byte funcCode, ushort startAddress, byte[] datas, ushort count, GetWriteHeader getHeader)
+        protected override int writeDatas(byte slaveID, byte funcCode, ushort startAddress, byte[] datas, ushort count, GetWriteHeader getHeader)
         {
             try
             {
-                if (_isConnect)
+                if (IsConnect)
                 {
                     byte errorFuncCode = (byte)(0x80 + funcCode);
                     byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas);
@@ -393,7 +326,7 @@ namespace ModbusDrivers
 
                         int index = 0;
                         bool continueFlag = true;
-                        _timeOut.InitAndClear();
+                        TimeOut.Init();
                         byte[] receiveBytes = new byte[8];
 
                         /*----------------------------------------
@@ -406,7 +339,7 @@ namespace ModbusDrivers
                          * 否则将头置0
                          ------------------------------------------ */
 
-                        while (_timeOut.TimeOutFlag & continueFlag)
+                        while (TimeOut.TimeOutFlag & continueFlag)
                         {
                             if (index < 2)
                             {
@@ -442,12 +375,12 @@ namespace ModbusDrivers
                                     continueFlag = index == 5 ? false : true;
                                 }
                             }
-                            _timeOut.EndTime = DateTime.Now;
+                            TimeOut.EndTime = DateTime.Now;
                         }
 
-                        if (_timeOut.TimeOutFlag)
+                        if (TimeOut.TimeOutFlag)
                         {
-                            _timeOut.LogTimeOutError();
+                            TimeOut.LogTimeOutError();
                             return -1;
                         }
 
@@ -460,7 +393,7 @@ namespace ModbusDrivers
                             }
                             else
                             {
-                                _log.ErrorLog("Modbus CRC校验错误");
+                                Log.ErrorLog("Modbus CRC校验错误");
                                 return -1;
                             }
 
@@ -469,11 +402,11 @@ namespace ModbusDrivers
                         {
                             if (Utility.CheckSumCRC(receiveBytes, 5))
                             {
-                                _log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
+                                Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
                             }
                             else
                             {
-                                _log.ErrorLog("Modbus CRC校验错误");
+                                Log.ErrorLog("Modbus CRC校验错误");
                             }
                             return -1;
                         }
@@ -488,266 +421,20 @@ namespace ModbusDrivers
             }
             catch (Exception ex)
             {
-                _log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
+                Log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
                 return -1;
             }
 
         }
-        public string GetAddress(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DeviceAddress GetDeviceAddress(string address)
-        {
-            throw new NotImplementedException();
-        }
-
-        public byte[] ReadBytes(DeviceAddress deviceAddress, ushort length)
-        {
-            return readBytes((byte)deviceAddress.SlaveID, (ushort)deviceAddress.Address, (byte)deviceAddress.FuctionNumber, length);
-        }
-        public Item<bool> ReadBool(DeviceAddress deviceAddress)
-        {
-            var datas = ReadBytes(deviceAddress, 1);
-            return datas == null ? Item<bool>.Default :
-                new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-        }
-
-        public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
-        {
-            var datas = ReadBytes(deviceAddress, length);
-            bool[] bdatas = NetConvert.BytesToBools(datas, length);
-            return NetConvert.ToItems(bdatas, 0, length);
-        }
-        public Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Item<TResult>[] ReadDatas<TResult>(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public Item<short> ReadShort(DeviceAddress deviceAddress)
-        {
-
-            var datas = ReadBytes(deviceAddress, 1);
-            return datas == null ? Item<short>.Default :
-                new Item<short>() { Vaule = UNetConvert.BytesToShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-        }
-
-        public Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length)
-        {
-            var datas = ReadBytes(deviceAddress, 1);
-            var bdatas = UNetConvert.BytesToShorts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(bdatas, 0, length);
-        }
-        public Item<ushort> ReadUShort(DeviceAddress deviceAddress)
-        {
-            var datas = ReadBytes(deviceAddress, 1);
-            return datas == null ? Item<ushort>.Default :
-                new Item<ushort>() { Vaule = UNetConvert.BytesToUShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
-        }
-
-        public Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
-        {
-            var datas = ReadBytes(deviceAddress, 1);
-            var bdatas = UNetConvert.BytesToUShorts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(bdatas, 0, length);
-        }
-        public Item<int> ReadInt(DeviceAddress deviceAddress)
-        {
-            var datas = ReadBytes(deviceAddress, 2);
-            return datas == null ? Item<int>.Default :
-                new Item<int>()
-                {
-                    Vaule = UNetConvert.BytesToInt(datas, 0, deviceAddress.ByteOrder),
-                    UpdateTime = DateTime.Now,
-                    Quality = QUALITIES.QUALITY_GOOD
-                };
-
-        }
-
-        public Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length)
-        {
-            var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            int[] bdatas = UNetConvert.BytesToInts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(bdatas, 0, length);
-        }
-        public Item<uint> ReadUInt(DeviceAddress deviceAddress)
-        {
-            var datas = ReadBytes(deviceAddress, 2);
-            return datas == null ? Item<uint>.Default :
-                new Item<uint>()
-                {
-                    Vaule = UNetConvert.BytesToUInt(datas, 0, deviceAddress.ByteOrder),
-                    UpdateTime = DateTime.Now,
-                    Quality = QUALITIES.QUALITY_GOOD
-                };
-        }
-
-        public Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length)
-        {
-            var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            uint[] bdatas = UNetConvert.BytesToUInts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(bdatas, 0, length);
-        }
-
-        public Item<float> Readfloat(DeviceAddress deviceAddress)
-        {
-            var datas = ReadBytes(deviceAddress, 2);
-            return datas == null ? Item<float>.Default :
-                      new Item<float>()
-                      {
-                          Vaule = UNetConvert.BytesToFloat(datas, 0, deviceAddress.ByteOrder),
-                          UpdateTime = DateTime.Now,
-                          Quality = QUALITIES.QUALITY_GOOD
-                      };
-        }
-
-        public Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
-        {
-            var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            float[] bdatas = UNetConvert.BytesToFloats(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(bdatas, 0, length);
-        }
-
-        public Item<string> ReadString(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Item<string>[] ReadStrings(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-        public int WriteBool(DeviceAddress deviceAddress, bool datas)
-        {
-            byte[] sendBytes = new byte[2];
-            if (datas)
-                sendBytes[1] = 0xFF; 
-            GetWriteHeader getHeader = writeSigHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber,(ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteBools(DeviceAddress deviceAddress, bool[] datas)
-        {
-            byte[] sendBytes = NetConvert.BoolstoBytes(datas);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteByte(DeviceAddress deviceAddress, byte datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteBytes(DeviceAddress deviceAddress, byte[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteData<T>(DeviceAddress deviceAddress, T datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteDatas<T>(DeviceAddress deviceAddress, T[] datas)
-        {
-            throw new NotImplementedException();
-        }
-        public int WriteShort(DeviceAddress deviceAddress, short datas)
-        {
-            byte[] sendBytes = UNetConvert.ShortToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeSigHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteUShort(DeviceAddress deviceAddress, ushort datas)
-        {
-            byte[] sendBytes = UNetConvert.UShortToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeSigHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteShorts(DeviceAddress deviceAddress, short[] datas)
-        {
-            byte[] sendBytes = UNetConvert.ShortsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteUShorts(DeviceAddress deviceAddress, ushort[] datas)
-        {
-            byte[] sendBytes = UNetConvert.UShortsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-       
-        public int WriteInt(DeviceAddress deviceAddress, int datas)
-        {
-            byte[] sendBytes = UNetConvert.IntToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteInts(DeviceAddress deviceAddress, int[] datas)
-        {
-            byte[] sendBytes = UNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteUInt(DeviceAddress deviceAddress, uint datas)
-        {
-            byte[] sendBytes = UNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteUInts(DeviceAddress deviceAddress, uint[] datas)
-        {
-            byte[] sendBytes = UNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteFloat(DeviceAddress deviceAddress, float datas)
-        {
-            byte[] sendBytes = UNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteFloats(DeviceAddress deviceAddress, float[] datas)
-        {
-            byte[] sendBytes = UNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
-        }
-
-        public int WriteString(DeviceAddress deviceAddress, string datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteStrings(DeviceAddress deviceAddress, string[] datas)
-        {
-            throw new NotImplementedException();
-        }
-  
-        public void Dispose()
+        public override void Dispose()
         {
             _portSetUp = null;
             _serialPort.Close();
             _serialPort.Dispose();
-            _timeOut = null;
-            _log = null;
-                }
+            TimeOut = null;
+            Log = null;
+
+        }
 
     }
 }
