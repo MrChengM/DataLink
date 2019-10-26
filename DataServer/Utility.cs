@@ -217,15 +217,21 @@ namespace DataServer
         {
             if (source == null)
                 return null;
-            int count = source.Length % 4 == 0 ? source.Length % 4 : source.Length % 4 + 1;
+            int count = 1;
+            if (source.Length > 8)
+            {
+                count = source.Length % 8 == 0 ? source.Length % 8 : source.Length % 4 + 1;
+            }
             byte[] result = new byte[count];
             int soucreIdex = 0;
             for (int i = 0; i < count; i++)
             {
                 for(int j = 0; j < 8; j++)
                 {
-                    soucreIdex++;
+                    if (soucreIdex >= source.Length)
+                        break;
                     result[i] =(byte) (result[i] | BooltoByte(source[soucreIdex], j));
+                    soucreIdex++;
                 }
             }
             return result;
@@ -238,8 +244,8 @@ namespace DataServer
         /// <returns></returns>
         public static bool[] BytesToBools(byte[] sourceBytes, int length)
         {
-            if (length > sourceBytes.Length * 8)
-                throw new NotImplementedException();
+            if (sourceBytes==null||length > sourceBytes.Length * 8)
+                return null;
             bool[] result = new bool[length];
             int index = 0;
             for (int i = 0; i < sourceBytes.Length; i++)
@@ -265,7 +271,7 @@ namespace DataServer
         public static short BytesToShort(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(short) ;
             short result;
             byte[] bytes = new byte[2];
             if (startIndex > data.Length - 2)
@@ -309,8 +315,7 @@ namespace DataServer
         public static int BytesToInt(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
-
+                return default(int);
             int result;
             byte[] bytes = new byte[4];
             if (startIndex > data.Length - 4)
@@ -338,7 +343,7 @@ namespace DataServer
                     byte[] value = new byte[4];
                     return result = BitConverter.ToInt32(value, 0);
             }
-            return default(short);
+            return default(int);
         }
         public static int[] BytesToInts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
         {
@@ -385,9 +390,9 @@ namespace DataServer
         }
 
     }
-    public class UNetConvert
+    public class UnsafeNetConvert
     {
-
+        
         private unsafe static byte[] ToBytes(byte* bytePtr, int size, ByteOrder byteOrder)
         {
             //int count = sizeof(short);
@@ -412,6 +417,31 @@ namespace DataServer
 
             }
             return result;
+        }
+        /// <summary>
+        /// 高低位互换
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public unsafe static byte[] HiLoBytesPerversion(byte[] source)
+        {
+            if (source!= null && source.Length % 2 == 0 )
+            {
+               fixed(byte *p=&source[0])
+                {
+                    for (int i = 0; i < source.Length; i=i+2)
+                    {
+                        byte cache = p[i];
+                        p[i] = p[i + 1];
+                        p[i + 1] = cache;
+                    }
+                }
+                return source;
+            }
+            else
+            {
+                return null;
+            }
         }
         public unsafe static byte[] ShortToBytes(short data, ByteOrder byteOrder)
         {
@@ -476,7 +506,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(ShortToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(ShortToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -487,7 +517,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(UShortToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(UShortToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -497,7 +527,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(IntToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(IntToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -507,7 +537,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(UIntToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(UIntToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -517,7 +547,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(LongToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(LongToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -527,7 +557,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(ULongToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(ULongToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -537,7 +567,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(FloatToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(FloatToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -547,7 +577,7 @@ namespace DataServer
             byte[] result = new byte[size * data.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                Array.ConstrainedCopy(DoubleToBytes(data[i], byteOrder), 0, result, i * size, size);
+                Array.Copy(DoubleToBytes(data[i], byteOrder), 0, result, i * size, size);
             }
             return result;
         }
@@ -576,7 +606,7 @@ namespace DataServer
         public unsafe static short BytesToShort(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(short);
             short result;
             int size = sizeof(short);
             byte* p = (byte*)&result;
@@ -586,7 +616,7 @@ namespace DataServer
         public unsafe static ushort BytesToUShort(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(ushort);
             ushort result;
             int size = sizeof(ushort);
             byte* p = (byte*)&result;
@@ -596,7 +626,7 @@ namespace DataServer
         public unsafe static int BytesToInt(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(int);
             int result;
             int size = sizeof(int);
             byte* p = (byte*)&result;
@@ -606,7 +636,7 @@ namespace DataServer
         public unsafe static uint BytesToUInt(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(int);
             uint result;
             int size = sizeof(uint);
             byte* p = (byte*)&result;
@@ -616,7 +646,7 @@ namespace DataServer
         public unsafe static long BytesToLong(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(long);
             long result;
             int size = sizeof(long);
             byte* p = (byte*)&result;
@@ -626,7 +656,7 @@ namespace DataServer
         public unsafe static ulong BytesToULong(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(ulong);
             ulong result;
             int size = sizeof(ulong);
             byte* p = (byte*)&result;
@@ -636,7 +666,7 @@ namespace DataServer
         public unsafe static float BytesToFloat(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(float);
             float result;
             int size = sizeof(float);
             byte* p = (byte*)&result;
@@ -646,7 +676,7 @@ namespace DataServer
         public unsafe static double BytesToDouble(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)
-                throw new NotImplementedException();
+                return default(double);
             double result;
             int size = sizeof(double);
             byte* p = (byte*)&result;
@@ -689,7 +719,7 @@ namespace DataServer
             int[] result = new int[count];
             for (int i = 0; i < count; i++)
             {
-                result[count] = BytesToInt(data, startIndex + i * 4, byteOrder);
+                result[i] = BytesToInt(data, startIndex + i * 4, byteOrder);
             }
             return result;
         }
@@ -702,7 +732,7 @@ namespace DataServer
             uint[] result = new uint[count];
             for (int i = 0; i < count; i++)
             {
-                result[count] = BytesToUInt(data, startIndex + i * 4, byteOrder);
+                result[i] = BytesToUInt(data, startIndex + i * 4, byteOrder);
             }
             return result;
         }
@@ -711,7 +741,7 @@ namespace DataServer
             long[] result = new long[count];
             for (int i = 0; i < count; i++)
             {
-                result[count] = BytesToLong(data, startIndex + i * 8, byteOrder);
+                result[i] = BytesToLong(data, startIndex + i * 8, byteOrder);
             }
             return result;
         }
@@ -724,7 +754,7 @@ namespace DataServer
             ulong[] result = new ulong[count];
             for (int i = 0; i < count; i++)
             {
-                result[count] = BytesToULong(data, startIndex + i * 8, byteOrder);
+                result[i] = BytesToULong(data, startIndex + i * 8, byteOrder);
             }
             return result;
         }
@@ -733,7 +763,7 @@ namespace DataServer
             float[] result = new float[count];
             for (int i = 0; i < count; i++)
             {
-                result[count] = BytesToFloat(data, startIndex + i * 4, byteOrder);
+                result[i] = BytesToFloat(data, startIndex + i * 4, byteOrder);
             }
             return result;
         }
@@ -746,7 +776,7 @@ namespace DataServer
             double[] result = new double[count];
             for (int i = 0; i < count; i++)
             {
-                result[count] = BytesToFloat(data, startIndex + i * 8, byteOrder);
+                result[i] = BytesToFloat(data, startIndex + i * 8, byteOrder);
             }
             return result;
         }

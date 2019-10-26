@@ -55,7 +55,7 @@ namespace DataServer
         /// </summary>
         /// <param name="format"></param>
         /// <param name="parameters"></param>
-        void DataSteamLog(string format, params object[] parameters);
+        void ByteSteamLog(ActionType action  ,byte[] bytes);
     }
 
     public enum AuditCategories
@@ -113,5 +113,10 @@ namespace DataServer
         /// Error, Warning, Normal and Debug logs are logged
         /// </summary>
         DEBUG
+    }
+    public enum ActionType
+    {
+        SEND,
+        RECEIVE
     }
 }

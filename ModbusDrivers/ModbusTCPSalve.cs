@@ -73,12 +73,16 @@ namespace ModbusDrivers
 
         public override bool DisConnect()
         {
-            _socket.Disconnect(false);
-             IsConnect = false;
+            if (IsConnect)
+            {
+                _socket.Disconnect(false);
+                IsConnect = false;
+            }
             return true;
+
         }
 
-        protected override byte[] readHeader(byte slaveId, byte func, ushort startAddress, ushort count)
+        protected override byte[] getReadHeader(byte slaveId, byte func, ushort startAddress, ushort count)
         {
             byte[] sendBytes = new byte[12];
 
@@ -98,6 +102,75 @@ namespace ModbusDrivers
             byte[] countBytes = BitConverter.GetBytes(count);
             sendBytes[10] = countBytes[1];//高位在前
             sendBytes[11] = countBytes[0];//低位在后
+            return sendBytes;
+        }
+        protected override byte[] getWriteSigCoilHeader(byte slaveID, ushort startAddress, bool value)
+        {
+            byte[] sendBytes = new byte[12];
+            sendBytes[5] = 6;
+            sendBytes[6] = slaveID;
+            sendBytes[7] = (byte)FunctionCode.ForceSingleCoil;
+            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
+            sendBytes[8] = addressBytes[1];//高位在前
+            sendBytes[9] = addressBytes[0];//低位在后
+            if(value)
+            sendBytes[10] = 0xFF;
+            return sendBytes;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="slaveID"></param>
+        /// <param name="startAddress"></param>
+        /// <param name="value">数组长度为2</param>
+        /// <returns></returns>
+        protected override byte[] getWriteSigRegisterHeader(byte slaveID, ushort startAddress, byte[] value)
+        {
+            byte[] sendBytes = new byte[12];
+            sendBytes[5] = 6;
+            sendBytes[6] = slaveID;
+            sendBytes[7] = (byte)FunctionCode.WriteSingleRegister;
+            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
+            sendBytes[8] = addressBytes[1];//高位在前
+            sendBytes[9] = addressBytes[0];//低位在后
+            sendBytes[10] = value[1];
+            sendBytes[11] = value[0];
+            return sendBytes;
+        }
+
+        protected override byte[] getWriteMulCoilHeader(byte slaveID, ushort startAddress,  bool[] value)
+        {
+            byte[] datas = NetConvert.BoolstoBytes(value);
+            byte[] sendBytes = new byte[13 + datas.Length];
+            sendBytes[5] = (byte)(7 + datas.Length); //后续报文字节数
+            sendBytes[6] = slaveID;
+            sendBytes[7] =(byte) FunctionCode.ForceMulCoil;
+            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
+            sendBytes[8] = addressBytes[1];//高位在前
+            sendBytes[9] = addressBytes[0];//低位在后
+            byte[] CountBytes = BitConverter.GetBytes((ushort)value.Length);
+            sendBytes[10] = CountBytes[1];
+            sendBytes[11] = CountBytes[0];
+            sendBytes[12] = (byte)datas.Length;
+            Array.Copy(datas, 0, sendBytes, 13, datas.Length);
+            return sendBytes;
+        }
+        protected override byte[] getWriteMulRegisterHeader(byte slaveID, ushort startAddress, byte[] value)
+        {
+            byte[] sendBytes = new byte[13 + value.Length];
+            sendBytes[5] = (byte)(7 + value.Length); //后续报文字节数
+            sendBytes[6] = slaveID;
+            sendBytes[7] = (byte)FunctionCode.WriteMulRegister;
+            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
+            sendBytes[8] = addressBytes[1];//高位在前
+            sendBytes[9] = addressBytes[0];//低位在后
+            byte[] CountBytes = BitConverter.GetBytes((ushort)(value.Length/2));
+            sendBytes[10] = CountBytes[1];
+            sendBytes[11] = CountBytes[0];
+            sendBytes[12] = (byte)value.Length;
+            value = UnsafeNetConvert.HiLoBytesPerversion(value);
+            Array.Copy(value, 0, sendBytes, 13, value.Length);
             return sendBytes;
         }
 
@@ -122,17 +195,18 @@ namespace ModbusDrivers
                         Log.ErrorLog("Modbus 读功能码错误");
                         return null;
                     }
-                    byte[] sendBytes = readHeader(slaveID, funcCode, startAddress, count);
+                    byte[] sendBytes = getReadHeader(slaveID, funcCode, startAddress, count);
                     lock (_async)
                     {
                         byte[] receiveBytes = new byte[3 + byteCount];
                         byte[] dataBytes = new byte[byteCount];
                         byte errorFuncCode = (byte)(0x80 + funcCode);
+                        List<byte> reciveBytesLog = new List<byte>();
                         _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
-                        Thread.Sleep(10);
+                        Log.ByteSteamLog(ActionType.SEND, sendBytes);
+                        //Thread.Sleep(10);
                         int index = 0;
                         bool continueFlag = true;
-                        TimeOut.Init();
                         /*----------------------------------------
                         *循环找头：
                         * 先读一个字节判断是否为SlaveID
@@ -142,14 +216,17 @@ namespace ModbusDrivers
                         * 若第二个字节等于SlaveID则复制给头
                         * 否则将头置0
                      ------------------------------------------ */
-                        while (TimeOut.TimeOutFlag & continueFlag)
+                        while (continueFlag)
                         {
                             if (index < 2)
                             {
                                 _socket.Receive(receiveBytes,0, 1, SocketFlags.None);
+                                reciveBytesLog.Add(receiveBytes[0]);
                                 while (receiveBytes[0] == slaveID)
                                 {
                                     _socket.Receive(receiveBytes,1,1, SocketFlags.None);
+                                    reciveBytesLog.Add(receiveBytes[1]);
+
                                     if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
                                     {
                                         index += 2;
@@ -171,30 +248,39 @@ namespace ModbusDrivers
                                 {
                                     index += _socket.Receive(receiveBytes, index, byteCount +1, SocketFlags.None);
                                     continueFlag = index == receiveBytes.Length ? false : true;
+                                    for(int i=2;i< receiveBytes.Length; i++)
+                                    {
+                                        reciveBytesLog.Add(receiveBytes[i]);
+                                    }
+                                  
                                 }
                                 else if (receiveBytes[1] == errorFuncCode)
                                 {
-                                    index += _socket.Receive(receiveBytes, index,3, SocketFlags.None);
-                                    continueFlag = index == 5 ? false : true;
+                                    index += _socket.Receive(receiveBytes, index,1, SocketFlags.None);
+                                    continueFlag = index == 3 ? false : true;
+                                    reciveBytesLog.Add(receiveBytes[3]);
                                 }
                             }
-                            TimeOut.EndTime = DateTime.Now;
                         }
-                        //判断是否超时，并复位
-                        if (TimeOut.TimeOutFlag)
-                        {
-                            TimeOut.LogTimeOutError();
-                            return null;
-                        }
+                        Log.ByteSteamLog(ActionType.RECEIVE, reciveBytesLog.ToArray());
+
                         //获取正确报文并处理
                         if (receiveBytes[1] == funcCode)
                         {
-                            Array.ConstrainedCopy(receiveBytes, 3, dataBytes, 0, byteCount);
+                            for (int i = index; i < receiveBytes.Length; i++)
+                            {
+                                reciveBytesLog.Add(receiveBytes[i]);
+                            }
+                            Array.Copy(receiveBytes, 3, dataBytes, 0, byteCount);
+                            
                             return dataBytes;
                         }
                         else if (receiveBytes[1] == errorFuncCode)
                         {
+                            reciveBytesLog.Add(receiveBytes[2]);
+
                             Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
+
                         }
                         return null;
                     }
@@ -210,58 +296,27 @@ namespace ModbusDrivers
                 return null;
             }
         }
-        protected override byte[] writeSigHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
-        {
-            byte[] sendBytes = new byte[12];
-            sendBytes[5] = 6;
-            sendBytes[6] = slaveID;
-            sendBytes[7] = funcCode;
-            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
-            sendBytes[8] = addressBytes[1];//高位在前
-            sendBytes[9] = addressBytes[0];//低位在后
-            sendBytes[10] = datas[1];
-            sendBytes[11] = datas[0];
-            return sendBytes;
-        }
+ 
 
-        protected override byte[] writeMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas)
-        {
-            byte[] sendBytes = new byte[13 + datas.Length];
-            sendBytes[5] = 6;
-            sendBytes[6] = slaveID;
-            sendBytes[7] = funcCode;
-            byte[] addressBytes = BitConverter.GetBytes(startAddress - 1);
-            sendBytes[8] = addressBytes[1];//高位在前
-            sendBytes[9] = addressBytes[0];//低位在后
-            byte[] CountBytes = BitConverter.GetBytes((ushort)datas.Length);
-            sendBytes[10] = CountBytes[1];
-            sendBytes[11] = CountBytes[0];
-
-            sendBytes[12] = (byte)datas.Length;
-            Array.ConstrainedCopy(datas, 0, sendBytes, 13, datas.Length);
-
-            return sendBytes;
-        }
-
-        protected override int writeDatas(byte slaveID, byte funcCode, ushort startAddress, byte[] datas, ushort count, GetWriteHeader getHeader)
+        protected override int writeBytes( byte[] sendBytes)
         {
             try
             {
                 if (IsConnect)
                 {
+                    byte slaveID = sendBytes[6];
+                    byte funcCode = sendBytes[7];
                     byte errorFuncCode = (byte)(0x80 + funcCode);
-                    byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas);
-
+                    //byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas);
                     lock (_async)
                     {
-                        _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
-                        Thread.Sleep(10);
-
+                        int reseult=_socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
+                        Log.ByteSteamLog(ActionType.SEND, sendBytes);
+                        //Thread.Sleep(10);
+                        List<byte> reciveBytesLog = new List<byte>();
                         int index = 0;
                         bool continueFlag = true;
-                        TimeOut.Init();
                         byte[] receiveBytes = new byte[6];
-
                         /*----------------------------------------
                          *循环找头：
                          * 先读一个字节判断是否为SlaveID
@@ -272,14 +327,17 @@ namespace ModbusDrivers
                          * 否则将头置0
                          ------------------------------------------ */
 
-                        while (TimeOut.TimeOutFlag & continueFlag)
+                        while (continueFlag)
                         {
                             if (index < 2)
                             {
                                 _socket.Receive(receiveBytes, 0, 1, SocketFlags.None);
+                                reciveBytesLog.Add(receiveBytes[0]);
                                 while (receiveBytes[0] == slaveID)
                                 {
                                     _socket.Receive(receiveBytes, 1, 1, SocketFlags.None);
+                                    reciveBytesLog.Add(receiveBytes[1]);
+
                                     if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
                                     {
                                         index += 2;
@@ -300,25 +358,24 @@ namespace ModbusDrivers
                                 if (receiveBytes[1] == funcCode)
                                 {
                                     index += _socket.Receive(receiveBytes, index, 4, SocketFlags.None);
-                                    continueFlag = index == 4 ? false : true;
-                                    return 1;
+                                    continueFlag = index == 6 ? false : true;
+                                    for (int i = 2; i < 6; i++)
+                                    {
+                                        reciveBytesLog.Add(receiveBytes[i]);
+                                    }
+                                    Log.ByteSteamLog(ActionType.RECEIVE, reciveBytesLog.ToArray());
                                 }
                                 else if (receiveBytes[1] == errorFuncCode)
                                 {
                                     index += _socket.Receive(receiveBytes, index, 1, SocketFlags.None);
                                     continueFlag = index == 3 ? false : true;
+                                    reciveBytesLog.Add(receiveBytes[2]);
+                                    Log.ByteSteamLog(ActionType.RECEIVE, reciveBytesLog.ToArray());
                                     Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
-                                    return -1;
                                 }
                             }
-                            TimeOut.EndTime = DateTime.Now;
                         }
-                        if (TimeOut.TimeOutFlag)
-                        {
-                            TimeOut.LogTimeOutError();
-                            return -1;
-                        }
-                        return -1;
+                        return receiveBytes[1] == funcCode ? 1 : -1;
                     }
                 }
                 else
@@ -334,7 +391,11 @@ namespace ModbusDrivers
         }
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            _ethernetSetUp = null;
+            _socket.Close();
+            _socket.Dispose();
+            TimeOut = null;
+            Log = null;
         }
     }
 }

@@ -100,24 +100,11 @@ namespace ModbusDrivers
         /// <param name="startAddress"></param>
         /// <param name="byteCount"></param>
         /// <returns></returns>
-        protected abstract byte[] readHeader(byte slaveId, byte func, ushort startAddress, ushort byteCount);
-       
-        public delegate byte[] GetWriteHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas);
-        /// <summary>
-        /// 写单个线圈或寄存器，包括：
-        /// 从地址 功能码 地址位 数据位 CRC共8位bytes
-        /// </summary>
-        /// <param name="slaveID"></param>
-        /// <param name="startAddress"></param>
-        /// <param name="funcCode"></param>
-        /// <param name="datas"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        protected abstract byte[] writeSigHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas);
+        protected abstract byte[] getReadHeader(byte slaveId, byte func, ushort startAddress, ushort byteCount);
 
         /// <summary>
-        /// 写多个线圈或寄存器，包括：
-        /// 从地址 功能码 地址位 数量 字节长度 数据数组 CRC校验组成 共9+length（发送字节数）
+        /// 强制单个线圈,
+        /// 功能码为05
         /// </summary>
         /// <param name="slaveID"></param>
         /// <param name="startAddress"></param>
@@ -125,8 +112,37 @@ namespace ModbusDrivers
         /// <param name="datas"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        protected abstract byte[] writeMulHeader(byte slaveID, ushort startAddress, byte funcCode, byte[] datas);
-        
+        protected abstract byte[] getWriteSigCoilHeader(byte slaveID, ushort startAddress,bool value);
+
+        /// <summary>
+        /// 写单个寄存器,
+        /// 功能码为05
+        /// </summary>
+        /// <param name="slaveID"></param>
+        /// <param name="startAddress"></param>
+        /// <param name="value">byte数组长度为2</param>
+        /// <returns></returns>
+        protected abstract byte[] getWriteSigRegisterHeader(byte slaveID, ushort startAddress, byte[] value);
+
+        /// <summary>
+        /// 强制多个线圈
+        /// 功能码为0x10（16)
+        /// </summary>
+        /// <param name="slaveID">子站地址</param>
+        /// <param name="startAddress">开始地址</param>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        protected abstract byte[] getWriteMulCoilHeader(byte slaveID, ushort startAddress, bool[] value);
+        /// <summary>
+        /// 写多个寄存器数据,
+        /// 功能码为0x10（16)
+        /// </summary>
+        /// <param name="slaveID">子站地址</param>
+        /// <param name="startAddress">开始地址</param>
+        /// <param name="value">值</param>
+        /// <returns></returns>
+        protected abstract byte[] getWriteMulRegisterHeader(byte slaveID, ushort startAddress, byte[] value);
+     
         /// <summary>
         /// 读数据
         /// 0x01读线圈，地址：00001-09999，类型：bit
@@ -136,19 +152,13 @@ namespace ModbusDrivers
         /// </summary>
         /// <returns>返回带CRC校验8位字节数组</returns>
         protected abstract byte[] readBytes(byte slaveID, ushort startAddress, byte funcCode, ushort count);
-
+        
         /// <summary>
-        /// 0x05强制单个线圈
-        /// 0x06预置单个寄存器
-        /// 0x0F强制多个线圈
-        /// 0x10预置多个寄存器
+        /// 写报文数组
         /// </summary>
-        /// <param name="slaveID"></param>
-        /// <param name="startAddress"></param>
-        /// <param name="funcCode"></param>
-        /// <param name="datas"></param>
+        /// <param name="sendBytes"></param>
         /// <returns></returns>
-        protected abstract int writeDatas(byte slaveID, byte funcCode, ushort startAddress, byte[] datas, ushort count, GetWriteHeader getHeader);
+        protected abstract int writeBytes(byte[] sendBytes);
             
         public string GetAddress(DeviceAddress deviceAddress)
         {
@@ -162,19 +172,31 @@ namespace ModbusDrivers
 
         public byte[] ReadBytes(DeviceAddress deviceAddress, ushort length)
         {
-            return readBytes((byte)deviceAddress.SlaveID, (ushort)deviceAddress.Address, (byte)deviceAddress.FuctionNumber, length);
+            throw new NotImplementedException();
+        }
+        private byte[] readBool(DeviceAddress deviceAddress, ushort length)
+        {
+            byte salveID = (byte)deviceAddress.Area;
+            ushort startAddress;
+            byte funcCode = (byte)Function.GetReadFunctionCode(deviceAddress.Address, out startAddress);
+            byte[] datas = null;
+            if (funcCode == 1 || funcCode == 2)
+            {
+                datas = readBytes(salveID, startAddress, funcCode, length);
+            }
+            return datas;
         }
         public Item<bool> ReadBool(DeviceAddress deviceAddress)
         {
-            var datas = ReadBytes(deviceAddress, 1);
+            var datas = readBool(deviceAddress, 1);
             return datas == null ? Item<bool>.Default :
                 new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = ReadBytes(deviceAddress, length);
-            bool[] bdatas = NetConvert.BytesToBools(datas, length);
+            var datas = readBool(deviceAddress, 1);
+            var bdatas = NetConvert.BytesToBools(datas, length);
             return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress)
@@ -187,60 +209,75 @@ namespace ModbusDrivers
             throw new NotImplementedException();
         }
 
+        private byte[] readRegister(DeviceAddress deviceAddress, int lenght)
+        {
+            byte salveID = (byte)deviceAddress.Area;
+            ushort startAddress;
+            byte funcCode = (byte)Function.GetReadFunctionCode(deviceAddress.Address, out startAddress);
+            if (funcCode == 3 || funcCode == 4)
+            {
+
+                return UnsafeNetConvert.HiLoBytesPerversion( readBytes(salveID, startAddress, funcCode, (ushort)lenght));
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public Item<short> ReadShort(DeviceAddress deviceAddress)
         {
 
-            var datas = ReadBytes(deviceAddress, 1);
+            var datas = readRegister(deviceAddress, 1);
             return datas == null ? Item<short>.Default :
-                new Item<short>() { Vaule = UNetConvert.BytesToShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<short>() { Vaule = UnsafeNetConvert.BytesToShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = ReadBytes(deviceAddress, 1);
-            var bdatas = UNetConvert.BytesToShorts(datas, 0, length, deviceAddress.ByteOrder);
+            
+            var datas = readRegister(deviceAddress, length);
+            var bdatas = UnsafeNetConvert.BytesToShorts(datas, 0, length, deviceAddress.ByteOrder);
             return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<ushort> ReadUShort(DeviceAddress deviceAddress)
         {
-            var datas = ReadBytes(deviceAddress, 1);
+            var datas = readRegister(deviceAddress, 1);
             return datas == null ? Item<ushort>.Default :
-                new Item<ushort>() { Vaule = UNetConvert.BytesToUShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<ushort>() { Vaule = UnsafeNetConvert.BytesToUShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = ReadBytes(deviceAddress, 1);
-            var bdatas = UNetConvert.BytesToUShorts(datas, 0, length, deviceAddress.ByteOrder);
+            var datas = readRegister(deviceAddress, 1);
+            var bdatas = UnsafeNetConvert.BytesToUShorts(datas, 0, length, deviceAddress.ByteOrder);
             return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<int> ReadInt(DeviceAddress deviceAddress)
         {
-            var datas = ReadBytes(deviceAddress, 2);
+            var datas = readRegister(deviceAddress, 2);
             return datas == null ? Item<int>.Default :
                 new Item<int>()
                 {
-                    Vaule = UNetConvert.BytesToInt(datas, 0, deviceAddress.ByteOrder),
+                    Vaule = UnsafeNetConvert.BytesToInt(datas, 0, deviceAddress.ByteOrder),
                     UpdateTime = DateTime.Now,
                     Quality = QUALITIES.QUALITY_GOOD
                 };
-
         }
 
         public Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            int[] bdatas = UNetConvert.BytesToInts(datas, 0, length, deviceAddress.ByteOrder);
+            var datas = readRegister(deviceAddress, 2*length);
+            var bdatas = UnsafeNetConvert.BytesToInts(datas, 0, length, deviceAddress.ByteOrder);
             return NetConvert.ToItems(bdatas, 0, length);
         }
         public Item<uint> ReadUInt(DeviceAddress deviceAddress)
         {
-            var datas = ReadBytes(deviceAddress, 2);
+            var datas = readRegister(deviceAddress, 2);
             return datas == null ? Item<uint>.Default :
                 new Item<uint>()
                 {
-                    Vaule = UNetConvert.BytesToUInt(datas, 0, deviceAddress.ByteOrder),
+                    Vaule = UnsafeNetConvert.BytesToUInt(datas, 0, deviceAddress.ByteOrder),
                     UpdateTime = DateTime.Now,
                     Quality = QUALITIES.QUALITY_GOOD
                 };
@@ -248,18 +285,18 @@ namespace ModbusDrivers
 
         public Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            uint[] bdatas = UNetConvert.BytesToUInts(datas, 0, length, deviceAddress.ByteOrder);
+            var datas = readRegister(deviceAddress, 2*length);
+            var bdatas = UnsafeNetConvert.BytesToUInts(datas, 0, length, deviceAddress.ByteOrder);
             return NetConvert.ToItems(bdatas, 0, length);
         }
 
         public Item<float> Readfloat(DeviceAddress deviceAddress)
         {
-            var datas = ReadBytes(deviceAddress, 2);
+            var datas = readRegister(deviceAddress, 2);
             return datas == null ? Item<float>.Default :
                       new Item<float>()
                       {
-                          Vaule = UNetConvert.BytesToFloat(datas, 0, deviceAddress.ByteOrder),
+                          Vaule = UnsafeNetConvert.BytesToFloat(datas, 0, deviceAddress.ByteOrder),
                           UpdateTime = DateTime.Now,
                           Quality = QUALITIES.QUALITY_GOOD
                       };
@@ -267,8 +304,8 @@ namespace ModbusDrivers
 
         public Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = ReadBytes(deviceAddress, (ushort)(2 * length));
-            float[] bdatas = UNetConvert.BytesToFloats(datas, 0, length, deviceAddress.ByteOrder);
+            var datas = readRegister(deviceAddress, 2*length);
+            var bdatas = UnsafeNetConvert.BytesToFloats(datas, 0, length, deviceAddress.ByteOrder);
             return NetConvert.ToItems(bdatas, 0, length);
         }
 
@@ -283,18 +320,31 @@ namespace ModbusDrivers
         }
         public int WriteBool(DeviceAddress deviceAddress, bool datas)
         {
-            byte[] sendBytes = new byte[2];
-            if (datas)
-                sendBytes[1] = 0xFF;
-            GetWriteHeader getHeader = writeSigHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteCoil(deviceAddress.Address,out startAddress))
+            {
+                byte[] sendBytes = getWriteSigCoilHeader((byte)deviceAddress.Area, startAddress, datas);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
+
         }
 
         public int WriteBools(DeviceAddress deviceAddress, bool[] datas)
         {
-            byte[] sendBytes = NetConvert.BoolstoBytes(datas);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteCoil(deviceAddress.Address, out startAddress))
+            {
+                byte[] sendBytes = getWriteMulCoilHeader((byte)deviceAddress.Area, (ushort)deviceAddress.Address, datas);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteByte(DeviceAddress deviceAddress, byte datas)
@@ -318,73 +368,153 @@ namespace ModbusDrivers
         }
         public int WriteShort(DeviceAddress deviceAddress, short datas)
         {
-            byte[] sendBytes = UNetConvert.ShortToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeSigHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.ShortToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteSigRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteUShort(DeviceAddress deviceAddress, ushort datas)
         {
-            byte[] sendBytes = UNetConvert.UShortToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeSigHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.UShortToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteSigRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteShorts(DeviceAddress deviceAddress, short[] datas)
         {
-            byte[] sendBytes = UNetConvert.ShortsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.ShortsToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteUShorts(DeviceAddress deviceAddress, ushort[] datas)
         {
-            byte[] sendBytes = UNetConvert.UShortsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.UShortsToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
 
         public int WriteInt(DeviceAddress deviceAddress, int datas)
         {
-            byte[] sendBytes = UNetConvert.IntToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.IntToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteInts(DeviceAddress deviceAddress, int[] datas)
         {
-            byte[] sendBytes = UNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteUInt(DeviceAddress deviceAddress, uint datas)
         {
-            byte[] sendBytes = UNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteUInts(DeviceAddress deviceAddress, uint[] datas)
         {
-            byte[] sendBytes = UNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteFloat(DeviceAddress deviceAddress, float datas)
         {
-            byte[] sendBytes = UNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteFloats(DeviceAddress deviceAddress, float[] datas)
         {
-            byte[] sendBytes = UNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder);
-            GetWriteHeader getHeader = writeMulHeader;
-            return writeDatas((byte)deviceAddress.SlaveID, (byte)deviceAddress.FuctionNumber, (ushort)deviceAddress.Address, sendBytes, (ushort)sendBytes.Length, getHeader);
+            ushort startAddress;
+            if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
+            {
+                byte[] valueBytes = UnsafeNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder);
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                return writeBytes(sendBytes);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public int WriteString(DeviceAddress deviceAddress, string datas)

@@ -1,0 +1,10 @@
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\DriverTest.exe.config
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\DriverTest.exe
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\DriverTest.pdb
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\DataServer.dll
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\ModbusDrivers.dll
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\DataServer.pdb
+D:\C#Projects\DriverLibrary\DriverTest\bin\Debug\ModbusDrivers.pdb
+D:\C#Projects\DriverLibrary\DriverTest\obj\Debug\DriverTest.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\DriverTest\obj\Debug\DriverTest.exe
+D:\C#Projects\DriverLibrary\DriverTest\obj\Debug\DriverTest.pdb

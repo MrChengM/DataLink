@@ -139,20 +139,20 @@ namespace DataServer
         }
     }
     /// <summary>
-    /// 设备报文读取格式
+    /// 地址
     /// </summary>
     public struct DeviceAddress
     {
-        public int SlaveID { get; set;  }
-        public int FuctionNumber { get; set; }
+        public int Area { get; set;  }
+        //public int FuctionNumber { get; set; }
         public int Address { get; set; }
         public int Length { get; set; }
         public DataType VarType { get; set; }
         public ByteOrder ByteOrder { get; set; }
-        public DeviceAddress(int slaveID, int fuctionNumber,int address, int length, DataType varType, ByteOrder byteOrder= ByteOrder.None)
+        public DeviceAddress(int area, int address, int length, DataType varType, ByteOrder byteOrder= ByteOrder.None)
         {
-            SlaveID = slaveID;
-            FuctionNumber = fuctionNumber;
+            Area = area;
+            //FuctionNumber = fuctionNumber;
             Address = address;
             Length = length;
             VarType = varType;

@@ -46,7 +46,7 @@ namespace DataServer
             }
             set
             {
-                _durationTime = EndTime.Ticks - StartTime.Ticks;
+                _durationTime = (long)((EndTime - StartTime).TotalMilliseconds);
                 _timeOutFlag = _durationTime >= TimeOutSet ? true : false;
                 _endTime =value;
             }

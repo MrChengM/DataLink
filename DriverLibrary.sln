@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiemensDrivers", "SiemensDr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCDrivers", "OPCDrivers\OPCDrivers.csproj", "{B862934A-977A-4716-935D-A11CF50B38FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverTest", "DriverTest\DriverTest.csproj", "{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B862934A-977A-4716-935D-A11CF50B38FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B862934A-977A-4716-935D-A11CF50B38FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B862934A-977A-4716-935D-A11CF50B38FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

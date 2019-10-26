@@ -12,3 +12,10 @@ D:\GitHub\DriverLibrary\ModbusDrivers\bin\Debug\DataServer.pdb
 D:\GitHub\DriverLibrary\ModbusDrivers\obj\Debug\ModbusDrivers.csprojResolveAssemblyReference.cache
 D:\GitHub\DriverLibrary\ModbusDrivers\obj\Debug\ModbusDrivers.dll
 D:\GitHub\DriverLibrary\ModbusDrivers\obj\Debug\ModbusDrivers.pdb
+D:\C#Projects\DriverLibrary\ModbusDrivers\bin\Debug\ModbusDrivers.dll
+D:\C#Projects\DriverLibrary\ModbusDrivers\bin\Debug\ModbusDrivers.pdb
+D:\C#Projects\DriverLibrary\ModbusDrivers\bin\Debug\DataServer.dll
+D:\C#Projects\DriverLibrary\ModbusDrivers\bin\Debug\DataServer.pdb
+D:\C#Projects\DriverLibrary\ModbusDrivers\obj\Debug\ModbusDrivers.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\ModbusDrivers\obj\Debug\ModbusDrivers.dll
+D:\C#Projects\DriverLibrary\ModbusDrivers\obj\Debug\ModbusDrivers.pdb
