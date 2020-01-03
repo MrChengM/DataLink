@@ -12,16 +12,16 @@ namespace ModbusDrivers
     /// <summary>
     /// ModbusRTU Slave协议 IPLCDriver:IRead IWrite IDriver IDisposable
     /// </summary>
-    public sealed class ModbusRTUSalve : ModbusSalve
+    public sealed class ModbusRTUMaster : ModbusMaster
     {
         // 内部成员定义
 
         private SerialportSetUp _portSetUp = SerialportSetUp.Default;
         private SerialPort _serialPort = new SerialPort();
 
-        public ModbusRTUSalve() { }
+        public ModbusRTUMaster() { }
 
-        public ModbusRTUSalve(SerialportSetUp portSetUp, TimeOut timeOut, ILog log)
+        public ModbusRTUMaster(SerialportSetUp portSetUp, TimeOut timeOut, ILog log)
         {
             _portSetUp = portSetUp;
             DriType = DriverType.Serialport;
@@ -192,7 +192,7 @@ namespace ModbusDrivers
             sendBytes[4] = CountBytes[1];
             sendBytes[5] = CountBytes[0];
             sendBytes[6] = (byte)value.Length;
-            value = UnsafeNetConvert.HiLoBytesPerversion(value);
+            value = UnsafeNetConvert.BytesPerversion(value);
             Array.Copy(value, 0, sendBytes, 7, value.Length);
             byte[] CRCBytes = Utility.CalculateCrc(sendBytes, sendBytes.Length - 2);
             Array.Copy(CRCBytes, 0, sendBytes, sendBytes.Length - 3, 2);
@@ -224,15 +224,19 @@ namespace ModbusDrivers
                     byte[] sendBytes = getReadHeader(slaveID, funcCode, startAddress, count);
                     lock (_async)
                     {
+                        
                         byte[] receiveBytes = new byte[3 + byteCount + 2];
                         byte[] dataBytes = new byte[byteCount];
                         byte errorFuncCode = (byte)(0x80 + funcCode);
                         List<byte> reciveBytesLog = new List<byte>();
+
                         _serialPort.Write(sendBytes, 0, sendBytes.Length);
                         Log.ByteSteamLog(ActionType.SEND, sendBytes);
+
                         Thread.Sleep(10);
                         int index = 0;
                         bool continueFlag = true;
+
                         /*----------------------------------------
                         *循环找头：
                         * 先读一个字节判断是否为SlaveID
@@ -345,6 +349,8 @@ namespace ModbusDrivers
                     byte slaveID = sendBytes[0];
                     byte funcCode = sendBytes[1];
                     byte errorFuncCode = (byte)(0x80 + funcCode);
+                    List<byte> reciveBytesLog = new List<byte>();
+
                     lock (_async)
                     {
                         _serialPort.Write(sendBytes, 0, sendBytes.Length);
@@ -370,9 +376,15 @@ namespace ModbusDrivers
                             if (index < 2)
                             {
                                 _serialPort.Read(receiveBytes, 0, 1);
+                                reciveBytesLog.Add(receiveBytes[0]);
+
                                 while (receiveBytes[0] == slaveID)
                                 {
                                     _serialPort.Read(receiveBytes, 1, 1);
+
+                                    //接受到报文记录
+                                    reciveBytesLog.Add(receiveBytes[1]);
+
                                     if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
                                     {
                                         index += 2;
@@ -394,11 +406,23 @@ namespace ModbusDrivers
                                 {
                                     index += _serialPort.Read(receiveBytes, index, 6);
                                     continueFlag = index == 8 ? false : true;
+
+                                    //接受到报文记录
+                                    for (int i = 2; i < 8; i++)
+                                    {
+                                        reciveBytesLog.Add(receiveBytes[i]);
+                                    }
                                 }
                                 else if (receiveBytes[1] == errorFuncCode)
                                 {
                                     index += _serialPort.Read(receiveBytes, index, 3);
                                     continueFlag = index == 5 ? false : true;
+
+                                    //接受到报文记录
+                                    for (int i = 2; i < 5; i++)
+                                    {
+                                        reciveBytesLog.Add(receiveBytes[i]);
+                                    }
                                 }
                             }
                         }

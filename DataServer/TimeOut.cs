@@ -98,14 +98,7 @@ namespace DataServer
             _log = log;
         }
         /// <summary>
-        /// TimeOut时间Log记录
-        /// </summary>
-        public void LogTimeOutError()
-        {
-            _log.ErrorLog(string.Format("{0}Time Out.", _taskName));
-        }
-        /// <summary>
-        /// 错误清除并复位
+        /// 初始化
         /// </summary>
         public void Init()
         {
@@ -114,5 +107,13 @@ namespace DataServer
             _durationTime = 0;
             _timeOutFlag = false;
         }
+        /// <summary>
+        /// TimeOut时间Log记录
+        /// </summary>
+        public void LogTimeOutError()
+        {
+            _log.ErrorLog(string.Format("{0}Time Out.", _taskName));
+        }
+     
     }
 }

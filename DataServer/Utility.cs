@@ -423,7 +423,7 @@ namespace DataServer
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public unsafe static byte[] HiLoBytesPerversion(byte[] source)
+        public unsafe static byte[] BytesPerversion(byte[] source)
         {
             if (source!= null && source.Length % 2 == 0 )
             {
@@ -623,6 +623,7 @@ namespace DataServer
             BytesToStruct(p, size, data, startIndex, byteOrder);
             return result;
         }
+       
         public unsafe static int BytesToInt(byte[] data, int startIndex, ByteOrder byteOrder)
         {
             if (data == null || startIndex >= data.Length)

@@ -162,10 +162,10 @@ namespace DataServer
     }
 
     /// <summary>
-    /// 
+    /// 数据单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Item<T>
+    public class Item<T> 
     {
         public T Vaule { get; set; }
         public DateTime UpdateTime { get; set; }
@@ -175,7 +175,7 @@ namespace DataServer
     /// <summary>
     /// 通信质量
     /// </summary>
-    public enum QUALITIES : short
+    public enum QUALITIES : byte
     {
         LIMIT_CONST = 3,
         LIMIT_HIGH = 2,

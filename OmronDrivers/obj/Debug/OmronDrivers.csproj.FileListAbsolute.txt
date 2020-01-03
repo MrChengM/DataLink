@@ -8,3 +8,8 @@ D:\GitHub\DriverLibrary\OmronDrivers\bin\Debug\OmronDrivers.pdb
 D:\GitHub\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.csprojResolveAssemblyReference.cache
 D:\GitHub\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.dll
 D:\GitHub\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.pdb
+D:\C#Projects\DriverLibrary\OmronDrivers\bin\Debug\OmronDrivers.dll
+D:\C#Projects\DriverLibrary\OmronDrivers\bin\Debug\OmronDrivers.pdb
+D:\C#Projects\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.dll
+D:\C#Projects\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.pdb

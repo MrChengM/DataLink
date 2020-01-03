@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModbusDrivers
 {
-    public abstract class ModbusSalve: IPLCDriver
+    public abstract class ModbusMaster: IPLCDriver
     {
         // 内部成员定义
         private DriverType _driverType;
@@ -16,7 +16,7 @@ namespace ModbusDrivers
         private ILog _log;
         private int _pdu = 252;
 
-        public ModbusSalve() { }
+        public ModbusMaster() { }
 
         public DriverType DriType
         {
@@ -217,7 +217,7 @@ namespace ModbusDrivers
             if (funcCode == 3 || funcCode == 4)
             {
 
-                return UnsafeNetConvert.HiLoBytesPerversion( readBytes(salveID, startAddress, funcCode, (ushort)lenght));
+                return UnsafeNetConvert.BytesPerversion(readBytes(salveID, startAddress, funcCode, (ushort)lenght));
             }
             else
             {
@@ -249,7 +249,7 @@ namespace ModbusDrivers
 
         public Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = readRegister(deviceAddress, 1);
+            var datas = readRegister(deviceAddress, length);
             var bdatas = UnsafeNetConvert.BytesToUShorts(datas, 0, length, deviceAddress.ByteOrder);
             return NetConvert.ToItems(bdatas, 0, length);
         }

@@ -8,3 +8,8 @@ D:\GitHub\DriverLibrary\SiemensDrivers\bin\Debug\SiemensDrivers.pdb
 D:\GitHub\DriverLibrary\SiemensDrivers\obj\Debug\SiemensDrivers.csprojResolveAssemblyReference.cache
 D:\GitHub\DriverLibrary\SiemensDrivers\obj\Debug\SiemensDrivers.dll
 D:\GitHub\DriverLibrary\SiemensDrivers\obj\Debug\SiemensDrivers.pdb
+D:\C#Projects\DriverLibrary\SiemensDrivers\bin\Debug\SiemensDrivers.dll
+D:\C#Projects\DriverLibrary\SiemensDrivers\bin\Debug\SiemensDrivers.pdb
+D:\C#Projects\DriverLibrary\SiemensDrivers\obj\Debug\SiemensDrivers.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\SiemensDrivers\obj\Debug\SiemensDrivers.dll
+D:\C#Projects\DriverLibrary\SiemensDrivers\obj\Debug\SiemensDrivers.pdb

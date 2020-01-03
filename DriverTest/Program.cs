@@ -15,9 +15,9 @@ namespace DriverTest
             EthernetSetUp netsetup = new EthernetSetUp("127.0.0.1", 502);
             ILog log = new TESTLOG();
             TimeOut timeout = new TimeOut("salve", 3000, log);
-            ModbusTCPSalve salve = new ModbusTCPSalve(netsetup,timeout,log);
+            ModbusTCPMaster salve = new ModbusTCPMaster(netsetup,timeout,log);
             salve.Connect();
-            DeviceAddress da = new DeviceAddress(1, 30001,2, DataType.UDword,ByteOrder.None);
+            DeviceAddress da = new DeviceAddress(1, 40001,2, DataType.UShort,ByteOrder.None);
             if(da.Length == 1)
             {
                 switch (da.VarType)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ModbusDrivers
 {
-    public sealed class ModbusTCPSalve:ModbusSalve
+    public sealed class ModbusTCPMaster:ModbusMaster
     {
         private EthernetSetUp _ethernetSetUp =new EthernetSetUp();
         private Socket _socket;
@@ -33,8 +33,8 @@ namespace ModbusDrivers
                 _ethernetSetUp = value;
             }
         }
-        public ModbusTCPSalve() { }
-        public ModbusTCPSalve(EthernetSetUp ethernetSetUp, TimeOut timeOut,ILog log)
+        public ModbusTCPMaster() { }
+        public ModbusTCPMaster(EthernetSetUp ethernetSetUp, TimeOut timeOut,ILog log)
         {
             _ethernetSetUp = ethernetSetUp;
             TimeOut = timeOut;
@@ -119,7 +119,7 @@ namespace ModbusDrivers
         }
 
         /// <summary>
-        /// 
+        /// 获取写多个寄存器报文头
         /// </summary>
         /// <param name="slaveID"></param>
         /// <param name="startAddress"></param>
@@ -169,7 +169,7 @@ namespace ModbusDrivers
             sendBytes[10] = CountBytes[1];
             sendBytes[11] = CountBytes[0];
             sendBytes[12] = (byte)value.Length;
-            value = UnsafeNetConvert.HiLoBytesPerversion(value);
+            value = UnsafeNetConvert.BytesPerversion(value);
             Array.Copy(value, 0, sendBytes, 13, value.Length);
             return sendBytes;
         }
@@ -201,10 +201,12 @@ namespace ModbusDrivers
                         byte[] receiveBytes = new byte[3 + byteCount];
                         byte[] dataBytes = new byte[byteCount];
                         byte errorFuncCode = (byte)(0x80 + funcCode);
-                        List<byte> reciveBytesLog = new List<byte>();
+                        List<byte> reciveBytesLog = new List<byte>();   
+
                         _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
                         Log.ByteSteamLog(ActionType.SEND, sendBytes);
-                        //Thread.Sleep(10);
+
+                        Thread.Sleep(10);
                         int index = 0;
                         bool continueFlag = true;
                         /*----------------------------------------
@@ -221,10 +223,12 @@ namespace ModbusDrivers
                             if (index < 2)
                             {
                                 _socket.Receive(receiveBytes,0, 1, SocketFlags.None);
+                                //接受到数据记录
                                 reciveBytesLog.Add(receiveBytes[0]);
                                 while (receiveBytes[0] == slaveID)
                                 {
                                     _socket.Receive(receiveBytes,1,1, SocketFlags.None);
+                                    //接受到数据记录
                                     reciveBytesLog.Add(receiveBytes[1]);
 
                                     if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
@@ -248,16 +252,17 @@ namespace ModbusDrivers
                                 {
                                     index += _socket.Receive(receiveBytes, index, byteCount +1, SocketFlags.None);
                                     continueFlag = index == receiveBytes.Length ? false : true;
-                                    for(int i=2;i< receiveBytes.Length; i++)
+                                    //接受到数据记录
+                                    for (int i=2;i< receiveBytes.Length; i++)
                                     {
                                         reciveBytesLog.Add(receiveBytes[i]);
                                     }
-                                  
                                 }
                                 else if (receiveBytes[1] == errorFuncCode)
                                 {
                                     index += _socket.Receive(receiveBytes, index,1, SocketFlags.None);
                                     continueFlag = index == 3 ? false : true;
+                                    //接受到数据记录
                                     reciveBytesLog.Add(receiveBytes[3]);
                                 }
                             }
@@ -297,7 +302,6 @@ namespace ModbusDrivers
             }
         }
  
-
         protected override int writeBytes( byte[] sendBytes)
         {
             try
@@ -307,13 +311,14 @@ namespace ModbusDrivers
                     byte slaveID = sendBytes[6];
                     byte funcCode = sendBytes[7];
                     byte errorFuncCode = (byte)(0x80 + funcCode);
-                    //byte[] sendBytes = getHeader(slaveID, startAddress, funcCode, datas);
+                    List<byte> reciveBytesLog = new List<byte>();
+
                     lock (_async)
                     {
                         int reseult=_socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
                         Log.ByteSteamLog(ActionType.SEND, sendBytes);
-                        //Thread.Sleep(10);
-                        List<byte> reciveBytesLog = new List<byte>();
+
+                        Thread.Sleep(10);
                         int index = 0;
                         bool continueFlag = true;
                         byte[] receiveBytes = new byte[6];
@@ -359,6 +364,7 @@ namespace ModbusDrivers
                                 {
                                     index += _socket.Receive(receiveBytes, index, 4, SocketFlags.None);
                                     continueFlag = index == 6 ? false : true;
+
                                     for (int i = 2; i < 6; i++)
                                     {
                                         reciveBytesLog.Add(receiveBytes[i]);
