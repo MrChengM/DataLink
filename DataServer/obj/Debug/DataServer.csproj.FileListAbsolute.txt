@@ -1,6 +1,5 @@
 D:\C#Projects\DriverLibrary\DataServer\bin\Debug\DataServer.dll
 D:\C#Projects\DriverLibrary\DataServer\bin\Debug\DataServer.pdb
-D:\C#Projects\DriverLibrary\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\DataServer\obj\Debug\DataServer.dll
 D:\C#Projects\DriverLibrary\DataServer\obj\Debug\DataServer.pdb
 D:\GitHub\DriverLibrary\DataServer\bin\Debug\DataServer.dll

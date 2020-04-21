@@ -43,11 +43,17 @@
     <Compile Include="Client\Helper.cs" />
     <Compile Include="Client\ModbusRTUMaster.cs" />
     <Compile Include="Client\ModbusMaster.cs" />
-    <Compile Include="Client\ModbusTCPMaster.cs" />
+    <Compile Include="Client\ModbusTCPClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\ModbusPoint.cs" />
     <Compile Include="Server\ModbusPointMapping.cs" />
+    <Compile Include="Server\ModbusTCPServer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SocketServer\SocketServer\SocketServers\SocketServers.csproj">
+      <Project>{6eeabb49-2f57-42b0-96fc-e7a2f5723d36}</Project>
+      <Name>SocketServers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>

@@ -392,10 +392,16 @@ namespace DataServer
     }
     public class UnsafeNetConvert
     {
-        
+        #region 值类型转字节数组
+        /// <summary>
+        /// 根据字节指针，大小，转换至字节组
+        /// </summary>
+        /// <param name="bytePtr">字节指针</param>
+        /// <param name="size">字节组大小</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         private unsafe static byte[] ToBytes(byte* bytePtr, int size, ByteOrder byteOrder)
         {
-            //int count = sizeof(short);
             byte* p = bytePtr;
             byte[] result = new byte[size];
             fixed (byte* q = result)
@@ -443,13 +449,24 @@ namespace DataServer
                 return null;
             }
         }
+        /// <summary>
+        /// 16位整型转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] ShortToBytes(short data, ByteOrder byteOrder)
         {
             int count = sizeof(short);
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
-        
+        /// <summary>
+        /// 16位无符号整型转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] UShortToBytes(ushort data, ByteOrder byteOrder)
         {
 
@@ -458,26 +475,48 @@ namespace DataServer
             return ToBytes(p, count, byteOrder);
         }
 
-       
+        /// <summary>
+        /// 32位整型转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] IntToBytes(int data, ByteOrder byteOrder)
         {
             int count = sizeof(int);
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
+        /// <summary>
+        /// 32位无符号整型转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] UIntToBytes(uint data, ByteOrder byteOrder)
         {
             int count = sizeof(uint);
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
+        /// <summary>
+        /// 64位整型转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] LongToBytes(long data, ByteOrder byteOrder)
         {
             int count = sizeof(long);
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
-
+        /// <summary>
+        /// 64位无符号整型转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] ULongToBytes(ulong data, ByteOrder byteOrder)
         {
 
@@ -485,6 +524,12 @@ namespace DataServer
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
+        /// <summary>
+        /// 单精度浮点转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] FloatToBytes(float data, ByteOrder byteOrder)
         {
 
@@ -492,6 +537,12 @@ namespace DataServer
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
+        /// <summary>
+        /// 双精度转为字节组
+        /// </summary>
+        /// <param name="data">源数据</param>
+        /// <param name="byteOrder">编码方式</param>
+        /// <returns></returns>
         public unsafe static byte[] DoubleToBytes(double data, ByteOrder byteOrder)
         {
 
@@ -499,7 +550,8 @@ namespace DataServer
             byte* p = (byte*)&data;
             return ToBytes(p, count, byteOrder);
         }
-
+        #endregion
+        #region 值类型数组转字节数组
         public unsafe static byte[] ShortsToBytes(short[] data, ByteOrder byteOrder)
         {
             int size = sizeof(short);
@@ -581,6 +633,8 @@ namespace DataServer
             }
             return result;
         }
+        #endregion
+        #region 字节数组转值类型
         private unsafe static void BytesToStruct(byte* bytePtr, int size, byte[] data, int startIndex, ByteOrder byteOrder)
         {
             fixed (byte* q = &data[startIndex])
@@ -684,7 +738,8 @@ namespace DataServer
             BytesToStruct(p, size, data, startIndex, byteOrder);
             return result;
         }
-
+        #endregion
+        #region 字节数组转值类型数组
         public static short[] BytesToShorts(byte[] data, int startIndex, int count, ByteOrder byteOrder)
         {
             if (data == null)
@@ -781,5 +836,16 @@ namespace DataServer
             }
             return result;
         }
+        #endregion
+        #region 值类型转16位整型数组
+        public static short UShortToShort(ushort data)
+        {
+            return BytesToShort(UShortToBytes(data, ByteOrder.None), 0, ByteOrder.None);
+        }
+        public static short[] IntToShorts(int data)
+        {
+            return BytesToShorts(IntToBytes(data, ByteOrder.None), 0,2, ByteOrder.None);
+        }
+        #endregion
     }
 }

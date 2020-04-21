@@ -46,6 +46,7 @@
     <Compile Include="IPointMapping.cs" />
     <Compile Include="IServerDrives.cs" />
     <Compile Include="Point.cs" />
+    <Compile Include="PointMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeOut.cs" />
     <Compile Include="Utility.cs" />

@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 
 namespace ModbusDrivers
 {
-    public sealed class ModbusTCPMaster:ModbusMaster
+    /// <summary>
+    /// Modbus TCP Client 协议
+    /// </summary>
+    public sealed class ModbusTCPClient:ModbusMaster
     {
         private EthernetSetUp _ethernetSetUp =new EthernetSetUp();
         private Socket _socket;
@@ -33,8 +36,8 @@ namespace ModbusDrivers
                 _ethernetSetUp = value;
             }
         }
-        public ModbusTCPMaster() { }
-        public ModbusTCPMaster(EthernetSetUp ethernetSetUp, TimeOut timeOut,ILog log)
+        public ModbusTCPClient() { }
+        public ModbusTCPClient(EthernetSetUp ethernetSetUp, TimeOut timeOut,ILog log)
         {
             _ethernetSetUp = ethernetSetUp;
             TimeOut = timeOut;
@@ -285,7 +288,6 @@ namespace ModbusDrivers
                             reciveBytesLog.Add(receiveBytes[2]);
 
                             Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
-
                         }
                         return null;
                     }

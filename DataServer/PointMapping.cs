@@ -6,110 +6,148 @@ using System.Threading.Tasks;
 
 namespace DataServer
 {
-    public class PointMapping<T> : IPointMapping<T>
+    public class PointMapping
     {
         private ILog log;
 
-        public static PointMapping<T> Instance;
+        public static PointMapping Instance;
 
+        private static readonly object locker = new object();
         private PointMapping()
+        {
+         IPointMapping<bool> boolMapping =new BasePointMapping<bool>(log);
+         IPointMapping<byte> byteMapping = new BasePointMapping<byte>(log);
+         IPointMapping<ushort> ushortMapping = new BasePointMapping<ushort>(log);
+         IPointMapping<short> shortMapping = new BasePointMapping<short>(log);
+         IPointMapping<uint> uintMapping = new BasePointMapping<uint>(log);
+         IPointMapping<int> intMapping = new BasePointMapping<int>(log);
+         IPointMapping<float> floatMapping = new BasePointMapping<float>(log);
+         IPointMapping<double> doubleMapping = new BasePointMapping<double>(log);
+         IPointMapping<string> stringMapping = new BasePointMapping<string>(log);
+    }
+        public static PointMapping GetInstance()
         {
             if (Instance == null)
             {
-                Instance = new PointMapping<T>();
+                lock (locker)
+                {
+                    if (Instance == null)
+                    {
+                        Instance = new PointMapping();
+                    }
+                }
             }
+            return Instance;
         }
-
         public ILog Log
         {
             get { return log; }
             set { log = value; }
         }
+        IPointMapping<bool> boolMapping = new BasePointMapping<bool>();
+        IPointMapping<byte> byteMapping = new BasePointMapping<byte>();
+        IPointMapping<ushort> ushortMapping = new BasePointMapping<ushort>();
+        IPointMapping<short> shortMapping = new BasePointMapping<short>();
+        IPointMapping<uint> uintMapping = new BasePointMapping<uint>();
+        IPointMapping<int> intMapping = new BasePointMapping<int>();
+        IPointMapping<float> floatMapping = new BasePointMapping<float>();
+        IPointMapping<double> doubleMapping = new BasePointMapping<double>();
+        IPointMapping<string> stringMapping = new BasePointMapping<string>();
+    }
+    public class BasePointMapping<T> : IPointMapping<T>
+    {
+        Dictionary<string,IPoint<T>> mapping = new Dictionary<string, IPoint<T>>();
+        private ILog log;
 
-        Dictionary<string, IPoint<T>> mapping = new Dictionary<string, IPoint<T>>();
+        public BasePointMapping()
+        {
+
+        }
+        public BasePointMapping(ILog log)
+        {
+            this.log = log;
+        }
+        public ILog Log
+        {
+            get { return log; }
+            set { log = value; }
+        }
+        public bool Find(string key)
+        {
+           return mapping.ContainsKey(key);
+        }
+
+        public bool Find(string key, out string type)
+        {
+            if (Find(key))
+            {
+                type = mapping[key].ValueType;
+                return true;
+            }
+            else
+            {
+                type = null;
+                return false;
+            };
+        }
+
+        public IPoint<T> GetPoint(string key)
+        {
+            if (Find(key))
+            {
+               return mapping[key];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public T[] GetValue(string key)
+        {
+            if (Find(key))
+            {
+                return GetPoint(key).GetValues();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public void Register(string key, IPoint<T> point)
         {
-            if (!Find(key) && !Find(point))
+            if(!Find(key))
             {
                 mapping.Add(key, point);
             }
-            else
-            {
-                log.ErrorLog(string.Format("signal Name already exist,name:{0}"), point.Name);
-            }
         }
 
-        public void Remove(string key, IPoint<T> point)
+        public void Remove(string key)
         {
-            if (Find(key) || Find(point))
+            if (Find(key))
             {
                 mapping.Remove(key);
             }
+        }
+
+        public bool SetQuality(string key, QUALITIES quality)
+        {
+            if (Find(key))
+            {
+               return mapping[key].SetQuality(quality);
+            }
             else
             {
-                log.ErrorLog(string.Format("signal Name not exist,name:{0}"), point.Name);
+              return  false;
             }
         }
 
-        public bool Find(IPoint<T> point)
-        {
-            return mapping.ContainsValue(point);
-
-        }
-
-        public bool Find(string key)
-        {
-            return mapping.ContainsKey(key);
-        }
-
-        public bool Find(string key, int count)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IPoint<T> Get(string key)
-        {
-            if (Find(key))
-                return mapping[key];
-            else
-                log.ErrorLog(string.Format("signal Name not exist,name:{0}"), key);
-            return null;
-
-        }
-
-        //public T GetValue(string key)
-        //{
-        //    if (Find(key))
-        //        return mapping[key].GetValues()[0];
-        //    else
-        //        return default(T);
-        //}
-
-        public T[] GetValue(string key, int count)
+        public int SetValue(string key, T[] value)
         {
             if (Find(key))
             {
-                return mapping[key].GetValues();
-            }
-            else
-                log.ErrorLog(string.Format("signal Name not exist,name:{0}"), key);
-
-            return null;
-        }
-
-        //public int Set(string key, T value)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public int Set(string key, T[] value)
-        {
-            if (Find(key))
-            {
-                IPoint<T> point = mapping[key];
-                point.SetValue(value);
-                return 1;
+              return  mapping[key].SetValue(value)?1:-1;
             }
             else
             {

@@ -119,4 +119,59 @@ namespace DataServer
         SEND,
         RECEIVE
     }
+    public class TESTLOG : ILog
+    {
+        public void ByteSteamLog(ActionType action, byte[] bytes)
+        {
+            string byteSteamString = "";
+            foreach (byte bt in bytes)
+            {
+                byteSteamString += string.Format("{0:x2}", bt) + " ";
+            }
+            switch (action)
+            {
+                case ActionType.RECEIVE:
+                    Console.WriteLine(string.Format("Rx:{0}", byteSteamString));
+                    break;
+                case ActionType.SEND:
+                    Console.WriteLine(string.Format("Tx:{0}", byteSteamString));
+                    break;
+            }
+        }
+
+        public void DebugLog(string format, params object[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ErrorLog(string format, params object[] parameters)
+        {
+            Console.WriteLine(format);
+        }
+
+        public LogLevel GetLogLevel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetName()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NormalLog(string format, params object[] parameters)
+        {
+            Console.WriteLine(format);
+        }
+
+        public void SetLogLevel(LogLevel level)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WarningLog(string format, params object[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

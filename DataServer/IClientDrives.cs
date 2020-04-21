@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace DataServer
 {
-# region
+    #region
     public interface IRead
     {
         byte[] ReadBytes(DeviceAddress deviceAddress, ushort length);
@@ -17,19 +17,31 @@ namespace DataServer
         Item<uint> ReadUInt(DeviceAddress deviceAddress);
         Item<float> Readfloat(DeviceAddress deviceAddress);
         Item<string> ReadString(DeviceAddress deviceAddress);
+        /// <summary>
+        /// 泛型方法，暂不实现
+        /// </summary>
+        /// <typeparam name="TResult">数据类型</typeparam>
+        /// <param name="deviceAddress">设备地址</param>
+        /// <returns></returns>
         Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress);
 
         //读取连续数据
         Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length);
         //Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length);
         Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length);
-        Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress,ushort length);
+        Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length);
         Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length);
         Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length);
         Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length);
         Item<string>[] ReadStrings(DeviceAddress deviceAddress, ushort length);
-        Item<TResult>[] ReadDatas<TResult>(DeviceAddress deviceAddress,ushort length);
-
+        /// <summary>
+        /// 泛型方法，暂不实现
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="deviceAddress"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        Item<TResult>[] ReadDatas<TResult>(DeviceAddress deviceAddress, ushort length);
     }
     public interface IWrite
     {
@@ -42,6 +54,13 @@ namespace DataServer
         int WriteUInt(DeviceAddress deviceAddress, uint datas);
         int WriteFloat(DeviceAddress deviceAddress, float datas);
         int WriteString(DeviceAddress deviceAddress, string datas);
+        /// <summary>
+        /// 泛型方法，暂不实现
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="deviceAddress"></param>
+        /// <param name="datas"></param>
+        /// <returns></returns>
         int WriteData<T>(DeviceAddress deviceAddress, T datas);
         //写多个数据
         int WriteBools(DeviceAddress deviceAddress, bool[] datas);
@@ -52,13 +71,20 @@ namespace DataServer
         int WriteUInts(DeviceAddress deviceAddress, uint[] datas);
         int WriteFloats(DeviceAddress deviceAddress, float[] datas);
         int WriteStrings(DeviceAddress deviceAddress, string[] datas);
+        /// <summary>
+        /// 泛型方法，暂不实现
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="deviceAddress"></param>
+        /// <param name="datas"></param>
+        /// <returns></returns>
         int WriteDatas<T>(DeviceAddress deviceAddress, T[] datas);
     }
-    public interface IDriver:IDisposable
+    public interface IDriver : IDisposable
     {
 
         //驱动类型
-        DriverType DriType { get;}
+        DriverType DriType { get; }
         //状态判断
         bool IsConnect { get; }
         bool Connect();
@@ -68,7 +94,7 @@ namespace DataServer
         ILog Log { get; set; }
 
     }
-    public interface IPLCDriver: IRead, IWrite, IDriver
+    public interface IPLCDriver : IRead, IWrite, IDriver
     {
         //报文数据长度
         int PDU { get; set; }
@@ -79,9 +105,9 @@ namespace DataServer
     public enum DriverType
     {
         Serialport = 0x01,
-        Ethernet =0x02,
-        File=0x03,
-        Memory=0x04,
+        Ethernet = 0x02,
+        File = 0x03,
+        Memory = 0x04,
     }
     /// <summary>
     /// 串口类型设置
@@ -94,7 +120,7 @@ namespace DataServer
         public StopBits StopBit { get; set; }
         public Parity OddEvenCheck { get; set; }
         public SerialportSetUp() { }
-        public SerialportSetUp(string comPort,int buadRate,byte dataBit, StopBits stopBit, Parity oddEvenCheck= Parity.None)
+        public SerialportSetUp(string comPort, int buadRate, byte dataBit, StopBits stopBit, Parity oddEvenCheck = Parity.None)
         {
             ComPort = comPort;
             BuadRate = buadRate;
@@ -114,7 +140,7 @@ namespace DataServer
         public int PortNumber { get; set; }
         public ProtocolType ProtocolType { get; set; }
         public EthernetSetUp() { }
-        public EthernetSetUp(string ipAddress,int portNumber,  ProtocolType protocolType = ProtocolType.Tcp)
+        public EthernetSetUp(string ipAddress, int portNumber, ProtocolType protocolType = ProtocolType.Tcp)
         {
             IPAddress = ipAddress;
             PortNumber = portNumber;
@@ -131,7 +157,7 @@ namespace DataServer
         public string ServerName { get; set; }
         public string TopicName { get; set; }
         public MemorySetUp() { }
-        public MemorySetUp(string ipAddress,string serverName,string topicName )
+        public MemorySetUp(string ipAddress, string serverName, string topicName)
         {
             IPAddress = ipAddress;
             ServerName = serverName;
@@ -143,19 +169,17 @@ namespace DataServer
     /// </summary>
     public struct DeviceAddress
     {
-        public int Area { get; set;  }
+        public int Area { get; set; }
         //public int FuctionNumber { get; set; }
         public int Address { get; set; }
-        public int Length { get; set; }
-        public DataType VarType { get; set; }
+        //public string VarType { get; set; }
         public ByteOrder ByteOrder { get; set; }
-        public DeviceAddress(int area, int address, int length, DataType varType, ByteOrder byteOrder= ByteOrder.None)
+        public DeviceAddress(int area, int address,   ByteOrder byteOrder = ByteOrder.None)
         {
             Area = area;
             //FuctionNumber = fuctionNumber;
             Address = address;
-            Length = length;
-            VarType = varType;
+            //VarType = varType;
             ByteOrder = byteOrder;
         }
 
@@ -165,7 +189,7 @@ namespace DataServer
     /// 数据单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Item<T> 
+    public class Item<T>
     {
         public T Vaule { get; set; }
         public DateTime UpdateTime { get; set; }
@@ -199,20 +223,31 @@ namespace DataServer
         QUALITY_WAITING_FOR_INITIAL_DATA = 0x20,
         STATUS_MASK = 0xfc,
     }
-    public enum DataType:byte
-    {
-        Bool =0x01,
-        Byte=0x02,
-        Short=0x03,
-        UShort=0x04,
-        Word=0x05,
-        UWord=0X06,
-        Dword=0x07,
-        UDword=0x08,
-        Folat =0x09,
-        //UFolat=0x10,
-        String=0x11
+    //public enum DataType : byte
+    //{
+    //    Bool = 0x01,
+    //    Byte = 0x02,
+    //    Short = 0x03,
+    //    UShort = 0x04,
+    //    Word = 0x05,
+    //    UWord = 0X06,
+    //    Dword = 0x07,
+    //    UDword = 0x08,
+    //    Folat = 0x09,
+    //    UFolat = 0x10,
+    //    String = 0x11
 
+    //}
+    public static class ValueType
+    {
+        public static string Bool = "bool";
+        public static string Byte = "byte";
+        public static string Int16 = "short";
+        public static string UInt16 = "ushort";
+        public static string Int32 = "int";
+        public static string UInt32 = "uint";
+        public static string Float = "float";
+        public static string String = "string";
     }
     /// <summary>
     /// 字节组合高低位，word高低位，dword高低位，float高低位

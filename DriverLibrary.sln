@@ -17,9 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiemensDrivers", "SiemensDr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCDrivers", "OPCDrivers\OPCDrivers.csproj", "{B862934A-977A-4716-935D-A11CF50B38FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverTest", "DriverTest\DriverTest.csproj", "{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusClient", "DriverTest\ModbusClient.csproj", "{010E7200-28FB-479F-A8F7-B9DFFD89F2DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServers", "..\SocketServer\SocketServer\SocketServers\SocketServers.csproj", "{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{40B38139-88D2-4D98-B41E-B2B1F92414D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusServer", "ModbusServer\ModbusServer.csproj", "{0E93D27D-DB4B-4C63-A96B-39AE435AD09A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,8 +67,16 @@ Global
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E93D27D-DB4B-4C63-A96B-39AE435AD09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E93D27D-DB4B-4C63-A96B-39AE435AD09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E93D27D-DB4B-4C63-A96B-39AE435AD09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E93D27D-DB4B-4C63-A96B-39AE435AD09A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{010E7200-28FB-479F-A8F7-B9DFFD89F2DC} = {40B38139-88D2-4D98-B41E-B2B1F92414D6}
+		{0E93D27D-DB4B-4C63-A96B-39AE435AD09A} = {40B38139-88D2-4D98-B41E-B2B1F92414D6}
 	EndGlobalSection
 EndGlobal

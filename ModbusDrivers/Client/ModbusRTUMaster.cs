@@ -10,7 +10,7 @@ using System.Threading;
 namespace ModbusDrivers
 {
     /// <summary>
-    /// ModbusRTU Slave协议 IPLCDriver:IRead IWrite IDriver IDisposable
+    /// ModbusRTU 协议 IPLCDriver:IRead IWrite IDriver IDisposable
     /// </summary>
     public sealed class ModbusRTUMaster : ModbusMaster
     {

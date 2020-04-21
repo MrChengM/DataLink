@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataServer
 {
-     public class 
+     public interface IServerDrivers
     {
+        void Init();
+        bool Start();
+        void Stop();
+        bool IsRunning { get;}
     }
 }
