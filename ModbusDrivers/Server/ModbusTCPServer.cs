@@ -53,6 +53,16 @@ namespace ModbusDrivers.Server
             foreach (ConnectState connecter in _apmServer.Connecters)
             {
                 connecter.ReadChangeEvent += Connecter_ReadChangeEvent;
+                connecter.SendFinshEvent += Connecter_SendFinshEvent;
+            }
+        }
+
+        private void Connecter_SendFinshEvent(ConnectState connecter, int sendCount)
+        {
+            if (sendCount > 0)
+            {
+                connecter.BuffIndex = 0;
+                connecter.AsyncReceive(connecter.ReadyBuff.Length);
             }
         }
 
@@ -67,6 +77,7 @@ namespace ModbusDrivers.Server
                 int dataLength = 0;
                 int remain = 0; //剩余未读
                 byte[] receiveDataBuffer;
+                byte[] getBuffer = null;
                 byte[] sendBuffer = null;
                 if (readCount >= headLength)
                 {
@@ -77,16 +88,6 @@ namespace ModbusDrivers.Server
                 {
                     remain = 6 - readCount;
                 }
-                //for (int i= 0; i < receiveBuffer.Length; i++)
-                //{
-                //    if (receiveBuffer[i] > 0)
-                //    {
-                //        headLength = i;
-                //        dataLength = receiveBuffer[i];
-                //        remain = (headLength + dataLength) - connecter.BuffIndex;
-                //        break;
-                //    }
-                //}
                 if (remain > 0)
                 {
                     connecter.AsyncReceive(remain);
@@ -95,12 +96,22 @@ namespace ModbusDrivers.Server
                 {
                     receiveDataBuffer = new byte[dataLength];
                     Array.Copy(receiveBuffer, headLength, receiveDataBuffer, 0, dataLength);
-                    if ((sendBuffer = bufferRely(receiveDataBuffer)) != null)
+                    if ((getBuffer = bufferRely(receiveDataBuffer)) != null)
                     {
-                        connecter.Send(sendBuffer);
+                        sendBuffer = new byte[getBuffer.Length + 6];
+                        for(int i = 0; i < 5; i++)
+                        {
+                            sendBuffer[i] = receiveBuffer[i];
+                        }
+                        sendBuffer[5] = (byte)getBuffer.Length;
+                        Array.Copy(getBuffer, 0, sendBuffer, 6, getBuffer.Length);
+                        connecter.AsyncSend(sendBuffer);
                     }
-                    connecter.BuffIndex = 0;
-                    connecter.AsyncReceive(headLength);
+                    else
+                    {
+                        connecter.BuffIndex = 0;
+                        connecter.AsyncReceive(connecter.ReadyBuff.Length);
+                    }
                 }
             }
         }
@@ -108,7 +119,7 @@ namespace ModbusDrivers.Server
         private byte[] bufferRely(byte[] buffer)
         {
             byte[] getBuffer=null;
-            byte[] relyBuffer = null;///Add head 6 bytes:0,0,0,0,0,data length
+            //byte[] relyBuffer = null;///Add head 6 bytes:0,0,0,0,0,data length
             try
             {
               
@@ -209,17 +220,17 @@ namespace ModbusDrivers.Server
 
                 Log.ErrorLog(string.Format("Modbus buffer Rely Error:{0}", ex.ToString()));
             }
-            if( getBuffer!=null)
-            {
-                relyBuffer = new byte[6 + getBuffer.Length];
-                for(int i = 0; i <5; i++)
-                {
-                    relyBuffer[i] = 0;
-                }
-                relyBuffer[5] =(byte) getBuffer.Length;
-                Array.Copy(getBuffer, 0, relyBuffer, 6, getBuffer.Length);
-            }
-            return relyBuffer;
+            //if( getBuffer!=null)
+            //{
+            //    relyBuffer = new byte[6 + getBuffer.Length];
+            //    for(int i = 0; i <5; i++)
+            //    {
+            //        relyBuffer[i] = 0;
+            //    }
+            //    relyBuffer[5] =(byte) getBuffer.Length;
+            //    Array.Copy(getBuffer, 0, relyBuffer, 6, getBuffer.Length);
+            //}
+            return getBuffer;
         } 
 
         /// <summary>
@@ -347,7 +358,6 @@ namespace ModbusDrivers.Server
             var ushortData = new ushort[count];
             for (int i = 0; i < count; i++)
             {
-                address++;
                 var addressString = string.Format("{0:D5}", address +i+1+ 40000);//地址偏移+1
                 if (_mapping.Find(addressString))
                 {
@@ -487,7 +497,8 @@ namespace ModbusDrivers.Server
         #endregion
         public bool Start()
         {
-           return _isRunning=_apmServer.Start();
+            
+           return _isRunning= _apmServer.Start(); 
         }
 
         public void Stop()

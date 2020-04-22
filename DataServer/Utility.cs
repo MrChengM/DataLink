@@ -220,7 +220,7 @@ namespace DataServer
             int count = 1;
             if (source.Length > 8)
             {
-                count = source.Length % 8 == 0 ? source.Length % 8 : source.Length % 4 + 1;
+                count = source.Length % 8 == 0 ? source.Length / 8 : source.Length /8 + 1;
             }
             byte[] result = new byte[count];
             int soucreIdex = 0;

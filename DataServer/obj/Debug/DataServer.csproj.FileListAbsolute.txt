@@ -7,3 +7,4 @@ D:\GitHub\DriverLibrary\DataServer\bin\Debug\DataServer.pdb
 D:\GitHub\DriverLibrary\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache
 D:\GitHub\DriverLibrary\DataServer\obj\Debug\DataServer.dll
 D:\GitHub\DriverLibrary\DataServer\obj\Debug\DataServer.pdb
+D:\C#Projects\DriverLibrary\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache

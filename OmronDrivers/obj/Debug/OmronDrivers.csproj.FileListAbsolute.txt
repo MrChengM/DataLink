@@ -12,3 +12,4 @@ D:\C#Projects\DriverLibrary\OmronDrivers\bin\Debug\OmronDrivers.dll
 D:\C#Projects\DriverLibrary\OmronDrivers\bin\Debug\OmronDrivers.pdb
 D:\C#Projects\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.dll
 D:\C#Projects\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.pdb
+D:\C#Projects\DriverLibrary\OmronDrivers\obj\Debug\OmronDrivers.csprojResolveAssemblyReference.cache

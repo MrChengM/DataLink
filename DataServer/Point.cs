@@ -276,7 +276,7 @@ namespace DataServer
 
         public bool SetValue(T[] value)
         {
-            if (value.Length < _value.Length)
+            if (value.Length <= _value.Length)
             {
                 Array.Copy(value, _value, value.Length);
                 return true;

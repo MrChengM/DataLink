@@ -7,3 +7,4 @@ D:\C#Projects\DriverLibrary\DDEDrivers\bin\Debug\DDEDrivers.dll
 D:\C#Projects\DriverLibrary\DDEDrivers\bin\Debug\DDEDrivers.pdb
 D:\C#Projects\DriverLibrary\DDEDrivers\obj\Debug\DDEDrivers.dll
 D:\C#Projects\DriverLibrary\DDEDrivers\obj\Debug\DDEDrivers.pdb
+D:\C#Projects\DriverLibrary\DDEDrivers\obj\Debug\DDEDrivers.csprojResolveAssemblyReference.cache
