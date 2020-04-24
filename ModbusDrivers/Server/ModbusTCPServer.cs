@@ -17,6 +17,14 @@ namespace ModbusDrivers.Server
         private int _maxConnect;
         private const string _ipString="127.0.0.1";
         private const int _port = 502;
+        /// <summary>
+        /// 报头长度
+        /// </summary>
+        private const int headLength = 6;
+        /// <summary>
+        /// 每次读取数量
+        /// </summary>
+        private const int readLength = 256;
         private bool _isRunning;
         private int _salveId;
 
@@ -48,11 +56,11 @@ namespace ModbusDrivers.Server
         public void Init()
         {
             _mapping = ModbusPointMapping.GetInstance();
-            _apmServer = new APMServer(_ipString, _port, _log, _timeOut, _maxConnect);
+            _apmServer = new APMServer(_ipString, _port, _log, _timeOut, _maxConnect,readLength);
             _apmServer.Init();
             foreach (ConnectState connecter in _apmServer.Connecters)
             {
-                connecter.ReadChangeEvent += Connecter_ReadChangeEvent;
+                connecter.ReadChangeEvent += bufferHandling;
                 connecter.SendFinshEvent += Connecter_SendFinshEvent;
             }
         }
@@ -61,56 +69,55 @@ namespace ModbusDrivers.Server
         {
             if (sendCount > 0)
             {
-                connecter.BuffIndex = 0;
-                connecter.AsyncReceive(connecter.ReadyBuff.Length);
+                if (connecter.BufferPool.IsEmpty)
+                {
+                    connecter.AsyncReceive(readLength);
+                }
+                else
+                {
+                    bufferHandling(connecter,0);//如果bufferPool主队列缓存不为空，继续处理数据。
+                }
             }
         }
-
-        private void Connecter_ReadChangeEvent(ConnectState connecter, int readCount)
+        /// <summary>
+        /// Modbus报文处理函数
+        /// </summary>
+        /// <param name="connecter">连接对象</param>
+        /// <param name="readCount">读取数量</param>
+        private void bufferHandling(ConnectState connecter, int readCount)
         {
             lock (locker)
             {
-                byte[] receiveBuffer = connecter.ReadyBuff;//收到数据
-
-
-                int headLength = 6;
-                int dataLength = 0;
-                int remain = 0; //剩余未读
-                byte[] receiveDataBuffer;
-                byte[] getBuffer = null;
-                byte[] sendBuffer = null;
-                if (readCount >= headLength)
+                var bufferPool = connecter.BufferPool;
+                bufferPool.HeadLength = headLength;
+                if (bufferPool.HeadBuffer == null)
                 {
-                    dataLength = receiveBuffer[5];
-                    remain = readCount - (dataLength + headLength);
+                        connecter.AsyncReceive(readLength);
                 }
                 else
                 {
-                    remain = 6 - readCount;
-                }
-                if (remain > 0)
-                {
-                    connecter.AsyncReceive(remain);
-                }
-                else
-                {
-                    receiveDataBuffer = new byte[dataLength];
-                    Array.Copy(receiveBuffer, headLength, receiveDataBuffer, 0, dataLength);
-                    if ((getBuffer = bufferRely(receiveDataBuffer)) != null)
+                    bufferPool.BodyLength = bufferPool.HeadBuffer[5];
+                    if (bufferPool.BodyBuffer == null)
                     {
-                        sendBuffer = new byte[getBuffer.Length + 6];
-                        for(int i = 0; i < 5; i++)
-                        {
-                            sendBuffer[i] = receiveBuffer[i];
-                        }
-                        sendBuffer[5] = (byte)getBuffer.Length;
-                        Array.Copy(getBuffer, 0, sendBuffer, 6, getBuffer.Length);
-                        connecter.AsyncSend(sendBuffer);
+                        connecter.AsyncReceive(readLength);
                     }
                     else
                     {
-                        connecter.BuffIndex = 0;
-                        connecter.AsyncReceive(connecter.ReadyBuff.Length);
+                        byte[] relyBuffer;
+                        if ((relyBuffer = bufferRely(bufferPool.BodyBuffer))!=null)
+                        {
+                            bufferPool.SendBuffer = new byte[headLength + relyBuffer.Length];
+                            Array.Copy(bufferPool.HeadBuffer, 0, bufferPool.SendBuffer,0, headLength-1);
+                            bufferPool.SendBuffer[5] = (byte)relyBuffer.Length;
+                            Array.Copy(relyBuffer, 0, bufferPool.SendBuffer, headLength, relyBuffer.Length);
+                            connecter.AsyncSend(bufferPool.SendBuffer);
+                            bufferPool.clear();
+                        }
+                        else
+                        {
+                            connecter.AsyncReceive(readLength);
+                            bufferPool.clear();
+                        }
                     }
                 }
             }
@@ -119,7 +126,6 @@ namespace ModbusDrivers.Server
         private byte[] bufferRely(byte[] buffer)
         {
             byte[] getBuffer=null;
-            //byte[] relyBuffer = null;///Add head 6 bytes:0,0,0,0,0,data length
             try
             {
               
@@ -220,16 +226,6 @@ namespace ModbusDrivers.Server
 
                 Log.ErrorLog(string.Format("Modbus buffer Rely Error:{0}", ex.ToString()));
             }
-            //if( getBuffer!=null)
-            //{
-            //    relyBuffer = new byte[6 + getBuffer.Length];
-            //    for(int i = 0; i <5; i++)
-            //    {
-            //        relyBuffer[i] = 0;
-            //    }
-            //    relyBuffer[5] =(byte) getBuffer.Length;
-            //    Array.Copy(getBuffer, 0, relyBuffer, 6, getBuffer.Length);
-            //}
             return getBuffer;
         } 
 
