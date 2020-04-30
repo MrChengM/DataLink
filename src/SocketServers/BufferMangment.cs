@@ -103,7 +103,14 @@ namespace SocketServers
             get { return sendBuffer; }
             set { sendBuffer = value; }
         }
-
+        public BufferMangment()
+        {
+            temp = new Queue<byte>();
+            readBuffer = null;
+            headBuffer = null;
+            bodyBuffer = null;
+            sendBuffer = null;
+        }
         public BufferMangment(int size)
         {
             temp = new Queue<byte>(size * 2);
@@ -114,12 +121,30 @@ namespace SocketServers
         }
         public bool EnCache(int count)
         {
-            for(int i=0; i < count; i++)
+            if (readBuffer.Length >= count)
             {
-                temp.Enqueue(readBuffer[i]);
+                for (int i = 0; i < count; i++)
+                {
+                    temp.Enqueue(readBuffer[i]);
+                }
+                return true;
             }
-            return true;
-        } 
+                return false;
+           
+        }
+        public bool EnCache(byte[] buffer,int count)
+        {
+            if (buffer.Length >= count)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    temp.Enqueue(buffer[i]);
+                }
+                return true;
+            }
+            return false;
+          
+        }
         /// <summary>
         /// 缓存读取
         /// 当缓存数量不足时，返回值为null；
@@ -148,6 +173,17 @@ namespace SocketServers
         /// </summary>
         public void clear()
         {
+            headBuffer = null;
+            bodyBuffer = null;
+            sendBuffer = null;
+        }
+        /// <summary>
+        /// 清空所有数据
+        /// </summary>
+        public void ClearAll()
+        {
+            temp = new Queue<byte>();
+            readBuffer = null;
             headBuffer = null;
             bodyBuffer = null;
             sendBuffer = null;

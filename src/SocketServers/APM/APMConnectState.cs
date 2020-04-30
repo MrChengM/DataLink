@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using DataServer;
 namespace SocketServers
 {
-     public class ConnectState:IDisposable
+     public class APMConnectState:IConnectState
     {
         #region 字段
         //当前连接的Socket
@@ -83,7 +83,7 @@ namespace SocketServers
         }
         #endregion
         #region 方法
-        public ConnectState(ILog log,TimeOut timeOut,int ID,int bufferSize )
+        public APMConnectState(ILog log,TimeOut timeOut,int ID,int bufferSize )
         {
             this.log = log;
             this.timeOut = timeOut;
@@ -99,8 +99,8 @@ namespace SocketServers
             isUsed = false;
         }
 
-        public event Action<ConnectState,int> ReadChangeEvent;
-        public event Action<ConnectState, int> SendFinshEvent;
+        public event Action<APMConnectState,int> ReadComplete;
+        public event Action<APMConnectState, int> SendComplete;
         /// <summary>
         /// 异步接受数据反馈
         /// </summary>
@@ -111,13 +111,13 @@ namespace SocketServers
             {
                 int readCount = currentSocket.EndReceive(result);
                 bufferPool.EnCache(readCount);
-                if (readCount > 0 && ReadChangeEvent != null)
+                if (readCount > 0 && ReadComplete != null)
                 {
-                    ReadChangeEvent(this, readCount);
+                    ReadComplete(this, readCount);
                 }
                 else
                 {
-                    disconnect();
+                    Disconnect();
                     Dispose();
                 }
             }
@@ -125,7 +125,7 @@ namespace SocketServers
             {
                 string error = string.Format("Read Callback data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message,id,currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
-                disconnect();
+                Disconnect();
                 Dispose();
             }
 
@@ -142,11 +142,11 @@ namespace SocketServers
                 int sendCount = currentSocket.EndReceive(result);
                 if (sendCount > 0)
                 {
-                    SendFinshEvent?.Invoke(this, sendCount);
+                    SendComplete?.Invoke(this, sendCount);
                 }
                 else
                 {
-                    disconnect();
+                    Disconnect();
                     Dispose();
                 }
             }
@@ -154,7 +154,7 @@ namespace SocketServers
             {
                 string error = string.Format("Send Callback data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
-                disconnect();
+                Disconnect();
                 Dispose();
             }
            
@@ -163,7 +163,7 @@ namespace SocketServers
         ///异步接受数据
         /// </summary>
         /// <param name="count">数量</param>
-        public void AsyncReceive(int count)
+        public void ReceiveAsync(int count)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace SocketServers
             {
                 string error = string.Format("Async Receive data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
-                disconnect();
+                Disconnect();
                 Dispose();
             }
             
@@ -185,7 +185,7 @@ namespace SocketServers
         /// 异步发送数据
         /// </summary>
         /// <param name="buff">数据缓存</param>
-        public void AsyncSend(byte[] buff)
+        public void SendAsync(byte[] buff)
         {
             try
             {
@@ -198,7 +198,7 @@ namespace SocketServers
             {
                 string error = string.Format("Async Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
-                disconnect();
+                Disconnect();
                 Dispose();
             }
            
@@ -224,11 +224,11 @@ namespace SocketServers
             {
                 string error = string.Format("Sync Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
-                disconnect();
+                Disconnect();
                 Dispose();
             }
         }
-        public void disconnect()
+        public void Disconnect()
         {
             if (currentSocket.Connected)
             {
@@ -259,7 +259,7 @@ namespace SocketServers
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        ~ConnectState()
+        ~APMConnectState()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(false);

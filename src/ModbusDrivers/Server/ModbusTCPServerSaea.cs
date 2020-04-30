@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using DataServer;
 using SocketServers;
+using SocketServers.SAEA;
 
 namespace ModbusDrivers.Server
 {
-    public class ModbusTCPServer: IServerDrivers
+    public class ModbusTCPServerSaea: IServerDrivers
     {
         private ILog _log;
         private ModbusPointMapping _mapping;
-        private ISockteServer _socketServer;
+        private SAEAServer _saeaServer;
         private TimeOut _timeOut;
         private int _maxConnect;
         private const string _ipString="127.0.0.1";
         private const int _port = 502;
-        private SocketServerType _socketServerType;
         /// <summary>
         /// 报头长度
         /// </summary>
@@ -25,7 +25,7 @@ namespace ModbusDrivers.Server
         /// <summary>
         /// 每次读取数量
         /// </summary>
-        private const int readCacheSize = 1024;
+        private const int readLength = 256;
         private bool _isRunning;
         private int _salveId;
 
@@ -43,45 +43,44 @@ namespace ModbusDrivers.Server
             get { return _salveId; }
             set { _salveId = value; }
         }
-        public ModbusTCPServer()
+        public ModbusTCPServerSaea()
         {
         }
-        public ModbusTCPServer(ILog log,TimeOut timeOut, int maxConnect,int salveId,SocketServerType type)
+        public ModbusTCPServerSaea(ILog log,TimeOut timeOut, int maxConnect,int salveId)
         {
             _log = log;
             _timeOut = timeOut;
             _maxConnect = maxConnect;
             _salveId = salveId;
-            _socketServerType = type;
         }
 
         public void Init()
         {
             _mapping = ModbusPointMapping.GetInstance();
-
-            var factory = new SocketServerFactroy(_ipString,_port,_log,_timeOut,readCacheSize,_maxConnect);
-            _socketServer = factory.CreateInstance(_socketServerType);
-            _socketServer.Init();
-            _socketServer.ReadComplete += recivceDataHanding;
-            _socketServer.SendComplete += sendComplete;
+            _saeaServer = new SAEAServer(_ipString, _port, _log, _timeOut, _maxConnect, readLength);
+            _saeaServer.Init();
+            _saeaServer.ReadComplete += recivceDataHanding;
+            _saeaServer.SendComplete += sendComplete;
 
         }
 
         private void sendComplete(IConnectState connecter)
         {
-            if (connecter.BufferPool.IsEmpty)
-            {
-                connecter.ReceiveAsync(readCacheSize);
-            }
-            else
-            {
+
+                if (connecter.BufferPool.IsEmpty)
+                {
+                connecter.ReceiveAsync(readLength);
+                }
+                else
+                {
                 recivceDataHanding(connecter);//如果bufferPool主队列缓存不为空，继续处理数据。
-            }
+                }
         }
         /// <summary>
         /// Modbus报文处理函数
         /// </summary>
         /// <param name="connecter">连接对象</param>
+        /// <param name="readCount">读取数量</param>
         private void recivceDataHanding(IConnectState connecter)
         {
             lock (locker)
@@ -90,14 +89,14 @@ namespace ModbusDrivers.Server
                 bufferPool.HeadLength = headLength;
                 if (bufferPool.HeadBuffer == null)
                 {
-                        connecter.ReceiveAsync(readCacheSize);
+                        connecter.ReceiveAsync(readLength);
                 }
                 else
                 {
                     bufferPool.BodyLength = bufferPool.HeadBuffer[5];
                     if (bufferPool.BodyBuffer == null)
                     {
-                        connecter.ReceiveAsync(readCacheSize);
+                        connecter.ReceiveAsync(readLength);
                     }
                     else
                     {
@@ -113,7 +112,7 @@ namespace ModbusDrivers.Server
                         }
                         else
                         {
-                            connecter.ReceiveAsync(readCacheSize);
+                            connecter.ReceiveAsync(readLength);
                             bufferPool.clear();
                         }
                     }
@@ -492,14 +491,14 @@ namespace ModbusDrivers.Server
         public bool Start()
         {
             
-           return _isRunning= _socketServer.Start(); 
+           return _isRunning= _saeaServer.Start(); 
         }
 
         public void Stop()
         {
             if( _isRunning)
             {
-                _socketServer.Stop();
+                _saeaServer.Stop();
             }
         }
     }

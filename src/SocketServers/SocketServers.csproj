@@ -42,14 +42,24 @@
   <ItemGroup>
     <Compile Include="APM\APMServer.cs" />
     <Compile Include="BufferMangment.cs" />
+    <Compile Include="IConnectState.cs" />
+    <Compile Include="ISockteServer.cs" />
+    <Compile Include="SAEA\SaeaConnectState.cs" />
+    <Compile Include="SAEA\ObjectPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="APM\ConnectState.cs" />
+    <Compile Include="APM\APMConnectState.cs" />
+    <Compile Include="SAEA\SaeaConnectStatePool.cs" />
+    <Compile Include="SAEA\SAEAServer.cs" />
+    <Compile Include="SocketServerFactroy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TAP\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

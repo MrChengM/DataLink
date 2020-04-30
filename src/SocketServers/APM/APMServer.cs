@@ -9,7 +9,7 @@ using DataServer;
 
 namespace SocketServers
 {
-    public class APMServer : IDisposable
+    public class APMServer : ISockteServer
     {
         #region 字段
 
@@ -24,7 +24,7 @@ namespace SocketServers
         private TimeOut timeOut;
         private int readSize;
 
-        private ConnectState[] connecters;
+        private APMConnectState[] connecters;
         #endregion
         #region 属性
         public string IPString
@@ -55,7 +55,7 @@ namespace SocketServers
             set { log = value; }
         }
 
-        public ConnectState[] Connecters
+        public APMConnectState[] Connecters
         {
             get { return connecters; }
             private set { connecters = value; }
@@ -83,11 +83,14 @@ namespace SocketServers
                 ipEndPoint = new IPEndPoint(ipAddress, ipPort);
 
                 //初始化缓存池
-                connecters = new ConnectState[maxConnectNum];
+                connecters = new APMConnectState[maxConnectNum];
 
                 for (int i = 0; i < connecters.Length; i++)
                 {
-                    connecters[i] = new ConnectState(log, timeOut, i,readSize);
+                    connecters[i] = new APMConnectState(log, timeOut, i,readSize);
+                    connecters[i].ReadComplete += APMServer_ReadComplete;
+                    Connecters[i].SendComplete += APMServer_SendComplete;
+
                     //connecters[i].Init();
                 }
                 return true;
@@ -101,37 +104,49 @@ namespace SocketServers
 
         }
 
+        private void APMServer_SendComplete(APMConnectState arg1, int arg2)
+        {
+            SendComplete?.Invoke(arg1);
+        }
+
+        private void APMServer_ReadComplete(APMConnectState arg1, int arg2)
+        {
+            ReadComplete?.Invoke(arg1);
+        }
+
+      
         /// <summary>
         /// 连接测试,判断是否连接
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        private bool connectPoll(Socket client)
-        {
-            bool blockingState = client.Blocking;
-            try
-            {
-                byte[] tmp = new byte[1];
-                client.Blocking = true;
-                client.Send(tmp, 0, 0);
-                return true;
-            }
-            catch (SocketException e)
-            {
-                // 产生 10035 == WSAEWOULDBLOCK 错误，说明被阻止了，但是还是连接的
-                if (e.NativeErrorCode.Equals(10035))
-                    return false;
-                else if (e.NativeErrorCode.Equals(10101))
-                    return false;
-                else
-                    return true;
-            }
-            finally
-            {
-                client.Blocking = blockingState;    // 恢复状态
-            }
-        }
-
+        //private bool connectPoll(Socket client)
+        //{
+        //    bool blockingState = client.Blocking;
+        //    try
+        //    {
+        //        byte[] tmp = new byte[1];
+        //        client.Blocking = true;
+        //        client.Send(tmp, 0, 0);
+        //        return true;
+        //    }
+        //    catch (SocketException e)
+        //    {
+        //        // 产生 10035 == WSAEWOULDBLOCK 错误，说明被阻止了，但是还是连接的
+        //        if (e.NativeErrorCode.Equals(10035))
+        //            return false;
+        //        else if (e.NativeErrorCode.Equals(10101))
+        //            return false;
+        //        else
+        //            return true;
+        //    }
+        //    finally
+        //    {
+        //        client.Blocking = blockingState;    // 恢复状态
+        //    }
+        //}
+        public event Action<IConnectState> ReadComplete;
+        public event Action<IConnectState> SendComplete;
         public bool Start()
         {
             try
@@ -151,22 +166,23 @@ namespace SocketServers
         }
         private void acceptCallBack(IAsyncResult result)
         {
+            var server = result.AsyncState as Socket;
             int index = newIndex();
             if (index == -1)
             {
                 string errorInfor = string.Format("Server connect error: {0}", "Over the max connect number.");
                 log.ErrorLog(errorInfor);
+                server.EndAccept(result);
+                server.BeginAccept(acceptCallBack, listenSocket);
                 return;
             }
-            ConnectState connecter = connecters[index];
+            APMConnectState connecter = connecters[index];
             connecter.Init();
             connecter.IsUsed = true;
-            var server = result.AsyncState as Socket;
             connecter.CurrentSocket = server.EndAccept(result);
-
             log.NormalLog(  string.Format("connect information,ID:{0} , IPAdderss:{1}", connecter.ID, connecter.CurrentSocket.RemoteEndPoint));
             //first Receive data
-            connecter.AsyncReceive(readSize);
+            connecter.ReceiveAsync(readSize);
             //继续监听新的连接
             server.BeginAccept(acceptCallBack, listenSocket);
         }
@@ -174,9 +190,9 @@ namespace SocketServers
         public bool Stop()
         {
             listenSocket.Disconnect(true);
-            foreach (ConnectState connect in connecters)
+            foreach (APMConnectState connect in connecters)
             {
-                connect.disconnect();
+                connect.Disconnect();
             }
             return false;
         }
@@ -208,6 +224,8 @@ namespace SocketServers
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
+      
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -215,7 +233,7 @@ namespace SocketServers
                 if (disposing)
                 {
                     listenSocket.Dispose();
-                    foreach (ConnectState connect in connecters)
+                    foreach (APMConnectState connect in connecters)
                         connect.Dispose();
                 }
                 listenSocket = null;

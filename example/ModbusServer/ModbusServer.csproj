@@ -58,6 +58,10 @@
       <Project>{e444a643-e1e6-4370-9c0f-770aa24bb949}</Project>
       <Name>ModbusDrivers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\SocketServers\SocketServers.csproj">
+      <Project>{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}</Project>
+      <Name>SocketServers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

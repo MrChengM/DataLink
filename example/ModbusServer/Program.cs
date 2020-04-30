@@ -7,6 +7,7 @@ using System.Threading;
 using ModbusDrivers;
 using DataServer;
 using ModbusDrivers.Server;
+using SocketServers;
 
 namespace ModbusServer
 {
@@ -29,10 +30,10 @@ namespace ModbusServer
                 mapping.Register(key3, new VirtulPoint<ushort>(key3, new ushort[] { (ushort)(i*2) }));
 
             }
-            ModbusTCPServer server = new ModbusTCPServer(log, new TimeOut("ModbusServer", 10000, log), 100, 1);
+            ModbusTCPServer server = new ModbusTCPServer(log, new TimeOut("ModbusServer", 10000, log), 5, 1, SocketServerType.ApmServer);
             server.Init();
             server.Start();
-            while (true) ;
+            Console.ReadKey () ;
         }
     }
 }
