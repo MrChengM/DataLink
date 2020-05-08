@@ -90,7 +90,7 @@ namespace SocketServers
                     connecters[i] = new APMConnectState(log, timeOut, i,readSize);
                     connecters[i].ReadComplete += APMServer_ReadComplete;
                     Connecters[i].SendComplete += APMServer_SendComplete;
-
+                    connecters[i].DisconnectEvent += APMServer_DisconnectEvent;
                     //connecters[i].Init();
                 }
                 return true;
@@ -104,6 +104,11 @@ namespace SocketServers
 
         }
 
+        private void APMServer_DisconnectEvent(APMConnectState obj)
+        {
+            DisconnectEvent?.Invoke(obj);
+        }
+
         private void APMServer_SendComplete(APMConnectState arg1, int arg2)
         {
             SendComplete?.Invoke(arg1);
@@ -114,7 +119,7 @@ namespace SocketServers
             ReadComplete?.Invoke(arg1);
         }
 
-      
+
         /// <summary>
         /// 连接测试,判断是否连接
         /// </summary>
@@ -145,6 +150,7 @@ namespace SocketServers
         //        client.Blocking = blockingState;    // 恢复状态
         //    }
         //}
+        public event Action<IConnectState> DisconnectEvent;
         public event Action<IConnectState> ReadComplete;
         public event Action<IConnectState> SendComplete;
         public bool Start()

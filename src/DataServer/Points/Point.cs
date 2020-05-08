@@ -28,17 +28,7 @@ namespace DataServer
 
         bool IsVirtual();
     }
-    //public abstract class Point<T>
-    //{
-    //    public abstract string Name { get;}
 
-    //    //public abstract DeviceAddress Address { get; set; }
-
-    //    public abstract Item<T>[] Value { get; set; }
-
-    //    public abstract PointType Type { get;}
-
-    //}
 
     public enum PointType
     {
@@ -316,7 +306,6 @@ namespace DataServer
             }
             
         }
-
         public bool SetQuality(QUALITIES quality)
         {
             _qualitiy = quality;

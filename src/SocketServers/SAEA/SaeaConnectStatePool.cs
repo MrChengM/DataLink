@@ -22,7 +22,8 @@ namespace SocketServers.SAEA
         {
             if (size < 0)
                 _log.ErrorLog("SaeaConnectStatePool Init error ,count must  not be less than zero.");
-            for(int i = 0; i < size; i++)
+            _id = 0;
+            for (int i = 0; i < size; i++)
             {
                 Add(Create());
             }
@@ -30,7 +31,7 @@ namespace SocketServers.SAEA
         }
         protected override SaeaConnectState Create()
         {
-            var item= new SaeaConnectState(_log, ++_id,_timeout,this);
+            var item= new SaeaConnectState(_log, _id++, _timeout,this);
             item.Init();
             return item;
         }

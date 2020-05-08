@@ -247,6 +247,7 @@ namespace DataServer
         public static string Int32 = "int";
         public static string UInt32 = "uint";
         public static string Float = "float";
+        public static string Double = "double";
         public static string String = "string";
     }
     /// <summary>

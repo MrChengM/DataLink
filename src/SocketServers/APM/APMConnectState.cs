@@ -98,7 +98,7 @@ namespace SocketServers
             //readyBuff = new byte[buffSize];
             isUsed = false;
         }
-
+        public event Action<APMConnectState> DisconnectEvent;
         public event Action<APMConnectState,int> ReadComplete;
         public event Action<APMConnectState, int> SendComplete;
         /// <summary>
@@ -234,6 +234,7 @@ namespace SocketServers
             {
                 log.NormalLog(string.Format("Disconnect information,ID:{0} , IPAdderss:{1}", ID, CurrentSocket.RemoteEndPoint));
                 currentSocket.Disconnect(true);
+                DisconnectEvent?.Invoke(this);
             }
             isUsed = false;
         }

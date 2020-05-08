@@ -43,13 +43,17 @@
   <ItemGroup>
     <Compile Include="IClientDrives.cs" />
     <Compile Include="ILog.cs" />
-    <Compile Include="IPointMapping.cs" />
+    <Compile Include="Points\IPointMapping.cs" />
     <Compile Include="IServerDrives.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="PointMapping.cs" />
+    <Compile Include="Points\Point.cs" />
+    <Compile Include="Points\PointMapping.cs" />
+    <Compile Include="Points\PointsRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\XmlSerialiaztion.cs" />
+    <Compile Include="Serialization\XmlWorkbook.cs" />
     <Compile Include="TimeOut.cs" />
-    <Compile Include="Utility.cs" />
+    <Compile Include="Utillity\Utility.cs" />
+    <Compile Include="Utillity\XMLUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

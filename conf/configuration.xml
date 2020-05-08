@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="BeumerGroup/configuration" xsi:schemaLocation="BeumerGroup/platform/bgtaskmgr ..\schema\bgtaskmgr.xsd BeumerGroup/configuration ..\schema\configuration.xsd BeumerGroup/platform/nio/connection ..\schema\connection.xsd BeumerGroup/platform/housekeeping ..\schema\housekeeping.xsd BeumerGroup/platform/io ..\schema\io.xsd BeumerGroup/platform/log ..\schema\logging.xsd platform/proxy ..\schema\proxy.xsd BeumerGroup/platform/io/sockettelegraph ..\schema\SocketTelegraph.xsd BeumerGroup/platform/storage ..\schema\storage.xsd BeumerGroup/platform/taskmanager ..\schema\taskmanager.xsd">
+  <!--<platform>
+	  <bgtaskmgr router="localhost:${MessageRouterPort}" xmlns="BeumerGroup/platform/bgtaskmgr">
+      <tasks>
+        <task id="SequentialCommandTask" impl="AlarmLink.SequentialCommandTask" initTimeout="180" startTimeout="180" initLevel="4" />
+        <task id="CCTVHandlingTask" impl="AlarmLink.CCTVHandlingTask" initTimeout="180" startTimeout="180" initLevel="4" />
+        <task id="P15HandlerClient" impl="alarmlink.Handlers.P15HandlerTask" initTimeout="180" startTimeout="180" initLevel="5" arguments="clientname=CCTV;ip=10.3.50.10;port=5030;reconnect=true" />
+        <task id="ResetSignalHandler" impl="alarmlink.Handlers.SignalResetHandlerTask" initLevel="4" />
+        <task id="ModbusHandlerTask" impl="AlarmLink.ModbusHandlerTask" initTimeout="180" startTimeout="180" initLevel="4" />
+      </tasks>
+    </bgtaskmgr>
+  </platform>-->
+  <project>
+    <!--<alarmstatus>
+      <clients>
+        <string id="CCTV" address="10.3.50.10" />
+      </clients>
+    </alarmstatus>-->
+    <setups>
+      <setup id="1" handler="ModbusTCPClientHandlerTask"  clientname="modbusclient" type="signallist" signallist="...\..\..\..\conf\scadafiles\Modbus_Signals_List.xml" address="127.0.0.1" timer="1000" timeout="1000" port="502"/>
+    </setups>
+      <tasks>
+			<task id="StatisticConnector">
+				<parameters>
+					<parameter id="text0Language" value="zh-CN" />
+				</parameters>
+			</task>
+      </tasks>
+  </project>
+</configuration>

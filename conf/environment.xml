@@ -1,0 +1,78 @@
+<installation>
+  <variables>
+    <variable name="LOGSERVER_IP" value="${GLOBAL.LOGSERVER_IP,127.0.0.1}" />
+    <variable name="LOGSERVER_PORT" value="${GLOBAL.LOGSERVER_PORT,7200}" />
+    <variable name="MessageRouterPort" value="7231" />
+
+    <variable name="ALARMLINK_IP" value="${GLOBAL.ALARMLINK_IP,localhost}" />
+    <variable name="ALARMLINK_SIMULATION" value="false" />
+
+    <variable name="MAX_ALARMAGE" value="${GLOBAL.MAX_ALARMAGE,30}" />
+    <variable name="MESSENGER_MODE" value="${GLOBAL.MESSENGER_MODE,simple}" />
+    <variable name="MAX_MESSENGER_LOGAGE" value="${GLOBAL.MAX_MESSENGER_LOGAGE,14}" />
+
+    <!--<variable name="EXCHANGE_ENABLED" value="${GLOBAL.EXCHANGE_ENABLED,true}"/>
+    <variable name="SMTP_ENABLED" value="${GLOBAL.SMTP_ENABLED,false}"/>
+    <variable name="EMAIL_HOST" value="${GLOBAL.EMAIL_HOST,https://webmailcp.beumer.com/ews/exchange.asmx}"/>
+    <variable name="EMAIL_SENDER" value="${GLOBAL.EMAIL_SENDER,thomas.appel@beumergroup.com}"/>
+    <variable name="EMAIL_USERNAME" value="${GLOBAL.EMAIL_USERNAME,tah}"/>
+    <variable name="EMAIL_PASSWORD" value="${GLOBAL.EMAIL_PASSWORD,xxxxxxx}"/>
+    <variable name="EMAIL_DOMAIN" value="${GLOBAL.EMAIL_DOMAIN,BEUMER-DE}"/>
+    <variable name="EMAIL_SAVECOPY" value="${GLOBAL.EMAIL_SAVECOPY,false}"/>-->
+
+	<variable name="EXCHANGE_ENABLED" value="${GLOBAL.EXCHANGE_ENABLED,false}"/>
+    <variable name="SMTP_ENABLED" value="${GLOBAL.SMTP_ENABLED,false}"/>
+    <variable name="EMAIL_HOST" value="${GLOBAL.EMAIL_HOST,}"/>
+    <variable name="EMAIL_SENDER" value="${GLOBAL.EMAIL_SENDER,}"/>
+    <variable name="EMAIL_USERNAME" value="${GLOBAL.EMAIL_USERNAME,}"/>
+    <variable name="EMAIL_PASSWORD" value="${GLOBAL.EMAIL_PASSWORD,}"/>
+    <variable name="EMAIL_DOMAIN" value="${GLOBAL.EMAIL_DOMAIN,}"/>
+    <variable name="EMAIL_SAVECOPY" value="${GLOBAL.EMAIL_SAVECOPY,false}"/>	
+	
+    <!-- WarmStandby -->
+    <variable name="WarmStandbyType" value="${GLOBAL.WarmStandbyType,MASTER}"/>
+    <variable name="WarmStandbyHostName" value="${GLOBAL.WarmStandbyHostName,unknown}"/>
+
+    <variable name="DBServer" value="${GLOBAL.AlarmlinkServername,localhost}" />
+    <variable name="DBUsername" value="${GLOBAL.AlarmlinkUsername,sa}" />
+    <variable name="DBPassword" value="${GLOBAL.AlarmlinkPassword,root}" />
+    <variable name="DBName" value ="${GLOBAL.ProjectName,AlarmlinkTest}AlarmlinkDB" />
+
+    <variable name="CONNECTIONSTRING" value ="${GLOBAL.ALARMLINK_DBCONSTRING,server=${GLOBAL.AlarmlinkServername,localhost};uid=${GLOBAL.AlarmlinkUsername,sa};pwd=${GLOBAL.AlarmlinkPassword,root};database=${GLOBAL.ProjectName,AlarmlinkTest}AlarmlinkDB}" />
+
+    <variable name="DBPROVIDER" value ="${GLOBAL.ALARMLINK_DBPROVIDER,System.Data.SqlClient}" />
+    <variable name="DBTYPE" value ="${GLOBAL.ALARMLINK_DBTYPE,MSSQL}" />
+    
+    <variable name="AlarmServiceIP" value="0.0.0.0" />
+    <variable name="AlarmServicePort" value="${GLOBAL.ALARM_SERVICE_PORT,7286}" />
+    <variable name="USE_BGALARMING" value="${GLOBAL.USE_BGALARMING,false}" />
+
+    <!-- Variables for CIS connector -->
+	<variable name="ALARMLINK_CIS" value="True"/>
+    <variable name="CISIp" value="${GLOBAL.CIS_IP,localhost}" />
+    <variable name="CISPort" value="${GLOBAL.CIS_PORT,5096}" />
+
+    <!-- ============================================================ -->
+    <!--WIMAP Parameters-->
+    <!-- ============================================================ -->
+    <variable name="ALARMLINK_WIMAP_PORT" value="${GLOBAL.ALARMLINK_WIMAP_PORT,7291}" />
+    <variable name="ALARMLINK_WIMAP_CONTROLLER_ID" value="${GLOBAL.ALARMLINK_WIMAP_CONTROLLER_ID,AlarmLink}" />
+	
+    <!-- ============================================================ -->
+    <!--Messaging Parameters-->
+    <!-- ============================================================ -->
+    <variable name="GSMMODEM_PORT" value="${GLOBAL.GSMMODEM_PORT,COM10}" />
+    <variable name="GSMMODEM_BAUDRATE" value="${GLOBAL.GSMMODEM_BAUDRATE,115200}" />
+    <variable name="GSMMODEM_PINCODE" value="${GLOBAL.GSMMODEM_PINCODE,8741}" />
+    <!--<variable name="GSMMODEM_SMSCENTRALNUMBER" value="${GLOBAL.GSMMODEM_SMSCENTRALNUMBER,}" />-->
+    <!-- Telia.DK <variable name="GSMMODEM_SMSCENTRALNUMBER" value="${GLOBAL.GSMMODEM_SMSCENTRALNUMBER,+4528187000}" /> Telia -->
+    <!-- 3.DK <variable name="GSMMODEM_SMSCENTRALNUMBER" value="${GLOBAL.GSMMODEM_SMSCENTRALNUMBER,+4531300000}" /> 3 -->
+    <variable name="GSMMODEM_SMSCENTRALNUMBER" value="${GLOBAL.GSMMODEM_SMSCENTRALNUMBER,+4531300000}" />
+<!--    <variable name="GSMMODEM_SMSCENTRALNUMBER" value="${GLOBAL.GSMMODEM_SMSCENTRALNUMBER,+6596589062}" /> -->
+    <variable name="GSMMODEM_COMM_TIMEOUT" value="${GLOBAL.GSMMODEM_COMM_TIMEOUT, 1200}" /> <!--timeout for communcation with phone in miliseconds-->
+    <variable name="SMS_ENABLED" value="${GLOBAL.SMS_ENABLED,false}" />
+    <!-- for how long in minutes should the sms central try to deliver the sms. Must be in 5 minutes interval between 5 and 720, or 30 min interval between 720 and 1440 -->
+    <variable name="SMS_MESSAGELIMETIME" value="${GLOBAL.SMS_MESSAGELIMETIME,60}" />
+
+  </variables>
+</installation>

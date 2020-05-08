@@ -29,6 +29,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusServer", "..\example\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServers", "SocketServers\SocketServers.csproj", "{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conf", "Conf", "{DB63D391-60F1-4153-A566-2F2B9087004B}"
+	ProjectSection(SolutionItems) = preProject
+		..\conf\configuration.xml = ..\conf\configuration.xml
+		..\conf\environment.xml = ..\conf\environment.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

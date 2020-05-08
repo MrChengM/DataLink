@@ -30,7 +30,7 @@ namespace ModbusServer
                 mapping.Register(key3, new VirtulPoint<ushort>(key3, new ushort[] { (ushort)(i*2) }));
 
             }
-            ModbusTCPServer server = new ModbusTCPServer(log, new TimeOut("ModbusServer", 10000, log), 5, 1, SocketServerType.ApmServer);
+            ModbusTCPServer server = new ModbusTCPServer(log, new TimeOut("ModbusServer", 10000, log), 5, 1, SocketServerType.SaeaServer);
             server.Init();
             server.Start();
             Console.ReadKey () ;

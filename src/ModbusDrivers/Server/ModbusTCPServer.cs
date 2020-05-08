@@ -46,6 +46,14 @@ namespace ModbusDrivers.Server
         public ModbusTCPServer()
         {
         }
+        /// <summary>
+        /// ModbusTCP服务实例化
+        /// </summary>
+        /// <param name="log">消息记录</param>
+        /// <param name="timeOut">超时时间</param>
+        /// <param name="maxConnect">最大连接数</param>
+        /// <param name="salveId">地址码</param>
+        /// <param name="type">socket服务格式：Apm，SAEA等</param>
         public ModbusTCPServer(ILog log,TimeOut timeOut, int maxConnect,int salveId,SocketServerType type)
         {
             _log = log;
@@ -101,8 +109,8 @@ namespace ModbusDrivers.Server
                     }
                     else
                     {
-                        byte[] relyBuffer;
-                        if ((relyBuffer = bufferRely(bufferPool.BodyBuffer))!=null)
+                        byte[] relyBuffer = bufferRely(bufferPool.BodyBuffer);
+                        if (relyBuffer !=null)
                         {
                             bufferPool.SendBuffer = new byte[headLength + relyBuffer.Length];
                             Array.Copy(bufferPool.HeadBuffer, 0, bufferPool.SendBuffer,0, headLength-1);
@@ -225,8 +233,8 @@ namespace ModbusDrivers.Server
                 Log.ErrorLog(string.Format("Modbus buffer Rely Error:{0}", ex.ToString()));
             }
             return getBuffer;
-        } 
-
+        }
+        #region Rely Buffer
         /// <summary>
         /// Read Coil Rely:
         /// Fuction 0x01 
@@ -262,7 +270,7 @@ namespace ModbusDrivers.Server
             Array.Copy(dataBuffer, 0, relyBuffer, 3, dataBuffer.Length);
             return relyBuffer;
         }
-        #region Rely Buffer
+    
         /// <summary>
         /// Read input status Rely
         /// Function:0x02
@@ -371,7 +379,7 @@ namespace ModbusDrivers.Server
             return relyBuffer;
         }
         /// <summary>
-        /// Force Single Coile Value
+        /// Force Single Coil Value
         /// Function:0x05
         /// </summary>
         /// <param name="address">00001~09999</param>
@@ -500,6 +508,7 @@ namespace ModbusDrivers.Server
             if( _isRunning)
             {
                 _socketServer.Stop();
+                _isRunning = false;
             }
         }
     }

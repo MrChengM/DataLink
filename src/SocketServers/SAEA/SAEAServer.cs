@@ -62,7 +62,8 @@ namespace SocketServers.SAEA
         }
         #endregion
         #region 方法
-        public event Action<IConnectState> AcceptComplete;
+        //public event Action<IConnectState> AcceptComplete;
+        public event Action<IConnectState> DisconnectEvent;
         public event Action<IConnectState> ReadComplete;
         public event Action<IConnectState> SendComplete;
         public SAEAServer(string ipstring, int ipport, ILog log, TimeOut timeOut, int maxConnect,int readsize)
@@ -147,8 +148,9 @@ namespace SocketServers.SAEA
             SaeaConnectState connectState = connectStatePool.Get();
             connectState.ReadComplete += ConnectState_ReadComplete;
             connectState.SendComplete += ConnectState_SendComplete;
+            connectState.DisconnectEvent += ConnectState_DisconnectEvent;
             SocketAsyncEventArgs readWiteEventArg = connectState.ReadSocketArg;
-            readWiteEventArg.SetBuffer(new byte[1024], 0, 1024);
+            readWiteEventArg.SetBuffer(new byte[readCacheSize], 0, readCacheSize);
             readWiteEventArg.UserToken = new AsyncUserToken { AcceptSocket = accpetEventArg.AcceptSocket };
             accpetEventArg.AcceptSocket.ReceiveAsync(readWiteEventArg);
             
@@ -157,6 +159,11 @@ namespace SocketServers.SAEA
             //Accept Next;
             startAccept(accpetEventArg);
 
+        }
+
+        private void ConnectState_DisconnectEvent(SaeaConnectState obj)
+        {
+            DisconnectEvent?.Invoke(obj);
         }
 
         private void ConnectState_SendComplete(SaeaConnectState obj)

@@ -1,0 +1,1 @@
+D:\C#Projects\DriverLibrary\src\Serialization\obj\Debug\Serialization.csprojResolveAssemblyReference.cache

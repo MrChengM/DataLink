@@ -13,6 +13,7 @@ namespace SocketServers
         bool Start();
         bool Stop();
 
+        event Action<IConnectState> DisconnectEvent;
         event Action<IConnectState> ReadComplete;
         event Action<IConnectState> SendComplete;
     }

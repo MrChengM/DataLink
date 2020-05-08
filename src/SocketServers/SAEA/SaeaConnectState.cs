@@ -134,6 +134,8 @@ namespace SocketServers.SAEA
          
         }
         //public event Action<SaeaConnectState> AcceptComplete;
+        public event Action<SaeaConnectState> DisconnectEvent;
+
         public event Action<SaeaConnectState> ReadComplete;
         public event Action<SaeaConnectState> SendComplete;
         /// <summary>
@@ -188,8 +190,7 @@ namespace SocketServers.SAEA
                 log.NormalLog(string.Format("Disconnect information,ID:{0} , IPAdderss:{1}", ID, s.RemoteEndPoint));
                 s.Shutdown(SocketShutdown.Both);
                 s.Close();
-                //socketArg.ConnectSocket.Shutdown(SocketShutdown.Both);
-
+                DisconnectEvent?.Invoke(this);
             }
         }
         public void Clear()
@@ -199,7 +200,7 @@ namespace SocketServers.SAEA
             ///清除订阅，以防复用时重复订阅
             SendComplete = null;
             ReadComplete = null;
-            
+            DisconnectEvent = null;
         }
         
         #region IDisposable Support
