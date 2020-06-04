@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataServer
+namespace DataServer.Points
 {
     /// <summary>
     /// 点列表泛型类
-    /// </summary>
+      /// </summary>
     /// <typeparam name="T">bool，short，int等数据类型</typeparam>
     public class PointMapping<T> : IPointMapping<T>
     {
@@ -16,9 +16,15 @@ namespace DataServer
         private static readonly object locker = new object();
         private MappingIndexList _indexList;
 
-        Dictionary<string,IPoint<T>> mapping = new Dictionary<string, IPoint<T>>();
+        Dictionary<string,IPoint<T>> mapping=new Dictionary<string, IPoint<T>>();
         private ILog _log;
 
+
+        //public void Init(ILog log)
+        //{
+        //    mapping = new Dictionary<string, IPoint<T>>();
+        //    _log = log;
+        //}
         public static PointMapping<T> GetInstance(ILog log)
         {
             if (Instance == null)
@@ -120,7 +126,7 @@ namespace DataServer
             }
         }
     }
-    internal class MappingIndexList
+    public class MappingIndexList
     {
         List<MappingIndex> _indexList;
         #region 单例模式，PointMapping只有一个索引
@@ -149,7 +155,7 @@ namespace DataServer
         #region 增，删，查，改
         public void Add(MappingIndex index)
         {
-            if (Find(index.Name))
+            if (!Find(index.Name))
                 _indexList.Add(index);
         }
 
@@ -166,7 +172,7 @@ namespace DataServer
             var index = _indexList.Find((s) => s.Name == name);
             if(index!=null)
             {
-                type = index.Name;
+                type = index.ValueType;
                 return true;
             }
             else
@@ -178,13 +184,14 @@ namespace DataServer
         }
         #endregion
     }
-    internal class MappingIndex
+    public class MappingIndex
     {
         string _name;
         string _valueType;
         public MappingIndex(string name,string valueType)
         {
-
+            _name = name;
+            _valueType = valueType;
         }
 
         public string Name

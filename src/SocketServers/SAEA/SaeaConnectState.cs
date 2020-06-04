@@ -102,6 +102,12 @@ namespace SocketServers.SAEA
                         if (e.SocketError == SocketError.Success && e.BytesTransferred > 0)
                         {
                             bufferPool.EnCache(socketArg.Buffer, socketArg.BytesTransferred);
+
+                            ///收到报文记录
+                            byte[] logByte = new byte[socketArg.BytesTransferred];
+                            Array.Copy(socketArg.Buffer, logByte, logByte.Length);
+                            log.ByteSteamLog(ActionType.RECEIVE, logByte);
+
                             ReadComplete?.Invoke(this);
                         }
                         else
@@ -170,6 +176,9 @@ namespace SocketServers.SAEA
             {
                 socketArg.SetBuffer(buff, 0, buff.Length);
                 s.SendAsync(socketArg);
+
+                //发送报文记录
+                log.ByteSteamLog(ActionType.SEND, buff);
             }
             catch (SocketException ex)
             {

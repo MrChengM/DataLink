@@ -1,0 +1,12 @@
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusServerSubscriber.exe.config
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusServerSubscriber.exe
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusServerSubscriber.pdb
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\DataServer.dll
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusDrivers.dll
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\SocketServers.dll
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\DataServer.pdb
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusDrivers.pdb
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\SocketServers.pdb
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.exe
+D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.pdb

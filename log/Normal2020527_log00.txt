@@ -1,0 +1,4 @@
+27/05/2020 16:18:02 ModbusTCPClientHanderTask=>ModbusTCPClientHanderTask:Init=>Initing 
+27/05/2020 16:18:03 ModbusTCPClientHanderTask=>ModbusTCPClientHanderTask:Initing=>Inited 
+27/05/2020 16:18:03 ModbusTCPClientHanderTask=>ModbusTCPClientHanderTask:Start=>Starting
+27/05/2020 16:18:04 ModbusTCPClientHanderTask=>ModbusTCPClientHanderTask:Starting=>Started

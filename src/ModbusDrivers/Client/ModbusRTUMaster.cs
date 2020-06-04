@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Utillity;
 using System.IO.Ports;
 using System.Threading;
  
-namespace ModbusDrivers
+namespace ModbusDrivers.Client
 {
     /// <summary>
     /// ModbusRTU 协议 IPLCDriver:IRead IWrite IDriver IDisposable
@@ -192,7 +193,7 @@ namespace ModbusDrivers
             sendBytes[4] = CountBytes[1];
             sendBytes[5] = CountBytes[0];
             sendBytes[6] = (byte)value.Length;
-            value = UnsafeNetConvert.BytesPerversion(value);
+            //value = UnsafeNetConvert.BytesPerversion(value); //前面已进行高低位翻转判断
             Array.Copy(value, 0, sendBytes, 7, value.Length);
             byte[] CRCBytes = Utility.CalculateCrc(sendBytes, sendBytes.Length - 2);
             Array.Copy(CRCBytes, 0, sendBytes, sendBytes.Length - 3, 2);

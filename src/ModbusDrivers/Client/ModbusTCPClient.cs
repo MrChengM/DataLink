@@ -1,4 +1,5 @@
 ﻿using DataServer;
+using DataServer.Utillity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ModbusDrivers
+namespace ModbusDrivers.Client
 {
     /// <summary>
     /// Modbus TCP Client 协议
@@ -73,12 +74,14 @@ namespace ModbusDrivers
                 return IsConnect = false;
             }
         }
-
         public override bool DisConnect()
         {
             if (IsConnect)
             {
-                _socket.Disconnect(false);
+                _socket.Shutdown(SocketShutdown.Both);
+                _socket.Close();
+                _socket.Dispose();
+                _socket = null;
                 IsConnect = false;
             }
             return true;
@@ -172,7 +175,7 @@ namespace ModbusDrivers
             sendBytes[10] = CountBytes[1];
             sendBytes[11] = CountBytes[0];
             sendBytes[12] = (byte)value.Length;
-            value = UnsafeNetConvert.BytesPerversion(value);
+            //value = UnsafeNetConvert.BytesPerversion(value);//前面数据已翻转
             Array.Copy(value, 0, sendBytes, 13, value.Length);
             return sendBytes;
         }
@@ -299,6 +302,7 @@ namespace ModbusDrivers
             }
             catch (Exception ex)
             {
+                DisConnect();
                 Log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
                 return null;
             }
@@ -393,17 +397,21 @@ namespace ModbusDrivers
             }
             catch (Exception ex)
             {
+                DisConnect();
                 Log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
                 return -1;
             }
         }
         public override void Dispose()
         {
+            if (_socket != null)
+            {
+                _socket.Shutdown(SocketShutdown.Both);
+                _socket.Close();
+            }
+            _socket = null;
             _ethernetSetUp = null;
-            _socket.Close();
-            _socket.Dispose();
-            TimeOut = null;
-            Log = null;
+            IsConnect = false;
         }
     }
 }

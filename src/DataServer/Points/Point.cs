@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace DataServer
+using System.ComponentModel;
+namespace DataServer.Points
 {
-    public interface IPoint<T>
+    public interface Send<T>
+    {
+        event Action<IPoint<T>, int, bool> SendEvent;
+
+    }
+    public interface Update<T>
+    {
+        void ValueUpdate(T value, int index,OperateSource source);
+
+    }
+    public interface IPoint<T>:INotifyPropertyChanged
     {
         T this[byte index] { get;set; }
         string Name { get; }
@@ -18,15 +28,19 @@ namespace DataServer
 
         T [] GetValues();
 
-        byte GetQuality();
+        byte GetQuality(int index);
 
-        string GetQualityString();
-        bool SetQuality(QUALITIES quality);
+        string GetQualityString(int index);
+        bool SetQuality(QUALITIES quality, int index=0);
         bool SetValue( T value, byte index);
 
         bool SetValue(T[] value);
 
         bool IsVirtual();
+
+        void ValueUpdate(T value, int index);
+
+        event Action<IPoint<T>, int,bool> SendEvent;
     }
 
 
@@ -51,10 +65,12 @@ namespace DataServer
 
         private PointType _type = PointType.DevicePoint;
 
+
+
         public T this[byte index]
         {
             get { return GetValue(index); }
-            set { SetValue( value,index); }
+            set { SetValue(value, index); }
         }
         public  DeviceAddress Address
         {
@@ -78,7 +94,26 @@ namespace DataServer
 
             set
             {
-                _value = value;
+
+                for (int i = 0; i < _length; i++)
+                {
+                    if (_value[i] == null)
+                    {
+                        _value[i] = value[i];
+                        OnValueChange(i);
+                    }
+                    else
+                    {
+                        if (!_value[i].Vaule.Equals(value[i].Vaule))
+                        {
+                            _value[i].Vaule = value[i].Vaule;
+                            OnValueChange(i);
+                        }
+                        _value[i].Quality = value[i].Quality;
+                        _value[i].UpdateTime = value[i].UpdateTime;
+                    }
+
+                }
             }
         }
 
@@ -113,17 +148,21 @@ namespace DataServer
             _length = length;
             _address = address;
             _value = new Item<T>[Length];
+            for(int i = 0; i < length; i++)
+            {
+                _value[i] = Item<T>.CreateDefault();
+            }
         }
 
 
-        public byte GetQuality()
+        public byte GetQuality(int index)
         {
-            return (byte)_value[0].Quality;
+            return (byte)_value[index].Quality;
         }
 
-        public string GetQualityString()
+        public string GetQualityString(int index)
         {
-            return _value[0].Quality.ToString();
+            return _value[index].Quality.ToString();
         }
 
         public bool IsVirtual()
@@ -160,7 +199,13 @@ namespace DataServer
         {
             if (index < _length)
             {
-                _value[index].Vaule = value;
+                
+                if (!_value[index].Vaule.Equals(value))
+                {
+                    _value[index].Vaule = value;
+                    OnValueChange(index);
+                    SendEvent?.Invoke(this, index, false);
+                }
                 return true;
             }
             else
@@ -174,21 +219,55 @@ namespace DataServer
             {
                 for (int i = 0; i < value.Length; i++)
                 {
-                    _value[i].Vaule = value[i];
+                    if (!_value[i].Vaule.Equals(value))
+                    {
+                        _value[i].Vaule = value[i];
+                        OnValueChange(i);
+                        SendEvent?.Invoke(this, i, false);
+                    }
                 }
                 return true;
             }
             return false;
         }
 
-        public bool SetQuality(QUALITIES quality)
+        public bool SetQuality( QUALITIES quality, int index=0)
         {
-            foreach(Item<T> item in _value)
-            {
-                item.Quality = quality;
-            }
+            _value[index].Quality = quality;
             return true;
         }
+        #region INotifyPropertyChanged接口
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event Action<IPoint<T>, int,bool> SendEvent;
+
+        /// <summary>
+        /// 设置数据时触发绑定（用户设置或读取设备值）
+        /// </summary>
+        /// <param name="index"></param>                                         
+        protected void OnValueChange(int index)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(index.ToString()));
+        }
+        /// <summary>
+        /// 绑定的数据源数据变化触发
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="index"></param>
+        public void ValueUpdate(T value, int index)
+        {
+            if (index < _length)
+            {
+
+                if (!_value[index].Vaule.Equals(value))
+                {
+                    _value[index].Vaule = value;
+                    SendEvent?.Invoke(this, index, false);
+                }
+            }
+        }
+        #endregion
+
     }
     public class VirtulPoint<T>: IPoint<T>
     {
@@ -199,6 +278,8 @@ namespace DataServer
         private QUALITIES _qualitiy = QUALITIES.QUALITY_GOOD;
         private int _length;
         private PointType _type = PointType.VirtualPoint;
+
+     
 
         public T this[byte index]
         {
@@ -214,7 +295,14 @@ namespace DataServer
 
             set
             {
-                _value =value;
+                for (int i = 0; i < value.Length; i++)
+                {
+                    if (!value[i].Equals(_value[i]))
+                    {
+                        _value[i] = value[i];
+                        OnValueChange(i);
+                    }
+                }
             }
         }
 
@@ -237,29 +325,35 @@ namespace DataServer
         {
             get { return _valueType; }
         }
-        public VirtulPoint(string name, T[] Value)
+        public VirtulPoint(string name,string type, T[] Value)
         {
             _name = name;
             _value = Value;
             _length = Value.Length;
+            _valueType = type;
         }
-        public VirtulPoint(string name, int length=1)
+        public VirtulPoint(string name, string type,int length=1)
         {
             _name = name;
             _length = length;
+            _valueType = type;
             _value = new T[length];
+            for(int i = 0; i < length; i++)
+            {
+                _value[i] = default(T);
+            }
         }
         public T[] GetValues()
         {
             return _value;
         }
 
-        public byte GetQuality()
+        public byte GetQuality(int index)
         {
             return (byte)_qualitiy;
         }
 
-        public string GetQualityString()
+        public string GetQualityString(int index)
         {
             return _qualitiy.ToString();
         }
@@ -268,7 +362,15 @@ namespace DataServer
         {
             if (value.Length <= _value.Length)
             {
-                Array.Copy(value, _value, value.Length);
+                for(int i = 0; i < value.Length;i++)
+                {
+                    if (!value[i].Equals(_value[i]))
+                    {
+                        _value[i] = value[i];
+                        OnValueChange(i);
+                    }
+                }
+               
                 return true;
             }
             return false;
@@ -297,7 +399,11 @@ namespace DataServer
         {
             if (index < _length)
             {
-                _value[index] =value;
+                if (!_value[index].Equals(value))
+                {
+                    _value[index] = value;
+                    OnValueChange(index);
+                }
                 return true;
             }
             else
@@ -306,10 +412,46 @@ namespace DataServer
             }
             
         }
-        public bool SetQuality(QUALITIES quality)
+        public bool SetQuality(QUALITIES quality, int index=0)
         {
             _qualitiy = quality;
             return true;
         }
+        #region INotifyPropertyChanged 接口实现
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event Action<IPoint<T>, int, bool> SendEvent;
+        /// <summary>
+        /// 设置数据时触发绑定（用户设置或读取设备值）
+        /// </summary>
+        /// <param name="index"></param>
+        protected void OnValueChange(int index)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(index.ToString()));
+        }
+
+        /// <summary>
+        /// 绑定的数据源数据变化触发
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="index"></param>
+        public void ValueUpdate(T value, int index)
+        {
+            if (index < _length)
+            {
+                if (!_value[index].Equals(value))
+                {
+                    _value[index] = value;
+                    SendEvent?.Invoke(this, index, false);
+                }
+            }
+        }
+        #endregion
+    }
+
+    public enum OperateSource
+    {
+        FromDevice,
+        FromPointBinding,
+        FormUserSet
     }
 }

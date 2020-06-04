@@ -1,13 +1,14 @@
 ﻿using DataServer;
+using DataServer.Utillity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModbusDrivers
+namespace ModbusDrivers.Client
 {
-    public abstract class ModbusMaster: IPLCDriver
+    public abstract class ModbusMaster: IPLCDriver,IDisposable
     {
         // 内部成员定义
         private DriverType _driverType;
@@ -176,7 +177,7 @@ namespace ModbusDrivers
         }
         private byte[] readBool(DeviceAddress deviceAddress, ushort length)
         {
-            byte salveID = (byte)deviceAddress.Area;
+            byte salveID = (byte)deviceAddress.SalveId;
             ushort startAddress;
             byte funcCode = (byte)Function.GetReadFunctionCode(deviceAddress.Address, out startAddress);
             byte[] datas = null;
@@ -189,13 +190,13 @@ namespace ModbusDrivers
         public Item<bool> ReadBool(DeviceAddress deviceAddress)
         {
             var datas = readBool(deviceAddress, 1);
-            return datas == null ? Item<bool>.Default :
+            return datas == null ? Item<bool>.CreateDefault() :
                 new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = readBool(deviceAddress, 1);
+            var datas = readBool(deviceAddress, length);
             var bdatas = NetConvert.BytesToBools(datas, length);
             return NetConvert.ToItems(bdatas, 0, length);
         }
@@ -211,13 +212,14 @@ namespace ModbusDrivers
 
         private byte[] readRegister(DeviceAddress deviceAddress, int lenght)
         {
-            byte salveID = (byte)deviceAddress.Area;
+            byte salveID = (byte)deviceAddress.SalveId;
             ushort startAddress;
             byte funcCode = (byte)Function.GetReadFunctionCode(deviceAddress.Address, out startAddress);
-            if (funcCode == 3 || funcCode == 4)
+            if (funcCode == 3 || funcCode == 4 )
             {
-
-                return UnsafeNetConvert.BytesPerversion(readBytes(salveID, startAddress, funcCode, (ushort)lenght));
+                //若byteOrder为bigEndian不需要颠倒word高低位
+                   return(deviceAddress.ByteOrder == ByteOrder.BigEndian)? readBytes(salveID, startAddress, funcCode, (ushort)lenght)
+                    : UnsafeNetConvert.BytesPerversion(readBytes(salveID, startAddress, funcCode, (ushort)lenght));
             }
             else
             {
@@ -227,9 +229,8 @@ namespace ModbusDrivers
 
         public Item<short> ReadShort(DeviceAddress deviceAddress)
         {
-
             var datas = readRegister(deviceAddress, 1);
-            return datas == null ? Item<short>.Default :
+            return datas == null ? Item<short>.CreateDefault() :
                 new Item<short>() { Vaule = UnsafeNetConvert.BytesToShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
@@ -243,7 +244,7 @@ namespace ModbusDrivers
         public Item<ushort> ReadUShort(DeviceAddress deviceAddress)
         {
             var datas = readRegister(deviceAddress, 1);
-            return datas == null ? Item<ushort>.Default :
+            return datas == null ? Item<ushort>.CreateDefault() :
                 new Item<ushort>() { Vaule = UnsafeNetConvert.BytesToUShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
@@ -256,7 +257,7 @@ namespace ModbusDrivers
         public Item<int> ReadInt(DeviceAddress deviceAddress)
         {
             var datas = readRegister(deviceAddress, 2);
-            return datas == null ? Item<int>.Default :
+            return datas == null ? Item<int>.CreateDefault() :
                 new Item<int>()
                 {
                     Vaule = UnsafeNetConvert.BytesToInt(datas, 0, deviceAddress.ByteOrder),
@@ -274,7 +275,7 @@ namespace ModbusDrivers
         public Item<uint> ReadUInt(DeviceAddress deviceAddress)
         {
             var datas = readRegister(deviceAddress, 2);
-            return datas == null ? Item<uint>.Default :
+            return datas == null ? Item<uint>.CreateDefault() :
                 new Item<uint>()
                 {
                     Vaule = UnsafeNetConvert.BytesToUInt(datas, 0, deviceAddress.ByteOrder),
@@ -293,7 +294,7 @@ namespace ModbusDrivers
         public Item<float> Readfloat(DeviceAddress deviceAddress)
         {
             var datas = readRegister(deviceAddress, 2);
-            return datas == null ? Item<float>.Default :
+            return datas == null ? Item<float>.CreateDefault() :
                       new Item<float>()
                       {
                           Vaule = UnsafeNetConvert.BytesToFloat(datas, 0, deviceAddress.ByteOrder),
@@ -318,12 +319,17 @@ namespace ModbusDrivers
         {
             throw new NotImplementedException();
         }
+
+        /***********************************
+        单个word数据写入，后面数据进行高低位交换；
+        多个word数据写入，在前面进行数据判断，是否进行翻转；
+        ***********************************/
         public int WriteBool(DeviceAddress deviceAddress, bool datas)
         {
             ushort startAddress;
             if (Function.EnableWriteCoil(deviceAddress.Address,out startAddress))
             {
-                byte[] sendBytes = getWriteSigCoilHeader((byte)deviceAddress.Area, startAddress, datas);
+                byte[] sendBytes = getWriteSigCoilHeader((byte)deviceAddress.SalveId, startAddress, datas);
                 return writeBytes(sendBytes);
             }
             else
@@ -338,7 +344,7 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteCoil(deviceAddress.Address, out startAddress))
             {
-                byte[] sendBytes = getWriteMulCoilHeader((byte)deviceAddress.Area, (ushort)deviceAddress.Address, datas);
+                byte[] sendBytes = getWriteMulCoilHeader((byte)deviceAddress.SalveId, (ushort)deviceAddress.Address, datas);
                 return writeBytes(sendBytes);
             }
             else
@@ -372,7 +378,7 @@ namespace ModbusDrivers
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
                 byte[] valueBytes = UnsafeNetConvert.ShortToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteSigRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                byte[] sendBytes = getWriteSigRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -387,7 +393,7 @@ namespace ModbusDrivers
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
                 byte[] valueBytes = UnsafeNetConvert.UShortToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteSigRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                byte[] sendBytes = getWriteSigRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -401,8 +407,8 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.ShortsToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                byte[] valueBytes = UnsafeNetConvert.BytesPerversion( UnsafeNetConvert.ShortsToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -416,8 +422,8 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.UShortsToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                byte[] valueBytes =UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.UShortsToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -432,8 +438,9 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.IntToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                var valueBytes = (deviceAddress.ByteOrder == ByteOrder.BigEndian) ? UnsafeNetConvert.IntToBytes(datas, deviceAddress.ByteOrder) //判断数据word字节是否需要翻转，若为BigEndian则不需要翻转
+                    : UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.IntToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -447,8 +454,9 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                var valueBytes = (deviceAddress.ByteOrder == ByteOrder.BigEndian) ? UnsafeNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder)
+                    : UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.IntsToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -462,8 +470,9 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                var valueBytes = (deviceAddress.ByteOrder == ByteOrder.BigEndian) ? UnsafeNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder)
+                    : UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.UIntToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -477,8 +486,9 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                var valueBytes = (deviceAddress.ByteOrder == ByteOrder.BigEndian) ? UnsafeNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder)
+                    : UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.UIntsToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -492,8 +502,9 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                var valueBytes = (deviceAddress.ByteOrder == ByteOrder.BigEndian) ? UnsafeNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder)
+                    : UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.FloatToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -507,8 +518,9 @@ namespace ModbusDrivers
             ushort startAddress;
             if (Function.EnableWriteRegister(deviceAddress.Address, out startAddress))
             {
-                byte[] valueBytes = UnsafeNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder);
-                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.Area, startAddress, valueBytes);
+                var valueBytes = (deviceAddress.ByteOrder == ByteOrder.BigEndian) ? UnsafeNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder)
+                    : UnsafeNetConvert.BytesPerversion(UnsafeNetConvert.FloatsToBytes(datas, deviceAddress.ByteOrder));
+                byte[] sendBytes = getWriteMulRegisterHeader((byte)deviceAddress.SalveId, startAddress, valueBytes);
                 return writeBytes(sendBytes);
             }
             else
@@ -526,7 +538,7 @@ namespace ModbusDrivers
         {
             throw new NotImplementedException();
         }
-
+                        
         public abstract void Dispose();
       
     }

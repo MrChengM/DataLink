@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverLibrary", "DriverLibrary\DriverLibrary.csproj", "{B68445D5-4856-4CA6-8715-DDAADC30C30F}"
 EndProject
@@ -34,6 +34,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conf", "Conf", "{DB63D391-6
 		..\conf\configuration.xml = ..\conf\configuration.xml
 		..\conf\environment.xml = ..\conf\environment.xml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusServerSubscriber", "..\example\ModbusServerSubscriber\ModbusServerSubscriber.csproj", "{D044BD6F-2B5B-4DA2-A924-44D0D3E26C38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL645Driver", "DL645Driver\DL645Driver.csproj", "{921B37BE-8C00-4491-BD90-1A75C97D5F78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHandlerEX", "..\example\TaskHandlerEX\TaskHandlerEX.csproj", "{A7FAA816-1B4A-449B-9B1D-B6DB08E79540}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHandler", "TaskHandler\TaskHandler.csproj", "{191B41A2-EB6E-4CC3-BB8C-67E24876EB3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +89,22 @@ Global
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D044BD6F-2B5B-4DA2-A924-44D0D3E26C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D044BD6F-2B5B-4DA2-A924-44D0D3E26C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D044BD6F-2B5B-4DA2-A924-44D0D3E26C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D044BD6F-2B5B-4DA2-A924-44D0D3E26C38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{921B37BE-8C00-4491-BD90-1A75C97D5F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{921B37BE-8C00-4491-BD90-1A75C97D5F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{921B37BE-8C00-4491-BD90-1A75C97D5F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{921B37BE-8C00-4491-BD90-1A75C97D5F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7FAA816-1B4A-449B-9B1D-B6DB08E79540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7FAA816-1B4A-449B-9B1D-B6DB08E79540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7FAA816-1B4A-449B-9B1D-B6DB08E79540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7FAA816-1B4A-449B-9B1D-B6DB08E79540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{191B41A2-EB6E-4CC3-BB8C-67E24876EB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191B41A2-EB6E-4CC3-BB8C-67E24876EB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191B41A2-EB6E-4CC3-BB8C-67E24876EB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191B41A2-EB6E-4CC3-BB8C-67E24876EB3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +121,9 @@ Global
 		{010E7200-28FB-479F-A8F7-B9DFFD89F2DC} = {FFDBB861-380F-406C-A563-396A05673EDA}
 		{0E93D27D-DB4B-4C63-A96B-39AE435AD09A} = {FFDBB861-380F-406C-A563-396A05673EDA}
 		{6EEABB49-2F57-42B0-96FC-E7A2F5723D36} = {8BC9C91B-F3CB-4E10-A057-EC792E18AAB3}
+		{D044BD6F-2B5B-4DA2-A924-44D0D3E26C38} = {FFDBB861-380F-406C-A563-396A05673EDA}
+		{921B37BE-8C00-4491-BD90-1A75C97D5F78} = {8BC9C91B-F3CB-4E10-A057-EC792E18AAB3}
+		{A7FAA816-1B4A-449B-9B1D-B6DB08E79540} = {40B38139-88D2-4D98-B41E-B2B1F92414D6}
+		{191B41A2-EB6E-4CC3-BB8C-67E24876EB3A} = {8BC9C91B-F3CB-4E10-A057-EC792E18AAB3}
 	EndGlobalSection
 EndGlobal

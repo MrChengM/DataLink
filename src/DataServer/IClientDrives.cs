@@ -129,6 +129,13 @@ namespace DataServer
             OddEvenCheck = oddEvenCheck;
         }
 
+        public SerialportSetUp(string comPort, int buadRate, StopBits stopBit)
+        {
+            ComPort = comPort;
+            BuadRate = buadRate;
+            StopBit = stopBit;
+        }
+
         public static SerialportSetUp Default = new SerialportSetUp("COM1", 9600, 8, StopBits.One, Parity.None);
     }
     /// <summary>
@@ -169,15 +176,15 @@ namespace DataServer
     /// </summary>
     public struct DeviceAddress
     {
-        public int Area { get; set; }
-        //public int FuctionNumber { get; set; }
+        public int SalveId { get; set; }
+        //public int FuctionCode { get; set; }
         public int Address { get; set; }
         //public string VarType { get; set; }
         public ByteOrder ByteOrder { get; set; }
         public DeviceAddress(int area, int address,   ByteOrder byteOrder = ByteOrder.None)
         {
-            Area = area;
-            //FuctionNumber = fuctionNumber;
+            SalveId = area;
+            //FuctionCode = FuctionCode;
             Address = address;
             //VarType = varType;
             ByteOrder = byteOrder;
@@ -193,8 +200,12 @@ namespace DataServer
     {
         public T Vaule { get; set; }
         public DateTime UpdateTime { get; set; }
+        /// <summary>
+        /// DL通讯协议变量发生时间专用
+        /// </summary>
+        public DateTime AppearTime { get; set; }
         public QUALITIES Quality { get; set; }
-        public static Item<T> Default = new Item<T> { Vaule = default(T), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_BAD };
+        public static Item<T> CreateDefault() => new Item<T> { Vaule = default(T), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_BAD,AppearTime=new DateTime(1990,01,01,00,00,00) };  
     }
     /// <summary>
     /// 通信质量
@@ -262,9 +273,13 @@ namespace DataServer
         /// </summary>
         BigEndian = 1,
         /// <summary>
+        /// 大端法，高位存储在字节低位，低位存储在字节高位（发送报文时，字需要调换字节高低位）
+        /// </summary>
+        BigEndianAndRervseWord = 2,
+        /// <summary>
         /// 小端法，低位存储在字节低位，高位存储在字节高位
         /// </summary>
-        LittleEndian = 2,
+        LittleEndian = 4,
         //Network = 4,
         //Host = 8
     }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Points;
+using DataServer.Utillity;
 using SocketServers;
 
 namespace ModbusDrivers.Server
@@ -15,8 +17,8 @@ namespace ModbusDrivers.Server
         private ISockteServer _socketServer;
         private TimeOut _timeOut;
         private int _maxConnect;
-        private const string _ipString="127.0.0.1";
-        private const int _port = 502;
+        private string _ipString="127.0.0.1";
+        private int _port = 502;
         private SocketServerType _socketServerType;
         /// <summary>
         /// 报头长度
@@ -43,6 +45,16 @@ namespace ModbusDrivers.Server
             get { return _salveId; }
             set { _salveId = value; }
         }
+        public string IpString
+        {
+            get { return _ipString; }
+            set { _ipString = value; }
+        }
+        public int Port
+        {
+            get { return _port; }
+            set { _port = value; }
+        }
         public ModbusTCPServer()
         {
         }
@@ -54,25 +66,30 @@ namespace ModbusDrivers.Server
         /// <param name="maxConnect">最大连接数</param>
         /// <param name="salveId">地址码</param>
         /// <param name="type">socket服务格式：Apm，SAEA等</param>
-        public ModbusTCPServer(ILog log,TimeOut timeOut, int maxConnect,int salveId,SocketServerType type)
+        public ModbusTCPServer(EthernetSetUp setUp, TimeOut timeOut, ILog log, int maxConnect,int salveId,SocketServerType type=SocketServerType.SaeaServer)
         {
             _log = log;
             _timeOut = timeOut;
             _maxConnect = maxConnect;
             _salveId = salveId;
             _socketServerType = type;
+            _ipString = setUp.IPAddress;
+            _port = setUp.PortNumber;
         }
 
-        public void Init()
+        public bool Init()
         {
-            _mapping = ModbusPointMapping.GetInstance();
+            _mapping = ModbusPointMapping.GetInstance(_log);
 
             var factory = new SocketServerFactroy(_ipString,_port,_log,_timeOut,readCacheSize,_maxConnect);
             _socketServer = factory.CreateInstance(_socketServerType);
-            _socketServer.Init();
-            _socketServer.ReadComplete += recivceDataHanding;
-            _socketServer.SendComplete += sendComplete;
-
+            if(_socketServer.Init())
+            {
+                _socketServer.ReadComplete += recivceDataHanding;
+                _socketServer.SendComplete += sendComplete;
+                return true;
+            }
+            return false;
         }
 
         private void sendComplete(IConnectState connecter)
@@ -134,99 +151,99 @@ namespace ModbusDrivers.Server
             byte[] getBuffer=null;
             try
             {
-              
-                    if (buffer[0] == (byte)_salveId)
+                if (buffer[0] == (byte)_salveId)
+                {
+                    switch ((FunctionCode)buffer[1])
                     {
-                        switch ((FunctionCode)buffer[1])
-                        {
-                            case FunctionCode.ReadCoil:
-                                if (buffer.Length < 6)
-                                    getBuffer = errorRely(FunctionCode.ReadCoil, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
-                                    getBuffer = readCoilRely(startAddress, count);
-                                }
-                                break;
-                            case FunctionCode.ReadInputStatus:
-                                if (buffer.Length < 6)
-                                    getBuffer = errorRely(FunctionCode.ReadInputStatus, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
-                                    getBuffer = readInStatusRely(startAddress, count);
-                                }
-                                break;
-                            case FunctionCode.ReadInputRegister:
-                                if (buffer.Length < 6)
-                                    getBuffer = errorRely(FunctionCode.ReadInputRegister, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
-                                    getBuffer = readInputRegisterRely(startAddress, count);
-                                }
-                                break;
-                            case FunctionCode.ReadHoldRegister:
-                                if (buffer.Length < 6)
-                                    getBuffer = errorRely(FunctionCode.ReadHoldRegister, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
-                                    getBuffer = readHoldRegisterRely(startAddress, count);
-                                }
-                                break;
-                            case FunctionCode.ForceSingleCoil:
-                                if (buffer.Length < 6)
-                                    getBuffer = errorRely(FunctionCode.ForceSingleCoil, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var data = new byte[] { buffer[4], buffer[5] };
-                                    getBuffer = writeSingleCoilRely(startAddress, data);
-                                }
-                                break;
-                            case FunctionCode.ForceMulCoil:
-                                if (buffer.Length < 7 || buffer.Length < 7 + buffer[6])
-                                    getBuffer = errorRely(FunctionCode.ForceMulCoil, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
-                                    var data = new byte[buffer[6]];
-                                    Array.Copy(buffer, 7, data, 0, buffer[6]);
-                                    getBuffer = writeMulColilRely(startAddress, data, count);
-                                }
-                                break;
-                            case FunctionCode.WriteSingleRegister:
-                                if (buffer.Length < 6)
-                                    getBuffer = errorRely(FunctionCode.WriteSingleRegister, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var data = new byte[] { buffer[4], buffer[5] };
-                                    getBuffer = writeSingleReisterRely(startAddress, data);
-                                }
-                                break;
-                            case FunctionCode.WriteMulRegister:
-                                if (buffer.Length < 7 || buffer.Length < 7 + buffer[6])
-                                    getBuffer = errorRely(FunctionCode.WriteMulRegister, ErrorCode.LllegalData);
-                                else
-                                {
-                                    var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
-                                    var data = new byte[buffer[6]];
-                                    Array.Copy(buffer, 7, data, 0, buffer[6]);
-                                    getBuffer = writeMultiReisterRely(startAddress, data);
-                                }
-                                break;
-                            default:
-                                break;
-                        }
+                        case FunctionCode.ReadCoil:
+                            if (buffer.Length < 6)
+                                getBuffer = errorRely(FunctionCode.ReadCoil, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
+                                getBuffer = readCoilRely(startAddress, count);
+                            }
+                            break;
+                        case FunctionCode.ReadInputStatus:
+                            if (buffer.Length < 6)
+                                getBuffer = errorRely(FunctionCode.ReadInputStatus, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
+                                getBuffer = readInStatusRely(startAddress, count);
+                            }
+                            break;
+                        case FunctionCode.ReadInputRegister:
+                            if (buffer.Length < 6)
+                                getBuffer = errorRely(FunctionCode.ReadInputRegister, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
+                                getBuffer = readInputRegisterRely(startAddress, count);
+                            }
+                            break;
+                        case FunctionCode.ReadHoldRegister:
+                            if (buffer.Length < 6)
+                                getBuffer = errorRely(FunctionCode.ReadHoldRegister, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
+                                getBuffer = readHoldRegisterRely(startAddress, count);
+                            }
+                            break;
+                        case FunctionCode.ForceSingleCoil:
+                            if (buffer.Length < 6)
+                                getBuffer = errorRely(FunctionCode.ForceSingleCoil, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var data = new byte[] { buffer[4], buffer[5] };
+                                getBuffer = writeSingleCoilRely(startAddress, data);
+                            }
+                            break;
+                        case FunctionCode.ForceMulCoil:
+                            if (buffer.Length < 7 || buffer.Length < 7 + buffer[6])
+                                getBuffer = errorRely(FunctionCode.ForceMulCoil, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var count = UnsafeNetConvert.BytesToShort(buffer, 4, ByteOrder.BigEndian);
+                                var data = new byte[buffer[6]];
+                                Array.Copy(buffer, 7, data, 0, buffer[6]);
+                                getBuffer = writeMulColilRely(startAddress, data, count);
+                            }
+                            break;
+                        case FunctionCode.WriteSingleRegister:
+                            if (buffer.Length < 6)
+                                getBuffer = errorRely(FunctionCode.WriteSingleRegister, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var data = new byte[] { buffer[4], buffer[5] };
+                                getBuffer = writeSingleReisterRely(startAddress, data);
+                            }
+                            break;
+                        case FunctionCode.WriteMulRegister:
+                            if (buffer.Length < 7 || buffer.Length < 7 + buffer[6])
+                                getBuffer = errorRely(FunctionCode.WriteMulRegister, ErrorCode.LllegalData);
+                            else
+                            {
+                                var startAddress = UnsafeNetConvert.BytesToShort(buffer, 2, ByteOrder.BigEndian);
+                                var data = new byte[buffer[6]];
+                                Array.Copy(buffer, 7, data, 0, buffer[6]);
+                                getBuffer = writeMultiReisterRely(startAddress, data);
+                            }
+                            break;
+                        default:
+                            getBuffer = errorRely((FunctionCode)buffer[1], ErrorCode.LllegalFuctionCode);
+                            break;
                     }
-             }
+                }
+            }
             catch (Exception ex)
             {
 
@@ -428,7 +445,7 @@ namespace ModbusDrivers.Server
                 }
             }
             relyBuffer[0] = (byte)_salveId;
-            relyBuffer[1] = (byte)FunctionCode.ForceSingleCoil;
+            relyBuffer[1] = (byte)FunctionCode.ForceMulCoil;
             var addrByte = UnsafeNetConvert.UShortToBytes((ushort)address, ByteOrder.BigEndian);
             Array.Copy(addrByte, 0, relyBuffer, 2, 2);
             var countByte = UnsafeNetConvert.UShortToBytes((ushort)count, ByteOrder.BigEndian);
@@ -453,7 +470,7 @@ namespace ModbusDrivers.Server
             relyBuffer[1] = (byte)FunctionCode.WriteSingleRegister;
             var addrByte = UnsafeNetConvert.UShortToBytes((ushort)address, ByteOrder.BigEndian);
             Array.Copy(addrByte, 0, relyBuffer, 2, 2);
-            Array.Copy(data, 0, relyBuffer, 4, 2);
+            Array.Copy(data, 0, relyBuffer, 4, data.Length);
             return relyBuffer;
         }
         /// <summary>
@@ -477,8 +494,9 @@ namespace ModbusDrivers.Server
             relyBuffer[0] = (byte)_salveId;
             relyBuffer[1] = (byte)FunctionCode.WriteMulRegister;
             var addrByte = UnsafeNetConvert.UShortToBytes((ushort)address, ByteOrder.BigEndian);
+            var countByte = UnsafeNetConvert.UShortToBytes((ushort)count, ByteOrder.BigEndian);
             Array.Copy(addrByte, 0, relyBuffer, 2, 2);
-            Array.Copy(data, 0, relyBuffer, 4, 2);
+            Array.Copy(countByte, 0, relyBuffer, 4, 2);
             return relyBuffer;
         }
         /// <summary>
@@ -503,13 +521,50 @@ namespace ModbusDrivers.Server
            return _isRunning= _socketServer.Start(); 
         }
 
-        public void Stop()
+        public bool Stop()
         {
             if( _isRunning)
             {
-                _socketServer.Stop();
+                
                 _isRunning = false;
+                return _socketServer.Stop();
+            }
+            return true;
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _socketServer.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
             }
         }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ModbusTCPServer() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

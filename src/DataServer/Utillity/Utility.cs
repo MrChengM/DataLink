@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataServer
+namespace DataServer.Utillity
 {
     public static class Utility
     {
@@ -74,6 +74,31 @@ namespace DataServer
             byte[] chk = CalculateCrc(frame, len - 2);
             return (chk[0] == frame[len - 2] && chk[1] == frame[len - 1]);
         }
+        /// <summary>
+        /// 和校验
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <returns></returns>
+        public static byte CSCheck(byte[] datas)
+        {
+            byte result = new byte();
+            int num = new int();
+            try
+            {
+                foreach (byte data in datas)
+                {
+
+                    num = (num + data) % 0xFF;
+                }
+                result = (byte)num;
+
+            }
+            catch
+            {
+                return 0;
+            }
+            return result;
+        }
     }
     public class NetConvert
     {
@@ -87,6 +112,7 @@ namespace DataServer
                     return result = BitConverter.GetBytes(data);
                 case ByteOrder.None:
                     return result = BitConverter.GetBytes(data);
+                case ByteOrder.BigEndianAndRervseWord:
                 case ByteOrder.BigEndian:
                     var bytes = BitConverter.GetBytes(data);
                     int count = bytes.Length;
@@ -115,6 +141,7 @@ namespace DataServer
                 case ByteOrder.None:
                     return result = BitConverter.GetBytes(data);
                 case ByteOrder.BigEndian:
+                case ByteOrder.BigEndianAndRervseWord:
                     var bytes = BitConverter.GetBytes(data);
                     int count = bytes.Length;
                     result = new byte[count];
@@ -136,6 +163,7 @@ namespace DataServer
                 case ByteOrder.None:
                     return result = BitConverter.GetBytes(data);
                 case ByteOrder.BigEndian:
+                case ByteOrder.BigEndianAndRervseWord:
                     var bytes = BitConverter.GetBytes(data);
                     int count = bytes.Length;
                     result = new byte[count];
@@ -158,6 +186,7 @@ namespace DataServer
                 case ByteOrder.None:
                     return result = BitConverter.GetBytes(data);
                 case ByteOrder.BigEndian:
+                case ByteOrder.BigEndianAndRervseWord:
                     var bytes = BitConverter.GetBytes(data);
                     int count = bytes.Length;
                     result = new byte[count];
@@ -179,6 +208,7 @@ namespace DataServer
                 case ByteOrder.None:
                     return result = BitConverter.GetBytes(data);
                 case ByteOrder.BigEndian:
+                case ByteOrder.BigEndianAndRervseWord:
                     var bytes = BitConverter.GetBytes(data);
                     int count = bytes.Length;
                     result = new byte[count];
@@ -247,16 +277,17 @@ namespace DataServer
             if (sourceBytes==null||length > sourceBytes.Length * 8)
                 return null;
             bool[] result = new bool[length];
-            int index = 0;
+            int index1 = 0;
+            int index2 = 0;
             for (int i = 0; i < sourceBytes.Length; i++)
             {
-                index += 8 * i;
+                index1 = 8 * i;
                 for (int j = 0; j < 8; j++)
                 {
-                    index += j;
-                    if (index >= length)
+                    index2 = index1 + j;
+                    if (index2 >= length)
                         return result;
-                    result[index] = ByteToBool(sourceBytes[i], j);
+                    result[index2] = ByteToBool(sourceBytes[i], j);
                 }
             }
             return result;
@@ -290,6 +321,7 @@ namespace DataServer
                 case ByteOrder.LittleEndian:
                     return result = BitConverter.ToInt16(bytes, 0);
                 case ByteOrder.BigEndian:
+                case ByteOrder.BigEndianAndRervseWord:
                     byte[] value = new byte[] { bytes[1], bytes[0] };
                     return result = BitConverter.ToInt16(value, 0);
             }
@@ -340,6 +372,7 @@ namespace DataServer
                 case ByteOrder.LittleEndian:
                     return result = BitConverter.ToInt32(bytes, 0);
                 case ByteOrder.BigEndian:
+                case ByteOrder.BigEndianAndRervseWord:
                     byte[] value = new byte[4];
                     return result = BitConverter.ToInt32(value, 0);
             }
@@ -369,7 +402,7 @@ namespace DataServer
             if (datas == null)
             {
                 for (int i = 0; i < count; i++)
-                    result[i] = Item<T>.Default;
+                    result[i] = Item<T>.CreateDefault();
             }
             else
             {
@@ -383,7 +416,7 @@ namespace DataServer
                             Quality = QUALITIES.QUALITY_GOOD
                         };
                     else
-                        result[i] = Item<T>.Default;
+                        result[i] = Item<T>.CreateDefault();
                 }
             }
             return result;
@@ -413,7 +446,7 @@ namespace DataServer
                         q[i] = *(p + i);
                     }
                 }
-                if (byteOrder == ByteOrder.BigEndian)
+                if (byteOrder == ByteOrder.BigEndian|| byteOrder == ByteOrder.BigEndianAndRervseWord)
                 {
                     for (int i = 0; i < size; i++)
                     {
@@ -648,7 +681,7 @@ namespace DataServer
                         *(bytePtr + i) = q[i];
                     }
                 }
-                if (byteOrder == ByteOrder.BigEndian)
+                if (byteOrder == ByteOrder.BigEndian|| byteOrder == ByteOrder.BigEndianAndRervseWord)
                 {
                     for (int i = 0; i < size; i++)
                     {

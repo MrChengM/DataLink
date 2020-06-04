@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataServer
+namespace DataServer.Points
 {
     /// <summary>
     /// 点表接口：

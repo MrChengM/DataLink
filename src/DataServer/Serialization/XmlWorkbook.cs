@@ -41,7 +41,6 @@ namespace DataServer.Serialization
                         catch
                         {
                         }
-
                         reader.Read();
                     }
                     _llStrings.Add(ls);
