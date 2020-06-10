@@ -55,12 +55,14 @@ namespace TaskHandler
                     }
                     else
                     {
+                        _log.ErrorLog(string.Format("Task<{0}> Inited failed!", t.TaskName));
                         return false;
                     }
                 }
             }
             else
             {
+                _log.ErrorLog("Tasks config Error!");
                 return false;
             }
             return true;
@@ -91,6 +93,7 @@ namespace TaskHandler
                 }
                 else
                 {
+                    _log.ErrorLog(string.Format("Task<{0}> Start failed!", t.TaskName));
                     return false;
                 }
             }

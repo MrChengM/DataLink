@@ -10,7 +10,7 @@ namespace TaskHandler.Config
 {
     public static class ConfigUtilly
     {
-        public static void ReadConfig(TCPClientConfig config, XmlReader reader) ///可优化用统一静态类进行处理
+        public static void ReadConfig(TCPClientConfig config, XmlReader reader,string handler) ///可优化用统一静态类进行处理
         {
             int temp;
             config.IpAddress = reader["address"];
