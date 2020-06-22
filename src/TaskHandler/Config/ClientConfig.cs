@@ -40,6 +40,25 @@ namespace TaskHandler.Config
         public string IpAddress { get { return _ipString; } set { _ipString = value; } }
         public int Port { get { return _port; } set { _port = value; } }
     }
+    public class S7CommClientConfig : TCPClientConfig
+    {
+        int _slotNo;
+        public S7CommClientConfig() : base()
+        {
+            _slotNo = 2;
+        }
+        public int SlotNo
+        {
+            get
+            {
+                return _slotNo;
+            }
+            set
+            {
+                _slotNo = value;
+            }
+        }
+    }
     public class ComClientConfig : ClientConfig
     {
         /***************************

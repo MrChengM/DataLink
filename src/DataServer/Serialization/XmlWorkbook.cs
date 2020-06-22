@@ -34,11 +34,11 @@ namespace DataServer.Serialization
                     while (reader.IsStartElement("Cell"))
                     {
                         reader.Read();
-                        if (reader.HasValue)
+                        try 
                         {
                             ls.Add(reader.ReadElementContentAsString());
                         }
-                        else
+                        catch
                         {
                             ls.Add("");
                         }

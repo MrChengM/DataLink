@@ -29,26 +29,6 @@ namespace TaskHandler.Config
         public int MaxConnect { get { return _maxConnect; } set { _maxConnect = value; } }
         public int SalveId { get { return _salveID; } set { _salveID = value; } }
         public string SignalListFilePath { get { return _signalFile; } set { _signalFile = value; } }
-
-
-
-        //public static void ReadConfig(ServerConfig serverConfig, XmlReader reader)
-        //{
-        //    serverConfig.IpAddress = reader["address"];
-        //    int port;
-        //    if (int.TryParse(reader["port"], out port))
-        //        serverConfig.Port = port;
-        //    int timeOut;
-        //    if (int.TryParse(reader["timeout"], out timeOut))
-        //        serverConfig.TimeOut = timeOut;
-        //    int maxconnect;
-        //    if (int.TryParse(reader["maxconnect"], out maxconnect))
-        //        serverConfig.MaxConnect = maxconnect;
-        //    int salveId;
-        //    if (int.TryParse(reader["salveid"], out salveId))
-        //        serverConfig.SalveId = salveId;
-        //    serverConfig.SignalListFilePath = reader["signallist"];
-        //}
     }
     public class TCPServerConfig:ServerConfig
     {
@@ -83,7 +63,6 @@ namespace TaskHandler.Config
             _stopBit = 1;
             _OddEvenCheck = Parity.None.ToString();
         }
-
         public string ComPort { get { return _comport; } set { _comport = value; } }
         public int BuadRate { get { return _buadRate; } set { _buadRate = value; } }
         public byte DataBit { get { return _dataBit; } set { _dataBit = value; } }

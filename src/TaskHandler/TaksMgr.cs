@@ -32,17 +32,25 @@ namespace TaskHandler
             if (_configs != null)
             {
                 _log.NormalLog(string.Format("{0}:Down=>Creating","SetUp()"));
-                var taskFactory = new ts.TaskFactory();
+                var taskFactory = new ts.TaskFactory(_configFath);
+
+                //task类型配置
                 foreach(var config in _configs)
                 {
-                    ILog log = new DefaultLog(config.TaskName) { Handle = LogHandle.writeFile, ByteSteamLogSwicth = false };
-                    var task = taskFactory.CreateTask(config, log);
-                    if (task != null)
+                    ILog log = new DefaultLog(config.TaskName) { Handle = LogHandle.debug, ByteSteamLogSwicth = true };
+
+                    //根据task类型配置创建具体的task列表
+                    var tasks = taskFactory.CreateTasks(config, log);
+                    foreach(var task in tasks)
                     {
-                        task.InitLevel = config.InitLevel;
-                        _log.NormalLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", config.TaskName));
-                        addTask(task);
+                        if (task != null)
+                        {
+                            task.InitLevel = config.InitLevel;
+                            _log.NormalLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", config.TaskName));
+                            addTask(task);
+                        }
                     }
+                   
                 }
                 sortTasks();
                 foreach(var t in _tasks)
@@ -50,7 +58,6 @@ namespace TaskHandler
                     ChangInitLevel(t.InitLevel);
                     if (t.OnInit())
                     {
-                        
                         continue;
                     }
                     else
@@ -112,7 +119,7 @@ namespace TaskHandler
         {
             _configs = new List<TaskConfig>();
             _tasks = new List<AbstractTask>();
-            _log = new DefaultLog(_taskName) {Handle=LogHandle.writeFile};
+            _log = new DefaultLog(_taskName) {Handle=LogHandle.debug};
         }
         public static void Main(string[] args)
         {

@@ -10,7 +10,7 @@ namespace TaskHandler.Config
 {
     public static class ConfigUtilly
     {
-        public static void ReadConfig(TCPClientConfig config, XmlReader reader,string handler) ///可优化用统一静态类进行处理
+        public static void ReadConfig(TCPClientConfig config, XmlReader reader) ///可优化用统一静态类进行处理
         {
             int temp;
             config.IpAddress = reader["address"];
@@ -18,9 +18,17 @@ namespace TaskHandler.Config
                 config.Port = temp;
             if (int.TryParse(reader["timeout"], out temp))
                 config.TimeOut = temp;
-            if (int.TryParse(reader["timer"], out temp))
+            if (int.TryParse(reader["polltimer"], out temp))
                 config.PollingTime = temp;
             config.SignalListFilePath = reader["signallist"];
+        }
+
+        public static void ReadConfig(S7CommClientConfig config, XmlReader reader)
+        {
+            ReadConfig((TCPClientConfig)config, reader);
+            int temp;
+            if (int.TryParse(reader["slotno"], out temp))
+                config.SlotNo = temp;
         }
         public static void ReadConfig(ComClientConfig config, XmlReader reader)
         {
@@ -36,7 +44,7 @@ namespace TaskHandler.Config
             config.OddEvenCheck = reader["oddevencheck"];
             if (int.TryParse(reader["timeout"], out temp))
                 config.TimeOut = temp;
-            if (int.TryParse(reader["timer"], out temp))
+            if (int.TryParse(reader["polltimer"], out temp))
                 config.PollingTime = temp;
             config.SignalListFilePath = reader["signallist"];
         }

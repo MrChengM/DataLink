@@ -13,20 +13,30 @@ using TaskHandler.Config;
 
 namespace TaskHandler.Builder
 {
+   /*********
+    PS：考虑是否合并为一个客户端建造类
+   *********/
     public abstract class ClientTaskBuilder
     {
         protected ClientHandlerTask _clientTask;
+
         protected ILog _log;
         protected string _taskName;
         protected ClientName _clientName;
         protected string _configFilePath = "../../../../conf/Configuration.xml";
         protected ClientConfig _baseconfig;
+
+        ////相同类型Task创建多个
+        //protected List<ClientHandlerTask> _clientTasks;
+        //protected List<ClientConfig> _baseconfigs;
+
         public ClientTaskBuilder(ClientName name, ILog log)
         {
             _clientTask = new ClientHandlerTask(this);
             _clientName = name;
             _log = log;
             _taskName = log.GetName();
+            //_clientTasks = new List<ClientHandlerTask>();
         }
         public virtual bool BuildTaskName()
         {
@@ -69,21 +79,19 @@ namespace TaskHandler.Builder
         {
             return _clientTask;
         }
-
     }
 
     public class TCPClientTaskBuilder : ClientTaskBuilder
     {
         private TCPClientConfig _config;
-        public TCPClientTaskBuilder(ClientName name,ILog log):base(name,log)
+        public TCPClientTaskBuilder(ClientName name,ILog log,ClientConfig config):base(name,log)
         {
+            _config = config as TCPClientConfig;
         }
         public override bool BuildConfig()
         {
-            var _configs = ReaderXMLUtil.ReadXMLConfig<TCPClientConfig>(_configFilePath, ConfigUtilly.ReadConfig, "setup", _taskName);
-            if (_configs != null)
+            if (_config != null)
             {
-                _config = _configs[0];
                 _clientTask.Config = _config;
                 _baseconfig = _config;
                 return base.BuildConfig();
@@ -92,6 +100,7 @@ namespace TaskHandler.Builder
             {
                 return false;
             }
+              
         }
         public override bool BuildClient()
         {
@@ -105,9 +114,9 @@ namespace TaskHandler.Builder
                 _log.ErrorLog("BuildClient :IP Port config is failed!!!");
                 return false;
             }
-            var setup = new EthernetSetUp(_config.IpAddress, _config.Port);
+            //var setup = new EthernetSetUp(_config.IpAddress, _config.Port);
             var timeOut = new TimeOut(_taskName, _config.TimeOut, _log);
-            var factory = new TCPClientFactory(setup, timeOut, _log);
+            var factory = new TCPClientFactory(_config, timeOut, _log);
             _clientTask.Client = factory.CreateClient(_clientName);
             return base.BuildClient();
         }
@@ -116,15 +125,14 @@ namespace TaskHandler.Builder
     public class ComClientTaskBuilder : ClientTaskBuilder
     {
         private ComClientConfig _config;
-        public ComClientTaskBuilder(ClientName name,ILog log):base(name,log)
+        public ComClientTaskBuilder(ClientName name,ILog log,ClientConfig clientConfig):base(name,log)
         {
+            _config = clientConfig as ComClientConfig;
         }
         public override bool BuildConfig()
         {
-            var _configs = ReaderXMLUtil.ReadXMLConfig<ComClientConfig>(_configFilePath, ConfigUtilly.ReadConfig, "setup", _taskName);
-            if (_configs != null)
+            if (_config != null)
             {
-                _config = _configs[0];
                 _clientTask.Config = _config;
                 _baseconfig = _config;
                 return base.BuildConfig();
@@ -133,8 +141,7 @@ namespace TaskHandler.Builder
             {
                 return false;
             }
-        
-           
+
         }
         public override bool BuildClient()
         {
@@ -143,9 +150,9 @@ namespace TaskHandler.Builder
                 _log.ErrorLog("BuildClient :ComPort config is failed!!!");
                 return false;
             }
-            var setup = new SerialportSetUp(_config.ComPort,_config.BuadRate,(StopBits)_config.StopBit);
+            //var setup = new SerialportSetUp(_config.ComPort,_config.BuadRate,(StopBits)_config.StopBit);
             var timeOut = new TimeOut(_taskName, _config.TimeOut, _log);
-            var factory = new ComClientFactory(setup, timeOut, _log);
+            var factory = new ComClientFactory(_config, timeOut, _log);
             _clientTask.Client = factory.CreateClient(_clientName);
             return true;
         }

@@ -273,46 +273,49 @@ namespace DataServer.Points
                 DeviceAddress deviceAddress = new DeviceAddress();
                 string dataType = "";
                 int length = 0;
-                for (int i = 0; i < colums.Count; i++)
+                if(ls.Count >= colums.Count)
                 {
-
-                    switch (colums[i].ToLower())
+                    for (int i = 0; i < colums.Count; i++)
                     {
-                        case "tagname":
-                            pointName = ls[i];
-                            break;
-                        case "area":
-                            int area;
-                            if (int.TryParse(ls[i], out area))
-                                deviceAddress.SalveId = area;
-                            break;
-                        case "address":
-                            int address;
-                            if (int.TryParse(ls[i], out address))
-                                deviceAddress.Address = address;
-                            break;
-                        case "datatype":
-                            dataType = ls[i];
-                            break;
-                        case "length":
-                            int.TryParse(ls[i], out length);
-                            break;
-                        case "byteorder":
-                            int byteorder;
-                            if (int.TryParse(ls[i], out byteorder))
-                                deviceAddress.ByteOrder = (ByteOrder)byteorder;
-                            break;
+                        switch (colums[i].ToLower())
+                        {
+                            case "tagname":
+                                pointName = ls[i];
+                                break;
+                            case "area":
+                                int area;
+                                if (int.TryParse(ls[i], out area))
+                                    deviceAddress.SalveId = area;
+                                break;
+                            case "address":
+                                int address;
+                                if (int.TryParse(ls[i], out address))
+                                    deviceAddress.Address = address;
+                                break;
+                            case "datatype":
+                                dataType = ls[i];
+                                break;
+                            case "length":
+                                int.TryParse(ls[i], out length);
+                                break;
+                            case "byteorder":
+                                int byteorder;
+                                if (int.TryParse(ls[i], out byteorder))
+                                    deviceAddress.ByteOrder = (ByteOrder)byteorder;
+                                break;
+                        }
                     }
                 }
+              
                 if (pointName != "")
                 {
                     if (dataType.ToLower() == ValueType.Bool)
                     {
                         collcet.BoolPoints.Add(new DevicePoint<bool>(pointName, dataType.ToLower(), length, deviceAddress));
                     }
-                    if (dataType.ToLower() == ValueType.Bool)
+                    if (dataType.ToLower() == ValueType.Byte)
                     {
-                        collcet.BoolPoints.Add(new DevicePoint<bool>(pointName, dataType.ToLower(), length, deviceAddress));
+                        collcet.BytePoints.Add(new DevicePoint<byte>(pointName, dataType.ToLower(), length, deviceAddress));
                     }
                     if (dataType.ToLower() == ValueType.UInt16)
                     {
@@ -342,6 +345,7 @@ namespace DataServer.Points
             }
             return collcet;
         }
+
         /// <summary>
         /// 根据xmlWorkBook数据创建DL645点集合
         /// </summary>
@@ -396,9 +400,121 @@ namespace DataServer.Points
                     {
                         collcet.BoolPoints.Add(new DevicePoint<bool>(pointName, dataType.ToLower(), length, deviceAddress));
                     }
+                    if (dataType.ToLower() == ValueType.Byte)
+                    {
+                        collcet.BytePoints.Add(new DevicePoint<byte>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.UInt16)
+                    {
+                        collcet.UshortPoints.Add(new DevicePoint<ushort>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.Int16)
+                    {
+                        collcet.ShortPoints.Add(new DevicePoint<short>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.UInt32)
+                    {
+                        collcet.UintPoints.Add(new DevicePoint<uint>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.Int32)
+                    {
+                        collcet.IntPoints.Add(new DevicePoint<int>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.Float)
+                    {
+                        collcet.FloatPoints.Add(new DevicePoint<float>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.Double)
+                    {
+                        collcet.DoublePoints.Add(new DevicePoint<double>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                }
+            }
+            return collcet;
+        }
+        /// <summary>
+        /// 创建siemens S7通讯客户端点集合
+        /// </summary>
+        /// <param name="workBook"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
+        public static PointDeviceCollcet CreateS7(XMLWorkbook workBook,ILog log)
+        {
+            PointDeviceCollcet collcet = new PointDeviceCollcet();
+
+            List<string> colums = workBook.llStrings[0];//第一行列表为索引列数据；
+            workBook.llStrings.RemoveAt(0);
+            bool flag = true;
+            foreach (var ls in workBook.llStrings)
+            {
+                string pointName = "";
+                DeviceAddress deviceAddress = new DeviceAddress();
+                string dataType = "";
+                int length = 0;
+                for (int i = 0; i < colums.Count; i++)
+                {
+
+                    switch (colums[i].ToLower())
+                    {
+                        case "tagname":
+                            pointName = ls[i];
+                            break;
+                        //根据地址分解除功能码，DB块，地址编号
+                        case "address": 
+                            var arrayStr = ls[i].Split('.');
+                            if (arrayStr.Length >= 2)
+                            {
+                                if (arrayStr[0].Contains("DB"))
+                                {
+                                    deviceAddress.FuctionCode = 0x84;
+                                    int area;
+                                    if (int.TryParse(arrayStr[0].Remove(0, 2), out area))
+                                        deviceAddress.SalveId = area;
+                                    else
+                                        flag = false;
+                                    int address;
+                                    if (int.TryParse(arrayStr[1].Remove(0, 3), out address))
+                                        deviceAddress.Address = address;
+                                    else
+                                        flag = false;
+                                }
+                                else
+                                {
+                                    flag = false;
+
+                                }
+                            }
+                            else
+                            {
+                                flag = false;
+                            }
+                            break;
+                        case "datatype":
+                            dataType = ls[i];
+                            break;
+                        case "length":
+                            if (int.TryParse(ls[i], out length)) ;
+                            else
+                                flag=false;
+                            break;
+                        case "byteorder":
+                            int byteorder;
+                            if (int.TryParse(ls[i], out byteorder))
+                                deviceAddress.ByteOrder = (ByteOrder)byteorder;
+                            else
+                                flag = false;
+                            break;
+                    }
+                }
+                if (pointName != ""&&flag)
+                {
                     if (dataType.ToLower() == ValueType.Bool)
                     {
                         collcet.BoolPoints.Add(new DevicePoint<bool>(pointName, dataType.ToLower(), length, deviceAddress));
+                    }
+                    if (dataType.ToLower() == ValueType.Byte)
+                    {
+                        collcet.BytePoints.Add(new DevicePoint<byte>(pointName, dataType.ToLower(), length, deviceAddress));
                     }
                     if (dataType.ToLower() == ValueType.UInt16)
                     {
@@ -494,7 +610,8 @@ namespace DataServer.Points
                  4。根据不同的绑定类型分为：只读，只写，可读可写
                  ===============================
                 */
-                if (int.TryParse(addressName, out address) && pointName != "")
+               
+                if (addressName!=""&& int.TryParse(addressName, out address) && pointName != "")
                 {
                     if (addressName.Substring(0, 1) == "0" || addressName.Substring(0, 1) == "1")
                     {
@@ -573,7 +690,6 @@ namespace DataServer.Points
                 {
                     log.ErrorLog(string.Format("adderss error or binding point is null!"));
                 }
-
             }
             return result;
 

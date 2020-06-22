@@ -66,15 +66,14 @@ namespace TaskHandler.Builder
     public class TCPServerTaskBuilder : ServerTaskBuilder
     {
         private TCPServerConfig _config;
-        public TCPServerTaskBuilder(ServerName name,ILog log):base(name,log)
+        public TCPServerTaskBuilder(ServerName name,ILog log,ServerConfig serverConfig):base(name,log)
         {
+            _config = serverConfig as TCPServerConfig;
         }
         public override bool BuildConfig()
         {
-            var _configs = ReaderXMLUtil.ReadXMLConfig<TCPServerConfig>(_configFilePath, ConfigUtilly.ReadConfig, "setup", _taskName);
-            if (_configs != null)
+            if (_config != null)
             {
-                _config = _configs[0];
                 _serverTask.Config = _config;
                 _baseconfig = _config;
                 return base.BuildConfig();
@@ -101,15 +100,14 @@ namespace TaskHandler.Builder
     public class ComServerTaskBuilder : ServerTaskBuilder
     {
         private ComServerConfig _config;
-        public ComServerTaskBuilder(ServerName name, ILog log) : base(name,log)
+        public ComServerTaskBuilder(ServerName name, ILog log,ServerConfig serverConfig) : base(name,log)
         {
+            _config = serverConfig as ComServerConfig;
         }
         public override bool BuildConfig()
         {
-            var _configs = ReaderXMLUtil.ReadXMLConfig<ComServerConfig>(_configFilePath, ConfigUtilly.ReadConfig, "setup", _taskName);
-            if (_configs != null)
+            if (_config != null)
             {
-                _config = _configs[0];
                 _serverTask.Config = _config;
                 _baseconfig = _config;
                 return base.BuildConfig();

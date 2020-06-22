@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using DataServer;
 using ModbusDrivers.Client;
 using DL645Driver;
+using SiemensDriver;
+using TaskHandler.Config;
+using System.IO.Ports;
+
 namespace TaskHandler.Factory
 {
     public abstract class ClientFactory
@@ -22,10 +26,12 @@ namespace TaskHandler.Factory
 
     public  class TCPClientFactory:ClientFactory
     {
+        private TCPClientConfig _config;
         private EthernetSetUp _setUp;
-        public TCPClientFactory(EthernetSetUp setUp, TimeOut timeOut, ILog log) : base()
+        public TCPClientFactory(TCPClientConfig config, TimeOut timeOut, ILog log) : base()
         {
-            _setUp = setUp;
+            _config = config;
+            _setUp = new EthernetSetUp(config.IpAddress, config.Port);
             _timeOut = timeOut;
             _log = log;
         }
@@ -36,6 +42,10 @@ namespace TaskHandler.Factory
             {
                 case ClientName.ModbusTCPClient:
                     return new ModbusTCPClient(_setUp, _timeOut, _log);
+                case ClientName.S7CommClient:
+                    var config = _config as S7CommClientConfig;
+                    int slotNo = config.SlotNo;
+                    return new S7CommClient(_setUp, _timeOut, _log, slotNo);
                 default:
                     return null;
             }
@@ -43,10 +53,12 @@ namespace TaskHandler.Factory
     }
     public class ComClientFactory : ClientFactory
     {
+        private ComClientConfig _config;
         private SerialportSetUp _setUp;
-        public ComClientFactory(SerialportSetUp setUp,TimeOut timeOut,ILog log)
+        public ComClientFactory(ComClientConfig config, TimeOut timeOut,ILog log)
         {
-            _setUp = setUp;
+            _config = config;
+            _setUp = new SerialportSetUp(_config.ComPort, _config.BuadRate, (StopBits)_config.StopBit);
             _timeOut = timeOut;
             _log = log;
         }

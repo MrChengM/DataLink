@@ -11,30 +11,44 @@ namespace TaskHandler.Factory
 {
     public class TaskFactory
     {
-        public TaskFactory()
-        {
+        string _configFath = "../../../../conf/Configuration.xml";
 
-        }
-        public AbstractTask CreateTask(TaskConfig config,ILog log)
+        public TaskFactory(string configFath)
         {
-            ServerName servername = 0;
+            _configFath = configFath;
+        }
+        public List<AbstractTask> CreateTasks(TaskConfig config,ILog log)
+        {
+            ServerName servername;
             ClientName clientname;
-            AbstractTask task = null;
+            List<AbstractTask> tasks = new List<AbstractTask>();
+            //创建配置工厂
+            var configFactory = new ConfigFactory(config.TaskName, _configFath);
+
             switch (config.TsType)
             {
-
                 case TaskType.Server:
                     if (Enum.TryParse(config.Id, out servername))
                     {
+                        //创建服务类型配置列表
+                        List<ServerConfig> serverConfigs = configFactory.CreatServerConfigs(servername);
                         switch (config.DrType)
                         {
                             case DriverType.Ethernet:
-                                var builder = new TCPServerTaskBuilder(servername,log);
-                                task = builder.GetResult();
+                                foreach(var serverconfig in serverConfigs)
+                                {
+                                    var builder = new TCPServerTaskBuilder(servername, log, serverconfig);
+                                    var task = builder.GetResult();
+                                    tasks.Add(task);
+                                }
                                 break;
                             case DriverType.Serialport:
-                                var builder1 = new ComServerTaskBuilder(servername,log);
-                                task = builder1.GetResult();
+                                foreach (var serverconfig in serverConfigs)
+                                {
+                                    var builder1 = new ComServerTaskBuilder(servername, log, serverconfig);
+                                    var task = builder1.GetResult();
+                                    tasks.Add(task);
+                                }
                                 break;
                         }
                     }
@@ -42,21 +56,30 @@ namespace TaskHandler.Factory
                 case TaskType.Client:
                     if (Enum.TryParse(config.Id, out clientname))
                     {
+                        List<ClientConfig> clientConfigs = configFactory.CreatClientConfigs(clientname);
                         switch (config.DrType)
                         {
                             case DriverType.Ethernet:
-                                var builder2 = new TCPClientTaskBuilder(clientname,log);
-                                task = builder2.GetResult();
+                                foreach(var clientConfig in clientConfigs)
+                                {
+                                    var builder2 = new TCPClientTaskBuilder(clientname, log,clientConfig);
+                                    var task = builder2.GetResult();
+                                    tasks.Add(task);
+                                }
                                 break;
                             case DriverType.Serialport:
-                                var builder3 = new ComClientTaskBuilder(clientname,log);
-                                task = builder3.GetResult();
+                                foreach(var clientConfig in clientConfigs)
+                                {
+                                    var builder3 = new ComClientTaskBuilder(clientname, log,clientConfig);
+                                    var task = builder3.GetResult();
+                                    tasks.Add(task);
+                                }
                                 break;
                         }
                     }
                     break;
             }
-            return task;
+            return tasks;
         }
     }
 }

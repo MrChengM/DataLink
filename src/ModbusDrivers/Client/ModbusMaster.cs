@@ -171,10 +171,10 @@ namespace ModbusDrivers.Client
             throw new NotImplementedException();
         }
 
-        public byte[] ReadBytes(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
+        //public byte[] ReadBytes(DeviceAddress deviceAddress, ushort length)
+        //{
+        //    throw new NotImplementedException();
+        //}
         private byte[] readBool(DeviceAddress deviceAddress, ushort length)
         {
             byte salveID = (byte)deviceAddress.SalveId;
@@ -540,7 +540,16 @@ namespace ModbusDrivers.Client
         }
                         
         public abstract void Dispose();
-      
+
+        public Item<byte> ReadByte(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

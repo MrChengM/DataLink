@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>BGBuild</Author>
+  <LastAuthor>BGBuild</LastAuthor>
+  <Created>2011-12-08T10:33:07Z</Created>
+  <LastSaved>2013-02-13T08:46:36Z</LastSaved>
+  <Version>16.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>6648</WindowHeight>
+  <WindowWidth>17256</WindowWidth>
+  <WindowTopX>32767</WindowTopX>
+  <WindowTopY>32767</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s27" ss:Name="Bad">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#800000"/>
+   <Interior ss:Color="#FFC7CE" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s26" ss:Name="Good">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#008000"/>
+   <Interior ss:Color="#C6EFCE" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s28" ss:Name="Neutral">
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#993300"/>
+   <Interior ss:Color="#FFEB9C" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sheet1">
+  <Table ss:ExpandedColumnCount="12" ss:ExpandedRowCount="14" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="13.2">
+   <Column ss:Width="271.2"/>
+   <Column ss:AutoFitWidth="0" ss:Width="137.4"/>
+   <Column ss:AutoFitWidth="0" ss:Width="75.600000000000009"/>
+   <Column ss:Index="8" ss:Width="120.60000000000001"/>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">TagName</Data></Cell>
+    <Cell><Data ss:Type="String">Address</Data></Cell>
+    <Cell><Data ss:Type="String">DataType</Data></Cell>
+    <Cell><Data ss:Type="String">Length</Data></Cell>
+    <Cell><Data ss:Type="String">Byteorder</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_1</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW0</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="7" ss:StyleID="s27"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String">none</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">Area</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">slaveId</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">DataType:</Data></Cell>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">bool</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_2</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW2</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="7" ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String">BigEndian</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">byte</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_3</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW4</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="7" ss:StyleID="s27"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String">BigEndianAndWordRervse</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">short</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_4</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW6</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="7" ss:StyleID="s27"><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="String">LittleEndian</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">ushort</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_5</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW8</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">int</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_6</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW10</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">uint</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_7</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW12</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">float</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_8</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW30</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">double</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_9</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW16</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:Index="11" ss:StyleID="s26"/>
+    <Cell ss:StyleID="s26"><Data ss:Type="String">string</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_10</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW9</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_11</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW10</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_12</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW11</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CRISBELT_S7_SIGNAL_13</Data></Cell>
+    <Cell><Data ss:Type="String">DB30.DBW12</Data></Cell>
+    <Cell><Data ss:Type="String">ushort</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>300</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>19</ActiveRow>
+     <ActiveCol>5</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

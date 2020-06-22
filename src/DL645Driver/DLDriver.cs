@@ -363,7 +363,7 @@ namespace DL645Driver
         }
         object _async = new object();
 
-        public virtual byte[] ReadBytes(DeviceAddress address, ushort length)
+        protected virtual byte[] readBytes(DeviceAddress address, ushort length)
         {
             try
             {
@@ -536,6 +536,16 @@ namespace DL645Driver
             value.AppearTime = new DateTime(1900, data[3], data[2], data[1], data[0], 0);
             values = new Item<float>[] { value };
             return values;
+        }
+
+        public Item<byte> ReadByte(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -94,7 +94,7 @@ namespace DL645Driver
         /// <returns></returns>
         public override Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
         {
-            byte[] readDatas = ReadBytes(deviceAddress, 0);
+            byte[] readDatas = readBytes(deviceAddress, 0);
             if (readDatas != null)
             {
                 var adderss = getDataArea(deviceAddress.Address);

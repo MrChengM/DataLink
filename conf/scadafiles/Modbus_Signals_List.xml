@@ -44,12 +44,12 @@
    <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#993300"/>
    <Interior ss:Color="#FFEB9C" ss:Pattern="Solid"/>
   </Style>
+  <Style ss:ID="s68">
+   <Font ss:FontName="Arial" x:Family="Swiss"/>
+  </Style>
   <Style ss:ID="s69">
    <Font ss:FontName="Arial" x:Family="Swiss"/>
    <NumberFormat ss:Format="@"/>
-  </Style>
-  <Style ss:ID="s70">
-   <Font ss:FontName="Arial" x:Family="Swiss"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="Sheet1">
@@ -72,8 +72,8 @@
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">40001</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="8" ss:StyleID="s27"><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String">none</Data></Cell>
     <Cell ss:StyleID="s28"><Data ss:Type="String">Area</Data></Cell>
@@ -84,10 +84,10 @@
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_2</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40101</Data></Cell>
-    <Cell><Data ss:Type="String">int</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell><Data ss:Type="Number">40003</Data></Cell>
+    <Cell><Data ss:Type="String">float</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="8" ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String">BigEndian</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
@@ -96,10 +96,10 @@
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_3</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40201</Data></Cell>
-    <Cell><Data ss:Type="String">int</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell><Data ss:Type="Number">40005</Data></Cell>
+    <Cell><Data ss:Type="String">float</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="8" ss:StyleID="s27"><Data ss:Type="Number">2</Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String">BigEndianAndWordRervse</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
@@ -108,10 +108,10 @@
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_4</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40301</Data></Cell>
+    <Cell><Data ss:Type="Number">40007</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="8" ss:StyleID="s27"><Data ss:Type="Number">4</Data></Cell>
     <Cell ss:StyleID="s27"><Data ss:Type="String">LittleEndian</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
@@ -120,84 +120,84 @@
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_5</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40401</Data></Cell>
+    <Cell><Data ss:Type="Number">40009</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
     <Cell ss:StyleID="s26"><Data ss:Type="String">int</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_6</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40501</Data></Cell>
+    <Cell><Data ss:Type="Number">40011</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
     <Cell ss:StyleID="s26"><Data ss:Type="String">uint</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_7</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40601</Data></Cell>
+    <Cell><Data ss:Type="Number">40013</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
     <Cell ss:StyleID="s26"><Data ss:Type="String">float</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_8</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40701</Data></Cell>
+    <Cell><Data ss:Type="Number">40015</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
     <Cell ss:StyleID="s26"><Data ss:Type="String">double</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_9</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40801</Data></Cell>
+    <Cell><Data ss:Type="Number">40017</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
     <Cell ss:Index="12" ss:StyleID="s26"/>
     <Cell ss:StyleID="s26"><Data ss:Type="String">string</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_10</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
-    <Cell><Data ss:Type="Number">40901</Data></Cell>
+    <Cell><Data ss:Type="Number">40019</Data></Cell>
     <Cell><Data ss:Type="String">float</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
-    <Cell ss:StyleID="s70"><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_11</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_11</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:StyleID="s69"><Data ss:Type="String">00001</Data></Cell>
-    <Cell ss:StyleID="s70"><Data ss:Type="String">bool</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">bool</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
-    <Cell ss:StyleID="s70"><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_12</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_12</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:StyleID="s69"><Data ss:Type="String">10001</Data></Cell>
-    <Cell ss:StyleID="s70"><Data ss:Type="String">bool</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">bool</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0">
     <Cell><Data ss:Type="String">CRISBELT_Modbus_SIGNAL_13</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
     <Cell><Data ss:Type="Number">30001</Data></Cell>
-    <Cell ss:StyleID="s70"><Data ss:Type="String">uint</Data></Cell>
-    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell ss:StyleID="s68"><Data ss:Type="String">uint</Data></Cell>
     <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="Number">0</Data></Cell>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -212,7 +212,8 @@
    <Panes>
     <Pane>
      <Number>3</Number>
-     <ActiveRow>12</ActiveRow>
+     <ActiveRow>23</ActiveRow>
+     <ActiveCol>3</ActiveCol>
     </Pane>
    </Panes>
    <ProtectObjects>False</ProtectObjects>

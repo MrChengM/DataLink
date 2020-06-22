@@ -11,6 +11,7 @@ namespace TaskHandler
         ModbusTCPClient,
         ModbusRTUClient,
         DL645_1997Client,
-        DL645_2007Client
+        DL645_2007Client,
+        S7CommClient
     }
 }

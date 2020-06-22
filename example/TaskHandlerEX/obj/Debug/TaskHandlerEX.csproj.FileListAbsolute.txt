@@ -14,3 +14,5 @@ D:\C#Projects\DriverLibrary\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.exe
 D:\C#Projects\DriverLibrary\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.pdb
 D:\C#Projects\DriverLibrary\example\TaskHandlerEX\bin\Debug\TaskHandler.dll
 D:\C#Projects\DriverLibrary\example\TaskHandlerEX\bin\Debug\TaskHandler.pdb
+D:\C#Projects\DriverLibrary\example\TaskHandlerEX\bin\Debug\SiemensDrivers.dll
+D:\C#Projects\DriverLibrary\example\TaskHandlerEX\bin\Debug\SiemensDrivers.pdb

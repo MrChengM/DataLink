@@ -49,6 +49,7 @@
     <Compile Include="Config\TaskConfig.cs" />
     <Compile Include="Factory\ClientFactory.cs" />
     <Compile Include="ClientName.cs" />
+    <Compile Include="Factory\ConfigFactory.cs" />
     <Compile Include="Factory\PointsCollcetFactory.cs" />
     <Compile Include="Factory\ServerFactory.cs" />
     <Compile Include="Factory\TaskFactory.cs" />
@@ -61,18 +62,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\example\ModbusClient\ModbusClient.csproj">
-      <Project>{010e7200-28fb-479f-a8f7-b9dffd89f2dc}</Project>
-      <Name>ModbusClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\example\ModbusServerSubscriber\ModbusServerSubscriber.csproj">
-      <Project>{d044bd6f-2b5b-4da2-a924-44d0d3e26c38}</Project>
-      <Name>ModbusServerSubscriber</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\example\ModbusServer\ModbusServer.csproj">
-      <Project>{0e93d27d-db4b-4c63-a96b-39ae435ad09a}</Project>
-      <Name>ModbusServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>

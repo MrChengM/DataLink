@@ -36,8 +36,8 @@ namespace ModbusClient
                 var intvalue = _client.ReadInt(new DeviceAddress(1, 30001));
                 var intvalues = _client.ReadInts(new DeviceAddress(1, 30001), 10);
 
-                var intvalue1 = _client.ReadInt(new DeviceAddress(1, 40001, ByteOrder.BigEndian));
-                var intvalue1s = _client.ReadInts(new DeviceAddress(1, 40001, ByteOrder.BigEndian), 10);
+                var intvalue1 = _client.ReadInt(new DeviceAddress(1, 40001, 0x00, ByteOrder.BigEndian));
+                var intvalue1s = _client.ReadInts(new DeviceAddress(1, 40001, 0x00, ByteOrder.BigEndian), 10);
 
                 var floatvalue = _client.Readfloat(new DeviceAddress(1, 30001));
                 var floatvalues = _client.Readfloats(new DeviceAddress(1, 30001),10);

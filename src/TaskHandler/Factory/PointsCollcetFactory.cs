@@ -26,6 +26,10 @@ namespace TaskHandler.Factory
             {
                return PointsCollcetCreate.CreateDL645(_workbook, _log);
             }
+            else if (name == ClientName.S7CommClient)
+            {
+                return PointsCollcetCreate.CreateS7(_workbook, _log);
+            }
             else
             {
                 return PointsCollcetCreate.Create(_workbook, _log);
