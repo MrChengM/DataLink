@@ -58,7 +58,7 @@ namespace TaskHandler.Factory
         public ComClientFactory(ComClientConfig config, TimeOut timeOut,ILog log)
         {
             _config = config;
-            _setUp = new SerialportSetUp(_config.ComPort, _config.BuadRate, (StopBits)_config.StopBit);
+            _setUp = new SerialportSetUp(_config.ComPort, _config.BuadRate,_config.DataBit,(StopBits)_config.StopBit,_config.OddEvenCheck);
             _timeOut = timeOut;
             _log = log;
         }

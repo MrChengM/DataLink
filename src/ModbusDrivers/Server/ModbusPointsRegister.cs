@@ -17,11 +17,25 @@ namespace ModbusDrivers.Server
             var mapping = ModbusPointMapping.GetInstance(log);
             foreach (var point in points.BoolPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
             }
             foreach (var point in points.UshortPoints)
-            {
-                mapping.Register(point.Name, point);
+            { 
+                if (mapping.Find(point.Name))
+                {
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
             }
         }
     }

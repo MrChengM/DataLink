@@ -22,3 +22,15 @@ D:\C#Projects\DriverLibrary\example\ModbusClient\bin\Debug\SocketServers.pdb
 D:\C#Projects\DriverLibrary\example\ModbusClient\obj\Debug\ModbusClient.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\example\ModbusClient\obj\Debug\DriverTest.exe
 D:\C#Projects\DriverLibrary\example\ModbusClient\obj\Debug\DriverTest.pdb
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\DriverTest.exe.config
+D:\GitHub\DriverLibrary\example\ModbusClient\obj\Debug\DriverTest.exe
+D:\GitHub\DriverLibrary\example\ModbusClient\obj\Debug\DriverTest.pdb
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\DriverTest.exe
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\DriverTest.pdb
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\DataServer.dll
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\ModbusDrivers.dll
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\SocketServers.dll
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\DataServer.pdb
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\ModbusDrivers.pdb
+D:\GitHub\DriverLibrary\example\ModbusClient\bin\Debug\SocketServers.pdb
+D:\GitHub\DriverLibrary\example\ModbusClient\obj\Debug\ModbusClient.csprojResolveAssemblyReference.cache

@@ -40,8 +40,8 @@ namespace TaskHandler
         }
         public override bool OnInit()
         {
-            //try
-            //{
+            try
+            {
                 if (_clientBuilder.BuildTaskName())
                 {
                     if (_clientBuilder.BuildLog())
@@ -63,12 +63,12 @@ namespace TaskHandler
                 }
                 return false;
 
-            //}
-            //catch (Exception e)
-            //{
-            //    _log.ErrorLog(string.Format("Init fail:{0}", e.Message));
-            //    return false;
-            //}
+            }
+            catch (Exception e)
+            {
+                _log.ErrorLog(string.Format("Init fail:{0}", e.Message));
+                return false;
+            }
 
 
         }

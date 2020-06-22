@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using DataServer;
-
+using System.IO.Ports;
 namespace TaskHandler.Config
 {
     public static class ConfigUtilly
@@ -34,14 +34,16 @@ namespace TaskHandler.Config
         {
             int temp;
             byte temp1;
+            Parity temp2;
             config.ComPort = reader["comport"];
             if (int.TryParse(reader["buadrate"], out temp))
                 config.BuadRate = temp;
             if (byte.TryParse(reader["databit"], out temp1))
                 config.DataBit = temp1;
             if (byte.TryParse(reader["stopbit"], out temp1))
-                config.StopBit = temp1;
-            config.OddEvenCheck = reader["oddevencheck"];
+                config.StopBit = (StopBits)temp1;
+            if (Enum.TryParse(reader["oddevencheck"], out temp2))
+                config.OddEvenCheck = temp2;
             if (int.TryParse(reader["timeout"], out temp))
                 config.TimeOut = temp;
             if (int.TryParse(reader["polltimer"], out temp))

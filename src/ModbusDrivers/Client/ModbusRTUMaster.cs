@@ -276,8 +276,10 @@ namespace ModbusDrivers.Client
                             {
                                 if (receiveBytes[1] == funcCode)
                                 {
-                                    index += _serialPort.Read(receiveBytes, index, byteCount + 3);
+                                    //只能一个字节一个字节读取
+                                    index += _serialPort.Read(receiveBytes, index, 1);
                                     continueFlag = index == receiveBytes.Length ? false : true;
+
                                     for (int i = index; i < receiveBytes.Length; i++)
                                     {
                                         reciveBytesLog.Add(receiveBytes[i]);
@@ -285,7 +287,7 @@ namespace ModbusDrivers.Client
                                 }
                                 else if (receiveBytes[1] == errorFuncCode)
                                 {
-                                    index += _serialPort.Read(receiveBytes, index, 3);
+                                    index += _serialPort.Read(receiveBytes, index, 1);
                                     continueFlag = index == 5 ? false : true;
                                     for (int i = index; i < 5; i++)
                                     {

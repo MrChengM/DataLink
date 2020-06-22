@@ -12,3 +12,10 @@ D:\C#Projects\DriverLibrary\src\SocketServers\bin\Debug\DataServer.pdb
 D:\C#Projects\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.dll
 D:\C#Projects\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.pdb
 D:\C#Projects\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\src\SocketServers\bin\Debug\SocketServers.dll
+D:\GitHub\DriverLibrary\src\SocketServers\bin\Debug\SocketServers.pdb
+D:\GitHub\DriverLibrary\src\SocketServers\bin\Debug\DataServer.dll
+D:\GitHub\DriverLibrary\src\SocketServers\bin\Debug\DataServer.pdb
+D:\GitHub\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.dll
+D:\GitHub\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.pdb

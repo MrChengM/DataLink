@@ -18,7 +18,7 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="log"></param>
-        public static void Register(PointDeviceCollcet points,ILog log)
+        public static void Register(ref PointDeviceCollcet points,ILog log)
         {
             var boolPointMapping = PointMapping<bool>.GetInstance(log);
             var bytePointMapping = PointMapping<byte>.GetInstance(log);
@@ -29,47 +29,17 @@ namespace DataServer.Points
             var folatPointMapping = PointMapping<float>.GetInstance(log);
             var doublePointMapping = PointMapping<double>.GetInstance(log);
             var stringPointMapping = PointMapping<string>.GetInstance(log);
+            ///注册
+            Register(ref points, boolPointMapping, log);
+            Register(ref points, bytePointMapping, log);
+            Register(ref points, ushortPointMapping, log);
+            Register(ref points, shortPointMapping, log);
+            Register(ref points, uintPointMapping, log);
+            Register(ref points, intPointMapping, log);
+            Register(ref points, folatPointMapping, log);
+            Register(ref points, doublePointMapping, log);
+            Register(ref points, stringPointMapping, log);
 
-            foreach (var point in points.BoolPoints)
-            {
-                boolPointMapping.Register(point.Name, point);
-            }
-
-            foreach(var point in points.BytePoints)
-            {
-                bytePointMapping.Register(point.Name, point);
-            }
-            foreach (var point in points.UshortPoints)
-            {
-                ushortPointMapping.Register(point.Name, point);
-            }
-            foreach (var point in points.ShortPoints)
-            {
-                shortPointMapping.Register(point.Name, point);
-            }
-
-            foreach (var point in points.IntPoints)
-            {
-                intPointMapping.Register(point.Name, point);
-            }
-
-            foreach (var point in points.UintPoints)
-            {
-                uintPointMapping.Register(point.Name, point);
-            }
-
-            foreach (var point in points.FloatPoints)
-            {
-                folatPointMapping.Register(point.Name, point);
-            }
-            foreach (var point in points.DoublePoints)
-            {
-                doublePointMapping.Register(point.Name, point);
-            }
-            foreach (var point in points.StringPoints)
-            {
-                stringPointMapping.Register(point.Name, point);
-            }
 
         }
 
@@ -78,11 +48,25 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<bool> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<bool> mapping,ILog log)
         {
+            List<DevicePoint<bool>> dupPoints = new List<DevicePoint<bool>>();//重复点名列表
             foreach (var point in points.BoolPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    //points.BoolPoints.Remove(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
+            }
+            foreach (var point in dupPoints)
+            {
+                points.BoolPoints.Remove(point);
             }
         }
         /// <summary>
@@ -90,11 +74,24 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<byte> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<byte> mapping,ILog log)
         {
+            List<DevicePoint<byte>> dupPoints = new List<DevicePoint<byte>>();//重复点名列表
             foreach (var point in points.BytePoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
+            }
+            foreach (var point in dupPoints)
+            {
+                points.BytePoints.Remove(point);
             }
 
         }
@@ -103,37 +100,74 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<ushort> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<ushort> mapping,ILog log)
         {
+            List<DevicePoint<ushort>> dupPoints = new List<DevicePoint<ushort>>();//重复点名列表
             foreach (var point in points.UshortPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
             }
-
+            foreach (var point in dupPoints)
+            {
+                points.UshortPoints.Remove(point);
+            }
         }
         /// <summary>
         /// short型点注册
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<short> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<short> mapping,ILog log)
         {
+            List<DevicePoint<short>> dupPoints = new List<DevicePoint<short>>();//重复点名列表
             foreach (var point in points.ShortPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
             }
-
+            foreach (var point in dupPoints)
+            {
+                points.ShortPoints.Remove(point);
+            }
         }
         /// <summary>
         /// uint型点注册
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<uint> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<uint> mapping,ILog log)
         {
+            List<DevicePoint<uint>> dupPoints = new List<DevicePoint<uint>>();//重复点名列表
             foreach (var point in points.UintPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
+            }
+            foreach (var point in dupPoints)
+            {
+                points.UintPoints.Remove(point);
             }
 
         }
@@ -142,11 +176,24 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<int> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<int> mapping,ILog log)
         {
+            List<DevicePoint<int>> dupPoints = new List<DevicePoint<int>>();//重复点名列表
             foreach (var point in points.IntPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
+            }
+            foreach (var point in dupPoints)
+            {
+                points.IntPoints.Remove(point);
             }
 
         }
@@ -155,11 +202,24 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="boolMaping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<float> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<float> mapping,ILog log)
         {
+            List<DevicePoint<float>> dupPoints = new List<DevicePoint<float>>();//重复点名列表
             foreach (var point in points.FloatPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
+            }
+            foreach (var point in dupPoints)
+            {
+                points.FloatPoints.Remove(point);
             }
 
         }
@@ -168,11 +228,24 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<double> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<double> mapping,ILog log)
         {
+            List<DevicePoint<double>> dupPoints = new List<DevicePoint<double>>();//重复点名列表
             foreach (var point in points.DoublePoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
+            }
+            foreach (var point in dupPoints)
+            {
+                points.DoublePoints.Remove(point);
             }
 
         }
@@ -181,13 +254,25 @@ namespace DataServer.Points
         /// </summary>
         /// <param name="points"></param>
         /// <param name="mapping"></param>
-        public static void Register(PointDeviceCollcet points, IPointMapping<string> mapping)
+        public static void Register(ref PointDeviceCollcet points, IPointMapping<string> mapping,ILog log)
         {
+            List<DevicePoint<string>> dupPoints = new List<DevicePoint<string>>();//重复点名列表
             foreach (var point in points.StringPoints)
             {
-                mapping.Register(point.Name, point);
+                if (mapping.Find(point.Name))
+                {
+                    dupPoints.Add(point);
+                    log.ErrorLog(string.Concat("Point Register Error:Duplication point name <", point.Name, ">"));
+                }
+                else
+                {
+                    mapping.Register(point.Name, point);
+                }
             }
-
+            foreach (var point in dupPoints)
+            {
+                points.StringPoints.Remove(point);
+            }
         }
     }
     /// <summary>

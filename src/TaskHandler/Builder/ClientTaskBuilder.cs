@@ -62,8 +62,9 @@ namespace TaskHandler.Builder
                 return false;
             }
             var pointsFactory = new PointsCollcetFactory(workBook, _log);
-            _clientTask.Points = pointsFactory.CreatePoints(_clientName);
-            PointsRegister.Register(_clientTask.Points, _log);
+            var points = pointsFactory.CreatePoints(_clientName);
+            PointsRegister.Register(ref points , _log);
+            _clientTask.Points = points;
             return true;
         }
         public virtual bool BuildClient()

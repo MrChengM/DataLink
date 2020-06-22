@@ -5,7 +5,7 @@
       <task id="ModbusTCPClient" taskname="ModbusTCPClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1" />
       <task id="ModbusTCPServer" taskname="ModbusTCPServerHandlerTask" tasktype="Server" drivertype="Ethernet" initlevel="2" />
       <task id="S7CommClient" taskname="S7CommClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1" />
-
+      <task id="ModbusRTUClient" taskname="ModbusRTUClientHandlerTask" tasktype="Client" drivertype="Serialport" initlevel="1" />
     </tasks>
   </platform>
   <project>
@@ -14,6 +14,8 @@
       <setup id="2" handler="ModbusTCPServerHandlerTask"  clientname="modbusserver" type="signallist" signallist="...\..\..\..\conf\scadafiles\ModbusMapping_List.xml" address="127.0.0.1" timeout="1000" port="501" salveid="1" maxconnect="100"/>
       <setup id="3" handler="S7CommClientHandlerTask"  clientname="s7commmclient" type="signallist" signallist="...\..\..\..\conf\scadafiles\S7_Signals_List.xml" address="192.168.1.240" polltimer="1000" timeout="1000" port="102" slotno="1" />
       <setup id="4" handler="ModbusTCPClientHandlerTask"  clientname="modbusclient" type="signallist" signallist="...\..\..\..\conf\scadafiles\Modbus_Signals_List1.xml" address="127.0.0.1" polltimer="1000" timeout="1000" port="501"/>
+      <setup id="5" handler="ModbusRTUClientHandlerTask"  clientname="modbusclient" type="signallist" signallist="...\..\..\..\conf\scadafiles\Modbus_Signals_List1.xml" comport="com3" polltimer="1000" timeout="1000" />
+
     </setups>
   </project>
 </configuration>

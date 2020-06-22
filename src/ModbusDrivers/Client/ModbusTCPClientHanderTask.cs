@@ -61,7 +61,7 @@ namespace ModbusDrivers.Client
                 _workbook = XmlSerialiaztion.XmlDeserial<XMLWorkbook>(_config.SignalListFilePath, _log);
                 _points = PointsCollcetCreate.Create(_workbook,_log);
                 //点数据注册
-                PointsRegister.Register(_points, _log);
+                PointsRegister.Register( ref _points, _log);
                 _log.NormalLog(string.Format("ModbusTCPClientHanderTask:Initing=>Inited "));
                 return true;
 
