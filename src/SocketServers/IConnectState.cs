@@ -9,7 +9,7 @@ namespace SocketServers
 {
     public interface IConnectState : IDisposable
     {
-        BufferMangment BufferPool { get; }
+        BufferMangment ReadBufferPool { get; }
         ILog Log
         {
             get;
@@ -31,6 +31,7 @@ namespace SocketServers
         void ReceiveAsync(int count);
 
         void SendAsync(byte[] buff);
+        int Send(byte[] buff);
 
     }
 }

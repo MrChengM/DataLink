@@ -32,13 +32,13 @@ namespace TaskHandler
             if (_configs != null)
             {
                 _log.NormalLog(string.Format("{0}:Down=>Creating","SetUp()"));
-                var taskFactory = new ts.TaskFactory(_configFath);
 
+                //创建外部task
+                var taskFactory = new ts.TaskFactory(_configFath);
                 //task类型配置
                 foreach(var config in _configs)
                 {
                     ILog log = new DefaultLog(config.TaskName) { Handle = LogHandle.debug, ByteSteamLogSwicth = true };
-
                     //根据task类型配置创建具体的task列表
                     var tasks = taskFactory.CreateTasks(config, log);
                     foreach(var task in tasks)
@@ -50,8 +50,19 @@ namespace TaskHandler
                             addTask(task);
                         }
                     }
-                   
                 }
+
+                //创建内部Task
+
+                //自定义协议，用于信号监控及界面通讯
+                string freeTaskName = "FreedomServerTaskHandler";
+                ILog freelog = new DefaultLog(freeTaskName);
+                TimeOut freeTimeout = new TimeOut(freeTaskName, 1000, freelog);
+                EthernetSetUp freeSetup = new EthernetSetUp("127.0.0.1", 9527);
+                FreedomServerTask freeServerTask = new FreedomServerTask(freeTaskName,freelog,freeTimeout,freeSetup);
+                _log.NormalLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", freeServerTask.TaskName));
+                addTask(freeServerTask);
+
                 sortTasks();
                 foreach(var t in _tasks)
                 {

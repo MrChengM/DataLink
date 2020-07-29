@@ -149,7 +149,7 @@ namespace SocketServers.SAEA
             connectState.ReadComplete += ConnectState_ReadComplete;
             connectState.SendComplete += ConnectState_SendComplete;
             connectState.DisconnectEvent += ConnectState_DisconnectEvent;
-            SocketAsyncEventArgs readWiteEventArg = connectState.ReadSocketArg;
+            SocketAsyncEventArgs readWiteEventArg = connectState.SocketArg;
             readWiteEventArg.SetBuffer(new byte[readCacheSize], 0, readCacheSize);
             readWiteEventArg.UserToken = new AsyncUserToken { AcceptSocket = accpetEventArg.AcceptSocket };
             accpetEventArg.AcceptSocket.ReceiveAsync(readWiteEventArg);
@@ -168,12 +168,12 @@ namespace SocketServers.SAEA
 
         private void ConnectState_SendComplete(SaeaConnectState obj)
         {
-            ReadComplete?.Invoke(obj);
+            SendComplete?.Invoke(obj);
         }
 
         private void ConnectState_ReadComplete(SaeaConnectState obj)
         {
-            SendComplete?.Invoke(obj);
+            ReadComplete?.Invoke(obj);
         }
 
         public bool Stop()

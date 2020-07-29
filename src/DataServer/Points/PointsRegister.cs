@@ -562,6 +562,15 @@ namespace DataServer.Points
                                         deviceAddress.Address = address;
                                     else
                                         flag = false;
+                                    if(arrayStr.Length == 3)
+                                    {
+                                        int bitAddress;
+                                        if (int.TryParse(arrayStr[2], out bitAddress))
+                                            deviceAddress.BitAddress = bitAddress;
+                                        else
+                                            flag = false;
+                                    }
+                                    
                                 }
                                 else
                                 {
@@ -638,7 +647,7 @@ namespace DataServer.Points
         /// <returns></returns>
         public static PointVirtualCollcet CreateMoudbus(XMLWorkbook workBook, ILog log)
         {
-            MappingIndexList mappingIdexList = MappingIndexList.GetInstance();
+            PointMeDataList mappingIdexList = PointMeDataList.GetInstance();
             var result = new PointVirtualCollcet();
             List<string> colums = workBook.llStrings[0];//第一行列表为索引列数据；
             workBook.llStrings.RemoveAt(0);

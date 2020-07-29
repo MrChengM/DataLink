@@ -41,6 +41,7 @@ namespace DataServer.Points
         void ValueUpdate(T value, int index);
 
         event Action<IPoint<T>, int,bool> SendEvent;
+
     }
 
 
@@ -266,6 +267,7 @@ namespace DataServer.Points
                 }
             }
         }
+
         #endregion
 
     }

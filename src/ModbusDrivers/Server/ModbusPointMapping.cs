@@ -369,6 +369,58 @@ namespace ModbusDrivers.Server
             }
         }
 
+        public bool GetValue(string key, byte index)
+        {
+            IPoint<bool> point = GetPoint(key);
+            if (point != null)
+            {
+                return point.GetValue(index);
+            }
+            else
+            {
+                return default(bool);
+            }
+        }
+
+        public int SetValue(string key, bool value, byte index)
+        {
+            IPoint<bool> point = GetPoint(key);
+            if (point != null)
+            {
+                return point.SetValue(value,index)?1:-1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        ushort IPointMapping<ushort>.GetValue(string key, byte index)
+        {
+            IPoint<ushort> point = (this as IPointMapping<ushort>).GetPoint(key);
+            if (point != null)
+            {
+                return point.GetValue(index);
+            }
+            else
+            {
+                return default(ushort);
+            }
+        }
+
+        public int SetValue(string key, ushort value, byte index)
+        {
+            IPoint<ushort> point = (this as IPointMapping<ushort>).GetPoint(key);
+            if (point != null)
+            {
+                return point.SetValue(value,index)?1:-1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         #endregion
     }
     public static class ModbusType

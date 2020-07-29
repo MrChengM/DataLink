@@ -48,14 +48,15 @@
     <Compile Include="Config\ServerConfig.cs" />
     <Compile Include="Config\TaskConfig.cs" />
     <Compile Include="Factory\ClientFactory.cs" />
-    <Compile Include="ClientName.cs" />
+    <Compile Include="ExternalTask\ClientName.cs" />
     <Compile Include="Factory\ConfigFactory.cs" />
     <Compile Include="Factory\PointsCollcetFactory.cs" />
     <Compile Include="Factory\ServerFactory.cs" />
     <Compile Include="Factory\TaskFactory.cs" />
-    <Compile Include="ServerName.cs" />
-    <Compile Include="ServerTaskHander.cs" />
-    <Compile Include="ClientTaskHandler.cs" />
+    <Compile Include="InternalTask\FreedomServerTask.cs" />
+    <Compile Include="ExternalTask\ServerName.cs" />
+    <Compile Include="ExternalTask\ServerTaskHander.cs" />
+    <Compile Include="ExternalTask\ClientTaskHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaksMgr.cs" />
     <Compile Include="TaskType.cs" />
@@ -77,6 +78,10 @@
     <ProjectReference Include="..\DriverLibrary\DriverLibrary.csproj">
       <Project>{b68445d5-4856-4ca6-8715-ddaadc30c30f}</Project>
       <Name>DriverLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FreedomDrivers\FreedomDrivers.csproj">
+      <Project>{f75323b8-2e50-4457-809d-82e7a9c03159}</Project>
+      <Name>FreedomDrivers</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModbusDrivers\ModbusDrivers.csproj">
       <Project>{e444a643-e1e6-4370-9c0f-770aa24bb949}</Project>

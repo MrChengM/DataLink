@@ -77,7 +77,7 @@ namespace SocketServers
         {
             get { return id; }
         }
-        public BufferMangment BufferPool
+        public BufferMangment ReadBufferPool
         {
             get { return bufferPool; }
         }
@@ -208,7 +208,7 @@ namespace SocketServers
         /// 同步发送数据
         /// </summary>
         /// <param name="buff"></param>
-        public void Send(byte[] buff)
+        public int Send(byte[] buff)
         {
             try
             {
@@ -216,9 +216,11 @@ namespace SocketServers
                 {
                     currentSocket.SendTimeout = (int)timeOut.TimeOutSet;
                     currentSocket.Send(buff, buff.Length, SocketFlags.None);
+                    return 1;
                 }
                 else
                     isUsed = false;
+                return -1;
             }
             catch (SocketException ex)
             {
@@ -226,6 +228,8 @@ namespace SocketServers
                 log.ErrorLog(error);
                 Disconnect();
                 Dispose();
+
+                return -1;
             }
         }
         public void Disconnect()
@@ -237,6 +241,8 @@ namespace SocketServers
                 DisconnectEvent?.Invoke(this);
             }
             isUsed = false;
+
+            
         }
 
         #region IDisposable Support

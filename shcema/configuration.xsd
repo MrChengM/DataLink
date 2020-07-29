@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BeumerGroup/configuration" xmlns:tns="BeumerGroup/configuration" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+ 
+  <!--task mgr-->
+    <xs:simpleType name="taskNameType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ModbusTCPClientHandlerTask"/>
+      <xs:enumeration value="ModbusRTUClientHandlerTask"/>
+      <xs:enumeration value="DL645_1997ClientHandlerTask"/>
+      <xs:enumeration value="DL645_2007ClientHandlerTask"/>
+      <xs:enumeration value="S7CommClientHandlerTask"/>
+      <xs:enumeration value="ModbusTCPServerHandlerTask"/>
+      <xs:enumeration value="ModbusRTUServerHandlerTask"/>
+      <xs:enumeration value="OPCServerHandlerTask"/>
+      <xs:enumeration value="DDEServerHandlerTask"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="drivertypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ethernet"/>
+      <xs:enumeration value="Serialport"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="tasktypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Client"/>
+      <xs:enumeration value="Server"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="initlevelType">
+    <xs:restriction base="xs:byte">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="6"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="createtimeOutType">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="10000"/>
+      <xs:maxInclusive value="600000"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="inittimeOutType">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="10000"/>
+      <xs:maxInclusive value="600000"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="starttimeOutType">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="10000"/>
+      <xs:maxInclusive value="600000"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="stoptimeOutType">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="10000"/>
+      <xs:maxInclusive value="600000"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--task-->
+    <xs:complexType name="taskType">
+      <xs:attribute name="id" type="xs:unsignedByte" use="required"/>
+      <xs:attribute name="taskname" type="tns:taskNameType" use="required" />
+      <xs:attribute name="tasktype" type="tns:tasktypeType" use="required"/>
+      <xs:attribute name="drivertype" type="tns:drivertypeType" use="required" />
+      <xs:attribute name="initlevel" type="tns:initlevelType" />
+      <xs:attribute name="createtimeOut" type="tns:createtimeOutType"/>
+      <xs:attribute name="inittimeOut" type="tns:inittimeOutType" />
+      <xs:attribute name="starttimeOut" type="tns:starttimeOutType" />
+      <xs:attribute name="stoptimeOut" type="tns:stoptimeOutType" />
+    </xs:complexType>
+  <!--tasks-->
+  <xs:element name="tasks">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="task" type="tns:taskType" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <!--paltform-->
+  <xs:element name="platform">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tns:tasks"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <!--***************************分割线**********************************-->  
+  <!--setup 属性-->
+  <xs:simpleType name="polltimeType">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="500"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="timeoutType">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="1000"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="salveidType">
+    <xs:restriction base="xs:unsignedByte">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="slotnoType">
+    <xs:restriction base="xs:unsignedByte">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="10"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Ethernet-->
+  <xs:simpleType name="addressType">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="portType">
+    <xs:restriction base="xs:unsignedShort">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="maxconnectType">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="100"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--seriport type-->
+  <xs:simpleType name="comportType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="5"/>
+      <xs:minLength value="4"/>
+      <xs:pattern value="com[0-9]"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="buadrateType">
+    <xs:restriction base="xs:unsignedInt">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="databitType">
+    <xs:restriction base="xs:unsignedByte">
+      <xs:pattern value="[1-9]"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="stopbitType">
+    <xs:restriction base="xs:unsignedByte">
+      <xs:pattern value="[1-9]"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="oddevencheckType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None"/>
+      <xs:enumeration value="Odd"/>
+      <xs:enumeration value="Even"/>
+      <xs:enumeration value="Mark"/>
+      <xs:enumeration value="Space"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="setupType">
+    <xs:attribute name="id" type="xs:unsignedByte" use="required"/>
+    <xs:attribute name="handler" type="tns:taskNameType" use="required"/>
+    <xs:attribute name="clientname" type="xs:string" use="required"/>
+    <xs:attribute name="signallist" type="xs:string" use="required"/>
+    <xs:attribute name="address" type="tns:addressType"/>
+    <xs:attribute name="polltimer" type="tns:polltimeType"/>
+    <xs:attribute name="timeout" type="tns:timeoutType"/>
+    <xs:attribute name="port" type="tns:portType"/>
+    <xs:attribute name="salveid" type="tns:salveidType"/>
+    <xs:attribute name="maxconnect" type="tns:maxconnectType"/>
+    <xs:attribute name="slotno" type="tns:slotnoType"/>
+    <xs:attribute name="comport" type="tns:comportType"/>
+    <xs:attribute name="buadrate" type="tns:buadrateType"/>
+    <xs:attribute name="databit" type="tns:databitType"/>
+    <xs:attribute name="stopbit" type="tns:stopbitType"/>
+    <xs:attribute name="oddevencheck" type="tns:oddevencheckType"/>
+  </xs:complexType>
+  <xs:element name="setups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="setup"  type="tns:setupType" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="project">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tns:setups" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="configuration">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tns:platform" maxOccurs="1"/>
+        <xs:element ref="tns:project" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -94,7 +94,7 @@ namespace ModbusDrivers.Server
 
         private void sendComplete(IConnectState connecter)
         {
-            if (connecter.BufferPool.IsEmpty)
+            if (connecter.ReadBufferPool.IsEmpty)
             {
                 connecter.ReceiveAsync(readCacheSize);
             }
@@ -111,7 +111,7 @@ namespace ModbusDrivers.Server
         {
             lock (locker)
             {
-                var bufferPool = connecter.BufferPool;
+                var bufferPool = connecter.ReadBufferPool;
                 bufferPool.HeadLength = headLength;
                 if (bufferPool.HeadBuffer == null)
                 {

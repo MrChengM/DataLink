@@ -14,7 +14,7 @@ namespace DataServer.Points
     {
         public static PointMapping<T> Instance;
         private static readonly object locker = new object();
-        private MappingIndexList _indexList;
+        private PointMeDataList _indexList;
 
         Dictionary<string,IPoint<T>> mapping=new Dictionary<string, IPoint<T>>();
         private ILog _log;
@@ -42,7 +42,7 @@ namespace DataServer.Points
         private PointMapping(ILog log)
         {
             this._log = log;
-            _indexList = MappingIndexList.GetInstance();
+            _indexList = PointMeDataList.GetInstance();
         }
         public ILog Log
         {
@@ -89,7 +89,7 @@ namespace DataServer.Points
             {
                 
                 mapping.Add(key, point);
-                _indexList.Add(new MappingIndex(point.Name, point.ValueType));
+                _indexList.Add(new PointMetadata(point.Name, point.ValueType,point.Length,point.IsVirtual()));
             }
         }
 
@@ -125,18 +125,42 @@ namespace DataServer.Points
                 return -1;
             }
         }
-    }
-    public class MappingIndexList
-    {
-        List<MappingIndex> _indexList;
-        #region 单例模式，PointMapping只有一个索引
-        public static MappingIndexList Instance;
-        private static readonly object locker=new object() ;
-        private MappingIndexList()
+
+        public T GetValue(string key, byte index)
         {
-            _indexList = new List<MappingIndex>();
+            if (Find(key))
+            {
+                return GetPoint(key).GetValue(index);
+            }
+            else
+            {
+                return default(T);
+            }
         }
-        public static MappingIndexList GetInstance()
+
+        public int SetValue(string key, T value, byte index)
+        {
+            if (Find(key))
+            {
+                return mapping[key].SetValue(value, index) ? 1 : -1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+    public class PointMeDataList
+    {
+        List<PointMetadata> _data;
+        #region 单例模式，PointMapping只有一个索引
+        public static PointMeDataList Instance;
+        private static readonly object locker=new object() ;
+        private PointMeDataList()
+        {
+            _data = new List<PointMetadata>();
+        }
+        public static PointMeDataList GetInstance()
         {
 
             if (Instance == null)
@@ -145,31 +169,36 @@ namespace DataServer.Points
                 {
                     if (Instance == null)
                     {
-                        Instance = new MappingIndexList ();
+                        Instance = new PointMeDataList ();
                     }
                 }
             }
             return Instance;
         }
+
+        public List<PointMetadata> Data
+        {
+            get { return _data; }
+        }
         #endregion
         #region 增，删，查，改
-        public void Add(MappingIndex index)
+        public void Add(PointMetadata index)
         {
             if (!Find(index.Name))
-                _indexList.Add(index);
+                _data.Add(index);
         }
 
         public void Delete(string name )
         {
-                _indexList.RemoveAll((s)=>s.Name==name);
+                _data.RemoveAll((s)=>s.Name==name);
         }
         public bool Find(string name)
         {
-           return _indexList.Exists((s)=>s.Name==name);
+           return _data.Exists((s)=>s.Name==name);
         }
         public bool Find(string name,out string type)
         {
-            var index = _indexList.Find((s) => s.Name == name);
+            var index = _data.Find((s) => s.Name == name);
             if(index!=null)
             {
                 type = index.ValueType;
@@ -184,14 +213,19 @@ namespace DataServer.Points
         }
         #endregion
     }
-    public class MappingIndex
+    public class PointMetadata
     {
         string _name;
         string _valueType;
-        public MappingIndex(string name,string valueType)
+        int _length;
+        bool _isVirtual;
+
+        public PointMetadata(string name,string valueType,int length,bool isVirtual)
         {
             _name = name;
             _valueType = valueType;
+            _length = length;
+            _isVirtual = isVirtual;
         }
 
         public string Name
@@ -209,6 +243,20 @@ namespace DataServer.Points
         {
             get { return _valueType; }
             set { _valueType = value; }
+        }
+        public int Length
+        {
+            get { return _length; }
+            set { _length = value; }
+        }
+        public bool IsVirtual
+        {
+            get { return _isVirtual; }
+            set
+            {
+                _isVirtual = value;
+
+            }
         }
     }
 }

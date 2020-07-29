@@ -48,12 +48,25 @@ namespace DataServer.Points
         /// <returns></returns>
         T[] GetValue(string key);
         /// <summary>
+        /// 获取单个值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        T GetValue(string key,byte index);
+        /// <summary>
         /// 设置piont的值
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         int SetValue(string key, T[] value);
+        /// <summary>
+        /// 设置piont的单个值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        int SetValue(string key, T value,byte index);
         bool SetQuality(string key,QUALITIES quality);
 
     }

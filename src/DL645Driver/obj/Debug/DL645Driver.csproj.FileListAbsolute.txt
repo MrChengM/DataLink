@@ -13,3 +13,10 @@ D:\GitHub\DriverLibrary\src\DL645Driver\bin\Debug\DataServer.pdb
 D:\GitHub\DriverLibrary\src\DL645Driver\obj\Debug\DL645Driver.csprojResolveAssemblyReference.cache
 D:\GitHub\DriverLibrary\src\DL645Driver\obj\Debug\DL645Driver.dll
 D:\GitHub\DriverLibrary\src\DL645Driver\obj\Debug\DL645Driver.pdb
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\bin\Debug\DL645Driver.dll
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\bin\Debug\DL645Driver.pdb
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\bin\Debug\DataServer.dll
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\bin\Debug\DataServer.pdb
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\obj\Debug\DL645Driver.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\obj\Debug\DL645Driver.dll
+D:\C#Projects\DriverLibrary\trunk\src\DL645Driver\obj\Debug\DL645Driver.pdb

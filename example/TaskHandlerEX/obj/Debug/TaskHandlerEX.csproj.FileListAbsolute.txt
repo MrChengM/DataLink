@@ -34,3 +34,6 @@ D:\GitHub\DriverLibrary\example\TaskHandlerEX\bin\Debug\ModbusDrivers.pdb
 D:\GitHub\DriverLibrary\example\TaskHandlerEX\bin\Debug\SiemensDrivers.pdb
 D:\GitHub\DriverLibrary\example\TaskHandlerEX\bin\Debug\DL645Driver.pdb
 D:\GitHub\DriverLibrary\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.csprojResolveAssemblyReference.cache
+D:\C#Projects\DriverLibrary\trunk\example\TaskHandlerEX\bin\Debug\TaskHandlerEX.exe.config
+D:\C#Projects\DriverLibrary\trunk\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.exe
+D:\C#Projects\DriverLibrary\trunk\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.pdb

@@ -178,15 +178,17 @@ namespace DataServer
         public int SalveId { get; set; }
         public int FuctionCode { get; set; }
         public int Address { get; set; }
+        public int BitAddress { get; set; }
         //public string VarType { get; set; }
         public ByteOrder ByteOrder { get; set; }
-        public DeviceAddress(int area, int address,int fuctioncode=0x00, ByteOrder byteOrder = ByteOrder.None)
+        public DeviceAddress(int area, int address, int bitAddress,int fuctioncode=0x00, ByteOrder byteOrder = ByteOrder.None)
         {
             SalveId = area;
             FuctionCode = fuctioncode;
             Address = address;
             //VarType = varType;
             ByteOrder = byteOrder;
+            BitAddress = bitAddress;
         }
 
     }

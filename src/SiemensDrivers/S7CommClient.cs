@@ -278,7 +278,7 @@ namespace SiemensDriver
         /// A[24] ~A[25]:两个字节,写入数据的个数（可能是byte或bit, 按A[23] 来区分）
         /// A[26] ~A[27]: DB块的编号
         /// A[28]: 写入数据块的类型：0x81-input ,0x82-output ,0x83-flag , 0x84-DB(这个最常见);
-        /// A[29] ~A[31]: 写入DB块的偏移量offset(地址+1以byte为单位); 3个字节，范围是0 ~16777216（一般 用不到这么大）
+        /// A[29] ~A[31]: 写入DB块的偏移量offset(地址+1以byte为单位)*8; 3个字节，范围是0 ~16777216（一般 用不到这么大）
         /// A[32] ~A[33]：写入方式为： 03-按bit写入; 04-按byte写入；  
         /// A[34] ~A[35]：写入bit的个数(bit为单位)
         /// A[36] ~最后 ： 连续的写入值；
@@ -308,7 +308,7 @@ namespace SiemensDriver
                 length.ToString("X").PadLeft(4, '0'),
                 address.SalveId.ToString("X").PadLeft(4, '0'),
                 address.FuctionCode.ToString("X").PadLeft(2, '0'),
-                address.Address.ToString("X").PadLeft(6, '0'),
+                (address.Address*8).ToString("X").PadLeft(6, '0'),
                 "0004",
                 (length * 8).ToString("X").PadLeft(4, '0')
                 );
@@ -336,7 +336,7 @@ namespace SiemensDriver
                 length.ToString("X").PadLeft(4, '0'),
                 address.SalveId.ToString("X").PadLeft(4, '0'),
                 address.FuctionCode.ToString("X").PadLeft(2, '0'),
-                address.Address.ToString("X").PadLeft(6, '0'),
+                (address.Address*8+address.BitAddress).ToString("X").PadLeft(6, '0'),
                 "0003",
                 length.ToString("X").PadLeft(4, '0')
                 );
@@ -468,14 +468,14 @@ namespace SiemensDriver
         {
             var datas = readyBytes(deviceAddress, 1);
             return datas == null ? Item<bool>.CreateDefault() :
-                new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], deviceAddress.BitAddress), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
         {
-            var datas = readyBytes(deviceAddress, (int)Math.Ceiling((double)length/8));
-            var bools = NetConvert.BytesToBools(datas, length);
-            return NetConvert.ToItems(bools, 0, bools.Length);
+            var datas = readyBytes(deviceAddress, (int)Math.Ceiling((double)(deviceAddress.BitAddress+ length)/8));
+            var bools = NetConvert.BytesToBools(datas,deviceAddress.BitAddress, length);
+            return NetConvert.ToItems(bools, 0, length);
 
         }
         public Item<byte> ReadByte(DeviceAddress deviceAddress)

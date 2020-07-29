@@ -23,7 +23,6 @@ namespace TaskHandler.Builder
         protected ILog _log;
         protected string _taskName;
         protected ClientName _clientName;
-        protected string _configFilePath = "../../../../conf/Configuration.xml";
         protected ClientConfig _baseconfig;
 
         ////相同类型Task创建多个

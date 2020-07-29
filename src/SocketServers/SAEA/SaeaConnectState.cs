@@ -27,10 +27,10 @@ namespace SocketServers.SAEA
         private TimeOut timeOut;
         #endregion
         #region 属性
-        public SocketAsyncEventArgs ReadSocketArg
+        public SocketAsyncEventArgs SocketArg
         {
             get { return socketArg; }
-            set { socketArg = value; }
+           private set { socketArg = value; }
         }
         //public SocketAsyncEventArgs SendsocketArg
         //{
@@ -58,7 +58,7 @@ namespace SocketServers.SAEA
         {
             get { return id; }
         }
-        public BufferMangment BufferPool
+        public BufferMangment ReadBufferPool
         {
             get { return bufferPool; }
         }
@@ -176,7 +176,6 @@ namespace SocketServers.SAEA
             {
                 socketArg.SetBuffer(buff, 0, buff.Length);
                 s.SendAsync(socketArg);
-
                 //发送报文记录
                 log.ByteSteamLog(ActionType.SEND, buff);
             }
@@ -191,16 +190,39 @@ namespace SocketServers.SAEA
 
 
         }
+        /// <summary>
+        /// 同步发送数据
+        /// </summary>
+        /// <param name="buff"></param>
+        public int Send(byte[] buff)
+        {
+            var s = ((AsyncUserToken)socketArg.UserToken).AcceptSocket;
+            try
+            {
+                s.SendTimeout = (int)timeOut.TimeOutSet;
+                s.Send(buff, buff.Length, SocketFlags.None);
+                return 1;
+            }
+            catch (SocketException ex)
+            {
+                string error = string.Format("Sync Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, s.RemoteEndPoint);
+                log.ErrorLog(error);
+                Clear();
+                if (_m_ConnectStatePool != null)
+                    _m_ConnectStatePool.Return(this);
+                return -1;
+            }
+        }
         public void Disconnect()
         {
             var s = ((AsyncUserToken)socketArg.UserToken).AcceptSocket;
             if (s.Connected)
             {
-                log.NormalLog(string.Format("Disconnect information,ID:{0} , IPAdderss:{1}", ID, s.RemoteEndPoint));
                 s.Shutdown(SocketShutdown.Both);
-                s.Close();
-                DisconnectEvent?.Invoke(this);
             }
+            log.NormalLog(string.Format("Disconnect information,ID:{0} , IPAdderss:{1}", ID, s.RemoteEndPoint));
+            s.Close();
+            DisconnectEvent?.Invoke(this);
         }
         public void Clear()
         {

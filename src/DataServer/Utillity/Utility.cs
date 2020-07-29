@@ -293,6 +293,34 @@ namespace DataServer.Utillity
             return result;
         }
         /// <summary>
+        /// 字节数组转bool数组
+        /// </summary>
+        /// <param name="sourceBytes">源目标字节数组</param>
+        /// <param name="length">转换长度，最大值为byte[].length*8</param>
+        /// <returns></returns>
+        public static bool[] BytesToBools(byte[] sourceBytes, int positon, int length)
+        {
+            if (sourceBytes == null || length+ positon > sourceBytes.Length * 8)
+                return null;
+            bool[] result = new bool[length];
+            int index1 = 0;
+            int index2 = 0;
+            for (int i = 0; i < sourceBytes.Length; i++)
+            {
+                index1 = 8 * i;
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((index2 = index1 + j - positon) >= 0)
+                    {
+                        if (index2 >= length)
+                            return result;
+                        result[index2] = ByteToBool(sourceBytes[i], j);
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         /// 字节数组转换为16位整型
         /// </summary>
         /// <param name="data"> 输入值</param>
@@ -827,6 +855,10 @@ namespace DataServer.Utillity
         }
         public static long[] BytesToLongs(byte[] data, int startIndex, int count, ByteOrder byteOrder)
         {
+            if (data == null)
+            {
+                return null;
+            }
             long[] result = new long[count];
             for (int i = 0; i < count; i++)
             {
@@ -849,6 +881,10 @@ namespace DataServer.Utillity
         }
         public static float[] BytesToFloats(byte[] data, int startIndex, int count, ByteOrder byteOrder)
         {
+            if (data == null)
+            {
+                return null;
+            }
             float[] result = new float[count];
             for (int i = 0; i < count; i++)
             {

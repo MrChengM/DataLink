@@ -12,6 +12,10 @@ namespace SocketServers
         private bool isEmpty;
 
         /// <summary>
+        /// 字符串缓存
+        /// </summary>
+        private string strCache;
+        /// <summary>
         /// 报文头长度
         /// </summary>
         private int headLength;
@@ -41,7 +45,11 @@ namespace SocketServers
         {
             get { return temp.Count == 0; }
         }
-
+        public string StrCache
+        {
+            get { return strCache; }
+            set { strCache = value; }
+        }
         /// <summary>
         /// 报文头长度
         /// </summary>
@@ -110,14 +118,16 @@ namespace SocketServers
             headBuffer = null;
             bodyBuffer = null;
             sendBuffer = null;
+            strCache = null;
         }
         public BufferMangment(int size)
         {
-            temp = new Queue<byte>(size * 2);
+            temp = new Queue<byte>(size*2);
             readBuffer = new byte[size];
             headBuffer = null;
             bodyBuffer = null;
             sendBuffer = null;
+            strCache = null;
         }
         public bool EnCache(int count)
         {
@@ -168,6 +178,15 @@ namespace SocketServers
             }
            
         }
+        public void ConvertToStrCache()
+        {
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            while (temp.Count > 0)
+            {
+                strCache += encoding.GetString(new[] { temp.Dequeue() });
+            }
+
+        }
         /// <summary>
         /// 清空除主队列外的缓存数据
         /// </summary>
@@ -187,6 +206,7 @@ namespace SocketServers
             headBuffer = null;
             bodyBuffer = null;
             sendBuffer = null;
+            strCache = null;
         }
     }
 }

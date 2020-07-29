@@ -1,0 +1,22 @@
+﻿<Window x:Class="SignalMonitor.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignalMonitor"
+        mc:Ignorable="d"
+        Title="SearchWindow" Height="500" Width="400">
+    <Grid>
+        <StackPanel Height="20" Margin="0,0,0,0" VerticalAlignment="Top" Orientation="Horizontal" >
+            <CheckBox x:Name="deviceChBox" Content="Device" HorizontalAlignment="Left" Height="20" Width="72" IsChecked="True" Click="deviceChBox_Click"/>
+            <CheckBox x:Name="virtualChBox" Content="Virtual" HorizontalAlignment="Left" Height="20" Width="72" IsChecked="True" Click="virtualChBox_Click"/>
+            <!--<CheckBox x:Name="checkBox2" Content="CheckBox" HorizontalAlignment="Left" Height="20" Width="72"/>-->
+        </StackPanel>
+        <ListBox x:Name="pointNameLiBox"  Margin="0,42.8,0,30.733"  DisplayMemberPath="SignalName" MouseDoubleClick="addPointClick" SelectionMode="Extended">
+        </ListBox>
+        <Button x:Name="AddPoint" Content="Add" HorizontalAlignment="Left" Height="25.733" Margin="0.933,0,0,0" VerticalAlignment="Bottom" Width="55.467" Click="addPointClick"/>
+        <TextBlock x:Name="signalNumberTexBlock" HorizontalAlignment="Right" Height="23.067" TextWrapping="Wrap" VerticalAlignment="Bottom"  Margin="0,0,24.733,0"><Run Text="Showing"/><Run Text=" 0 of 0 Signals"/></TextBlock>
+        <TextBox x:Name="signalSearchTeBox" Height="22.8" Margin="0,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="signalSearchTeBox_KeyDown" />
+
+    </Grid>
+</Window>
