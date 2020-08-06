@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalMonitor"
+        xmlns:I="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="SignalMonitor" Height="500" Width="1000">
     <Grid>
@@ -16,6 +17,7 @@
             </Menu.Background>
             <MenuItem x:Name="SignalMeItem" Header="Add Signals" Height="25" Foreground="White" MouseLeftButtonDown="signalMeItemMouseLeftButtonDown" >
             </MenuItem>
+            <MenuItem x:Name="ClearMeItem" Header="Clear List" Height="25" Foreground="White"/>
             <MenuItem x:Name="SaveMeItem" Header="Save List" Height="25" Foreground="White">
             </MenuItem>
             <MenuItem x:Name="LoadMeItem" Header="Load List" Height="25" Foreground="White">
@@ -51,4 +53,5 @@
             </ListView.View>
         </ListView>
     </Grid>
+   
 </Window>

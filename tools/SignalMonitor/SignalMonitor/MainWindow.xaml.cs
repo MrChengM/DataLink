@@ -19,6 +19,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
+
 namespace SignalMonitor
 {
     /// <summary>
@@ -28,7 +29,7 @@ namespace SignalMonitor
     {
         ObservableCollection<SignalDisplay> signalList = new ObservableCollection<SignalDisplay>();
         List<PointMetadata> pointMetaData;
-        ObservableCollection<SignalDisplay> commSignalList;
+        //ObservableCollection<SignalDisplay> commSignalList;
 
         SearchWindow searchWin;
         ConnectWindow connectWindow ;
@@ -221,7 +222,6 @@ namespace SignalMonitor
                     {
                         string name = string.Concat(metaData.Name, "[", i, "]");
                         SignalDisplay s = new SignalDisplay { SignalName = name, Type = metaData.ValueType, IsVirtual = metaData.IsVirtual };
-
                         pointNames.Add(s);
                     }
                 }
