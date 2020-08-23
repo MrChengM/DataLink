@@ -28,3 +28,4 @@ D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\bin\Debug\DriverLibrary.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\obj\Debug\DriverLibrary.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\obj\Debug\DriverLibrary.exe
 D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\obj\Debug\DriverLibrary.pdb
+D:\GitHub\DriverLibrary\src\DriverLibrary\obj\Debug\DriverLibrary.csprojResolveAssemblyReference.cache

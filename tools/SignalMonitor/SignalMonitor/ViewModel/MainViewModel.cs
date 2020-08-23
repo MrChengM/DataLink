@@ -161,7 +161,7 @@ namespace SignalMonitor
         private void DataTask_WriteFreedBack(bool obj)
         {
             Application.Current.Dispatcher.Invoke(
-                () => 
+                () =>
                 {
                     if (obj)
                         MessageBox.Show("Sucessfull!", "Write Value feedBack");
@@ -183,7 +183,7 @@ namespace SignalMonitor
         {
             dataTask.Dispose();
             Application.Current.Shutdown(); //关闭当前程序
-            //Environment.Exit(0);立即中断程序运行
+            Environment.Exit(0);//立即中断程序运行
         }
 
         private void deleteItems(object sender, object parameter,KeyEventArgs e)

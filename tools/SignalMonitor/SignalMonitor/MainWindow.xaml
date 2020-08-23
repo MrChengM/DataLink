@@ -68,7 +68,7 @@
                             <DataTemplate>
                                 <TextBox x:Name="wirteTeBox" Width="100" DataContext="{Binding Source={StaticResource VM}}">
                                     <I:Interaction.Triggers>
-                                        <I:EventTrigger EventName="KeyUp">
+                                        <I:EventTrigger EventName="KeyDown">
                                             <local:MyEventCommand Command="{Binding InputCommand}"/>
                                         </I:EventTrigger>
                                     </I:Interaction.Triggers>

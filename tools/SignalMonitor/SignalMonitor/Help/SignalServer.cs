@@ -111,6 +111,7 @@ namespace SignalMonitor
             //断线重连事件
             _reConnectTimer = new Timer(3000);
             _reConnectTimer.Elapsed += ReTime_Elapsed;
+            _reConnectTimer.Enabled = false;
             //读服务器元数据
             _client.AsyncReadMetaData += asyncReadMetaData;
             //订阅异步客户端事件
@@ -119,8 +120,7 @@ namespace SignalMonitor
             _client.DisconnectEvent += disconnectEvent;
 
             //第一次连接
-            _client.Connect();
-            _client.ReadMetaData();
+            ReadMetaData();
 
 
         }
@@ -285,7 +285,9 @@ namespace SignalMonitor
             {
                 if (disposing)
                 {
-                    _client.Dispose();
+                    _reConnectTimer?.Close();
+                    _client?.Dispose();
+                    Instance = null;
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
