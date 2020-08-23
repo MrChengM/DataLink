@@ -71,3 +71,5 @@ D:\C#Projects\DriverLibrary\trunk\src\TaskHandler\bin\Debug\SocketServers.pdb
 D:\C#Projects\DriverLibrary\trunk\src\TaskHandler\obj\Debug\TaskHandler.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\TaskHandler\obj\Debug\TaskHandler.dll
 D:\C#Projects\DriverLibrary\trunk\src\TaskHandler\obj\Debug\TaskHandler.pdb
+D:\GitHub\DriverLibrary\src\TaskHandler\bin\Debug\FreedomDrivers.dll
+D:\GitHub\DriverLibrary\src\TaskHandler\bin\Debug\FreedomDrivers.pdb

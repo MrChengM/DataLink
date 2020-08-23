@@ -13,7 +13,7 @@ using DataServer.Points;
 
 namespace SignalMonitor
 {
-    public class DataExchangeTask
+    public class SignalServer:IDisposable
     {
         #region 字段
         FreedomClientAsync _client;
@@ -25,9 +25,8 @@ namespace SignalMonitor
         ObservableCollection<SignalDisplay> _mainSignalList = new ObservableCollection<SignalDisplay>();
         //元数据信号读取集合
         ObservableCollection<SignalDisplay> _sourceSignalList = new ObservableCollection<SignalDisplay>();
-        Window _currentWindow;
+        //Window _currentWindow;
         #endregion
-
 
         #region 属性
         public EthernetSetUp SetUp
@@ -64,17 +63,17 @@ namespace SignalMonitor
             }
         }
 
-        public Window CurrentWindow
-        {
-            set
-            {
-                _currentWindow = value;
-            }
-            get
-            {
-                return _currentWindow;
-            }
-        }
+        //public Window CurrentWindow
+        //{
+        //    set
+        //    {
+        //        _currentWindow = value;
+        //    }
+        //    get
+        //    {
+        //        return _currentWindow;
+        //    }
+        //}
         public ObservableCollection<SignalDisplay> MainSignalList
         {
             get { return _mainSignalList; }
@@ -86,13 +85,32 @@ namespace SignalMonitor
             set { _sourceSignalList = value; }
         }
         #endregion
-        public DataExchangeTask( Window currentWindow)
+        private static SignalServer Instance;
+        private static readonly object locker = new object();
+        public static SignalServer GetInstance()
         {
-            _currentWindow = currentWindow;
+            if (Instance == null)
+            {
+                lock (locker)
+                {
+                    if (Instance == null)
+                    {
+                        Instance =new SignalServer();
+                    }
+                }
+            }
+            return Instance;
+        }
+        private SignalServer( )
+        {
+            //_currentWindow = currentWindow;
             _setUp = new EthernetSetUp("127.0.0.1", 9527);
             _log = new DefaultLog("SignalMonitor");
             _timeOut = new TimeOut("SignalMonitor", 1000, _log);
             _client = new FreedomClientAsync(_setUp, _timeOut, _log);
+            //断线重连事件
+            _reConnectTimer = new Timer(3000);
+            _reConnectTimer.Elapsed += ReTime_Elapsed;
             //读服务器元数据
             _client.AsyncReadMetaData += asyncReadMetaData;
             //订阅异步客户端事件
@@ -101,15 +119,14 @@ namespace SignalMonitor
             _client.DisconnectEvent += disconnectEvent;
 
             //第一次连接
+            _client.Connect();
             _client.ReadMetaData();
 
-            //断线重连事件
-            _reConnectTimer = new Timer(3000);
-            _reConnectTimer.Elapsed += ReTime_Elapsed;
+
         }
 
 
-        private void ReadMetaData()
+        public void ReadMetaData()
         {
             if (_client.Connect())
             {
@@ -117,7 +134,7 @@ namespace SignalMonitor
             }
         }
 
-        public void Subscrible(List<SignalDisplay> items)
+        public void Subscribe(List<SignalDisplay> items)
         {
             List<Address> subList = new List<Address>();
             foreach (var s in items)
@@ -204,28 +221,19 @@ namespace SignalMonitor
 
         private void disconnectEvent(FreedomClientAsync obj)
         {
-            _sourceSignalList.Clear();
-            _mainSignalList.Clear();
+            Application.Current.Dispatcher.Invoke(() => {
+                _sourceSignalList.Clear();
+                _mainSignalList.Clear();
+            });
             if (!_reConnectTimer.Enabled)
             {
                 _reConnectTimer.Enabled = true;
             }
         }
-
+        public event Action<bool> WriteFreedBack;
         private void ayncWriteEvent(bool obj)
         {
-            _currentWindow.Dispatcher.Invoke(() =>
-            {
-                if (obj)
-                {
-                    MessageBox.Show("Sucessful", "Write Status", MessageBoxButton.OK);
-
-                }
-                else
-                {
-                    MessageBox.Show("Fail", "Write Status", MessageBoxButton.OK);
-                }
-            });
+            WriteFreedBack?.Invoke(obj);
         }
 
         private void asyncReadOrSubsEvent(List<AsyncResult> obj)
@@ -267,6 +275,41 @@ namespace SignalMonitor
                 timer.Enabled = true;
             }
         }
-        
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _client.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~SignalServer() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            GC.SuppressFinalize(this);
+        }
+        #endregion
+
     }
 }

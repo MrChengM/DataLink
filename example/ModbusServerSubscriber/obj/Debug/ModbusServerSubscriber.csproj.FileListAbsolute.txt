@@ -10,3 +10,15 @@ D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\SocketServe
 D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.exe
 D:\C#Projects\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.pdb
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusServerSubscriber.exe.config
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusServerSubscriber.exe
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusServerSubscriber.pdb
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\DataServer.dll
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusDrivers.dll
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\SocketServers.dll
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\DataServer.pdb
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\ModbusDrivers.pdb
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\bin\Debug\SocketServers.pdb
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.exe
+D:\GitHub\DriverLibrary\example\ModbusServerSubscriber\obj\Debug\ModbusServerSubscriber.pdb

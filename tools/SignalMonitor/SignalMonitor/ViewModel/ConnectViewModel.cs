@@ -16,11 +16,13 @@ namespace SignalMonitor
 {
     public class ConnectViewModel:INotifyPropertyChanged
     {
-        DataExchangeTask dataTask;
+        SignalServer dataTask;
+        ConnectWindow connectWindow;
 
-        public ConnectViewModel(DataExchangeTask task)
+        public ConnectViewModel(ConnectWindow window)
         {
-            dataTask = task;
+            dataTask = SignalServer.GetInstance();
+            connectWindow = window;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

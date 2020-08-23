@@ -36,6 +36,7 @@ namespace SignalMonitor
         public ConnectWindow()
         {
             InitializeComponent();
+            DataContext = new ConnectViewModel(this);
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

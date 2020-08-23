@@ -17,7 +17,9 @@ namespace SignalMonitor
     public class MainViewModel : INotifyPropertyChanged
     {
 
-        DataExchangeTask dataTask;
+        SignalServer dataTask;
+        MyCommand<RoutedEventArgs> closeWindowCommand;
+
         MyCommand<KeyEventArgs> deleteCommand;
         MyCommand<KeyEventArgs> inputCommand;
         MyCommand<MouseEventArgs> searchClickCommand;
@@ -26,8 +28,34 @@ namespace SignalMonitor
         MyCommand<MouseEventArgs> clearClickCommand;
         MyCommand<MouseEventArgs> loadClickCommand;
         SearchWindow searchWindow;
-        MainWindow mainWindow;
+        //MainWindow mainWindow;
         ConnectWindow connectWindow;
+
+        ObservableCollection<SignalDisplay> mainSignalDisplay;
+
+
+        public ObservableCollection<SignalDisplay> MainSignalDisplay
+        {
+            get
+            {
+                return mainSignalDisplay;
+            }
+            set
+            {
+                mainSignalDisplay = value;
+            }
+        }
+        public MyCommand<RoutedEventArgs> CloseWindowCommand
+        {
+            get
+            {
+                return closeWindowCommand;
+            }
+            set
+            {
+                closeWindowCommand = value;
+            }
+        }
 
         public MyCommand<KeyEventArgs> DeleteCommand
         {
@@ -119,27 +147,46 @@ namespace SignalMonitor
             }
         }
 
-        public MainViewModel(MainWindow currentWindow)
+        public MainViewModel()
         {
-            dataTask = new DataExchangeTask(currentWindow);
-            mainWindow = currentWindow;
+            dataTask = SignalServer.GetInstance();
+            mainSignalDisplay = dataTask.MainSignalList;
+            dataTask.WriteFreedBack += DataTask_WriteFreedBack;
+            //mainWindow = currentWindow;
             searchWindow = new SearchWindow();
-            searchWindow.DataContext = new SearchViewModel(dataTask);
             connectWindow = new ConnectWindow();
-            connectWindow.DataContext = new ConnectViewModel(dataTask);
             initCommand();
+        }
+
+        private void DataTask_WriteFreedBack(bool obj)
+        {
+            Application.Current.Dispatcher.Invoke(
+                () => 
+                {
+                    if (obj)
+                        MessageBox.Show("Sucessfull!", "Write Value feedBack");
+                    else
+                        MessageBox.Show("Fail!", "Write Value feedBack");
+                });
         }
 
         private void initCommand()
         {
-            deleteCommand = new MyCommand<KeyEventArgs>(new Func<KeyEventArgs, bool>(s => true), new Action<object,KeyEventArgs>(deleteItems));
-            inputCommand = new MyCommand<KeyEventArgs>(new Func<object, bool>(s =>true), new Action<object,KeyEventArgs>(inputSignalValue));
-            searchClickCommand = new MyCommand<MouseEventArgs>(new Func<MouseEventArgs, bool>(s => true), new Action<object, MouseEventArgs>(searchClick));
-            connectClickCommand = new MyCommand<MouseEventArgs>(new Func<MouseEventArgs, bool>(s => true), new Action<object, MouseEventArgs>(connectClick));
+            closeWindowCommand = new MyCommand<RoutedEventArgs>(new Func<RoutedEventArgs, bool>(s => true), new Action<object, object, RoutedEventArgs>(closeWindow));
+            deleteCommand = new MyCommand<KeyEventArgs>(new Func<KeyEventArgs, bool>(s => true), new Action<object,object,KeyEventArgs>(deleteItems));
+            inputCommand = new MyCommand<KeyEventArgs>(new Func<object, bool>(s =>true), new Action<object, object,KeyEventArgs>(inputSignalValue));
+            searchClickCommand = new MyCommand<MouseEventArgs>(new Func<MouseEventArgs, bool>(s => true), new Action<object, object, MouseEventArgs>(searchClick));
+            connectClickCommand = new MyCommand<MouseEventArgs>(new Func<MouseEventArgs, bool>(s => true), new Action<object, object, MouseEventArgs>(connectClick));
         }
 
-      
-        private void deleteItems(object sender,KeyEventArgs e)
+        private void closeWindow(object sender,object parameter, RoutedEventArgs e)
+        {
+            dataTask.Dispose();
+            Application.Current.Shutdown(); //关闭当前程序
+            //Environment.Exit(0);立即中断程序运行
+        }
+
+        private void deleteItems(object sender, object parameter,KeyEventArgs e)
         {
             List<SignalDisplay> deleteList = new List<SignalDisplay>();
             List<Address> cancelList = new List<Address>();
@@ -155,9 +202,9 @@ namespace SignalMonitor
                 dataTask.CancelSubscribe(deleteList);
             }
         }
-        private void inputSignalValue(object sender,KeyEventArgs e)
+        private void inputSignalValue(object sender, object parameter,KeyEventArgs e)
         {
-            TextBox inputTeBox = sender as TextBox;
+            TextBox inputTeBox = e.Source as TextBox;
             if (e.Key == Key.Enter)
             {
                 var parent = VisualTreeHelper.GetParent(inputTeBox) as ContentPresenter;
@@ -165,11 +212,15 @@ namespace SignalMonitor
                 dataTask.WriteAsync(item, inputTeBox.Text);
             }
         }
-        private void searchClick(object sender,MouseEventArgs e)
+        private void searchClick(object sender, object parameter,MouseEventArgs e)
         {
-
+            if (!searchWindow.IsVisible)
+            {
+                searchWindow = new SearchWindow();
+                searchWindow.Show();
+            }
         }
-        private void connectClick(object sender, MouseEventArgs e)
+        private void connectClick(object sender, object parameter, MouseEventArgs e)
         {
             throw new NotImplementedException();
         }

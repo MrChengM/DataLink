@@ -37,3 +37,5 @@ D:\GitHub\DriverLibrary\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.csprojReso
 D:\C#Projects\DriverLibrary\trunk\example\TaskHandlerEX\bin\Debug\TaskHandlerEX.exe.config
 D:\C#Projects\DriverLibrary\trunk\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.exe
 D:\C#Projects\DriverLibrary\trunk\example\TaskHandlerEX\obj\Debug\TaskHandlerEX.pdb
+D:\GitHub\DriverLibrary\example\TaskHandlerEX\bin\Debug\FreedomDrivers.dll
+D:\GitHub\DriverLibrary\example\TaskHandlerEX\bin\Debug\FreedomDrivers.pdb

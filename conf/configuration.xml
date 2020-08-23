@@ -2,11 +2,12 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="BeumerGroup/configuration">
   <platform>
     <tasks>
-      <!--<task id="ModbusTCPClient" taskname="ModbusTCPClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1" />
-      <task id="ModbusTCPServer" taskname="ModbusTCPServerHandlerTask" tasktype="Server" drivertype="Ethernet" initlevel="2" />-->
-      <task id="1" taskname="S7CommClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1" />
+      <task id="ModbusTCPClient" taskname="ModbusTCPClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1" />
+      <!--<task id="ModbusTCPServer" taskname="ModbusTCPServerHandlerTask" tasktype="Server" drivertype="Ethernet" initlevel="2" />-->
+      <!--<task id="1" taskname="S7CommClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1" />-->
       <!--<task id="ModbusRTUClient" taskname="ModbusRTUClientHandlerTask" tasktype="Client" drivertype="Serialport" initlevel="1" />-->
       <!-- <task id="2" taskname="ModbusTCPClientHandlerTask" tasktype="Client" drivertype="Ethernet" initlevel="1"/> -->
+      
     </tasks>
   </platform>
   <project>
