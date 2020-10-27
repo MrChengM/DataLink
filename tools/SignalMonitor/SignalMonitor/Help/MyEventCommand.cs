@@ -32,18 +32,7 @@ namespace SignalMonitor
         protected override void Invoke(object parameter)
         {
 
-            /*
-
-             * ★★★★★★★★★★★★★★★★★★★★★★★★
-
-             * 注意这里添加了事件触发源和事件参数
-
-             * ★★★★★★★★★★★★★★★★★★★★★★★★
-
-             */
-
             ExCommandParameter exParameter = new ExCommandParameter
-
             {
 
                 Sender = AssociatedObject,
@@ -55,23 +44,8 @@ namespace SignalMonitor
                 EventArgs = parameter as EventArgs
 
             };
-
-
-
             if (Command != null && Command.CanExecute(exParameter))
-
             {
-
-                /*
-
-                 * ★★★★★★★★★★★★★★★★★★★★★★★★
-
-                 * 注意将扩展的参数传递到Execute方法中
-
-                 * ★★★★★★★★★★★★★★★★★★★★★★★★
-
-                 */
-
                 Command.Execute(exParameter);
             }
         }

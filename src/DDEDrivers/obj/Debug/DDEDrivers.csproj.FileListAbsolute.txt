@@ -22,4 +22,3 @@ D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\bin\Debug\DDEDrivers.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\obj\Debug\DDEDrivers.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\obj\Debug\DDEDrivers.dll
 D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\obj\Debug\DDEDrivers.pdb
-D:\GitHub\DriverLibrary\src\DDEDrivers\obj\Debug\DDEDrivers.csprojResolveAssemblyReference.cache

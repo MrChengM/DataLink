@@ -124,8 +124,17 @@ namespace SignalMonitor
 
 
         }
-
-
+        public void Reconnect()
+        {
+            _client.EthernetSetUp = _setUp;
+            _client.DisConnect();
+        }
+        public void Disconnect()
+        {
+            _reConnectTimer.Enabled = false;
+            _client.DisconnectEvent-= disconnectEvent;
+            _client.DisConnect();
+        }
         public void ReadMetaData()
         {
             if (_client.Connect())

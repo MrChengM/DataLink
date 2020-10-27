@@ -16,8 +16,8 @@ namespace SignalMonitor
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-
-        SignalServer dataTask;
+        #region field
+        SignalServer server;
         MyCommand<RoutedEventArgs> closeWindowCommand;
 
         MyCommand<KeyEventArgs> deleteCommand;
@@ -33,7 +33,9 @@ namespace SignalMonitor
 
         ObservableCollection<SignalDisplay> mainSignalDisplay;
 
+        #endregion
 
+        #region property
         public ObservableCollection<SignalDisplay> MainSignalDisplay
         {
             get
@@ -139,26 +141,26 @@ namespace SignalMonitor
         {
             get
             {
-                return dataTask.MainSignalList;
+                return server.MainSignalList;
             }
             set
             {
-                dataTask.MainSignalList = value;
+                server.MainSignalList = value;
             }
         }
+        #endregion
 
+        #region method
         public MainViewModel()
         {
-            dataTask = SignalServer.GetInstance();
-            mainSignalDisplay = dataTask.MainSignalList;
-            dataTask.WriteFreedBack += DataTask_WriteFreedBack;
-            //mainWindow = currentWindow;
-            searchWindow = new SearchWindow();
-            connectWindow = new ConnectWindow();
+            server = SignalServer.GetInstance();
+            mainSignalDisplay = server.MainSignalList;
+            server.WriteFreedBack += writeFreedBack;
+            
             initCommand();
         }
 
-        private void DataTask_WriteFreedBack(bool obj)
+        private void writeFreedBack(bool obj)
         {
             Application.Current.Dispatcher.Invoke(
                 () =>
@@ -181,7 +183,7 @@ namespace SignalMonitor
 
         private void closeWindow(object sender,object parameter, RoutedEventArgs e)
         {
-            dataTask.Dispose();
+            server.Dispose();
             Application.Current.Shutdown(); //关闭当前程序
             Environment.Exit(0);//立即中断程序运行
         }
@@ -199,7 +201,7 @@ namespace SignalMonitor
                     SignalDisplay s = item as SignalDisplay;
                     deleteList.Add(s);
                 }
-                dataTask.CancelSubscribe(deleteList);
+                server.CancelSubscribe(deleteList);
             }
         }
         private void inputSignalValue(object sender, object parameter,KeyEventArgs e)
@@ -209,12 +211,13 @@ namespace SignalMonitor
             {
                 var parent = VisualTreeHelper.GetParent(inputTeBox) as ContentPresenter;
                 SignalDisplay item = parent.Content as SignalDisplay;
-                dataTask.WriteAsync(item, inputTeBox.Text);
+                server.WriteAsync(item, inputTeBox.Text);
             }
         }
         private void searchClick(object sender, object parameter,MouseEventArgs e)
         {
-            if (!searchWindow.IsVisible)
+            
+            if (searchWindow==null || !searchWindow.IsVisible)
             {
                 searchWindow = new SearchWindow();
                 searchWindow.Show();
@@ -222,9 +225,13 @@ namespace SignalMonitor
         }
         private void connectClick(object sender, object parameter, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            if (connectWindow == null || !connectWindow.IsVisible)
+            {
+                connectWindow = new ConnectWindow();
+                connectWindow.Show();
+            }
         }
-
+        #endregion
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

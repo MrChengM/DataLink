@@ -17,7 +17,7 @@ namespace SignalMonitor
 {
     public class SearchViewModel : INotifyPropertyChanged
     {
-        SignalServer dataTask;
+        SignalServer server;
 
         private ObservableCollection<SignalDisplay> targetPoinNames = new ObservableCollection<SignalDisplay>();
         bool deviceBoxChecked =true;
@@ -111,9 +111,9 @@ namespace SignalMonitor
         
         public SearchViewModel()
         {
-            dataTask = SignalServer.GetInstance();
+            server = SignalServer.GetInstance();
             pointListUpdata();
-            dataTask.SourceSignalList.CollectionChanged += SourceSignalList_CollectionChanged;
+            server.SourceSignalList.CollectionChanged += SourceSignalList_CollectionChanged;
             initCommand();
         }
 
@@ -147,7 +147,7 @@ namespace SignalMonitor
                 var item = (SignalDisplay)s;
                 subList.Add(item);
             }
-            dataTask.Subscribe(subList);
+            server.Subscribe(subList);
         }
 
         private void filterKey(object sender, object paramenter, KeyEventArgs e)
@@ -169,7 +169,7 @@ namespace SignalMonitor
                 if ((deviceBoxChecked == false) && (virtualBoxChecked == true))
                 {
                     targetPoinNames.Clear();
-                    var items = dataTask.SourceSignalList.Select(a => a.IsVirtual ? a : null);
+                    var items = server.SourceSignalList.Select(a => a.IsVirtual ? a : null);
                     var seacrhItems = items.Select(find);
                     foreach (var item in seacrhItems)
                     {
@@ -182,7 +182,7 @@ namespace SignalMonitor
                 else if ((deviceBoxChecked == true) && (virtualBoxChecked == false))
                 {
                     targetPoinNames.Clear();
-                    var items = dataTask.SourceSignalList.Select(a => a.IsVirtual ? null : a);
+                    var items = server.SourceSignalList.Select(a => a.IsVirtual ? null : a);
                     var seacrhItems = items.Select(find);
                     foreach (var item in seacrhItems)
                     {
@@ -195,7 +195,7 @@ namespace SignalMonitor
                 else if ((deviceBoxChecked == true) && (virtualBoxChecked == true))
                 {
                     targetPoinNames.Clear();
-                    var seacrhItems = dataTask.SourceSignalList.Select(find);
+                    var seacrhItems = server.SourceSignalList.Select(find);
                     foreach (var item in seacrhItems)
                     {
                         if (item != null)
@@ -208,7 +208,7 @@ namespace SignalMonitor
                 {
                     targetPoinNames.Clear();
                 }
-                SignalNumberDiscribe = string.Concat("Showing ", targetPoinNames.Count, " of ", dataTask.SourceSignalList.Count, " Signals");
+                SignalNumberDiscribe = string.Concat("Showing ", targetPoinNames.Count, " of ", server.SourceSignalList.Count, " Signals");
             });
 
         }

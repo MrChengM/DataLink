@@ -20,50 +20,10 @@ namespace SignalMonitor
     /// </summary>
     public partial class ConnectWindow : Window
     {
-        //private string _ipAddrass;
-        //private int _port;
-
-        //public string IpAddress
-        //{
-        //    get { return _ipAddrass; }
-        //    set { _ipAddrass = value; }
-        //}
-        //public int Port
-        //{
-        //    get { return _port; }
-        //    set { _port = value; }
-        //}
         public ConnectWindow()
         {
             InitializeComponent();
-            DataContext = new ConnectViewModel(this);
+            //DataContext = new ConnectViewModel();
         }
-
-        private void cancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void acceptButton_Click(object sender, RoutedEventArgs e)
-        {
-            IPAddress temp;
-            short temp1;
-            if (IPAddress.TryParse(newAddressTeBox.Text,out temp)&& short.TryParse(newPortTeBox.Text, out temp1))
-            {
-                if(curAddressTeBox.Text.Equals(newAddressTeBox.Text)|| curPortTeBox.Text.Equals(newPortTeBox.Text))
-                {
-                    curAddressTeBox.Text = newAddressTeBox.Text;
-                    curPortTeBox.Text = newPortTeBox.Text;
-                    ReConnectEvent?.Invoke(newAddressTeBox.Text, temp1);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Ip address or port input error!");
-            }
-            Close();
-          
-        }
-        public event Action<string, short> ReConnectEvent;
     }
 }

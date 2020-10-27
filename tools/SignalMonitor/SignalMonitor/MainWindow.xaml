@@ -38,7 +38,7 @@
             </MenuItem>
             <MenuItem x:Name="LoadMeItem" Header="Load List" Height="25" Foreground="White">
             </MenuItem>
-            <MenuItem x:Name="ConnectMeItem" Header="Connection" Height="25" Foreground="White">
+            <MenuItem x:Name="ConnectMeItem" Header="Connection" Height="25" Foreground="White" Command="{Binding ConnectClickCommand}">
             </MenuItem>
             <MenuItem x:Name="TestMeItem" Header="Test" Height="25" Foreground="White">
             </MenuItem>

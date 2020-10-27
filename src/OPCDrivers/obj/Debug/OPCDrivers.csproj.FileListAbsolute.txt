@@ -22,4 +22,3 @@ D:\C#Projects\DriverLibrary\trunk\src\OPCDrivers\bin\Debug\OPCDrivers.pdb
 D:\C#Projects\DriverLibrary\trunk\src\OPCDrivers\obj\Debug\OPCDrivers.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\OPCDrivers\obj\Debug\OPCDrivers.dll
 D:\C#Projects\DriverLibrary\trunk\src\OPCDrivers\obj\Debug\OPCDrivers.pdb
-D:\GitHub\DriverLibrary\src\OPCDrivers\obj\Debug\OPCDrivers.csprojResolveAssemblyReference.cache

@@ -22,4 +22,3 @@ D:\C#Projects\DriverLibrary\trunk\src\DataServer\bin\Debug\DataServer.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DataServer\obj\Debug\DataServer.dll
 D:\C#Projects\DriverLibrary\trunk\src\DataServer\obj\Debug\DataServer.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache
-D:\GitHub\DriverLibrary\src\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache

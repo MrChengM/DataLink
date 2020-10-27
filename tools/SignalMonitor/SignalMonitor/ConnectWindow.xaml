@@ -4,27 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalMonitor"
+         xmlns:I="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="ConnectWindow" Height="300" Width="300" ResizeMode="NoResize">
+    <Window.Resources>
+        <local:ConnectViewModel x:Key="VM" />
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource VM}" />
+    </Window.DataContext>
     <Grid Background="White">
         <GroupBox x:Name="CurrentGrpBox" Header="Current Connection" Height="100" Margin="0.8,-0.4,0,0" VerticalAlignment="Top" BorderBrush="Black">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <Label x:Name="curAddressLabel" Content="Address" Height="31.2" VerticalAlignment="Center" Width="65" Foreground="Black"/>
-                <TextBox x:Name="curAddressTeBox" Height="18.4" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Center" Width="78.4"  Foreground="White" TextAlignment="Center" Background="Gray"  IsEnabled="False"/>
+                <TextBox x:Name="curAddressTeBox" Height="18.4" TextWrapping="Wrap" Text="{Binding CurrentAddress}" VerticalAlignment="Center" Width="78.4"  Foreground="White" TextAlignment="Center" Background="Gray"  IsEnabled="False"/>
                 <Label x:Name="curPortLabel" Content="Port" Height="31.2" VerticalAlignment="Center" Width="50" Foreground="Black" Margin="20,0,0,0" />
-                <TextBox x:Name="curPortTeBox" Height="18.4" TextWrapping="Wrap" Text="9527" VerticalAlignment="Center" Width="50" TextAlignment="Center" Background="Gray"  Foreground="White" IsEnabled="False"/>
+                <TextBox x:Name="curPortTeBox" Height="18.4" TextWrapping="Wrap" Text="{Binding CurrentPort}" VerticalAlignment="Center" Width="50" TextAlignment="Center" Background="Gray"  Foreground="White" IsEnabled="False"/>
             </StackPanel>
         </GroupBox>
         <GroupBox x:Name="newGrpBox" Header="New Connection" Margin="0.8,104.6,0,65.8" BorderBrush="Black">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <Label x:Name="newAddressLabel" Content="Address" Height="31.2" VerticalAlignment="Center" Width="65" Foreground="Black"/>
-                <TextBox x:Name="newAddressTeBox" Height="18.4" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Center" Width="78.4"  TextAlignment="Center" Foreground="White" Background="Gray"/>
+                <TextBox x:Name="newAddressTeBox" Height="18.4" TextWrapping="Wrap" Text="{Binding InputAddress}" VerticalAlignment="Center" Width="78.4"  TextAlignment="Center" Foreground="White" Background="Gray"/>
                 <Label x:Name="newPortLabel" Content="Port" Height="31.2" VerticalAlignment="Center" Width="50" Foreground="Black" Margin="20,0,0,0" />
-                <TextBox x:Name="newPortTeBox" Height="18.4" TextWrapping="Wrap" Text="9527" VerticalAlignment="Center" Width="50" TextAlignment="Center" Background="Gray" Foreground="White"/>
+                <TextBox x:Name="newPortTeBox" Height="18.4" TextWrapping="Wrap" Text="{Binding InputPort}" VerticalAlignment="Center" Width="50" TextAlignment="Center" Background="Gray" Foreground="White"/>
             </StackPanel>
         </GroupBox>
-        <Button x:Name="acceptButton" Content="Accept" HorizontalAlignment="Left" Height="23.2" Margin="22,0,0,26" VerticalAlignment="Bottom" Width="83.8" Click="acceptButton_Click"/>
-        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Right" Height="23.2" Margin="0,0,35.8,26" VerticalAlignment="Bottom" Width="83.8" Click="cancelButton_Click"/>
-
+        <Button x:Name="acceptButton"  Content="Accept" HorizontalAlignment="Left" Height="23.2" Margin="22,0,0,26" VerticalAlignment="Bottom" Width="83.8" >
+            <I:Interaction.Triggers>
+                <I:EventTrigger EventName="Click">
+                    <local:MyEventCommand Command="{Binding AcceptClickCommand}"/>
+                </I:EventTrigger>
+            </I:Interaction.Triggers>
+        </Button>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Right" Height="23.2" Margin="0,0,35.8,26" VerticalAlignment="Bottom" Width="83.8" >
+            <I:Interaction.Triggers>
+                <I:EventTrigger EventName="Click">
+                    <local:MyEventCommand Command="{Binding CancelClickCommand}"/>
+                </I:EventTrigger>
+            </I:Interaction.Triggers>
+        </Button>
     </Grid>
 </Window>
