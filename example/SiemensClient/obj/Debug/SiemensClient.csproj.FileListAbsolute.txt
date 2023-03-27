@@ -8,3 +8,13 @@ D:\C#Projects\DriverLibrary\example\SiemensClient\bin\Debug\SiemensDrivers.pdb
 D:\C#Projects\DriverLibrary\example\SiemensClient\obj\Debug\SiemensClient.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\example\SiemensClient\obj\Debug\SiemensClient.exe
 D:\C#Projects\DriverLibrary\example\SiemensClient\obj\Debug\SiemensClient.pdb
+D:\GitHub\DriverLibrary\example\SiemensClient\obj\Debug\SiemensClient.csprojResolveAssemblyReference.cache
+D:\GitHub\DriverLibrary\example\SiemensClient\obj\Debug\SiemensClient.exe
+D:\GitHub\DriverLibrary\example\SiemensClient\obj\Debug\SiemensClient.pdb
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\SiemensClient.exe.config
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\SiemensClient.exe
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\SiemensClient.pdb
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\DataServer.dll
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\SiemensDrivers.dll
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\DataServer.pdb
+D:\GitHub\DriverLibrary\example\SiemensClient\bin\Debug\SiemensDrivers.pdb

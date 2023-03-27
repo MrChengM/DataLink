@@ -4,8 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalMonitor"
+        xmlns:I="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="SignalMonitor" Height="500" Width="1000">
+        Title="SignalMonitor" Height="500" Width="1000" >
+    <Window.Resources>
+        <local:MainViewModel x:Key="VM" />
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource VM}" />
+    </Window.DataContext>
+    <I:Interaction.Triggers >
+        <I:EventTrigger EventName="Closed">
+            <I:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
+        </I:EventTrigger>
+    </I:Interaction.Triggers>
     <Grid>
         <Menu x:Name="menu" Height="25" VerticalAlignment="Top" BorderThickness="1">
             <Menu.Background>
@@ -14,18 +26,29 @@
                     <GradientStop Color="LightBlue"/>
                 </LinearGradientBrush>
             </Menu.Background>
-            <MenuItem x:Name="SignalMeItem" Header="Add Signals" Height="25" Foreground="White" MouseLeftButtonDown="signalMeItemMouseLeftButtonDown" >
+            <MenuItem x:Name="SignalMeItem" Header="Add Signals" Height="25" Foreground="White" Command="{Binding SearchClickCommand}">
+                <!--<I:Interaction.Triggers>
+                    <I:EventTrigger EventName="Click">
+                        <I:InvokeCommandAction  Command="{Binding SearchClickCommand}"/>
+                    </I:EventTrigger>
+                </I:Interaction.Triggers>-->
             </MenuItem>
+            <MenuItem x:Name="ClearMeItem" Header="Clear List" Height="25" Foreground="White"/>
             <MenuItem x:Name="SaveMeItem" Header="Save List" Height="25" Foreground="White">
             </MenuItem>
             <MenuItem x:Name="LoadMeItem" Header="Load List" Height="25" Foreground="White">
             </MenuItem>
-            <MenuItem x:Name="ConnectMeItem" Header="Connection" Height="25" Foreground="White" MouseLeftButtonDown="ConnectMeItemMouseLeftButtonDown">
+            <MenuItem x:Name="ConnectMeItem" Header="Connection" Height="25" Foreground="White" Command="{Binding ConnectClickCommand}">
             </MenuItem>
             <MenuItem x:Name="TestMeItem" Header="Test" Height="25" Foreground="White">
             </MenuItem>
         </Menu>
-        <ListView x:Name="listView" Margin="0,25,0,0" Background="SkyBlue"  KeyDown="listView_KeyDown" ItemContainerStyle="{StaticResource ListItem_Style}">
+        <ListView x:Name="listView" Margin="0,25,0,0" Background="SkyBlue" ItemsSource="{Binding MainSignalDisplay}"  ItemContainerStyle="{StaticResource ListItem_Style}">
+            <I:Interaction.Triggers>
+                <I:EventTrigger EventName="KeyDown">
+                    <local:MyEventCommand Command="{Binding DeleteCommand}"/>
+                </I:EventTrigger>
+            </I:Interaction.Triggers>
             <ListView.View >
                 <GridView  AllowsColumnReorder="False"  ColumnHeaderContainerStyle="{StaticResource ListHeader_Style}">
                     <GridViewColumn Header="Signal Name" DisplayMemberBinding="{Binding Path=SignalName}"   />
@@ -40,10 +63,16 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Quality" Width="120" DisplayMemberBinding="{Binding Path=Quality}" />
-                    <GridViewColumn Header="Wirte" Width="120"   >
+                    <GridViewColumn Header="Wirte" Width="120" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox x:Name="wirteTeBox" Width="100"  Text="{Binding InputValue}" KeyDown="wirteTeBox_KeyDown"/>
+                                <TextBox x:Name="wirteTeBox" Width="100" DataContext="{Binding Source={StaticResource VM}}">
+                                    <I:Interaction.Triggers>
+                                        <I:EventTrigger EventName="KeyDown">
+                                            <local:MyEventCommand Command="{Binding InputCommand}"/>
+                                        </I:EventTrigger>
+                                    </I:Interaction.Triggers>
+                                </TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -51,4 +80,5 @@
             </ListView.View>
         </ListView>
     </Grid>
+   
 </Window>

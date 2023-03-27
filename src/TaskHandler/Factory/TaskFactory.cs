@@ -28,7 +28,7 @@ namespace TaskHandler.Factory
             switch (config.TsType)
             {
                 case TaskType.Server:
-                    if (Enum.TryParse(config.Id, out servername))
+                    if (Enum.TryParse(config.TaskName.Replace("HandlerTask", ""), out servername))
                     {
                         //创建服务类型配置列表
                         List<ServerConfig> serverConfigs = configFactory.CreatServerConfigs(servername);
@@ -54,7 +54,7 @@ namespace TaskHandler.Factory
                     }
                     break;
                 case TaskType.Client:
-                    if (Enum.TryParse(config.Id, out clientname))
+                    if (Enum.TryParse(config.TaskName.Replace("HandlerTask", ""), out clientname))
                     {
                         List<ClientConfig> clientConfigs = configFactory.CreatClientConfigs(clientname);
                         switch (config.DrType)

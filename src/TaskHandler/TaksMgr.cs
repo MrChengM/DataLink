@@ -38,7 +38,7 @@ namespace TaskHandler
                 //task类型配置
                 foreach(var config in _configs)
                 {
-                    ILog log = new DefaultLog(config.TaskName) { Handle = LogHandle.debug, ByteSteamLogSwicth = true };
+                    ILog log = new DefaultLog(config.TaskName) { Handle = LogHandle.debug, ByteSteamLogSwicth = false };
                     //根据task类型配置创建具体的task列表
                     var tasks = taskFactory.CreateTasks(config, log);
                     foreach(var task in tasks)
