@@ -41,17 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
-    <Compile Include="Client\ModbusClientConfig.cs" />
-    <Compile Include="Client\ModbusRTUMaster.cs" />
-    <Compile Include="Client\ModbusMaster.cs" />
+    <Compile Include="Client\ModbusRTUClient.cs" />
+    <Compile Include="Client\ModbusClient.cs" />
     <Compile Include="Client\ModbusTCPClient.cs" />
-    <Compile Include="Client\ModbusTCPClientHanderTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ModbusPointMapping.cs" />
-    <Compile Include="Server\ModbusServerConfig.cs" />
-    <Compile Include="Server\ModbusServerHanderTask.cs" />
     <Compile Include="Server\ModbusTCPServer.cs" />
-    <Compile Include="Server\ModbusPointsRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

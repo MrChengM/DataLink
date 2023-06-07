@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="ConfigTool.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.Views" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="1500">
+    <Grid>
+        <materialDesign:Card>
+            <Menu x:Name="menu" materialDesign:MenuAssist.TopLevelMenuItemHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type materialDesign:Card}}, Path=ActualHeight}">
+                <MenuItem x:Name="FileMeItem" Header="File" >
+                    <MenuItem.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"/>
+                        </ItemsPanelTemplate>
+                    </MenuItem.ItemsPanel>
+                    <MenuItem x:Name="OpenMeItem" Header="Open"  >
+                        <MenuItem.Icon >
+                            <Path Data="{StaticResource OpenIcon4}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="SaveMeItem" Header="Save"  >
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource SaveIcon1}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="SaveAsMeItem" Header="Save As" >
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource SaveAsIcon3}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="ToolsMeItem" Header="Tools" HorizontalAlignment="Left">
+                    <MenuItem.ItemsPanel >
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"/>
+                        </ItemsPanelTemplate>
+                    </MenuItem.ItemsPanel>
+                    <MenuItem x:Name="SignalMonitorMeItem" Header="SignalMonitor" IsHitTestVisible="False" >
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource MonitorIcon2}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="EventLogMeItem" Header="EventLog"  >
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource LogIcon1}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                        <MenuItem x:Name="TaskEevntMeItem" Header="TaskEevnt" IsCheckable="True" IsChecked="True"/>
+                        <MenuItem x:Name="BytesEevntMeItem" Header="BytesEevnt" IsCheckable="True" IsChecked="True"/>
+                        <MenuItem x:Name="ErrorEevntMeItem" Header="ErrorEevnt" IsCheckable="True" IsChecked="True"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="RuntimeMeItem" Header="Runtime"  HorizontalContentAlignment="Left"  >
+                    <MenuItem.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"/>
+                        </ItemsPanelTemplate>
+                    </MenuItem.ItemsPanel>
+                    <MenuItem x:Name="UpdataMeItem" Header="Updata" Command="{Binding UpdataCommand}">
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource UpdataIcon2}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="RegisteredMeItem" Header="Registered" Command="{Binding RegisterCommand}">
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource RegisteredIcon3}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="ConnectMeItem" Header="Connect" Command="{Binding ConnectCommand}">
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource ConnectIcon1}"  Stretch="Uniform" Fill="Black" ></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="DisconnectMeItem" Header="DisConnect" Command="{Binding DisConnectCommand}">
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource DisconnectIcon1}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="Help" Header="Helps" HorizontalContentAlignment="Left" Height="25">
+                </MenuItem>
+            </Menu>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

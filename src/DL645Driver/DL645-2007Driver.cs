@@ -13,7 +13,7 @@ using System.Globalization;
 
 namespace DL645Driver
 {
-    [Description("DL645-2007电能表协议")]
+    [DriverDescription("DL645-2007电能表协议",CommunicationType.Serialport)]
     public sealed class DL645_2007Driver : DLDriver
     {
         #region IDriver

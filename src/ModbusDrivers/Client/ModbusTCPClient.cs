@@ -14,7 +14,8 @@ namespace ModbusDrivers.Client
     /// <summary>
     /// Modbus TCP Client 协议
     /// </summary>
-    public sealed class ModbusTCPClient:ModbusMaster
+    [DriverDescription("Modbus TCP",CommunicationType.Ethernet)]
+    public sealed class ModbusTCPClient:ModbusClient
     {
         private EthernetSetUp _ethernetSetUp =new EthernetSetUp();
         private Socket _socket;
@@ -43,7 +44,7 @@ namespace ModbusDrivers.Client
             _ethernetSetUp = ethernetSetUp;
             TimeOut = timeOut;
             Log = log;
-            DriType = DriverType.Ethernet;
+            DriType = CommunicationType.Ethernet;
         }
 
         public override bool Connect()

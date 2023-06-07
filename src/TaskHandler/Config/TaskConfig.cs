@@ -19,7 +19,7 @@ namespace TaskHandler.Config
         private int _startTimeOut;
         private int _stopTimeOut;
         private string _taskName;
-        private DriverType _drType;
+        private CommunicationType _drType;
         private TaskType _tsType;
         private int _initLevel;
 
@@ -62,7 +62,7 @@ namespace TaskHandler.Config
             set { _tsType = value; }
         }
 
-        public DriverType DrType
+        public CommunicationType DrType
         {
             get { return _drType; }
             set { _drType = value; }

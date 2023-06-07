@@ -75,9 +75,9 @@
       <Project>{921b37be-8c00-4491-bd90-1a75c97d5f78}</Project>
       <Name>DL645Driver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DriverLibrary\DriverLibrary.csproj">
+    <ProjectReference Include="..\DriverLibrary\DataLinks.csproj">
       <Project>{b68445d5-4856-4ca6-8715-ddaadc30c30f}</Project>
-      <Name>DriverLibrary</Name>
+      <Name>DataLinks</Name>
     </ProjectReference>
     <ProjectReference Include="..\FreedomDrivers\FreedomDrivers.csproj">
       <Project>{f75323b8-2e50-4457-809d-82e7a9c03159}</Project>

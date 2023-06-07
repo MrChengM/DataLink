@@ -12,7 +12,7 @@ using DataServer.Utillity;
 
 namespace DL645Driver
 {
-    [Description("DL645-1997电能表协议")]
+    [DriverDescription("DL645-1997电能表协议",CommunicationType.Serialport)]
     //DL645_1997Driver : IPLCDriver         IPLCDriver : IDriver, IReaderWriter              IDriver : IDisposable
     public sealed class DL645_1997Driver:DLDriver
     {

@@ -32,6 +32,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\AlarmConfig.cs" />
+    <Compile Include="Config\ChannelConfig.cs" />
+    <Compile Include="Config\ClientConfig.cs" />
+    <Compile Include="Config\DeviceConfig.cs" />
+    <Compile Include="Config\DeviceSpecialProperty.cs" />
+    <Compile Include="Config\DriverInfo.cs" />
+    <Compile Include="Config\ProjectConfig.cs" />
+    <Compile Include="Config\ServerConfig.cs" />
+    <Compile Include="Config\TagGroupConfig.cs" />
+    <Compile Include="CustomerAttribute.cs" />
     <Compile Include="IClientDrives.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="Points\IPointMapping.cs" />
@@ -54,6 +65,8 @@
     <Compile Include="Serialization\XmlSerialiaztion.cs" />
     <Compile Include="Serialization\XmlWorkbook.cs" />
     <Compile Include="TimeOut.cs" />
+    <Compile Include="Utillity\FileOperate.cs" />
+    <Compile Include="Utillity\ReflectionOperate.cs" />
     <Compile Include="Utillity\Utility.cs" />
     <Compile Include="Utillity\XMLUtil.cs" />
   </ItemGroup>

@@ -22,3 +22,15 @@ D:\C#Projects\DriverLibrary\trunk\src\DataServer\bin\Debug\DataServer.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DataServer\obj\Debug\DataServer.dll
 D:\C#Projects\DriverLibrary\trunk\src\DataServer\obj\Debug\DataServer.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DataServer\obj\Debug\DataServer.csprojResolveAssemblyReference.cache
+D:\Projects\DriverLibrary\src\DataServer\bin\Debug\DataServer.dll
+D:\Projects\DriverLibrary\src\DataServer\bin\Debug\DataServer.pdb
+D:\Projects\DriverLibrary\src\DataServer\obj\Debug\DataServer.csproj.CoreCompileInputs.cache
+D:\Projects\DriverLibrary\src\DataServer\obj\Debug\DataServer.dll
+D:\Projects\DriverLibrary\src\DataServer\obj\Debug\DataServer.pdb
+D:\Projects\DriverLibrary\src\DataServer\obj\Debug\DataServer.csproj.AssemblyReference.cache
+D:\Projects\DataLinks\src\DataServer\bin\Debug\DataServer.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\DataServer.pdb
+D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.csproj.CoreCompileInputs.cache
+D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.dll
+D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.pdb
+D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.csproj.AssemblyReference.cache

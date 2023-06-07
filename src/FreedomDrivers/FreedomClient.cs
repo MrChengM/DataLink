@@ -16,7 +16,7 @@ namespace FreedomDrivers
 {
     public class FreedomClient:IDisposable
     {
-        private DriverType _driverType;
+        private CommunicationType _driverType;
         private TimeOut _timeOut;
         private bool _isConnect = false;
         private ILog _log;
@@ -35,7 +35,7 @@ namespace FreedomDrivers
             _ethernetSetUp = ethernetSetUp;
             _timeOut = timeOut;
             _log = log;
-            _driverType = DriverType.Ethernet;
+            _driverType = CommunicationType.Ethernet;
             _subSocketArgFlag = false;
         }
 
@@ -45,7 +45,7 @@ namespace FreedomDrivers
             get { return _ethernetSetUp; }
             set { _ethernetSetUp = value; }
         }
-        public DriverType DriType
+        public CommunicationType DriType
         {
             get
             {

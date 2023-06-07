@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 namespace DataServer.Points
 {
-    public interface Send<T>
+    public interface ISend<T>
     {
         event Action<IPoint<T>, int, bool> SendEvent;
 
     }
-    public interface Update<T>
+    public interface IUpdate<T>
     {
         void ValueUpdate(T value, int index,OperateSource source);
 

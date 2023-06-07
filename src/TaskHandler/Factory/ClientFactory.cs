@@ -67,7 +67,7 @@ namespace TaskHandler.Factory
             switch (name)
             {
                 case ClientName.ModbusRTUClient:
-                    return new ModbusRTUMaster(_setUp, _timeOut, _log);
+                    return new ModbusRTUClient(_setUp, _timeOut, _log);
                 case ClientName.DL645_1997Client:
                     return new DL645_1997Driver(_setUp, _timeOut, _log);
                 case ClientName.DL645_2007Client:

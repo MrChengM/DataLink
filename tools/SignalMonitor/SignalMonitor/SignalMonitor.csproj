@@ -55,15 +55,15 @@
   <ItemGroup>
     <Reference Include="DataServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\DataServer.dll</HintPath>
+      <HintPath>..\..\..\dll\DataServer.dll</HintPath>
     </Reference>
     <Reference Include="FreedomDrivers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\FreedomDrivers.dll</HintPath>
+      <HintPath>..\..\..\dll\FreedomDrivers.dll</HintPath>
     </Reference>
     <Reference Include="SocketServers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\SocketServers.dll</HintPath>
+      <HintPath>..\..\..\dll\SocketServers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

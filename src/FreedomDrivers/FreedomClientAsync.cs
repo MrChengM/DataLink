@@ -16,7 +16,7 @@ namespace FreedomDrivers
 {
     public class FreedomClientAsync : IDisposable
     {
-        private DriverType _driverType;
+        private CommunicationType _driverType;
         private TimeOut _timeOut;
         private bool _isConnect = false;
         private ILog _log;
@@ -37,7 +37,7 @@ namespace FreedomDrivers
             _ethernetSetUp = ethernetSetUp;
             _timeOut = timeOut;
             _log = log;
-            _driverType = DriverType.Ethernet;
+            _driverType = CommunicationType.Ethernet;
             _socketArg = new SocketAsyncEventArgs();
             _socketArg.Completed += _socketArg_Completed;
             _bufferPool = new BufferMangment(_readCacheSize);
@@ -50,7 +50,7 @@ namespace FreedomDrivers
             set { _ethernetSetUp = value; }
         }
 
-        public DriverType DriType
+        public CommunicationType DriType
         {
             get
             {

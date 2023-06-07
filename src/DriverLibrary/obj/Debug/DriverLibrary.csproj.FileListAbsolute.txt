@@ -28,3 +28,9 @@ D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\bin\Debug\DriverLibrary.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\obj\Debug\DriverLibrary.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\obj\Debug\DriverLibrary.exe
 D:\C#Projects\DriverLibrary\trunk\src\DriverLibrary\obj\Debug\DriverLibrary.pdb
+D:\Projects\DriverLibrary\src\DriverLibrary\bin\Debug\DriverLibrary.exe.config
+D:\Projects\DriverLibrary\src\DriverLibrary\bin\Debug\DriverLibrary.exe
+D:\Projects\DriverLibrary\src\DriverLibrary\bin\Debug\DriverLibrary.pdb
+D:\Projects\DriverLibrary\src\DriverLibrary\obj\Debug\DriverLibrary.csproj.CoreCompileInputs.cache
+D:\Projects\DriverLibrary\src\DriverLibrary\obj\Debug\DriverLibrary.exe
+D:\Projects\DriverLibrary\src\DriverLibrary\obj\Debug\DriverLibrary.pdb

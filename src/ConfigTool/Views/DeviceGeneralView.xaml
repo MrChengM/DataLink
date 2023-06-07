@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ConfigTool.Views.DeviceGeneralView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="600" Width="500">
+    <Grid TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
+        <StackPanel Margin="0,25,0,0">
+            <StackPanel IsEnabled="False">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="ChannelName:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding ChannelName}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Driver Information:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding DriverInfo}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Device Name:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding DeviceName}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                </StackPanel >
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Connect TimeOut:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding ConnectTimeOut}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Request TimeOut:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding RequestTimeOut}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Retry Times:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding RetryTimes}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Byte Order:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <ComboBox ItemsSource="{Binding ByteOrders}" SelectedValue="{Binding CurrentByteOrder}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

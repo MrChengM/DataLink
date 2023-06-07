@@ -83,7 +83,7 @@ namespace DataServer
     {
 
         //驱动类型
-        DriverType DriType { get; }
+        //DriverType DriType { get; }
         //状态判断
         bool IsConnect { get; }
         bool Connect();
@@ -101,7 +101,7 @@ namespace DataServer
         string GetAddress(DeviceAddress deviceAddress);
     }
     #endregion
-    public enum DriverType
+    public enum CommunicationType
     {
         Serialport = 0x01,
         Ethernet = 0x02,
@@ -134,14 +134,13 @@ namespace DataServer
             BuadRate = buadRate;
             StopBit = stopBit;
         }
-
-        public static SerialportSetUp Default = new SerialportSetUp("COM1", 9600, 8, StopBits.One, Parity.None);
     }
     /// <summary>
     /// 以太网端口设置
     /// </summary>
     public class EthernetSetUp
     {
+        public string LocalNetworkAdpt { get; set; }
         public string IPAddress { get; set; }
         public int PortNumber { get; set; }
         public ProtocolType ProtocolType { get; set; }

@@ -12,7 +12,7 @@ namespace DL645Driver
 {
     public abstract class DLDriver : IPLCDriver
     {
-        private DriverType _driverType;
+        private CommunicationType _driverType;
         private TimeOut _timeOut;
         private bool _isConnect;
         private ILog _log;
@@ -26,11 +26,11 @@ namespace DL645Driver
             _log = log;
             _timeOut = timeOut;
 
-            _driverType = DriverType.Serialport;
+            _driverType = CommunicationType.Serialport;
             _serialPort = new SerialPort();
             _isConnect = false;
         }
-        public DriverType DriType
+        public CommunicationType DriType
         {
             get
             {

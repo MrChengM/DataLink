@@ -22,3 +22,14 @@ D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\bin\Debug\DDEDrivers.pdb
 D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\obj\Debug\DDEDrivers.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\obj\Debug\DDEDrivers.dll
 D:\C#Projects\DriverLibrary\trunk\src\DDEDrivers\obj\Debug\DDEDrivers.pdb
+D:\Projects\DriverLibrary\src\DDEDrivers\bin\Debug\DDEDrivers.dll
+D:\Projects\DriverLibrary\src\DDEDrivers\bin\Debug\DDEDrivers.pdb
+D:\Projects\DriverLibrary\src\DDEDrivers\obj\Debug\DDEDrivers.csproj.CoreCompileInputs.cache
+D:\Projects\DriverLibrary\src\DDEDrivers\obj\Debug\DDEDrivers.dll
+D:\Projects\DriverLibrary\src\DDEDrivers\obj\Debug\DDEDrivers.pdb
+D:\Projects\DataLinks\src\DDEDrivers\bin\Debug\DDEDrivers.dll
+D:\Projects\DataLinks\src\DDEDrivers\bin\Debug\DDEDrivers.pdb
+D:\Projects\DataLinks\src\DDEDrivers\obj\Debug\DDEDrivers.csproj.AssemblyReference.cache
+D:\Projects\DataLinks\src\DDEDrivers\obj\Debug\DDEDrivers.csproj.CoreCompileInputs.cache
+D:\Projects\DataLinks\src\DDEDrivers\obj\Debug\DDEDrivers.dll
+D:\Projects\DataLinks\src\DDEDrivers\obj\Debug\DDEDrivers.pdb

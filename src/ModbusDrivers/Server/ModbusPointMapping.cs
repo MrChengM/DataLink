@@ -8,39 +8,35 @@ using DataServer;
 using DataServer.Points;
 namespace ModbusDrivers.Server
 {
-    /// <summary>
-    /// Modbus点表
-    /// 第一次实例化需要初始化Init（）；
-    /// </summary>
     public class ModbusPointMapping : IPointMapping<bool>, IPointMapping<ushort>///Point Length=1;
     {
-        private ILog _log;
+        private ILog log;
 
         /// <summary>
         /// Mapping点存储索引
         /// </summary>
-        private List<ModbusPointMeta> indexList= new List<ModbusPointMeta>();//未使用
+        private List<ModbusPointMeta> indexList;
         /// <summary>
         /// 线圈地址空间 key=00001~09999
         /// </summary>
-        Dictionary<string, IPoint<bool>> coilMapping= new Dictionary<string, IPoint<bool>>(10000);
+        Dictionary<string, IPoint<bool>> coilMapping;
         /// <summary>
         /// 输入状态地址空间 key=10001～19999
         /// </summary>
-        Dictionary<string, IPoint<bool>> inputStatusMapping= new Dictionary<string, IPoint<bool>>(10000);
+        Dictionary<string, IPoint<bool>> inputStatusMapping;
         /// <summary>
         /// 输入寄存器空间 key=30001～39999
         /// </summary>
-        Dictionary<string, IPoint<ushort>> inPutRegisterMapping= new Dictionary<string, IPoint<ushort>>(10000);
+        Dictionary<string, IPoint<ushort>> inPutRegisterMapping;
         /// <summary>
         /// 保持寄存器空间 key=40001～49999
         /// </summary>
-        Dictionary<string, IPoint<ushort>> holdRegisterMapping= new Dictionary<string, IPoint<ushort>>(10000);
+        Dictionary<string, IPoint<ushort>> holdRegisterMapping;
 
         public ILog Log
         {
-            get { return _log; }
-            set { _log = value; }
+            get { return log; }
+            set { log = value; }
         }
         #region 单例，确保只存在一个Moubus点表
         private static ModbusPointMapping instance;
@@ -49,18 +45,17 @@ namespace ModbusDrivers.Server
 
         private ModbusPointMapping(ILog log)
         {
-            _log = log;
-
+            Init(log);
         }
-        //public void Init(ILog log)
-        //{
-        //    this.log = log;
-        //    indexList = new List<ModbusPointMeta>();
-        //    coilMapping = new Dictionary<string, IPoint<bool>>(10000);
-        //    inputStatusMapping = new Dictionary<string, IPoint<bool>>(10000);
-        //    inPutRegisterMapping = new Dictionary<string, IPoint<ushort>>(10000);
-        //    holdRegisterMapping = new Dictionary<string, IPoint<ushort>>(10000);
-        //}
+        private void Init(ILog log)
+        {
+            this.log = log;
+            indexList = new List<ModbusPointMeta>();
+            coilMapping = new Dictionary<string, IPoint<bool>>(10000);
+            inputStatusMapping = new Dictionary<string, IPoint<bool>>(10000);
+            inPutRegisterMapping = new Dictionary<string, IPoint<ushort>>(10000);
+            holdRegisterMapping = new Dictionary<string, IPoint<ushort>>(10000);
+        }
         public static ModbusPointMapping GetInstance(ILog log)
         {
             if (instance == null)
@@ -97,12 +92,12 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Register Error: Key value not match point Type,Key : {0} , type ： {1}", key, point.ValueType);
+                    log.ErrorLog("ModbusMapping Register Error: Key value not match point Type,Key : {0} , type ： {1}", key, point.ValueType);
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Register Error: Key have exist,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Register Error: Key have exist,Key : {0} ", key);
 
             }
         }
@@ -173,13 +168,13 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
+                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
                     return null;
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
                 return null;
             }
             
@@ -215,13 +210,13 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Set Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
+                    log.ErrorLog("ModbusMapping Set Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
                     return -1;
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Set Point Error: Point not exsit ,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Set Point Error: Point not exsit ,Key : {0} ", key);
                 return -1;
             }
         }
@@ -245,12 +240,12 @@ namespace ModbusDrivers.Server
                     }
                     else
                     {
-                        _log.ErrorLog("ModbusMapping Register Error: Key value not match point Type,Key : {0} , type ： {1}", key, point.ValueType);
+                        log.ErrorLog("ModbusMapping Register Error: Key value not match point Type,Key : {0} , type ： {1}", key, point.ValueType);
                     }
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Register Error: Key have exist,Key : {0} ", key);
+                    log.ErrorLog("ModbusMapping Register Error: Key have exist,Key : {0} ", key);
                 }
         }
 
@@ -271,13 +266,13 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
+                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
                     return null;
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
                 return null;
             }
         }
@@ -298,13 +293,13 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
+                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
                     return null;
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
                 return null;
             }
         }
@@ -324,13 +319,13 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
+                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
                     return -1;
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
                 return -1;
             }
         }
@@ -358,67 +353,35 @@ namespace ModbusDrivers.Server
                 }
                 else
                 {
-                    _log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
+                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
                     return false;
                 }
             }
             else
             {
-                _log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
+                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
                 return false;
             }
         }
 
         public bool GetValue(string key, byte index)
         {
-            IPoint<bool> point = GetPoint(key);
-            if (point != null)
-            {
-                return point.GetValue(index);
-            }
-            else
-            {
-                return default(bool);
-            }
+            throw new NotImplementedException();
         }
 
         public int SetValue(string key, bool value, byte index)
         {
-            IPoint<bool> point = GetPoint(key);
-            if (point != null)
-            {
-                return point.SetValue(value,index)?1:-1;
-            }
-            else
-            {
-                return -1;
-            }
+            throw new NotImplementedException();
         }
 
         ushort IPointMapping<ushort>.GetValue(string key, byte index)
         {
-            IPoint<ushort> point = (this as IPointMapping<ushort>).GetPoint(key);
-            if (point != null)
-            {
-                return point.GetValue(index);
-            }
-            else
-            {
-                return default(ushort);
-            }
+            throw new NotImplementedException();
         }
 
         public int SetValue(string key, ushort value, byte index)
         {
-            IPoint<ushort> point = (this as IPointMapping<ushort>).GetPoint(key);
-            if (point != null)
-            {
-                return point.SetValue(value,index)?1:-1;
-            }
-            else
-            {
-                return -1;
-            }
+            throw new NotImplementedException();
         }
 
         #endregion

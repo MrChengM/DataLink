@@ -27,3 +27,14 @@ D:\C#Projects\DriverLibrary\trunk\src\OmronDrivers\bin\Debug\OmronDrivers.pdb
 D:\C#Projects\DriverLibrary\trunk\src\OmronDrivers\obj\Debug\OmronDrivers.csprojResolveAssemblyReference.cache
 D:\C#Projects\DriverLibrary\trunk\src\OmronDrivers\obj\Debug\OmronDrivers.dll
 D:\C#Projects\DriverLibrary\trunk\src\OmronDrivers\obj\Debug\OmronDrivers.pdb
+D:\Projects\DriverLibrary\src\OmronDrivers\bin\Debug\OmronDrivers.dll
+D:\Projects\DriverLibrary\src\OmronDrivers\bin\Debug\OmronDrivers.pdb
+D:\Projects\DriverLibrary\src\OmronDrivers\obj\Debug\OmronDrivers.csproj.CoreCompileInputs.cache
+D:\Projects\DriverLibrary\src\OmronDrivers\obj\Debug\OmronDrivers.dll
+D:\Projects\DriverLibrary\src\OmronDrivers\obj\Debug\OmronDrivers.pdb
+D:\Projects\DataLinks\src\OmronDrivers\bin\Debug\OmronDrivers.dll
+D:\Projects\DataLinks\src\OmronDrivers\bin\Debug\OmronDrivers.pdb
+D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.csproj.CoreCompileInputs.cache
+D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.dll
+D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.pdb
+D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.csproj.AssemblyReference.cache

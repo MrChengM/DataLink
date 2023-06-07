@@ -9,12 +9,13 @@ using System.Net;
 using System.Threading;
 using System.Globalization;
 using DataServer.Utillity;
+using System.ComponentModel;
 
 namespace SiemensDriver
 {
+    [DriverDescription("Siemens S7",CommunicationType.Ethernet)]
     public class S7CommClient : IPLCDriver
     {
-        private DriverType _driverType;
         private TimeOut _timeOut;
         private bool _isConnect = false;
         private ILog _log;
@@ -22,6 +23,7 @@ namespace SiemensDriver
         private EthernetSetUp _ethernetSetUp = new EthernetSetUp();
         private Socket _socket;
         private int _slotNo;
+
         private int _handler;
 
         public S7CommClient(EthernetSetUp ethernetSetUp, TimeOut timeOut, ILog log,int slotNo)
@@ -30,10 +32,10 @@ namespace SiemensDriver
             _timeOut = timeOut;
             _log = log;
             _slotNo = slotNo;
-            _driverType = DriverType.Ethernet;
             _handler = 0;
         }
 
+        [DeviceMark]
         public int SlotNo
         {
             get
@@ -45,14 +47,7 @@ namespace SiemensDriver
                 _slotNo = value;
             }
         }
-
-        public DriverType DriType
-        {
-            get
-            {
-                return _driverType;
-            }
-        }
+      
 
         public bool IsClose
         {

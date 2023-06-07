@@ -20,7 +20,7 @@ namespace ModbusClient
             ILog _log = new DefaultLog("ModbusTCPClient");
             TimeOut _timeout = new TimeOut("ModbusTCPClient", 1000, _log);
             //ModbusTCPClient _client = new ModbusTCPClient(_setup,_timeout,_log);
-            var _client = new ModbusRTUMaster(_setup, _timeout, _log);
+            var _client = new ModbusRTUClient(_setup, _timeout, _log);
             if (_client.Connect())//先判断是否能连接到客户端
             {
                 //var boolvalue = _client.ReadBool(new DeviceAddress(1, 00001));
