@@ -1,0 +1,209 @@
+{
+  "Client": {
+    "Channels": {
+      "Channel1": {
+        "Name": "Channel1",
+        "DriverInformation": {
+          "FullName": "ModbusDrivers.Client.ModbusRTUClient",
+          "CommType": 1,
+          "Description": "Modbus RTU",
+          "DevicePropertyInfos": []
+        },
+        "InitTimeOut": 1000,
+        "InitLevel": 1,
+        "Devices": {
+          "Device1": {
+            "Name": "Device1",
+            "ID": "1",
+            "SpecialProperties": [],
+            "ConnectTimeOut": 3000,
+            "RequestTimeOut": 1000,
+            "RetryTimes": 3,
+            "TagGroups": {
+              "Group1": {
+                "Name": "Group1",
+                "ScanTimes": 100,
+                "Tags": {
+                  "Tag1": {
+                    "Name": "Tag1",
+                    "Address": "40001",
+                    "DataType": 5,
+                    "Length": 1,
+                    "Scaling": {
+                      "ScaleType": 0,
+                      "DataType": 1,
+                      "RawLow": 0,
+                      "RawHigh": 1000,
+                      "ScaledLow": 0,
+                      "ScaledHigh": 1000
+                    },
+                    "Operate": 2
+                  },
+                  "Tag2": {
+                    "Name": "Tag2",
+                    "Address": "40002",
+                    "DataType": 5,
+                    "Length": 2,
+                    "Scaling": {
+                      "ScaleType": 0,
+                      "DataType": 1,
+                      "RawLow": 0,
+                      "RawHigh": 1000,
+                      "ScaledLow": 0,
+                      "ScaledHigh": 1000
+                    },
+                    "Operate": 0
+                  }
+                }
+              }
+            },
+            "ByteOrder": 0
+          }
+        },
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": "COM1",
+            "BuadRate": 9600,
+            "DataBit": 8,
+            "StopBit": 1,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": null,
+            "IPAddress": null,
+            "PortNumber": 0,
+            "ProtocolType": 0
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        }
+      },
+      "Channel2": {
+        "Name": "Channel2",
+        "DriverInformation": {
+          "FullName": "ModbusDrivers.Client.ModbusTCPClient",
+          "CommType": 2,
+          "Description": "Modbus TCP",
+          "DevicePropertyInfos": []
+        },
+        "InitTimeOut": 1000,
+        "InitLevel": 1,
+        "Devices": {
+          "Device1": {
+            "Name": "Device1",
+            "ID": "10.10.10.1",
+            "SpecialProperties": [],
+            "ConnectTimeOut": 3000,
+            "RequestTimeOut": 1000,
+            "RetryTimes": 3,
+            "TagGroups": {
+              "Group1": {
+                "Name": "Group1",
+                "ScanTimes": 100,
+                "Tags": {
+                  "Tag1": {
+                    "Name": "Tag1",
+                    "Address": "40001",
+                    "DataType": 5,
+                    "Length": 10,
+                    "Scaling": {
+                      "ScaleType": 0,
+                      "DataType": 1,
+                      "RawLow": 0,
+                      "RawHigh": 1000,
+                      "ScaledLow": 0,
+                      "ScaledHigh": 1000
+                    },
+                    "Operate": 1
+                  },
+                  "Tag2": {
+                    "Name": "Tag2",
+                    "Address": "40020",
+                    "DataType": 5,
+                    "Length": 1,
+                    "Scaling": {
+                      "ScaleType": 0,
+                      "DataType": 1,
+                      "RawLow": 0,
+                      "RawHigh": 1000,
+                      "ScaledLow": 0,
+                      "ScaledHigh": 1000
+                    },
+                    "Operate": 0
+                  }
+                }
+              }
+            },
+            "ByteOrder": 0
+          }
+        },
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": null,
+            "BuadRate": 0,
+            "DataBit": 0,
+            "StopBit": 0,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": "Default",
+            "IPAddress": null,
+            "PortNumber": 502,
+            "ProtocolType": 6
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        }
+      }
+    }
+  },
+  "Server": {
+    "Items": {
+      "Server01": {
+        "Name": "Server01",
+        "Option": 0,
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": null,
+            "BuadRate": 0,
+            "DataBit": 0,
+            "StopBit": 0,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": "Default",
+            "IPAddress": null,
+            "PortNumber": 502,
+            "ProtocolType": 6
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        },
+        "Address": "127.0.0.1",
+        "TagBindingList": {
+          "40001": {
+            "DestTagName": "40001",
+            "SourceTagName": "Channel1.Device1.Group1.Tag1"
+          },
+          "40002": {
+            "DestTagName": "40002",
+            "SourceTagName": "Channel2.Device1.Group1.Tag1_5"
+          },
+          "40003": {
+            "DestTagName": "40003",
+            "SourceTagName": "Channel2.Device1.Group1.Tag1_2"
+          }
+        }
+      }
+    }
+  }
+}

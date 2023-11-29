@@ -30,8 +30,8 @@ namespace ConfigTool.Views
             InitializeComponent();
             regionManager.RegisterViewWithRegion<MenuView>("MenuRegion");
             regionManager.RegisterViewWithRegion<TreeView>("TreeViewRegion");
-            regionManager.RegisterViewWithRegion<DetailedView>("DetailedListRegion");
-            regionManager.RegisterViewWithRegion<LogDispalyView>("LogDispalyRegion");
+            //regionManager.RegisterViewWithRegion<DetailedView>("DetailedListRegion");
+            regionManager.RegisterViewWithRegion<LogDisplayView>("LogDispalyRegion");
 
 
         }

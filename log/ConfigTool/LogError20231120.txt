@@ -1,0 +1,8 @@
+2023-11-20 02:42:41,976 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-11-20 02:42:44,303 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-11-20 02:43:40,279 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-11-20 02:43:42,596 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-11-20 02:45:50,431 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-11-20 02:45:52,734 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-11-20 03:33:33,449 WARN  ConfigToolLogger Add TagBinding failed: tagbinding name 'Server01.40001' have duplicated!   
+2023-11-20 05:04:07,792 WARN  ConfigToolLogger Add TagBinding failed: tagbinding name 'Server01.40005' have duplicated!   

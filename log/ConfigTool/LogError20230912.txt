@@ -1,0 +1,6 @@
+
+时间：2023-09-12 14:54:41,317 
+异常级别：WARN  
+异常记录：ConfigToolLogger 
+信息：Add channel failed: 'Channel1' have duplicated!   
+时间：2023-09-12 14:57:20,370 异常级别：WARN  异常记录：ConfigToolLogger 信息：Add channel failed: 'Channel1' have duplicated!   

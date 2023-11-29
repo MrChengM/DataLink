@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using Newtonsoft.Json;
 
 namespace DataServer.Config
 {
-   public  class ChannelConfig
+    [DataContract]
+    //[JsonConverter(typeof(ChannelJsonConvert))]
+    public  class ChannelConfig
     {
 
         private string name;
-
+        [DataMember]
         public string Name
         {
             get { return name; }
@@ -20,6 +24,7 @@ namespace DataServer.Config
 
         private DriverInfo driverInformation;
 
+        [DataMember]
         public DriverInfo DriverInformation
         {
             get { return driverInformation; }
@@ -28,6 +33,7 @@ namespace DataServer.Config
 
         private int initTimeOut;
 
+        [DataMember]
         public int InitTimeOut
         {
             get { return initTimeOut; }
@@ -35,7 +41,7 @@ namespace DataServer.Config
         }
 
         private int initLevel;
-
+        [DataMember]
         public int InitLevel
         {
             get { return initLevel; }
@@ -43,15 +49,15 @@ namespace DataServer.Config
         }
 
         private Dictionary<string, DeviceConfig> devices=new Dictionary<string, DeviceConfig>();
-
+        [DataMember]
         public Dictionary<string,DeviceConfig> Devices
         {
             get { return devices; }
             set { devices = value; }
         }
-        private object comunicationSetUp;
-
-        public object ComunicationSetUp
+        private ComPhyLayerSetting comunicationSetUp=new ComPhyLayerSetting();
+        [DataMember]
+        public ComPhyLayerSetting ComunicationSetUp
         {
             get { return comunicationSetUp; }
             set { comunicationSetUp = value; }

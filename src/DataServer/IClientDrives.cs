@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
 
 namespace DataServer
 {
@@ -101,22 +106,34 @@ namespace DataServer
         string GetAddress(DeviceAddress deviceAddress);
     }
     #endregion
+    //[DataContract]
+    //[JsonConverter(typeof(StringEnumConverter))]
     public enum CommunicationType
     {
+        //[EnumMember]
         Serialport = 0x01,
+        //[EnumMember]
         Ethernet = 0x02,
+        //[EnumMember]
         File = 0x03,
+        //[EnumMember]
         Memory = 0x04,
     }
+    [DataContract]
     /// <summary>
     /// 串口类型设置
     /// </summary>
     public class SerialportSetUp
     {
+        [DataMember]
         public string ComPort { get; set; }
+        [DataMember]
         public int BuadRate { get; set; }
+        [DataMember]
         public byte DataBit { get; set; }
+        [DataMember]
         public StopBits StopBit { get; set; }
+        [DataMember]
         public Parity OddEvenCheck { get; set; }
         public SerialportSetUp() { }
         public SerialportSetUp(string comPort, int buadRate, byte dataBit, StopBits stopBit, Parity oddEvenCheck = Parity.None)
@@ -134,15 +151,25 @@ namespace DataServer
             BuadRate = buadRate;
             StopBit = stopBit;
         }
+
+        public override string ToString()
+        {
+            return $"SerialPort:{ComPort}";
+        }
     }
+    [DataContract]
     /// <summary>
     /// 以太网端口设置
     /// </summary>
     public class EthernetSetUp
     {
+        [DataMember]
         public string LocalNetworkAdpt { get; set; }
+        [DataMember]
         public string IPAddress { get; set; }
+        [DataMember]
         public int PortNumber { get; set; }
+        [DataMember]
         public ProtocolType ProtocolType { get; set; }
         public EthernetSetUp() { }
         public EthernetSetUp(string ipAddress, int portNumber, ProtocolType protocolType = ProtocolType.Tcp)
@@ -151,15 +178,24 @@ namespace DataServer
             PortNumber = portNumber;
             ProtocolType = protocolType;
         }
+        public override string ToString()
+        {
+            return $"Ethernet:{PortNumber}";
+        }
     }
 
+    [DataContract]
     /// <summary>
     /// 进程间通讯 DCOM通讯等（OPC/DDE)
     /// </summary>
+    
     public class MemorySetUp
     {
+        [DataMember]
         public string IPAddress { get; set; }
+        [DataMember]
         public string ServerName { get; set; }
+        [DataMember]
         public string TopicName { get; set; }
         public MemorySetUp() { }
         public MemorySetUp(string ipAddress, string serverName, string topicName)
@@ -167,6 +203,10 @@ namespace DataServer
             IPAddress = ipAddress;
             ServerName = serverName;
             TopicName = topicName;
+        }
+        public override string ToString()
+        {
+            return $"Memory:{ServerName}";
         }
     }
     /// <summary>
@@ -234,21 +274,21 @@ namespace DataServer
         QUALITY_WAITING_FOR_INITIAL_DATA = 0x20,
         STATUS_MASK = 0xfc,
     }
-    //public enum DataType : byte
-    //{
-    //    Bool = 0x01,
-    //    Byte = 0x02,
-    //    Short = 0x03,
-    //    UShort = 0x04,
-    //    Word = 0x05,
-    //    UWord = 0X06,
-    //    Dword = 0x07,
-    //    UDword = 0x08,
-    //    Folat = 0x09,
-    //    UFolat = 0x10,
-    //    String = 0x11
+    public enum DataType : byte
+    {
+        Bool = 0x01,
+        Byte = 0x02,
+        Short = 0x03,
+        UShort = 0x04,
+        Word = 0x05,
+        UWord = 0X06,
+        Dword = 0x07,
+        UDword = 0x08,
+        Folat = 0x09,
+        UFolat = 0x10,
+        String = 0x11
 
-    //}
+    }
     public static class ValueType
     {
         public static string Bool = "bool";
@@ -283,10 +323,69 @@ namespace DataServer
         //Network = 4,
         //Host = 8
     }
+
+    public class Scaling
+    {
+
+        public ScaleType ScaleType { get; set; }
+        public DataType DataType { get; set; }
+
+        public int RawLow { get; set; }
+        public int RawHigh{ get; set; }
+
+        public int ScaledLow { get; set; }
+
+        public int ScaledHigh { get; set; }
+
+        //public IEnumerator<string> GetEnumerator()
+        //{
+        //    yield return ScaleType.ToString();
+        //    yield return DataType.ToString();
+        //    yield return RawLow.ToString();
+        //    yield return RawHigh.ToString();
+        //    yield return ScaledLow.ToString();
+        //    yield return ScaledHigh.ToString();
+        //}
+
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    throw new NotImplementedException();
+        //}
+    }
+
+    public enum ScaleType
+    {
+        None,
+        Linear,
+        SquareRoot,
+    }
     public static class EthProtocolType
     {
         public const string TCPIP = "TCP/IP";
         public const string UDP = "UDP";
         public const string SOAP = "SOAP";
+    }
+    public enum OperateWay
+    {
+        Read,
+        Write,
+        ReadAndWrite
+    }
+    public enum AlarmType
+    {
+        Information = 20,
+        Trivial = 40,
+        Minor = 60,
+        Major = 80,
+
+    }
+
+    public enum ConditionType
+    {
+        Bit,
+        MoreThan,
+        LessThan,
+        Equals,
+        NotEquals
     }
 }

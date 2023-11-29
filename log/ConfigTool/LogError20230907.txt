@@ -1,0 +1,31 @@
+<HR COLOR=red>
+异常时间：2023-09-07 10:39:37,613 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel config failed:Channel2 have exist!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-07 10:39:56,689 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel config failed:Channel3 have exist!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-07 10:44:57,398 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel config failed:'Channel1'have exist!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-07 11:22:20,860 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add Device failed: 'Channel1.Device1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-07 14:29:52,254 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add Device failed: 'Channel1.Device1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-07 14:48:09,983 [1] <BR>
+异常级别：ERROR <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Json File Load fail : Error parsing NaN value. Path '', line 1, position 2. <BR>
+ <HR Size=1>

@@ -1,0 +1,3 @@
+2023-11-22 10:25:53,966 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-11-22 10:25:56,296 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-11-22 10:45:15,268 WARN  ConfigToolLogger Add Device failed: 'Channel1.Device1' have duplicated!   

@@ -1,0 +1,36 @@
+<HR COLOR=red>
+异常时间：2023-09-11 05:03:36,820 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-11 05:06:07,375 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-11 05:06:26,828 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-11 05:11:08,653 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-11 05:11:22,857 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-11 05:11:45,386 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1><HR COLOR=red>
+异常时间：2023-09-11 05:11:56,975 [1] <BR>
+异常级别：WARN  <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Add channel failed: 'Channel1' have duplicated!  <BR>
+ <HR Size=1>

@@ -1,0 +1,56 @@
+{
+  "Client": {
+    "Channels": {
+      "Channel1": {
+        "Name": "Channel1",
+        "DriverInformation": {
+          "FullName": "ModbusDrivers.Client.ModbusRTUClient",
+          "CommType": 1,
+          "Description": "Modbus RTU",
+          "DevicePropertyInfos": []
+        },
+        "InitTimeOut": 1000,
+        "InitLevel": 1,
+        "Devices": {
+          "Device1": {
+            "Name": "Device1",
+            "ID": "1",
+            "SpecialProperties": [],
+            "ConnectTimeOut": 3000,
+            "RequestTimeOut": 1000,
+            "RetryTimes": 3,
+            "TagGroups": {},
+            "ByteOrder": 0
+          }
+        },
+        "ComunicationSetUp": {
+          "ComPort": "COM1",
+          "BuadRate": 9600,
+          "DataBit": 8,
+          "StopBit": 1,
+          "OddEvenCheck": 0
+        }
+      },
+       "Channel4": {
+        "Name": "Channel4",
+        "DriverInformation": {
+          "FullName": "ModbusDrivers.Client.ModbusRTUClient",
+          "CommType": 1,
+          "Description": "Modbus RTU",
+          "DevicePropertyInfos": []
+        },
+        "InitTimeOut": 1000,
+        "InitLevel": 1,
+        "Devices": {},
+        "ComunicationSetUp": {
+          "ComPort": "COM1",
+          "BuadRate": 9600,
+          "DataBit": 8,
+          "StopBit": 1,
+          "OddEvenCheck": 0
+        }
+      }
+    }
+  },
+  "Server": {}
+}

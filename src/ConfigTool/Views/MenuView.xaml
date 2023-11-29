@@ -16,28 +16,28 @@
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left"/>
                         </ItemsPanelTemplate>
                     </MenuItem.ItemsPanel>
-                    <MenuItem x:Name="OpenMeItem" Header="Open"  >
+                    <MenuItem x:Name="OpenMeItem" Header="Open"  Command="{Binding OpenCommand}">
                         <MenuItem.Icon >
                             <Path Data="{StaticResource OpenIcon4}"  Stretch="Uniform" Fill="Black"></Path>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="SaveMeItem" Header="Save"  >
+                    <MenuItem x:Name="SaveMeItem" Header="Save"  Command="{Binding SaveCommand}">
                         <MenuItem.Icon>
                             <Path Data="{StaticResource SaveIcon1}"  Stretch="Uniform" Fill="Black"></Path>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="SaveAsMeItem" Header="Save As" >
+                    <MenuItem x:Name="SaveAsMeItem" Header="Save As" Command="{Binding SaveAsCommand}">
                         <MenuItem.Icon>
                             <Path Data="{StaticResource SaveAsIcon3}"  Stretch="Uniform" Fill="Black"></Path>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="ToolsMeItem" Header="Tools" HorizontalAlignment="Left">
-                    <MenuItem.ItemsPanel >
+                    <!--<MenuItem.ItemsPanel >
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left"/>
                         </ItemsPanelTemplate>
-                    </MenuItem.ItemsPanel>
+                    </MenuItem.ItemsPanel>-->
                     <MenuItem x:Name="SignalMonitorMeItem" Header="SignalMonitor" IsHitTestVisible="False" >
                         <MenuItem.Icon>
                             <Path Data="{StaticResource MonitorIcon2}"  Stretch="Uniform" Fill="Black"></Path>
@@ -47,9 +47,12 @@
                         <MenuItem.Icon>
                             <Path Data="{StaticResource LogIcon1}"  Stretch="Uniform" Fill="Black"></Path>
                         </MenuItem.Icon>
-                        <MenuItem x:Name="TaskEevntMeItem" Header="TaskEevnt" IsCheckable="True" IsChecked="True"/>
-                        <MenuItem x:Name="BytesEevntMeItem" Header="BytesEevnt" IsCheckable="True" IsChecked="True"/>
-                        <MenuItem x:Name="ErrorEevntMeItem" Header="ErrorEevnt" IsCheckable="True" IsChecked="True"/>
+                        <MenuItem x:Name="TaskEevntMeItem" Header="Source" >
+                            <MenuItem x:Name="ConfigToolMeItem" Header="ConfigTool" IsCheckable="True" IsChecked="{Binding IsConfigTool}"/>
+                            <MenuItem x:Name="DataLinkMeItem" Header="DataLink" IsCheckable="True" IsChecked="{Binding IsDataLink}" />
+                        </MenuItem>
+                        <MenuItem x:Name="InfoEevntMeItem" Header="InfoEevnt" IsCheckable="True" IsChecked="{Binding IsInfo}"/>
+                        <MenuItem x:Name="ErrorEevntMeItem" Header="ErrorEevnt" IsCheckable="True" IsChecked="{Binding IsError}"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="RuntimeMeItem" Header="Runtime"  HorizontalContentAlignment="Left"  >
@@ -58,17 +61,23 @@
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left"/>
                         </ItemsPanelTemplate>
                     </MenuItem.ItemsPanel>
-                    <MenuItem x:Name="UpdataMeItem" Header="Updata" Command="{Binding UpdataCommand}">
-                        <MenuItem.Icon>
-                            <Path Data="{StaticResource UpdataIcon2}"  Stretch="Uniform" Fill="Black"></Path>
-                        </MenuItem.Icon>
-                    </MenuItem>
+
                     <MenuItem x:Name="RegisteredMeItem" Header="Registered" Command="{Binding RegisterCommand}">
                         <MenuItem.Icon>
                             <Path Data="{StaticResource RegisteredIcon3}"  Stretch="Uniform" Fill="Black"></Path>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="ConnectMeItem" Header="Connect" Command="{Binding ConnectCommand}">
+                    <MenuItem x:Name="UpdataMeItem" Header="Updata" Command="{Binding UpdataCommand}">
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource UpdataIcon2}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="DownLoadMeItem" Header="DownLoad" Command="{Binding DownLoadCommand}">
+                        <MenuItem.Icon>
+                            <Path Data="{StaticResource DownLoadIcon1}"  Stretch="Uniform" Fill="Black"></Path>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <!--<MenuItem x:Name="ConnectMeItem" Header="Connect" Command="{Binding ConnectCommand}">
                         <MenuItem.Icon>
                             <Path Data="{StaticResource ConnectIcon1}"  Stretch="Uniform" Fill="Black" ></Path>
                         </MenuItem.Icon>
@@ -77,7 +86,7 @@
                         <MenuItem.Icon>
                             <Path Data="{StaticResource DisconnectIcon1}"  Stretch="Uniform" Fill="Black"></Path>
                         </MenuItem.Icon>
-                    </MenuItem>
+                    </MenuItem>-->
                 </MenuItem>
                 <MenuItem x:Name="Help" Header="Helps" HorizontalContentAlignment="Left" Height="25">
                 </MenuItem>

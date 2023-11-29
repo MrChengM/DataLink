@@ -17,10 +17,12 @@ namespace ConfigTool.ViewModels
 {
     class DeviceSpecialPropertyViewModel : BindableBase, INavigationAware
     {
+        private ChannelConfig _channelConfig;
         private DeviceConfig _deviceConfig;
         private IEventAggregator _ea;
 
         private ObservableCollection<DeviceSpecailPropertyMVVM> specialProperties;
+        private bool isFristIn=true;
 
         public ObservableCollection<DeviceSpecailPropertyMVVM> SpecialProperties
         {
@@ -28,13 +30,14 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref specialProperties, value, "SpecialProperties"); }
         }
 
+        public bool IsBuild { get; private set; }
 
         public DeviceSpecialPropertyViewModel(IEventAggregator eventAggregator)
         {
             _ea = eventAggregator;
             specialProperties = new ObservableCollection<DeviceSpecailPropertyMVVM>();
 
-            _ea.GetEvent<PubSubEvent<ButtonResult>>().Subscribe(r =>
+            _ea.GetEvent<ButtonConfrimEvent>().Subscribe(r =>
             {
                 if (r == ButtonResult.OK)
                 {
@@ -59,16 +62,31 @@ namespace ConfigTool.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _deviceConfig = navigationContext.Parameters.GetValue<DeviceConfig>("DeviceConfig");
-            
-            if (_deviceConfig != null)
+            if (isFristIn)
             {
-                SpecialProperties = new ObservableCollection<DeviceSpecailPropertyMVVM>();
-                foreach (var sp in _deviceConfig.SpecialProperties)
+                _channelConfig = navigationContext.Parameters.GetValue<ChannelConfig>("ChannelConfig");
+                _deviceConfig = navigationContext.Parameters.GetValue<DeviceConfig>("DeviceConfig");
+                IsBuild= navigationContext.Parameters.GetValue<bool>("isBuild");
+                if (!IsBuild )
                 {
-                    SpecialProperties.Add(DeviceSpecailPropertyMVVM.Convert(sp));
+                    SpecialProperties = new ObservableCollection<DeviceSpecailPropertyMVVM>();
+                    foreach (var sp in _deviceConfig.SpecialProperties)
+                    {
+                        SpecialProperties.Add(DeviceSpecailPropertyMVVM.Convert(sp));
+                    }
                 }
+                else
+                {
+                    var DevicePropertyDes = _channelConfig.DriverInformation.DevicePropertyInfos;
+                    SpecialProperties = new ObservableCollection<DeviceSpecailPropertyMVVM>();
+                    foreach (var item in DevicePropertyDes)
+                    {
+                        SpecialProperties.Add(new DeviceSpecailPropertyMVVM { PropertyName = item.Name, PropertyValue = "0" });
+                    }
+                }
+                isFristIn = false;
             }
+          
         }
     }
 }

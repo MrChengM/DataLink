@@ -32,9 +32,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,14 +48,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\AlarmConfig.cs" />
+    <Compile Include="Config\AlarmsConfig.cs" />
+    <Compile Include="Config\AlarmItemConfig.cs" />
     <Compile Include="Config\ChannelConfig.cs" />
     <Compile Include="Config\ClientConfig.cs" />
+    <Compile Include="Config\ComPhyLayerSetting.cs" />
     <Compile Include="Config\DeviceConfig.cs" />
     <Compile Include="Config\DeviceSpecialProperty.cs" />
     <Compile Include="Config\DriverInfo.cs" />
+    <Compile Include="Config\JsonConvert.cs" />
+    <Compile Include="Config\ServerItemConfig.cs" />
     <Compile Include="Config\ProjectConfig.cs" />
-    <Compile Include="Config\ServerConfig.cs" />
+    <Compile Include="Config\ServersConfig.cs" />
+    <Compile Include="Config\TagBindingConfig.cs" />
+    <Compile Include="Config\TagConfig.cs" />
     <Compile Include="Config\TagGroupConfig.cs" />
     <Compile Include="CustomerAttribute.cs" />
     <Compile Include="IClientDrives.cs" />
@@ -70,7 +81,9 @@
     <Compile Include="Utillity\Utility.cs" />
     <Compile Include="Utillity\XMLUtil.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -8,6 +8,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"          
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:I="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              x:Name="TreeViewUserControl"
              d:DesignHeight="710" d:DesignWidth="250">
@@ -18,22 +19,29 @@
         <TreeView Name="MainTreeView" HorizontalAlignment="Left" VerticalAlignment="Top"  ItemsSource="{Binding Items}" Margin="0" BorderThickness="0" >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" TextElement.FontSize="16" >
+                    <StackPanel x:Name="ItemStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" TextElement.FontSize="16" >
                         <Canvas Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Path Data="{Binding Icon}" Stroke="Black"  Stretch="Uniform" StrokeThickness="1" Width="18" Height="18" />
                         </Canvas>
-                        <TextBlock Text="{Binding NodeName}" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                        </TextBlock>
+                        <TextBlock Text="{Binding NodeName}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <I:Interaction.Triggers>
+                            <I:EventTrigger EventName="MouseRightButtonDown">
+                                <prism:InvokeCommandAction Command="{Binding ElementName=MainTreeView,Path=DataContext.NodeMouseRightCommand }" CommandParameter ="{Binding Type}"/>
+                            </I:EventTrigger>
+                            <I:EventTrigger EventName="MouseLeftButtonDown">
+                                <prism:InvokeCommandAction Command="{Binding ElementName=MainTreeView,Path=DataContext.NodeMouseLeftCommand }" CommandParameter ="{Binding ElementName=ItemStackPanel,Path=DataContext}"/>
+                            </I:EventTrigger>
+                        </I:Interaction.Triggers>
                         <StackPanel.ContextMenu >
-                            <ContextMenu DataContext="{Binding Data,Source={StaticResource TreeBindingProxy}}" Style="{StaticResource MaterialDesignMenu}" materialDesign:MenuAssist.TopLevelMenuItemHeight="25" Background="{StaticResource PrimaryHueLightBrush}">
-                                <MenuItem Name="NewNodeMeItem" Header="New Node"  Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuNewNodeVbt}" Command="{Binding AddNodeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}" >
+                            <ContextMenu DataContext="{Binding Data,Source={StaticResource TreeBindingProxy}}" Style="{StaticResource MaterialDesignMenu}" materialDesign:MenuAssist.TopLevelMenuItemHeight="10" Background="{StaticResource PrimaryHueLightBrush}">
+                                <MenuItem Name="NewNodeMeItem" Header="{Binding NewNodeName }"  Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuNewNodeVbt}" Command="{Binding AddNodeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}" >
                                 <MenuItem.Icon>
-                                    <Path Data="{StaticResource DeviceIcon2}" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18" ></Path>
+                                        <Path Data="{Binding NewNodeIcon }" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18" ></Path>
                                 </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="DeleteMeItem" Header="Delete" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuDeleteVbt}" Command="{Binding DeleteNodeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}">
                                 <MenuItem.Icon>
-                                    <Path Data="{StaticResource DeleteIcon1}" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18"></Path>
+                                        <Path Data="{StaticResource DeleteIcon1}" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18"></Path>
                                 </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Name="PropertyMeItem" Header="Property" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuPropertyVbt}" Command="{Binding OpenPropertyCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}">
@@ -41,12 +49,12 @@
                                     <Path Data="{StaticResource ConfigIcon1}" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18"></Path>
                                 </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Name="ImportMeItem" Header="Import" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuImportVbt}" Command="{Binding ImportTagsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}">
+                                <MenuItem Name="ImportMeItem" Header="Import" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuImportVbt}" Command="{Binding ImportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}">
                                     <MenuItem.Icon>
                                         <Path Data="{StaticResource ImportIcon2}" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18"></Path>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Name="ExportMeItem" Header="Export" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuExportVbt}"  Command="{Binding ExportTagsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}">
+                                <MenuItem Name="ExportMeItem" Header="Export" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuExportVbt}"  Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}">
                                     <MenuItem.Icon>
                                         <Path Data="{StaticResource ExportIcon2}" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18"></Path>
                                     </MenuItem.Icon>

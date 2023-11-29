@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Height="400" Width="380">
-    <Grid TextBlock.FontSize="18" TextBlock.FontFamily="宋体" >
+    <Grid TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right" >
         <StackPanel>
             <StackPanel  Orientation="Horizontal">
                 <TextBlock  Width="160" Height="30" Text="COM Port:" HorizontalAlignment="Left" TextAlignment="Right" Margin="0,20,20,0"/>

@@ -1,0 +1,20 @@
+2023-11-21 10:01:17,193 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-21 10:01:17,215 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-21 10:01:30,291 INFO  ConfigToolLogger Remove Tag Binding successfully: Tag Binding name 'Server01.40005' have removed !   
+2023-11-21 10:01:37,434 INFO  ConfigToolLogger Remove Tag Binding successfully: Tag Binding name 'Server01.40003' have removed !   
+2023-11-21 10:09:41,580 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-21 10:09:41,620 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-21 10:11:49,349 INFO  ConfigToolLogger Remove Tag Binding successfully: Tag Binding name 'Server01.40005' have removed !   
+2023-11-21 10:13:47,210 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-21 10:13:47,225 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-21 10:14:05,959 INFO  ConfigToolLogger Remove Tag Binding successfully: Tag Binding name 'Server01.40005' have removed !   
+2023-11-21 10:15:31,833 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-21 10:15:31,850 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-21 10:15:49,149 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-21 10:19:12,021 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-21 10:19:32,299 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server02.40001' have added!   
+2023-11-21 10:19:43,771 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server02.40002' have added!   
+2023-11-21 10:19:56,076 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-21 10:19:56,077 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-21 14:03:26,366 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-21 14:03:26,413 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   

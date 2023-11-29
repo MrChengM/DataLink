@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
 
 namespace DataServer.Config
 {
+    [DataContract]
     public  class DriverInfo
     {
         private string fullName;
-
+        [DataMember]
         public string FullName
         {
             get { return fullName; }
             set { fullName = value; }
         }
         private CommunicationType commType;
-
+        [DataMember]
         public CommunicationType CommType
         {
             get { return commType; }
@@ -26,7 +28,7 @@ namespace DataServer.Config
         }
 
         private string description;
-
+        [DataMember]
         public string Description
         {
             get { return description; }
@@ -34,14 +36,34 @@ namespace DataServer.Config
         }
 
 
-        private List<PropertyInfo> devicePropertyDes=new List<PropertyInfo>();
-
-        public List<PropertyInfo> DevicePropertyDes
+        private List<DevicePropertyInfo> devicePropertyInfos =new List<DevicePropertyInfo>();
+        [DataMember]
+        public List<DevicePropertyInfo> DevicePropertyInfos
         {
-            get { return devicePropertyDes; }
-            set { devicePropertyDes = value; }
+            get { return devicePropertyInfos ; }
+            set { devicePropertyInfos  = value; }
         }
 
+
+    }
+    [DataContract]
+   public class DevicePropertyInfo
+    {
+        private string name;
+        [DataMember]
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private Type propertyType;
+        [DataMember]
+        public Type PropertyType
+        {
+            get { return propertyType; }
+            set { propertyType = value; }
+        }
 
     }
 }

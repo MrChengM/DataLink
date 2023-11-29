@@ -13,4 +13,14 @@ namespace DataServer
         bool Stop();
         bool IsRunning { get;}
     }
+    public enum ServerOption
+    {
+        [DriverDescription("ModbusTCPServer",CommunicationType.Ethernet)]
+        ModbusTCP,
+        [DriverDescription("ModbusRTUServer", CommunicationType.Serialport)]
+        ModbusRTU,
+        [DriverDescription("FreedomServer", CommunicationType.Ethernet)]
+        Freedom
+
+    }
 }

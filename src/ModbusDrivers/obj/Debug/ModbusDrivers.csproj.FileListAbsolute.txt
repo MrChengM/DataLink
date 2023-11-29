@@ -70,3 +70,5 @@ D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\SocketServers.pdb
 D:\Projects\DataLinks\src\ModbusDrivers\obj\Debug\ModbusDrivers.csproj.CopyComplete
 D:\Projects\DataLinks\src\ModbusDrivers\obj\Debug\ModbusDrivers.dll
 D:\Projects\DataLinks\src\ModbusDrivers\obj\Debug\ModbusDrivers.pdb
+D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\Newtonsoft.Json.xml

@@ -18,7 +18,7 @@
             <ColumnDefinition Width="550*"/>
         </Grid.ColumnDefinitions>
                 <GroupBox Header="Property Options" Grid.Row="0" Grid.Column="0">
-                    <ListBox x:Name="OptionLiBox"  FontSize="18" FontFamily="宋体" FontWeight="Bold" BorderThickness="0" ItemsSource="{Binding OptionItems}"  SelectionMode="Single" >
+                    <ListBox x:Name="OptionLiBox"  FontSize="18" FontFamily="宋体" FontWeight="Bold" BorderThickness="0" ItemsSource="{Binding OptionItems}"  SelectionMode="Single"  SelectedIndex="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Padding="0" Margin="0" Text="{Binding Content}" Width="{Binding ElementName=OptionLiBox, Path=Width}">

@@ -38,7 +38,9 @@ D:\Projects\DriverLibrary\src\SocketServers\obj\Debug\SocketServers.pdb
 D:\Projects\DataLinks\src\SocketServers\bin\Debug\SocketServers.dll
 D:\Projects\DataLinks\src\SocketServers\bin\Debug\SocketServers.pdb
 D:\Projects\DataLinks\src\SocketServers\bin\Debug\DataServer.dll
+D:\Projects\DataLinks\src\SocketServers\bin\Debug\Newtonsoft.Json.dll
 D:\Projects\DataLinks\src\SocketServers\bin\Debug\DataServer.pdb
+D:\Projects\DataLinks\src\SocketServers\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\DataLinks\src\SocketServers\obj\Debug\SocketServers.csproj.AssemblyReference.cache
 D:\Projects\DataLinks\src\SocketServers\obj\Debug\SocketServers.csproj.CoreCompileInputs.cache
 D:\Projects\DataLinks\src\SocketServers\obj\Debug\SocketServers.csproj.CopyComplete

@@ -6,22 +6,22 @@
              xmlns:local="clr-namespace:ConfigTool.Views"
              xmlns:prism="http://prismlibrary.com/" 
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="600" Width="500">
+             Height="400" Width="380">
     <Grid TextBlock.TextAlignment="Center">
         <ListView ItemsSource="{Binding SpecialProperties}" Style="{StaticResource MaterialDesignListView}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Describle">
+                    <GridViewColumn Header="Describle" Width="150" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock  Text="{Binding PropertyName}" Width="180" Height="30"/>
+                                <TextBlock  Text="{Binding PropertyName}" Width="150" Height="30" TextAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Value" >
+                    <GridViewColumn Header="Value" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding PropertyValue}"  Width="180" Height="30"/>
+                                <TextBox Text="{Binding PropertyValue}"  Width="150" Height="30" TextAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

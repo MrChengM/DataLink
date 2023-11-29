@@ -20,7 +20,7 @@ namespace ConfigTool.ViewModels
     {
         private IEventAggregator _ea;
         private EthernetSetUp _ethernetSetUp;
-        private ChannelConfig _config;
+        private ComPhyLayerSetting _comunicationSetUp;
 
         #region Property
         private ObservableCollection<string> networkAdapters;
@@ -97,7 +97,7 @@ namespace ConfigTool.ViewModels
                     {
                         _ethernetSetUp.ProtocolType = temp;
                     }
-                    _config.ComunicationSetUp = _ethernetSetUp;
+                   _comunicationSetUp.EthernetSet = _ethernetSetUp;
                 }
                
 
@@ -148,11 +148,11 @@ namespace ConfigTool.ViewModels
             //sendMessage();
             if (isFristIn)
             {
-                _config = navigationContext.Parameters.GetValue<ChannelConfig>("ChannelConfig");
-                buildMode = navigationContext.Parameters.GetValue<bool>("isNewOne");
+                _comunicationSetUp = navigationContext.Parameters.GetValue<ComPhyLayerSetting>("ComunicationSetUp");
+                buildMode = navigationContext.Parameters.GetValue<bool>("isBuild");
                 if (!buildMode)
                 {
-                    _ethernetSetUp = _config.ComunicationSetUp as EthernetSetUp;
+                    _ethernetSetUp = _comunicationSetUp.EthernetSet;
                     NetworkAdapter = _ethernetSetUp.LocalNetworkAdpt;
                     PortNumber = _ethernetSetUp.PortNumber;
                     Protocol = _ethernetSetUp.ProtocolType.ToString();

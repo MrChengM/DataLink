@@ -14,6 +14,7 @@ using Prism.Commands;
 using Prism.Ioc;
 using Prism.Events;
 using DataServer;
+using ConfigTool.Service;
 
 namespace ConfigTool.ViewModels
 {
@@ -22,16 +23,8 @@ namespace ConfigTool.ViewModels
     public class PropertyDialogViewModel : BindableBase, IDialogAware
     {
 
-        //private TreeNode currentNode;
-        //private TreeNode parentNode;
-
-        private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _ea;
-        private NodeType nodeType;
-
-        private ChannelConfig _channelConfig;
-        private DeviceConfig _deviceConfig;
-
+        private IPropertyViewDespatcher _propertyViewDespatcher;
         #region Property
         private string _title = "Property";
         public string Title
@@ -70,28 +63,12 @@ namespace ConfigTool.ViewModels
 
         #endregion
 
-        public PropertyDialogViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public PropertyDialogViewModel(IEventAggregator eventAggregator)
         {
-            _regionManager = regionManager;
             _ea = eventAggregator;
-
-            //optionSelectCommand = new DelegateCommand<string>(OptionSelect);
             closeDialogCommand = new DelegateCommand<string>(closeDialog);
         }
         #region ICommand
-        void channelOptionSelect(string url)
-        {
-            var para = new NavigationParameters();
-            para.Add("ChannelConfig", _channelConfig);
-            _regionManager.RequestNavigate("PropertyRegion", url, para);
-        }
-        void deviceOptionSelect(string url)
-        {
-            var para = new NavigationParameters();
-            para.Add("ChannelConfig", _channelConfig);
-            para.Add("DeviceConfig", _deviceConfig);
-            _regionManager.RequestNavigate("PropertyRegion", url, para);
-        }
         void closeDialog(string parameter)
         {
             var result = new ButtonResult();
@@ -104,8 +81,6 @@ namespace ConfigTool.ViewModels
             else if (parameter?.ToLower() == "cancel")
                 result = ButtonResult.Cancel;
             RequestClose(new DialogResult(result, param));
-            //_regionManager.Regions.Remove("PropertyRegion");
-            _ea.GetEvent<ButtonConfrimEvent>().Clear();
         }
 
         public bool CanCloseDialog()
@@ -115,127 +90,21 @@ namespace ConfigTool.ViewModels
 
         public void OnDialogClosed()
         {
+            _ea.GetEvent<ButtonConfrimEvent>().Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            _propertyViewDespatcher = parameters.GetValue<IPropertyViewDespatcher>("ViewDespatcher");
+            OptionItems = _propertyViewDespatcher.OptionItems;
 
-            nodeType = parameters.GetValue<NodeType>("NodeType");
-            string channelName;
-            string deviceName;
-            string tagName;
-            switch (nodeType)
+            ///初始化属性界面
+            if (OptionItems.Count>0)
             {
-                case NodeType.Channel:
-                    parameters.TryGetValue("ChannelName", out channelName);
-                    initAsChannel(channelName);
-                    break;
-                case NodeType.Device:
-                    parameters.TryGetValue("ChannelName", out channelName);
-                    parameters.TryGetValue("DeviceName", out deviceName);
-                    initAsDevice(channelName, deviceName);
-                    break;
-                case NodeType.Tags:
-                    parameters.TryGetValue("ChannelName", out channelName);
-                    parameters.TryGetValue("DeviceName", out deviceName);
-                    parameters.TryGetValue("TagName", out tagName);
-                    initAsTag(channelName, deviceName, tagName);
-                    break;
-                default:
-                    break;
+                OptionItems[0].OptionSelectCommand.Execute(OptionItems[0].Url);
             }
-        }
-        /// <summary>
-        /// 初始化为Channel属性
-        /// </summary>
-        /// <param name="channelName"></param>
-        private void initAsChannel(string channelName)
-        {
-            Title = "Property Connectivity.Channel";
-
-            if (GlobalVar.ProjectConfig.Client.Channels.TryGetValue(channelName, out _channelConfig))
-            {
-                OptionItems = new ObservableCollection<PropertyOptionItem>()
-            {
-                new PropertyOptionItem
-                {
-                    Content="General",
-                    Url="ChannelGeneralView",
-                    OptionSelectCommand =new DelegateCommand<string>(channelOptionSelect)
-                }
-            };
-                switch (_channelConfig.DriverInformation.CommType)
-                {
-                    case CommunicationType.Serialport:
-                        OptionItems.Add(new PropertyOptionItem
-                        {
-                            Content = "Serial Commniucation",
-                            Url = "ComPortConfigView",
-                            OptionSelectCommand = new DelegateCommand<string>(channelOptionSelect)
-                        }
-                        );
-                        break;
-                    case CommunicationType.Ethernet:
-                        OptionItems.Add(new PropertyOptionItem { 
-                            Content = "Ethernet Commniucation",
-                            Url= "EthernetConfigView",
-                            OptionSelectCommand = new DelegateCommand<string>(channelOptionSelect)
-                        });
-                        break;
-                    case CommunicationType.File:
-                        break;
-                    case CommunicationType.Memory:
-                        break;
-                    default:
-                        break;
-                }
-                channelOptionSelect("ChannelGeneralView");
-            }
-
-
-        }
-       /// <summary>
-       /// 初始化为Device属性
-       /// </summary>
-       /// <param name="channelName"></param>
-       /// <param name="deviceName"></param>
-        private void initAsDevice(string channelName, string deviceName)
-        {
-            Title = "Property Connectivity.Channel.Device";
-            if (GlobalVar.ProjectConfig.Client.Channels.TryGetValue(channelName, out _channelConfig))
-            {
-                if (_channelConfig.Devices.TryGetValue(deviceName, out _deviceConfig)) 
-                {
-                    OptionItems = new ObservableCollection<PropertyOptionItem>
-                    {
-                        new PropertyOptionItem
-                        {
-                            Content="General",
-                            Url="DeviceGeneralView",
-                            OptionSelectCommand = new DelegateCommand<string>(deviceOptionSelect)
-                        },
-                        new PropertyOptionItem
-                        {
-                            Content="Special Property",
-                            Url="DeviceSpecialPropertyView",
-                            OptionSelectCommand = new DelegateCommand<string>(deviceOptionSelect)
-                        }
-                    };
-                    deviceOptionSelect("DeviceGeneralView");
-                };
-            }
-        }
-        /// <summary>
-        /// 初始化为Tag属性
-        /// </summary>
-        /// <param name="channelName"></param>
-        /// <param name="deviceName"></param>
-        /// <param name="tagName"></param>
-        private void initAsTag(string channelName, string deviceName, string tagName)
-        {
+            Title = _propertyViewDespatcher.Title;
         }
         #endregion
-
-
     }
 }

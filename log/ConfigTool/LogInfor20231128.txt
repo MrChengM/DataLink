@@ -1,0 +1,5 @@
+2023-11-28 23:31:23,000 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.T001.AL40001' have added !   
+2023-11-28 23:32:06,295 INFO  ConfigToolLogger Remove Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.T001.AL40001' have removed !   
+2023-11-28 23:42:08,114 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   
+2023-11-28 23:42:55,732 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\×ÀÃæ\222.json'  
+2023-11-28 23:42:58,478 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  

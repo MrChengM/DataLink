@@ -52,3 +52,5 @@ D:\Projects\DataLinks\src\SiemensDrivers\obj\Debug\SiemensDrivers.csproj.CoreCom
 D:\Projects\DataLinks\src\SiemensDrivers\obj\Debug\SiemensDrivers.csproj.CopyComplete
 D:\Projects\DataLinks\src\SiemensDrivers\obj\Debug\SiemensDrivers.dll
 D:\Projects\DataLinks\src\SiemensDrivers\obj\Debug\SiemensDrivers.pdb
+D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\Newtonsoft.Json.xml

@@ -9,7 +9,11 @@ using System.Windows.Input;
 using System.Windows;
 using Prism.Services.Dialogs;
 using DataServer.Config;
-using DataServer.Utillity;
+using ConfigTool.Service;
+using Utillity.File;
+using Utillity.Reflection;
+using System.Reflection;
+using DataServer;
 
 namespace ConfigTool.ViewModels
 {
@@ -17,6 +21,7 @@ namespace ConfigTool.ViewModels
     {
 
         private string _title = "Driver Register";
+        private IConfigDataServer _configDataServer;
 
         public string Title
         {
@@ -44,12 +49,12 @@ namespace ConfigTool.ViewModels
 
         #region ICommand
 
-        private ICommand registerDLLCommand;
+        private ICommand openDLLCommand;
 
-        public ICommand RegisterDLLCommand
+        public ICommand OpenDLLCommand
         {
-            get { return registerDLLCommand; }
-            set { registerDLLCommand = value; }
+            get { return openDLLCommand; }
+            set { openDLLCommand = value; }
         }
 
         private DelegateCommand<string> _closeDialogCommand;
@@ -59,22 +64,27 @@ namespace ConfigTool.ViewModels
        
         #endregion
 
-        public RegisterDialogViewModel()
+        public RegisterDialogViewModel(IConfigDataServer configDataServer)
         {
-            registerDLLCommand = new DelegateCommand(registerDLL);
+            _configDataServer = configDataServer;
+            openDLLCommand = new DelegateCommand(openDLL);
         }
 
-        private void registerDLL()
+        private void openDLL()
         {
             string fileStyle = "DLL|*.dll";
             string filePath="";
-            if (FileOperate.InputFile(ref filePath, fileStyle))
+            if (FileDialog.InputFile(ref filePath, fileStyle))
             {
                 AssemblyPath = filePath;
-                dllInfors = ReflectionOperate.GetInfos(AssemblyPath);
+                //getDriverInfors(filePath);
             } 
         }
 
+        //private void getDriverInfors(string filePath)
+        //{
+        //    DLLInfors = _configDataServer.RegisterDriver(filePath);
+        //}
         public bool CanCloseDialog()
         {
             return true;
@@ -92,14 +102,13 @@ namespace ConfigTool.ViewModels
             ButtonResult result = ButtonResult.None;
 
             if (parameter?.ToLower() == "ok")
+            {
                 result = ButtonResult.OK;
+                _configDataServer.RegisterDriver(assemblyPath);
+            }
             else if (parameter?.ToLower() == "cancel")
                 result = ButtonResult.Cancel;
-            var param = new DialogParameters
-            {
-                { "DriverInfors", DLLInfors }
-            };
-            RaiseRequestClose(new DialogResult(result, param));
+            RaiseRequestClose(new DialogResult(result));
         }
 
         private void RaiseRequestClose(DialogResult dialogResult)

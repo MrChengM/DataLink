@@ -38,3 +38,5 @@ D:\Projects\DataLinks\src\DL645Driver\obj\Debug\DL645Driver.csproj.CoreCompileIn
 D:\Projects\DataLinks\src\DL645Driver\obj\Debug\DL645Driver.csproj.CopyComplete
 D:\Projects\DataLinks\src\DL645Driver\obj\Debug\DL645Driver.dll
 D:\Projects\DataLinks\src\DL645Driver\obj\Debug\DL645Driver.pdb
+D:\Projects\DataLinks\src\DL645Driver\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\DataLinks\src\DL645Driver\bin\Debug\Newtonsoft.Json.xml

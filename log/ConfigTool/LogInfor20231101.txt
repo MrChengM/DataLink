@@ -1,0 +1,3 @@
+2023-11-01 20:00:51,832 INFO  ConfigToolLogger Load project config sucessfully from: '../../../../conf/ProjectConfig.Josn'.  
+2023-11-01 20:01:03,187 INFO  ConfigToolLogger Dll Register succeefully:DLL name'ModbusDrivers.dll'  
+2023-11-01 20:21:49,376 INFO  ConfigToolLogger Load project config sucessfully from: '../../../../conf/ProjectConfig.Josn'.  

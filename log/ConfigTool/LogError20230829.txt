@@ -1,0 +1,6 @@
+<HR COLOR=red>
+异常时间：2023-08-29 04:26:49,795 [1] <BR>
+异常级别：ERROR <BR>
+异 常 类：ConfigToolLogger [(null)] <BR>
+Json File Load fail : Cannot cast Newtonsoft.Json.Linq.JObject to Newtonsoft.Json.Linq.JToken. <BR>
+ <HR Size=1>

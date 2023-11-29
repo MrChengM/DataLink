@@ -1,0 +1,15 @@
+2023-09-27 16:18:37,648 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusRTUClient'  
+2023-09-27 16:18:37,670 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusTCPClient'  
+2023-09-27 16:18:37,726 INFO  ConfigToolLogger Driver information register successful : 'SiemensDriver.S7CommClient'  
+2023-09-27 16:18:37,726 INFO  ConfigToolLogger Load Driver information finish from:'../../../../dll'  
+2023-09-27 16:18:38,103 INFO  ConfigToolLogger Load project config sucessfully from: '../../../../conf/ProjectConfig.Josn'.  
+2023-09-27 16:32:43,014 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusRTUClient'  
+2023-09-27 16:32:43,031 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusTCPClient'  
+2023-09-27 16:32:43,036 INFO  ConfigToolLogger Driver information register successful : 'SiemensDriver.S7CommClient'  
+2023-09-27 16:32:43,036 INFO  ConfigToolLogger Load Driver information finish from:'../../../../dll'  
+2023-09-27 16:32:43,120 INFO  ConfigToolLogger Load project config sucessfully from: '../../../../conf/ProjectConfig.Josn'.  
+2023-09-27 16:36:24,060 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusRTUClient'  
+2023-09-27 16:36:24,075 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusTCPClient'  
+2023-09-27 16:36:24,080 INFO  ConfigToolLogger Driver information register successful : 'SiemensDriver.S7CommClient'  
+2023-09-27 16:36:24,080 INFO  ConfigToolLogger Load Driver information finish from:'../../../../dll'  
+2023-09-27 16:36:24,171 INFO  ConfigToolLogger Load project config sucessfully from: '../../../../conf/ProjectConfig.Josn'.  

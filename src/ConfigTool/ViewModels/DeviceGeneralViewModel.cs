@@ -10,6 +10,7 @@ using Prism.Regions;
 using DataServer.Config;
 using DataServer;
 using Prism.Services.Dialogs;
+using ConfigTool.Models;
 
 namespace ConfigTool.ViewModels
 {
@@ -18,6 +19,10 @@ namespace ConfigTool.ViewModels
         private IEventAggregator _ea;
         private ChannelConfig _channelConfig;
         private DeviceConfig _deviceConfig;
+
+        public bool BuildMode { get; private set; }
+
+        private bool isFristIn = true;
 
         #region Property
         private string channelName;
@@ -44,9 +49,16 @@ namespace ConfigTool.ViewModels
             get { return deviceName; }
             set { SetProperty(ref deviceName, value, "DeviceName"); }
         }
+        private bool deviceIsEnable;
+
+        public bool DeviceIsEnable
+        {
+            get { return deviceIsEnable; }
+            set { SetProperty(ref deviceIsEnable, value, "DeviceIsEnable"); }
+        }
 
 
-        private string deviceId="1";
+        private string deviceId = "1||255.255.255.2555";
 
         public string DeviceId
         {
@@ -54,7 +66,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref deviceId, value, "DeviceId"); }
         }
 
-        private int connectTimeOut=3000;
+        private int connectTimeOut = 3000;
 
         public int ConnectTimeOut
         {
@@ -63,7 +75,7 @@ namespace ConfigTool.ViewModels
         }
 
 
-        private int requestTimeOut=1000;
+        private int requestTimeOut = 1000;
 
         public int RequestTimeOut
         {
@@ -72,7 +84,7 @@ namespace ConfigTool.ViewModels
         }
 
 
-        private int retryTimes=3;
+        private int retryTimes = 3;
 
         public int RetryTimes
         {
@@ -80,7 +92,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref retryTimes, value, "RetryTimes"); }
         }
 
-        private string currentByteOrder;
+        private string currentByteOrder = "None";
 
         public string CurrentByteOrder
         {
@@ -100,10 +112,12 @@ namespace ConfigTool.ViewModels
         public DeviceGeneralViewModel(IEventAggregator eventAggregator)
         {
             _ea = eventAggregator;
-            _ea.GetEvent<PubSubEvent<ButtonResult>>().Subscribe(r => 
+            _ea.GetEvent<ButtonConfrimEvent>().Subscribe(r => 
             {
                 if (r == ButtonResult.OK)
                 {
+                    _deviceConfig.Name = DeviceName;
+                    _deviceConfig.ID = DeviceId;
                     _deviceConfig.ConnectTimeOut = ConnectTimeOut;
                     _deviceConfig.RequestTimeOut = RequestTimeOut;
                     _deviceConfig.RetryTimes = RetryTimes;
@@ -126,21 +140,24 @@ namespace ConfigTool.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _channelConfig = navigationContext.Parameters.GetValue<ChannelConfig>("ChannelConfig");
-            _deviceConfig = navigationContext.Parameters.GetValue<DeviceConfig>("DeviceConfig");
-            if (_channelConfig != null)
+            if (isFristIn)
             {
+                _channelConfig = navigationContext.Parameters.GetValue<ChannelConfig>("ChannelConfig");
+                _deviceConfig = navigationContext.Parameters.GetValue<DeviceConfig>("DeviceConfig");
+                BuildMode = navigationContext.Parameters.GetValue<bool>("isBuild");
+                DeviceIsEnable = BuildMode;
                 ChannelName = _channelConfig.Name;
-                DriverInfo = _channelConfig.DriverInformation.FullName;
-            }
-            if (_deviceConfig!=null)
-            {
-                DeviceName = _deviceConfig.Name;
-                DeviceId = _deviceConfig.ID;
-                ConnectTimeOut = _deviceConfig.ConnectTimeOut;
-                RequestTimeOut = _deviceConfig.RequestTimeOut;
-                RetryTimes = _deviceConfig.RetryTimes;
-                CurrentByteOrder = _deviceConfig.ByteOrder.ToString();
+                DriverInfo = _channelConfig.DriverInformation.Description;
+                if (!BuildMode)
+                {
+                    DeviceName = _deviceConfig.Name;
+                    DeviceId = _deviceConfig.ID;
+                    ConnectTimeOut = _deviceConfig.ConnectTimeOut;
+                    RequestTimeOut = _deviceConfig.RequestTimeOut;
+                    RetryTimes = _deviceConfig.RetryTimes;
+                    CurrentByteOrder = _deviceConfig.ByteOrder.ToString();
+                }
+                isFristIn = false;
             }
         }
         #endregion

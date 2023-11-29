@@ -21,7 +21,7 @@ namespace DataServer
         ///  <param name="format">Log string (Example:This is the log {0},{1})</param>
         ///  <param name="parameters">Parameters for the log string and/or Exception</param>
         void ErrorLog(string format, params object[] parameters);
-       
+
         /// <summary>Gets the current loglevel of the log
         /// </summary>
         /// <returns>The loglevel</returns>
@@ -55,7 +55,7 @@ namespace DataServer
         /// </summary>
         /// <param name="format"></param>
         /// <param name="parameters"></param>
-        void ByteSteamLog(ActionType action  ,byte[] bytes);
+        void ByteSteamLog(ActionType action, byte[] bytes);
     }
 
     public enum AuditCategories
@@ -197,7 +197,7 @@ namespace DataServer
                     }
                 }
             }
-            
+
         }
 
         public void DebugLog(string format, params object[] parameters)
@@ -260,7 +260,7 @@ namespace DataServer
         }
 
         private static readonly object locker = new object();
-        private void writeLog(string sFilePath, string fileName,string sLogMessage)
+        private void writeLog(string sFilePath, string fileName, string sLogMessage)
         {
             lock (locker)
             {
@@ -292,3 +292,4 @@ namespace DataServer
         }
     }
 }
+

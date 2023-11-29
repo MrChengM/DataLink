@@ -14,7 +14,7 @@ namespace SiemensClient
         static void Main(string[] args)
         {
             EthernetSetUp setup = new EthernetSetUp("192.168.1.240", 102);
-            ILog log = new DefaultLog("S7CommomClient") { ByteSteamLogSwicth = true, Handle = LogHandle.debug };
+            ILog log = new DefaultLog("S7CommomClient") { ByteSteamLogSwicth = true, Handle = LogHandleWay.Console };
             TimeOut timeout = new TimeOut("S7CommomClient", 1000,log);
             S7CommClient client = new S7CommClient(setup, timeout, log, 1);
             if (client.Connect())

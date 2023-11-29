@@ -1,0 +1,25 @@
+{
+  "Modbus RTU": {
+    "FullName": "ModbusDrivers.Client.ModbusRTUClient",
+    "CommType": 1,
+    "Description": "Modbus RTU",
+    "DevicePropertyInfos": []
+  },
+  "Modbus TCP": {
+    "FullName": "ModbusDrivers.Client.ModbusTCPClient",
+    "CommType": 2,
+    "Description": "Modbus TCP",
+    "DevicePropertyInfos": []
+  },
+  "Siemens S7": {
+    "FullName": "SiemensDriver.S7CommClient",
+    "CommType": 2,
+    "Description": "Siemens S7",
+    "DevicePropertyInfos": [
+      {
+        "Name": "SlotNo",
+        "PropertyType": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      }
+    ]
+  }
+}

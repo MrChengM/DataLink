@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
 
 namespace DataServer.Config
 {
+    [DataContract]
     public class DeviceConfig
     {
 
         private string name;
 
+        [DataMember]
         public string Name
         {
             get { return name; }
@@ -23,6 +26,7 @@ namespace DataServer.Config
         /// <summary>
         /// 设备地址,如：Salve ID,IP Address
         /// </summary>
+        [DataMember]
         public string ID
         {
             get { return id; }
@@ -31,6 +35,7 @@ namespace DataServer.Config
 
         private List<DeviceSpecialProperty> specialProperties=new List<DeviceSpecialProperty>();
 
+        [DataMember]
         public List<DeviceSpecialProperty> SpecialProperties
         {
             get { return specialProperties; }
@@ -39,6 +44,7 @@ namespace DataServer.Config
 
         private int connectTimeOut;
 
+        [DataMember]
         public int ConnectTimeOut
         {
             get { return connectTimeOut; }
@@ -46,7 +52,7 @@ namespace DataServer.Config
         }
 
         private int requestTimeOut;
-
+        [DataMember]
         public int RequestTimeOut
         {
             get { return requestTimeOut; }
@@ -54,7 +60,7 @@ namespace DataServer.Config
         }
 
         private int retryTimes;
-
+        [DataMember]
         public int RetryTimes
         {
             get { return retryTimes; }
@@ -63,7 +69,7 @@ namespace DataServer.Config
 
 
         private Dictionary<string, TagGroupConfig> tagGroups = new Dictionary<string, TagGroupConfig>();
-
+        [DataMember]
         public Dictionary<string,TagGroupConfig> TagGroups
         {
             get { return tagGroups; }
@@ -71,7 +77,7 @@ namespace DataServer.Config
         }
 
         private ByteOrder byteOrder;
-
+        [DataMember]
         public ByteOrder ByteOrder
         {
             get { return byteOrder; }

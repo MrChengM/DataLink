@@ -19,7 +19,7 @@ namespace ConfigTool.ViewModels
     {
         private IEventAggregator _ea;
         private SerialportSetUp _serialportSetUp;
-        private ChannelConfig _config;
+        private ComPhyLayerSetting _comunicationSetUp;
 
         #region Property
         #region combox binding
@@ -112,7 +112,7 @@ namespace ConfigTool.ViewModels
                     Parity temp;
                     Enum.TryParse(oddEventCheck, out temp);
                     _serialportSetUp.OddEvenCheck = temp;
-                    _config.ComunicationSetUp = _serialportSetUp;
+                    _comunicationSetUp.SerialportSet = _serialportSetUp;
                 }
             });
         }
@@ -121,11 +121,11 @@ namespace ConfigTool.ViewModels
             //sendMessage();
             if (isFristIn)
             {
-                _config = navigationContext.Parameters.GetValue<ChannelConfig>("ChannelConfig");
-                buildMode = navigationContext.Parameters.GetValue<bool>("isNewOne");
+                _comunicationSetUp = navigationContext.Parameters.GetValue<ComPhyLayerSetting>("ComunicationSetUp");
+                buildMode = navigationContext.Parameters.GetValue<bool>("isBuild");
                 if (!buildMode)
                 {
-                    _serialportSetUp = _config.ComunicationSetUp as SerialportSetUp;
+                    _serialportSetUp = _comunicationSetUp.SerialportSet;
                     ComPort = _serialportSetUp.ComPort;
                     BaudRate = _serialportSetUp.BuadRate;
                     DataBit = _serialportSetUp.DataBit;

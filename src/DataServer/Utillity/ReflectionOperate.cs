@@ -40,7 +40,7 @@ namespace DataServer.Utillity
                     {
                         if(p.GetCustomAttribute<DeviceMarkAttribute>()!=null)
                         {
-                            info.DevicePropertyDes.Add(p);
+                            info.DevicePropertyInfos.Add(new DevicePropertyInfo() { Name=p.Name,PropertyType=p.PropertyType});
                         }
                     }
                     result.Add(des,info);

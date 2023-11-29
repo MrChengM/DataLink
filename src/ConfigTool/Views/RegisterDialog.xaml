@@ -14,7 +14,7 @@
                 <StackPanel Orientation="Horizontal" TextBlock.FontSize="22" Margin="0,10,0,0" VerticalAlignment="Top" >
                     <TextBlock x:Name="PathTeBlock" Text="Path:" Height="30"  Margin="20,0"/>
                     <TextBox x:Name="PathTeBox" Text="{Binding AssemblyPath}" Width="250" Height="30"  FontSize="16"/>
-                    <Button  x:Name="RegisterButton" Content="Register" Command="{Binding RegisterDLLCommand}" Width="100" Height="30" Margin="20,5" />
+                    <Button  x:Name="RegisterButton" Content="Open" Command="{Binding OpenDLLCommand}" Width="100" Height="30" Margin="20,5" />
                 </StackPanel>
                 <Separator Style="{StaticResource MaterialDesignDarkSeparator}"></Separator>
                 <Grid   Height="40">

@@ -11,6 +11,7 @@ using Prism.Services.Dialogs;
 using DataServer.Config;
 using System.Collections.ObjectModel;
 using ConfigTool.Models;
+using ConfigTool.Service;
 
 namespace ConfigTool.ViewModels
 {
@@ -18,7 +19,7 @@ namespace ConfigTool.ViewModels
     {
         private IEventAggregator _ea;
         private ChannelConfig _config;
-
+        private IConfigDataServer _configDataServer;
 
         private string name="Channel1";
 
@@ -39,7 +40,7 @@ namespace ConfigTool.ViewModels
                 {
                     if (BuildMode)
                     {
-                        _config.DriverInformation = GlobalVar.DriverInfos[value];
+                        _config.DriverInformation = _configDataServer.GetDriverInfo(value);
                     }
                 }, "DriverInfo"); }
         }
@@ -77,26 +78,27 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref buildMode, value, "BuildMode"); }
         }
         private bool isFristIn = true;
-        public ChannelGeneralViewModel(IEventAggregator eventAggregator)
+        public ChannelGeneralViewModel(IEventAggregator eventAggregator,IConfigDataServer configDataServer)
         {
+            _ea = eventAggregator;
+            _ea.GetEvent<ButtonConfrimEvent>().Subscribe(setConfig );
+
+            _configDataServer = configDataServer;
             driverInfos = new ObservableCollection<string>();
-            foreach (var info in GlobalVar.DriverInfos)
+            foreach (var info in _configDataServer.DriverInfos)
             {
                 driverInfos.Add(info.Key);
             }
-
-            _ea = eventAggregator;
-            _ea.GetEvent<ButtonConfrimEvent>().Subscribe(setConfig );
         }
 
         private void setConfig(ButtonResult button)
         {
-            if (button==ButtonResult.OK)
+            if (button == ButtonResult.OK)
             {
                 if (BuildMode)
                 {
                     _config.Name = Name;
-                    _config.DriverInformation = GlobalVar.DriverInfos[DriverInfo];
+                    _config.DriverInformation = _configDataServer.GetDriverInfo(driverInfo);
                 }
                 _config.InitLevel = InitLevel;
                 _config.InitTimeOut = InitTimeOut;
@@ -117,7 +119,7 @@ namespace ConfigTool.ViewModels
             if (isFristIn)
             {
                 _config = navigationContext.Parameters.GetValue<ChannelConfig>("ChannelConfig");
-                BuildMode = navigationContext.Parameters.GetValue<bool>("isNewOne");
+                BuildMode = navigationContext.Parameters.GetValue<bool>("isBuild");
                 if (!BuildMode)
                 {
                     Name = _config.Name;

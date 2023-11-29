@@ -8,9 +8,17 @@ namespace ConfigTool.Models
 {
     public enum NodeType
     {
+        Project,
         Connectivity,
         Channel,
         Device,
-        Tags
+        TagGroup,
+        Tag,
+        Servers,
+        ServerItem,
+        TagBinding,
+        Alarms,
+        AlarmItem
+            
     }
 }

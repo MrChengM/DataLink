@@ -15,6 +15,7 @@ using Prism.Modularity;
 using Prism.Regions;
 using Prism.Events;
 using DataServer.Config;
+using ConfigTool.Service;
 
 namespace ConfigTool
 {
@@ -30,11 +31,10 @@ namespace ConfigTool
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterDialog<BuildChannelDialog>();
             containerRegistry.RegisterDialog<RegisterDialog>();
-            containerRegistry.RegisterDialog<BuildDeviceDialog>();
-            containerRegistry.RegisterDialog<BuildTagGroupDialog>();
+            containerRegistry.RegisterDialog<BaseBuildDialog>();
             containerRegistry.RegisterDialog<PropertyDialog>();
+            containerRegistry.RegisterDialog<SearchTagDialog>();
 
             containerRegistry.RegisterForNavigation<ComPortConfigView>();
             containerRegistry.RegisterForNavigation<EthernetConfigView>();
@@ -43,6 +43,20 @@ namespace ConfigTool
             containerRegistry.RegisterForNavigation<ChannelGeneralView>();
             containerRegistry.RegisterForNavigation<DeviceGeneralView>();
             containerRegistry.RegisterForNavigation<DeviceSpecialPropertyView>();
+            containerRegistry.RegisterForNavigation<TagGroupGeneralView>();
+            containerRegistry.RegisterForNavigation<TagGeneralView>();
+            containerRegistry.RegisterForNavigation<TagScalingView>();
+            containerRegistry.RegisterForNavigation<ChannelListView>();
+            containerRegistry.RegisterForNavigation<DeviceListView>();
+            containerRegistry.RegisterForNavigation<TagGroupListView>();
+            containerRegistry.RegisterForNavigation<TagListView>();
+            containerRegistry.RegisterForNavigation<ServerItemGeneralView>();
+            containerRegistry.RegisterForNavigation<ServerListView>();
+            containerRegistry.RegisterForNavigation<TagBindingGenralView>();
+            containerRegistry.RegisterForNavigation<TagBindingListView>();
+            containerRegistry.RegisterForNavigation<AlarmItemGeneralView>();
+            containerRegistry.RegisterForNavigation<AlarmItemGeneral2View>();
+            containerRegistry.RegisterForNavigation<AlarmListView>();
         }
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
@@ -50,6 +64,9 @@ namespace ConfigTool
             base.RegisterRequiredTypes(containerRegistry);
             containerRegistry.RegisterSingleton<IDialogService, DialogServiceWithRegionManager>();
             //containerRegistry.RegisterSingleton<Dictionary<string, DriverInfo>>();
+
+            containerRegistry.RegisterSingleton<IConfigDataServer, ConfigDataServer>();
+            containerRegistry.RegisterSingleton<ISingleLoggerServer, SingleLoggerServer>();
         }
 
     }

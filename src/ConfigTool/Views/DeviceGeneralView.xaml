@@ -6,38 +6,42 @@
              xmlns:local="clr-namespace:ConfigTool.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="600" Width="500">
+             Height="400" Width="380">
     <Grid TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
-        <StackPanel Margin="0,25,0,0">
-            <StackPanel IsEnabled="False">
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="ChannelName:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                    <TextBox Text="{Binding ChannelName}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+        <StackPanel Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" IsEnabled="False">
+                    <TextBlock Text="ChannelName:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding ChannelName}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="Driver Information:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                    <TextBox Text="{Binding DriverInfo}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            <StackPanel Orientation="Horizontal" IsEnabled="False">
+                    <TextBlock Text="Driver Info.:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding DriverInfo}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                 </StackPanel>
+            <StackPanel IsEnabled="{Binding DeviceIsEnable}">
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="Device Name:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                    <TextBox Text="{Binding DeviceName}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBlock Text="Device Name:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding DeviceName}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                 </StackPanel >
             </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Device ID:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding DeviceId}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            </StackPanel >
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Connect TimeOut:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding ConnectTimeOut}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBlock Text="Connect TimeOut:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding ConnectTimeOut}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Request TimeOut:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding RequestTimeOut}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBlock Text="Request TimeOut:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding RequestTimeOut}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Retry Times:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding RetryTimes}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBlock Text="Retry Times:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding RetryTimes}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Byte Order:" Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <ComboBox ItemsSource="{Binding ByteOrders}" SelectedValue="{Binding CurrentByteOrder}"  Width="180" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10" />
+                <TextBlock Text="Byte Order:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <ComboBox ItemsSource="{Binding ByteOrders}" SelectedValue="{Binding CurrentByteOrder}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10" />
             </StackPanel>
         </StackPanel>
     </Grid>

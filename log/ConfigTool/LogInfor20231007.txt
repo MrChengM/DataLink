@@ -1,0 +1,7 @@
+2023-10-07 10:43:36,997 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusRTUClient'  
+2023-10-07 10:43:37,012 INFO  ConfigToolLogger Driver information register successful : 'ModbusDrivers.Client.ModbusTCPClient'  
+2023-10-07 10:43:37,052 INFO  ConfigToolLogger Driver information register successful : 'SiemensDriver.S7CommClient'  
+2023-10-07 10:43:37,052 INFO  ConfigToolLogger Load Driver information finish from:'../../../../dll'  
+2023-10-07 10:43:37,157 INFO  ConfigToolLogger Load project config sucessfully from: '../../../../conf/ProjectConfig.Josn'.  
+2023-10-07 10:44:41,617 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\×ÀÃæ\111.json'  
+2023-10-07 10:48:35,371 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Josn'  
