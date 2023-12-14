@@ -27,11 +27,19 @@ namespace DataServer.Config
         }
 
         private AlarmsConfig alarms;
-
+        [DataMember]
         public AlarmsConfig Alarms
         {
             get { return alarms; }
             set { alarms = value; }
+        }
+
+        private RecordsConfig records;
+        [DataMember]
+        public RecordsConfig Records
+        {
+            get { return records; }
+            set { records = value; }
         }
 
         public ProjectConfig()
@@ -39,6 +47,7 @@ namespace DataServer.Config
             client = new ClientConfig();
             server = new ServersConfig();
             alarms = new AlarmsConfig();
+            records = new RecordsConfig();
         }
     }
 }

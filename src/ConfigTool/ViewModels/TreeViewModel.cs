@@ -39,6 +39,9 @@ namespace ConfigTool.ViewModels
         private readonly Geometry tagBindingIcon = (Geometry)Application.Current.FindResource("TagBindingIcon1");
         private readonly Geometry alarmIcon = (Geometry)Application.Current.FindResource("AlarmIcon1");
         private readonly Geometry alarmItemIcon = (Geometry)Application.Current.FindResource("AlarmIcon2");
+        private readonly Geometry recordIcon = (Geometry)Application.Current.FindResource("Record");
+        private readonly Geometry recordItemIcon = (Geometry)Application.Current.FindResource("RecordItem");
+
 
         private Stack<int> idBuffer;
 
@@ -363,7 +366,7 @@ namespace ConfigTool.ViewModels
 
         private void importTagBindings(TreeNode curreNode)
         {
-            TreeNode serverItemNode=_treeNodeCollcet[curreNode.ParentId];
+            //TreeNode serverItemNode=_treeNodeCollcet[curreNode.ParentId];
             string fileName = "";
             string fileStyle = "CSV|*.csv";
             FileDialog.InputFile(ref fileName, fileStyle);
@@ -371,12 +374,12 @@ namespace ConfigTool.ViewModels
                 return new TagBindingConfig()
                 {
                      DestTagName=s[0],
-                     SourceTagName=s[0]
+                     SourceTagName=s[1]
                 };
             }, true);
             foreach (var tagBinding in tagBindings)
             {
-                _configDataServer.AddTagBinding(serverItemNode.NodeName,tagBinding);
+                _configDataServer.AddTagBinding(curreNode.NodeName,tagBinding);
             }
         }
 
@@ -477,6 +480,10 @@ namespace ConfigTool.ViewModels
 
             var alarmsNode = loadAlarmsNode(rootNode.NodeId, projectConfig.Alarms);
             rootNode.ChildNodes.Add(alarmsNode);
+
+            var recordsNode = loadRecordsNode(rootNode.NodeId, projectConfig.Records);
+            rootNode.ChildNodes.Add(recordsNode);
+
 
         }
 
@@ -622,6 +629,27 @@ namespace ConfigTool.ViewModels
 
             return alarmsNode;
         }
+        private TreeNode loadRecordsNode(int parentId, RecordsConfig recordsConfig)
+        {
+            var recordNode = new TreeNode(idBuffer.Pop(), parentId, "Records", NodeType.Records, recordIcon)
+            {
+                MenuNewNodeVbt = Visibility.Visible,
+                MenuDeleteVbt = Visibility.Collapsed,
+                MenuPropertyVbt = Visibility.Collapsed,
+                MenuImportVbt = Visibility.Collapsed,
+                MenuExportVbt = Visibility.Collapsed,
+            };
+            _treeNodeCollcet.Add(recordNode.NodeId, recordNode);
+
+            foreach (var record in recordsConfig.RecordGroup.Values)
+            {
+                var recordItem = new TreeNode(idBuffer.Pop(), recordNode.NodeId, record.Name, NodeType.RecordItem, recordItemIcon);
+                recordNode.ChildNodes.Add(recordItem);
+                _treeNodeCollcet.Add(recordItem.NodeId, recordItem);
+            }
+
+            return recordNode;
+        }
 
         private void nodeMouseLeft(object obj)
         {
@@ -681,6 +709,16 @@ namespace ConfigTool.ViewModels
                     np.Add("AlarmsConfig", alarms);
                     _regionManager.RequestNavigate("DetailedListRegion", "AlarmListView", np);
                     break;
+                case NodeType.Records:
+                    var records = _configDataServer.GetRecords();
+                    np.Add("RecordsConfig", records);
+                    _regionManager.RequestNavigate("DetailedListRegion", "RecordListView", np);
+                    break;
+                case NodeType.RecordItem:
+                    var recordItem = _configDataServer.GetRecordItem(curreNode.NodeName);
+                    np.Add("RecordItemConfig", recordItem);
+                    _regionManager.RequestNavigate("DetailedListRegion", "RecordTagsListView", np);
+                    break;
                 default:
                     break;
             }
@@ -719,6 +757,14 @@ namespace ConfigTool.ViewModels
                 case NodeType.Alarms:
                     NewNodeName = "Add Alarm";
                     NewNodeIcon = alarmItemIcon;
+                    break;
+                case NodeType.Records:
+                    NewNodeName = "Add Record";
+                    NewNodeIcon = recordItemIcon;
+                    break;
+                case NodeType.RecordItem:
+                    NewNodeName = "TagsManager";
+                    NewNodeIcon = tagGroupIcon;
                     break;
                 default:
                     break;
@@ -761,7 +807,11 @@ namespace ConfigTool.ViewModels
                     var tagBindingConfig = _configDataServer.GetTagBinding(serverNode.NodeName, curreNode.NodeName);
                     var tagBindingViewDespatcher = new TagBindingViewDespatcher(_regionManager, _configDataServer, serverNode.NodeName, tagBindingConfig);
                     dialogPara.Add("ViewDespatcher", tagBindingViewDespatcher);
-
+                    break;
+                case NodeType.RecordItem:
+                    var recordItemConfig = _configDataServer.GetRecordItem(curreNode.NodeName);
+                    var recordItemViewDespatcher = new RecordItemViewDespatcher(_regionManager, _configDataServer,recordItemConfig);
+                    dialogPara.Add("ViewDespatcher", recordItemViewDespatcher);
                     break;
                 default:
                     break;
@@ -793,6 +843,12 @@ namespace ConfigTool.ViewModels
                     break;
                 case NodeType.Alarms:
                     addAlarmItem(curreNode);
+                    break;
+                case NodeType.Records:
+                    addRecordItem(curreNode);
+                    break;
+                case NodeType.RecordItem:
+                    RecordTagManager(curreNode);
                     break;
                 default:
                     break;
@@ -1017,6 +1073,59 @@ namespace ConfigTool.ViewModels
             }
             );
         }
+        private void addRecordItem(TreeNode curreNode)
+        {
+            var recordItemViewDespatcher = new RecordItemViewDespatcher(_regionManager, _configDataServer);
+            var dialogPara = new DialogParameters
+            {
+                { "ViewDespatcher", recordItemViewDespatcher }
+            };
+            _dialogService.ShowDialog("BaseBuildDialog", dialogPara, r =>
+            {
+                if (r.Result == ButtonResult.OK)
+                {
+                    var config = recordItemViewDespatcher.Config;
+                    var node = new TreeNode(idBuffer.Pop(), curreNode.NodeId, config.Name, NodeType.RecordItem, recordItemIcon)
+                    {
+                        MenuNewNodeVbt = Visibility.Visible,
+                        MenuDeleteVbt = Visibility.Visible,
+                        MenuPropertyVbt = Visibility.Visible,
+                        MenuImportVbt = Visibility.Visible,
+                        MenuExportVbt = Visibility.Visible
+                    };
+                    _treeNodeCollcet.Add(node.NodeId, node);
+                    curreNode.ChildNodes.Add(node);
+                }
+            }
+            );
+        }
+        private void RecordTagManager(TreeNode curreNode)
+        {
+            var tagNames = _configDataServer.GetRecordItem(curreNode.NodeName).TagNames;
+            var dialogPara = new DialogParameters
+            {
+                { "RecordItem", curreNode.NodeName },
+                { "TagNames",tagNames }
+            };
+            _dialogService.ShowDialog("RecordTagsManagerView", dialogPara, r =>
+            {
+                if (r.Result == ButtonResult.OK)
+                {
+                    //var config = recordItemViewDespatcher.Config;
+                    //var node = new TreeNode(idBuffer.Pop(), curreNode.NodeId, config.Name, NodeType.RecordItem, recordItemIcon)
+                    //{
+                    //    MenuNewNodeVbt = Visibility.Visible,
+                    //    MenuDeleteVbt = Visibility.Visible,
+                    //    MenuPropertyVbt = Visibility.Visible,
+                    //    MenuImportVbt = Visibility.Visible,
+                    //    MenuExportVbt = Visibility.Visible
+                    //};
+                    //_treeNodeCollcet.Add(node.NodeId, node);
+                    //curreNode.ChildNodes.Add(node);
+                }
+            }
+            );
+        }
         private void deleteNode(object obj)
         {
             TreeNode curreNode = (TreeNode)obj;
@@ -1024,8 +1133,6 @@ namespace ConfigTool.ViewModels
             TreeNode channelNode;
             TreeNode deviceNode;
             TreeNode serverNode;
-            
-
             switch (curreNode.Type)
             {
                 case NodeType.Connectivity:
@@ -1044,6 +1151,9 @@ namespace ConfigTool.ViewModels
                     break;
                 case NodeType.ServerItem:
                     _configDataServer.RemoveServerItem(curreNode.NodeName);
+                    break;
+                case NodeType.RecordItem:
+                    _configDataServer.RemoveRecordItem(curreNode.NodeName);
                     break;
                 //case NodeType.TagBinding:
                 //    _treeNodeCollcet.TryGetValue(curreNode.ParentId, out serverNode);

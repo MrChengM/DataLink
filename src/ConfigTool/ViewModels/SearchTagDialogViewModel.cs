@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,13 +33,23 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref filterTags, value, "FilterTags"); }
         }
 
-        private TagListItem selectTag;
+        //private TagListItem selectTag;
 
-        public TagListItem SelectTag
-        {
-            get { return selectTag; }
-            set { SetProperty(ref selectTag, value, "SelectTag"); }
-        }
+        //public TagListItem SelectTag
+        //{
+        //    get { return selectTag; }
+        //    set { SetProperty(ref selectTag, value, "SelectTag"); }
+        //}
+
+        //private ObservableCollection<TagListItem> selectTags;
+
+        //public ObservableCollection<TagListItem> SelectTags
+        //{
+        //    get { return selectTags; }
+        //    set { SetProperty(ref selectTags, value, "SelectTags"); }
+        //}
+
+
 
         private string filterData;
 
@@ -51,11 +62,19 @@ namespace ConfigTool.ViewModels
         #endregion
         #region Command
 
-        private ICommand closeDialogCommand;
-        public ICommand CloseDialogCommand
+        private ICommand confirmCommand;
+        public ICommand ConfirmCommand
         {
-            get { return closeDialogCommand; }
-            set { closeDialogCommand = value; }
+            get { return confirmCommand; }
+            set { confirmCommand = value; }
+        }
+
+        private ICommand cancelCommand;
+
+        public ICommand CancelCommand
+        {
+            get { return cancelCommand; }
+            set { SetProperty(ref cancelCommand, value, "CancelCommand"); }
         }
 
         private ICommand searchCommand;
@@ -70,16 +89,32 @@ namespace ConfigTool.ViewModels
 
         public SearchTagDialogViewModel()
         {
-            closeDialogCommand = new DelegateCommand<string>(closeDialog);
+            confirmCommand = new DelegateCommand<IList>(confrim);
+            cancelCommand = new DelegateCommand(cancel);
             searchCommand = new DelegateCommand(search);
 
+        }
+
+        private void cancel()
+        {
+            closeDialog("Cancel", null);
+        }
+
+        private void confrim(IList param)
+        {
+            var tags = new List<TagListItem>();
+            foreach (var p in param)
+            {
+                tags.Add((TagListItem)p);
+            }
+            closeDialog("OK", tags);
         }
 
         private void search()
         {
             if (filterData == null||filterData=="")
             {
-                FilterTags=new ObservableCollection<TagListItem>(allTags);
+                FilterTags = new ObservableCollection<TagListItem>(allTags);
             }
             else
             {
@@ -99,23 +134,22 @@ namespace ConfigTool.ViewModels
             };
         }
 
-        private void closeDialog(string parameter)
+        private void closeDialog(string parameter, List<TagListItem> tags)
         {
             var result = new ButtonResult();
             var param = new DialogParameters();
             if (parameter?.ToLower() == "ok")
             {
-                if (selectTag==null)
+                if (tags == null||tags.Count==0)
                 {
                     MessageBox.Show("Tag未选择！");
                     return;
                     //result = ButtonResult.Cancel;
-
                 }
                 else
                 {
                     result = ButtonResult.OK;
-                    param.Add("SelectTag", selectTag);
+                    param.Add("SelectTags", tags);
                 }
             }
             else if (parameter?.ToLower() == "cancel")

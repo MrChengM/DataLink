@@ -18,7 +18,10 @@ namespace ConfigTool.Models
         ServerItem,
         TagBinding,
         Alarms,
-        AlarmItem
-            
+        AlarmItem,
+        Records,
+        RecordItem,
+        RecordTag
+
     }
 }

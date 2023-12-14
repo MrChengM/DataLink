@@ -8,7 +8,7 @@ using DataServer;
 using DataServer.Config;
 namespace ConfigTool.Service
 {
-    public interface IConfigDataServer: IClientConfigOpertor, IDriverInfosOpertor,IServerConfigOpertor, IAlarmsConfigOpertor
+    public interface IConfigDataServer: IClientConfigOpertor, IDriverInfosOpertor,IServerConfigOpertor, IAlarmsConfigOpertor,IRecordsConfigOpertor
     {
         void Load();
         bool Open();
@@ -96,10 +96,29 @@ namespace ConfigTool.Service
         void Remove_AlarmItem(string alarmTag);
 
     }
+    public interface IRecordsConfigOpertor
+    {
+        RecordsConfig GetRecords();
+        RecordItemConfig GetRecordItem(string name);
+
+        bool AddRecordItem(RecordItemConfig recordItem);
+
+        bool IsExit_RecordItem(string name);
+
+        void RemoveRecordItem(string name);
+
+        bool AddRecordTags(string recordName, List<string> tags);
+
+        bool RemoveRecordTags(string recordName, List<string> tags);
+
+        bool ReplaceRecordTags(string recordName, List<string> tags);
+
+    }
     public enum ConfigOperate
     {
         AddNode,
         RemoveNode,
+        ReplaceNode,
         ReloadAll
     }
 

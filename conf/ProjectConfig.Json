@@ -205,5 +205,41 @@
         }
       }
     }
+  },
+  "Alarms": {
+    "AlarmGroup": {
+      "Channel1.Device1.Group1.Tag1.AL4001": {
+        "TagName": "Channel1.Device1.Group1.Tag1",
+        "AlarmTag": "Channel1.Device1.Group1.Tag1.AL4001",
+        "PartName": "",
+        "AlarmDescription": "door open",
+        "AlarmType": 20,
+        "ALNumber": "AL4001",
+        "Level1View": "L1View",
+        "Level2View": "L2View",
+        "ConditionType": 0,
+        "ConditionValue": 0,
+        "AlarmGroup": "Channel1.Device1"
+      }
+    }
+  },
+  "Records": {
+    "RecordGroup": {
+      "Record01": {
+        "Name": "Record01",
+        "Option": 0,
+        "TimeSpan": 60,
+        "TagNames": [
+          "Channel2.Device1.Group1.Tag1_1",
+          "Channel2.Device1.Group1.Tag1_2",
+          "Channel2.Device1.Group1.Tag1_3",
+          "Channel2.Device1.Group1.Tag1_4",
+          "Channel2.Device1.Group1.Tag1_5",
+          "Channel2.Device1.Group1.Tag1_6",
+          "Channel2.Device1.Group1.Tag1_7",
+          "Channel1.Device1.Group1.Tag1"
+        ]
+      }
+    }
   }
 }

@@ -1,0 +1,11 @@
+2023-12-07 17:33:45,659 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:38:56,352 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:40:07,906 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:40:14,229 INFO  ConfigToolLogger Remove Record Item successfully: Record Item name 'Record01' have removed !   
+2023-12-07 17:41:01,153 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:41:17,865 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record02' have added !   
+2023-12-07 17:44:16,999 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:45:45,520 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:56:12,928 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record01' have added !   
+2023-12-07 17:56:30,296 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-12-07 17:56:36,464 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\×ÀÃæ\222.json'  

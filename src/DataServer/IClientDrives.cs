@@ -388,4 +388,11 @@ namespace DataServer
         Equals,
         NotEquals
     }
+
+    public enum RecordWay
+    {
+        OnTime,
+        Change,
+        OnTime_Change
+    }
 }

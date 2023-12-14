@@ -57,6 +57,8 @@
     <Compile Include="Config\DeviceSpecialProperty.cs" />
     <Compile Include="Config\DriverInfo.cs" />
     <Compile Include="Config\JsonConvert.cs" />
+    <Compile Include="Config\RecordItemConfig.cs" />
+    <Compile Include="Config\RecordsConfig.cs" />
     <Compile Include="Config\ServerItemConfig.cs" />
     <Compile Include="Config\ProjectConfig.cs" />
     <Compile Include="Config\ServersConfig.cs" />

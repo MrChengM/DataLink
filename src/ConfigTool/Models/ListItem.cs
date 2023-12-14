@@ -248,4 +248,32 @@ namespace ConfigTool.Models
             set { SetProperty(ref alarmDescription, value, "AlarmDescription"); }
         }
     }
+    public class RecordListItem : BindableBase
+    {
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+            set { SetProperty(ref name, value, "Name"); }
+        }
+
+        private string option;
+
+        public string Option
+        {
+            get { return option; }
+            set { SetProperty(ref option, value, "Option"); }
+        }
+
+        private int times;
+
+        public int Times
+        {
+            get { return times; }
+            set { SetProperty(ref times, value, "Times"); }
+        }
+
+
+    }
 }

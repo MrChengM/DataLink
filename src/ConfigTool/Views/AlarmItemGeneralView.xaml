@@ -19,7 +19,7 @@
                 <TextBlock Text="Tag Name:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
                 <TextBox Text="{Binding TagName}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,0,0"/>
                 <Button Style="{StaticResource MaterialDesignIconButton}" Command="{Binding OpenTagsDailogCommand}" Width="25" Height="26" Background="BurlyWood" Margin="0,20,10,0">
-                    <materialDesign:PackIcon Kind="Search" Width="25" Height="25" />
+                    <materialDesign:PackIcon Kind="AddAlarm" Width="25" Height="25" />
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">

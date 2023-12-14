@@ -855,7 +855,7 @@ namespace ConfigTool.Service
         {
             if (IsExit_AlarmItem(alarmItem.AlarmTag))
             {
-                _log.Warn($"Remove Alarm Item failed: Alarm Item name \'{alarmItem.AlarmTag}\' have duplicated ! ");
+                _log.Warn($"Add Alarm Item failed: Alarm Item name \'{alarmItem.AlarmTag}\' have duplicated ! ");
                 return false;
             }
             else
@@ -889,9 +889,142 @@ namespace ConfigTool.Service
                 _log.Warn($"Remove Alarm Item failed: Alarm Item name \'{alarmTag}\' isn't exit ! ");
             }
         }
-
-
         #endregion
+
+        #region IRecordsConfigOpertor
+        public RecordsConfig GetRecords()
+        {
+            return _projectConfig.Records;
+        }
+
+        public RecordItemConfig GetRecordItem(string name)
+        {
+            if (IsExit_RecordItem(name))
+            {
+                return _projectConfig.Records.RecordGroup[name];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool AddRecordItem(RecordItemConfig recordItem)
+        {
+            if (IsExit_RecordItem(recordItem.Name))
+            {
+                _log.Warn($"Add Record Item failed: Record Item name \'{recordItem.Name}\' have duplicated ! ");
+                return false;
+            }
+            else
+            {
+                var records = _projectConfig.Records;
+                records.RecordGroup.Add(recordItem.Name, recordItem);
+                raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = records, CurreNodeName = recordItem.Name, CurreNodeType = NodeType.RecordItem, OperateMode = ConfigOperate.AddNode });
+                _log.Info($"Add Record Item successfully: Record Item name \'{recordItem.Name}\' have added ! ");
+                return true;
+            }
+        }
+
+        public bool IsExit_RecordItem(string name)
+        {
+           return _projectConfig.Records.RecordGroup.ContainsKey(name);
+        }
+
+        public void RemoveRecordItem(string name)
+        {
+            if (IsExit_RecordItem(name))
+
+            {    var records = _projectConfig.Records;
+
+                records.RecordGroup.Remove(name);
+                raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = records, CurreNodeName = name, CurreNodeType = NodeType.RecordItem, OperateMode = ConfigOperate.RemoveNode });
+                _log.Info($"Remove Record Item successfully: Record Item name \'{name}\' have removed ! ");
+            }
+            else
+            {
+                _log.Warn($"Remove Record Item failed: Record Item name \'{name}\' isn't exit ! ");
+
+            }
+
+        }
+
+        public bool AddRecordTags(string recordName, List<string> tags)
+        {
+            if (IsExit_RecordItem(recordName))
+            {
+                RecordItemConfig recordItem = _projectConfig.Records.RecordGroup[recordName];
+                foreach (var tag in tags)
+                {
+                    if (!recordItem.TagNames.Contains(tag))
+                    {
+                        recordItem.TagNames.Add(tag);
+                        _log.Info($"Add  Record tag successfully:  Tag name \'{recordItem.Name}\' have added ! ");
+                    }
+                    else
+                    {
+                        _log.Warn($"Add Record tag failed: Tag name \'{recordItem.Name}\' have duplicated ! ");
+
+                    }
+                }
+                raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = recordItem, CurreNodeName = null, CurreNodeType = NodeType.RecordTag, OperateMode = ConfigOperate.AddNode });
+
+                return true;
+            }
+            else
+            {
+                _log.Warn($"Add Record tag failed: Record Item name \'{recordName}\' isn't exit ! ");
+
+                return false;
+            }
+        }
+
+        public bool RemoveRecordTags(string recordName, List<string> tags)
+        {
+            if (IsExit_RecordItem(recordName))
+            {
+                RecordItemConfig recordItem = _projectConfig.Records.RecordGroup[recordName];
+                foreach (var tag in tags)
+                {
+                    if (recordItem.TagNames.Contains(tag))
+                    {
+                        recordItem.TagNames.Remove(tag);
+                        _log.Info($"Remove  Record tag successfully:  Tag name \'{tag}\' have Removed ! ");
+                    }
+                    else
+                    {
+                        _log.Warn($"Remove  Record tag failed:  Tag name \'{tag}\' isn't exit ! ");
+                    }
+                }
+                raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = recordItem, CurreNodeName = null, CurreNodeType = NodeType.RecordTag, OperateMode = ConfigOperate.RemoveNode });
+                return true;
+            }
+            else
+            {
+                _log.Warn($"Remove Record tag failed: Record Item name \'{recordName}\' isn't exit ! ");
+
+                return false;
+            }
+        }
+        public bool ReplaceRecordTags(string recordName, List<string> tags)
+        {
+            if (IsExit_RecordItem(recordName))
+            {
+                RecordItemConfig recordItem = _projectConfig.Records.RecordGroup[recordName];
+                recordItem.TagNames = tags;
+                _log.Info($"Replace Record Item tags successfully:  Record item \'{recordName}\' tags have Repalced ! ");
+                raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = recordItem, CurreNodeName = null, CurreNodeType = NodeType.RecordTag, OperateMode = ConfigOperate.ReplaceNode });
+                return true;
+            }
+            else
+            {
+                _log.Warn($"Replace Record tag failed: Record Item name \'{recordName}\' isn't exit ! ");
+
+                return false;
+            }
+        }
+        #endregion
+
 
     }
 }

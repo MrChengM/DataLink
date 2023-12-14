@@ -57,6 +57,10 @@ namespace ConfigTool
             containerRegistry.RegisterForNavigation<AlarmItemGeneralView>();
             containerRegistry.RegisterForNavigation<AlarmItemGeneral2View>();
             containerRegistry.RegisterForNavigation<AlarmListView>();
+            containerRegistry.RegisterForNavigation<RecordGeneralView>();
+            containerRegistry.RegisterForNavigation<RecordListView>();
+            containerRegistry.RegisterForNavigation<RecordTagsManagerView>();
+            containerRegistry.RegisterForNavigation<RecordTagsListView>();
         }
 
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)

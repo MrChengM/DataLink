@@ -789,7 +789,7 @@ namespace ConfigTool.Models
         private ObservableCollection<PropertyOptionItem> propertyOptionItems;
         public int MaxPageNumber => 2;
 
-        public string Title => "Server Item";
+        public string Title => "Alarm Item";
         public ObservableCollection<PropertyOptionItem> OptionItems => propertyOptionItems;
 
         public AlarmItemConfig Config => _alarmItem;
@@ -892,5 +892,108 @@ namespace ConfigTool.Models
         }
 
     }
+    public class RecordItemViewDespatcher : IBuildViewDespatcher, IPropertyViewDespatcher
+    {
+        private IRegionManager _regionManager;
+        private IConfigDataServer _configDataServer;
+        private RecordItemConfig _recordItem;
+        private NavigationParameters _np;
+        private ObservableCollection<PropertyOptionItem> propertyOptionItems;
+        public int MaxPageNumber => 1;
+
+        public string Title => "Record Item";
+        public ObservableCollection<PropertyOptionItem> OptionItems => propertyOptionItems;
+
+        public RecordItemConfig Config => _recordItem;
+        /// <summary>
+        /// 新建Server画面使用
+        /// </summary>
+        /// <param name="regionManager"></param>
+        /// <param name="configDataServer"></param>
+        /// <param name="channelName"></param>
+        /// <param name="deviceName"></param>
+        /// <param name="tagGroupName"></param>
+        public RecordItemViewDespatcher(IRegionManager regionManager, IConfigDataServer configDataServer)
+        {
+            _regionManager = regionManager;
+            _configDataServer = configDataServer;
+            _recordItem = new RecordItemConfig();
+            _np = new NavigationParameters();
+            _np.Add("RecordItemConfig", _recordItem);
+            _np.Add("isBuild", true);
+        }
+
+        /// <summary>
+        /// 编辑Property使用
+        /// </summary>
+        /// <param name="regionManager"></param>
+        /// <param name="configDataServer"></param>
+        /// <param name="channelName"></param>
+        /// <param name="deviceName"></param>
+        /// <param name="tagGroupConfig"></param>
+        public RecordItemViewDespatcher(IRegionManager regionManager, IConfigDataServer configDataServer, RecordItemConfig recordItem)
+        {
+            _regionManager = regionManager;
+            _configDataServer = configDataServer;
+            _recordItem = recordItem;
+            _np = new NavigationParameters();
+            _np.Add("RecordItemConfig", _recordItem);
+            _np.Add("isBuild", false);
+            initOptionItems();
+        }
+
+        private void initOptionItems()
+        {
+            if (_recordItem != null)
+            {
+                propertyOptionItems = new ObservableCollection<PropertyOptionItem>()
+                    {
+                       new PropertyOptionItem
+                {
+                    Content="General",
+                    Url="RecordGeneralView",
+                    OptionSelectCommand =new DelegateCommand<string>(recordOptionSelect)
+                }
+                };
+
+            };
+        }
+
+        private void recordOptionSelect(string url)
+        {
+            _regionManager.RequestNavigate("PropertyRegion", url, _np);
+        }
+
+        public bool AddConfig()
+        {
+            return _configDataServer.AddRecordItem(_recordItem);
+        }
+
+        public bool Navigate(int pageNumber, out string header)
+        {
+
+            bool result = false;
+            header = "default";
+
+            if (pageNumber == 1)
+            {
+                header = "General";
+                _regionManager.RequestNavigate("BuildBaseRegion", "RecordGeneralView", _np);
+                result = true;
+            }
+            return result;
+
+        }
+
+        public bool ReturnHomePage(out int pageNubmer, out string header)
+        {
+            pageNubmer = 1;
+            header = "General";
+            _regionManager.RequestNavigate("BuildBaseRegion", "RecordGeneralView", _np);
+            return true;
+        }
+
+    }
+
 
 }

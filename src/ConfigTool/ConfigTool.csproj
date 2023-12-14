@@ -134,6 +134,10 @@
     <Compile Include="ViewModels\AlarmItemGeneral2ViewModel.cs" />
     <Compile Include="ViewModels\AlarmItemGeneralViewModel.cs" />
     <Compile Include="ViewModels\BaseBuildDialogViewModel.cs" />
+    <Compile Include="ViewModels\RecordGeneralViewModel.cs" />
+    <Compile Include="ViewModels\RecordListViewModel.cs" />
+    <Compile Include="ViewModels\RecordTagsListViewModel.cs" />
+    <Compile Include="ViewModels\RecordTagsManagerViewModel.cs" />
     <Compile Include="ViewModels\SearchTagDialogViewModel.cs" />
     <Compile Include="ViewModels\ServerItemGeneralViewModel.cs" />
     <Compile Include="ViewModels\ServerListViewModel.cs" />
@@ -209,6 +213,18 @@
     </Compile>
     <Compile Include="Views\PropertyDialog.xaml.cs">
       <DependentUpon>PropertyDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordGeneralView.xaml.cs">
+      <DependentUpon>RecordGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordListView.xaml.cs">
+      <DependentUpon>RecordListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordTagsListView.xaml.cs">
+      <DependentUpon>RecordTagsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordTagsManagerView.xaml.cs">
+      <DependentUpon>RecordTagsManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegisterDialog.xaml.cs">
       <DependentUpon>RegisterDialog.xaml</DependentUpon>
@@ -322,6 +338,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PropertyDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordTagsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordTagsManagerView.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RegisterDialog.xaml">

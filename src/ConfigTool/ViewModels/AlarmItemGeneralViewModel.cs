@@ -141,8 +141,12 @@ namespace ConfigTool.ViewModels
             {
                 if (r.Result == ButtonResult.OK)
                 {
-                    var tagItem = r.Parameters.GetValue<TagListItem>("SelectTag");
-                    TagName = tagItem.Name;
+                    var tagItem = r.Parameters.GetValue<List<TagListItem>>("SelectTags");
+                    if (tagItem!=null)
+                    {
+                        TagName = tagItem[0].Name;
+
+                    }
                 }
             }
             );
