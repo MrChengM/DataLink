@@ -26,8 +26,6 @@ namespace DataServer.Config
             get { return type; }
             set { type = value; }
         }
-
-
         private ComPhyLayerSetting phyLayerSetting=new ComPhyLayerSetting();
         [DataMember]
         public ComPhyLayerSetting ComunicationSetUp

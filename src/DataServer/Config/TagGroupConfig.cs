@@ -18,13 +18,6 @@ namespace DataServer.Config
             set { name = value; }
         }
 
-        private int scanTimes;
-        [DataMember]
-        public int ScanTimes
-        {
-            get { return scanTimes; }
-            set { scanTimes = value; }
-        }
 
         private Dictionary<string,TagConfig> tags=new Dictionary<string, TagConfig> ();
         [DataMember]

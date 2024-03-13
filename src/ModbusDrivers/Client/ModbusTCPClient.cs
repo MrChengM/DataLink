@@ -1,13 +1,10 @@
 ﻿using DataServer;
-using DataServer.Utillity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Utillity.Data;
 
 namespace ModbusDrivers.Client
 {
@@ -38,14 +35,25 @@ namespace ModbusDrivers.Client
                 _ethernetSetUp = value;
             }
         }
-        public ModbusTCPClient() { }
-        public ModbusTCPClient(EthernetSetUp ethernetSetUp, TimeOut timeOut,ILog log)
+        public ModbusTCPClient() 
         {
-            _ethernetSetUp = ethernetSetUp;
-            TimeOut = timeOut;
-            Log = log;
-            DriType = CommunicationType.Ethernet;
+            ConnectTimeOut = 3000;
+            RequestTimeOut = 1000;
+            RetryTimes = 1;
         }
+        public ModbusTCPClient(EthernetSetUp ethernetSetUp)
+        {
+            ConnectTimeOut = 3000;
+            RequestTimeOut = 1000;
+            RetryTimes = 1;
+            _ethernetSetUp = ethernetSetUp;
+        }
+        //public ModbusTCPClient(EthernetSetUp ethernetSetUp, TimeOut timeOut,ILog log)
+        //{
+        //    _ethernetSetUp = ethernetSetUp;
+        //    TimeOut = timeOut;
+        //    Log = log;
+        //}
 
         public override bool Connect()
         {
@@ -53,10 +61,10 @@ namespace ModbusDrivers.Client
             {
                 if (_socket == null)
                     _socket = new Socket(SocketType.Stream, _ethernetSetUp.ProtocolType);
-                if (TimeOut.TimeOutSet < 1000)
-                    TimeOut.TimeOutSet = 1000;
-                _socket.SendTimeout = (int)TimeOut.TimeOutSet;
-                _socket.ReceiveTimeout = (int)TimeOut.TimeOutSet;
+                //if (TimeOut.TimeOutSet < 1000)
+                //    TimeOut.TimeOutSet = 1000;
+                _socket.SendTimeout = RequestTimeOut;
+                _socket.ReceiveTimeout = RequestTimeOut;
                 IPAddress ipaddress;
                 if (IPAddress.TryParse(_ethernetSetUp.IPAddress, out ipaddress))
                 {
@@ -65,13 +73,13 @@ namespace ModbusDrivers.Client
                 }
                 else
                 {
-                    Log.ErrorLog("IP地址无效");
+                    Log.ErrorLog($"{Name}: IP地址无效");
                     return IsConnect = false;
                 }
             }
             catch(Exception ex)
             {
-                Log.ErrorLog("ModbusTCP Connect Error:" + ex.Message);
+                Log.ErrorLog($"{Name}: ModbusTCP Connect Error:" + ex.Message);
                 return IsConnect = false;
             }
         }
@@ -192,216 +200,206 @@ namespace ModbusDrivers.Client
         object _async = new object();
         protected override byte[] readBytes(byte slaveID, ushort startAddress, byte funcCode, ushort count)
         {
-            try
+            byte[] result = null;
+            if (IsConnect)
             {
-                if (IsConnect)
+                byte byteCount = Function.GetReadBytesCount(funcCode, count);
+                if (byteCount == 0)
                 {
-                    byte byteCount = Function.GetReadBytesCount(funcCode, count);
-                    if (byteCount == 0)
-                    {
-                        Log.ErrorLog("Modbus 读功能码错误");
-                        return null;
-                    }
-                    byte[] sendBytes = getReadHeader(slaveID, funcCode, startAddress, count);
-                    lock (_async)
-                    {
-                        byte[] receiveBytes = new byte[3 + byteCount];
-                        byte[] dataBytes = new byte[byteCount];
-                        byte errorFuncCode = (byte)(0x80 + funcCode);
-                        List<byte> reciveBytesLog = new List<byte>();   
-
-                        _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
-                        Log.ByteSteamLog(ActionType.SEND, sendBytes);
-
-                        Thread.Sleep(10);
-                        int index = 0;
-                        bool continueFlag = true;
-                        /*----------------------------------------
-                        *循环找头：
-                        * 先读一个字节判断是否为SlaveID
-                        * 如果是,则开启循环
-                        * 则再读一个字节判断是否为功能码或者是错误码
-                        * 判断是，则指针index+2并跳出循环
-                        * 若第二个字节等于SlaveID则复制给头
-                        * 否则将头置0
-                     ------------------------------------------ */
-                        while (continueFlag)
-                        {
-                            if (index < 2)
-                            {
-                                _socket.Receive(receiveBytes,0, 1, SocketFlags.None);
-                                //接受到数据记录
-                                reciveBytesLog.Add(receiveBytes[0]);
-                                while (receiveBytes[0] == slaveID)
-                                {
-                                    _socket.Receive(receiveBytes,1,1, SocketFlags.None);
-                                    //接受到数据记录
-                                    reciveBytesLog.Add(receiveBytes[1]);
-
-                                    if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
-                                    {
-                                        index += 2;
-                                        break;
-                                    }
-                                    else if (receiveBytes[1] == slaveID)
-                                    {
-                                        receiveBytes[0] = receiveBytes[1];
-                                    }
-                                    else
-                                    {
-                                        receiveBytes[0] = 0;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (receiveBytes[1] == funcCode)
-                                {
-                                    index += _socket.Receive(receiveBytes, index, byteCount +1, SocketFlags.None);
-                                    continueFlag = index == receiveBytes.Length ? false : true;
-                                    //接受到数据记录
-                                    for (int i=2;i< receiveBytes.Length; i++)
-                                    {
-                                        reciveBytesLog.Add(receiveBytes[i]);
-                                    }
-                                }
-                                else if (receiveBytes[1] == errorFuncCode)
-                                {
-                                    index += _socket.Receive(receiveBytes, index,1, SocketFlags.None);
-                                    continueFlag = index == 3 ? false : true;
-                                    //接受到数据记录
-                                    reciveBytesLog.Add(receiveBytes[3]);
-                                }
-                            }
-                        }
-                        Log.ByteSteamLog(ActionType.RECEIVE, reciveBytesLog.ToArray());
-
-                        //获取正确报文并处理
-                        if (receiveBytes[1] == funcCode)
-                        {
-                            for (int i = index; i < receiveBytes.Length; i++)
-                            {
-                                reciveBytesLog.Add(receiveBytes[i]);
-                            }
-                            Array.Copy(receiveBytes, 3, dataBytes, 0, byteCount);
-                            
-                            return dataBytes;
-                        }
-                        else if (receiveBytes[1] == errorFuncCode)
-                        {
-                            reciveBytesLog.Add(receiveBytes[2]);
-
-                            Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
-                        }
-                        return null;
-                    }
+                    Log.ErrorLog(string.Format("{0},Modbus 读功能码错误", Name));
                 }
                 else
                 {
-                    return null;
+                    byte[] sendBytes = getReadHeader(slaveID, funcCode, startAddress, count);
+                    byte errorFuncCode = (byte)(0x80 + funcCode);
+                    lock (_async)
+                    {
+                        int times = 0;
+                        while (result == null && times < RetryTimes)
+                        {
+                            try
+                            {
+                                byte[] receiveBytes = new byte[3 + byteCount];
+                                byte[] dataBytes = new byte[byteCount];
+                                List<byte> reciveBytesLog = new List<byte>();
+                                _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
+                                Log.DebugLog($"{Name}:Tx => {NetConvert.GetHexString(sendBytes)}");
+                                Thread.Sleep(10);
+                                int index = 0;
+                                bool continueFlag = true;
+                                /*----------------------------------------
+                                *循环找头：
+                                * 先读一个字节判断是否为SlaveID
+                                * 如果是,则开启循环
+                                * 则再读一个字节判断是否为功能码或者是错误码
+                                * 判断是，则指针index+2并跳出循环
+                                * 若第二个字节等于SlaveID则复制给头
+                                * 否则将头置0
+                             ------------------------------------------ */
+                                while (continueFlag)
+                                {
+                                    if (index < 2)
+                                    {
+                                        _socket.Receive(receiveBytes, 0, 1, SocketFlags.None);
+                                        //接受到数据记录
+                                        reciveBytesLog.Add(receiveBytes[0]);
+                                        while (receiveBytes[0] == slaveID)
+                                        {
+                                            _socket.Receive(receiveBytes, 1, 1, SocketFlags.None);
+                                            //接受到数据记录
+                                            reciveBytesLog.Add(receiveBytes[1]);
+
+                                            if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
+                                            {
+                                                index += 2;
+                                                break;
+                                            }
+                                            else if (receiveBytes[1] == slaveID)
+                                            {
+                                                receiveBytes[0] = receiveBytes[1];
+                                            }
+                                            else
+                                            {
+                                                receiveBytes[0] = 0;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (receiveBytes[1] == funcCode)
+                                        {
+                                            index += _socket.Receive(receiveBytes, index, byteCount + 1, SocketFlags.None);
+                                            continueFlag = index == receiveBytes.Length ? false : true;
+                                            //接受到数据记录
+                                            for (int i = 2; i < receiveBytes.Length; i++)
+                                            {
+                                                reciveBytesLog.Add(receiveBytes[i]);
+                                            }
+                                        }
+                                        else if (receiveBytes[1] == errorFuncCode)
+                                        {
+                                            index += _socket.Receive(receiveBytes, index, 1, SocketFlags.None);
+                                            continueFlag = index == 3 ? false : true;
+                                            //接受到数据记录
+                                            reciveBytesLog.Add(receiveBytes[3]);
+                                        }
+                                    }
+                                }
+                                Log.DebugLog($"{Name}:Re <=> {NetConvert.GetHexString(reciveBytesLog.ToArray())}");
+
+                                //获取正确报文并处理
+                                if (receiveBytes[1] == funcCode)
+                                {
+                                    Array.Copy(receiveBytes, 3, dataBytes, 0, byteCount);
+                                    result = dataBytes;
+                                }
+                                else if (receiveBytes[1] == errorFuncCode)
+                                {
+                                    Log.ErrorLog(string.Format("{0}: Modbus {1} ",Name, Function.GetErrorString(receiveBytes[2])));
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.ErrorLog(string.Format("{0}: Modbus {1} ",Name, ex.Message));
+                            }
+                        }
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                DisConnect();
-                Log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
-                return null;
-            }
+            return result;
         }
- 
         protected override int writeBytes( byte[] sendBytes)
         {
-            try
+            int result = -1;
+            if (IsConnect)
             {
-                if (IsConnect)
+                byte slaveID = sendBytes[6];
+                byte funcCode = sendBytes[7];
+                byte errorFuncCode = (byte)(0x80 + funcCode);
+                lock (_async)
                 {
-                    byte slaveID = sendBytes[6];
-                    byte funcCode = sendBytes[7];
-                    byte errorFuncCode = (byte)(0x80 + funcCode);
-                    List<byte> reciveBytesLog = new List<byte>();
-
-                    lock (_async)
+                    int times = 0;
+                    while (result != 1 && times < RetryTimes)
                     {
-                        int reseult=_socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
-                        Log.ByteSteamLog(ActionType.SEND, sendBytes);
-
-                        Thread.Sleep(10);
-                        int index = 0;
-                        bool continueFlag = true;
-                        byte[] receiveBytes = new byte[6];
-                        /*----------------------------------------
-                         *循环找头：
-                         * 先读一个字节判断是否为SlaveID
-                         * 如果是,则开启循环
-                         * 则再读一个字节判断是否为功能码或者是错误码
-                         * 判断是，则指针index+2并跳出循环
-                         * 若第二个字节等于SlaveID则复制给头
-                         * 否则将头置0
-                         ------------------------------------------ */
-
-                        while (continueFlag)
+                        List<byte> reciveBytesLog = new List<byte>();
+                        try
                         {
-                            if (index < 2)
-                            {
-                                _socket.Receive(receiveBytes, 0, 1, SocketFlags.None);
-                                reciveBytesLog.Add(receiveBytes[0]);
-                                while (receiveBytes[0] == slaveID)
-                                {
-                                    _socket.Receive(receiveBytes, 1, 1, SocketFlags.None);
-                                    reciveBytesLog.Add(receiveBytes[1]);
 
-                                    if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
+                            int reseult = _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
+                            Log.DebugLog($"{Name}:Tx => {NetConvert.GetHexString(sendBytes)}");
+
+                            Thread.Sleep(10);
+                            int index = 0;
+                            bool continueFlag = true;
+                            byte[] receiveBytes = new byte[6];
+                            /*----------------------------------------
+                             *循环找头：
+                             * 先读一个字节判断是否为SlaveID
+                             * 如果是,则开启循环
+                             * 则再读一个字节判断是否为功能码或者是错误码
+                             * 判断是，则指针index+2并跳出循环
+                             * 若第二个字节等于SlaveID则复制给头
+                             * 否则将头置0
+                             ------------------------------------------ */
+
+                            while (continueFlag)
+                            {
+                                if (index < 2)
+                                {
+                                    _socket.Receive(receiveBytes, 0, 1, SocketFlags.None);
+                                    reciveBytesLog.Add(receiveBytes[0]);
+                                    while (receiveBytes[0] == slaveID)
                                     {
-                                        index += 2;
-                                        break;
+                                        _socket.Receive(receiveBytes, 1, 1, SocketFlags.None);
+                                        reciveBytesLog.Add(receiveBytes[1]);
+
+                                        if (receiveBytes[1] == funcCode || receiveBytes[1] == errorFuncCode)
+                                        {
+                                            index += 2;
+                                            break;
+                                        }
+                                        else if (receiveBytes[1] == slaveID)
+                                        {
+                                            receiveBytes[0] = receiveBytes[1];
+                                        }
+                                        else
+                                        {
+                                            receiveBytes[0] = 0;
+                                        }
                                     }
-                                    else if (receiveBytes[1] == slaveID)
+                                }
+                                else
+                                {
+                                    if (receiveBytes[1] == funcCode)
                                     {
-                                        receiveBytes[0] = receiveBytes[1];
+                                        index += _socket.Receive(receiveBytes, index, 4, SocketFlags.None);
+                                        continueFlag = index == 6 ? false : true;
+                                        for (int i = 2; i < 6; i++)
+                                        {
+                                            reciveBytesLog.Add(receiveBytes[i]);
+                                        }
                                     }
-                                    else
+                                    else if (receiveBytes[1] == errorFuncCode)
                                     {
-                                        receiveBytes[0] = 0;
+                                        index += _socket.Receive(receiveBytes, index, 1, SocketFlags.None);
+                                        continueFlag = index == 3 ? false : true;
+                                        reciveBytesLog.Add(receiveBytes[2]);
+                                        Log.ErrorLog(string.Format("{0}: Modbus {0} ",Name, Function.GetErrorString(receiveBytes[2])));
                                     }
+                                    Log.DebugLog($"{Name}:Re => {NetConvert.GetHexString(reciveBytesLog.ToArray())}");
+
                                 }
                             }
-                            else
-                            {
-                                if (receiveBytes[1] == funcCode)
-                                {
-                                    index += _socket.Receive(receiveBytes, index, 4, SocketFlags.None);
-                                    continueFlag = index == 6 ? false : true;
-
-                                    for (int i = 2; i < 6; i++)
-                                    {
-                                        reciveBytesLog.Add(receiveBytes[i]);
-                                    }
-                                    Log.ByteSteamLog(ActionType.RECEIVE, reciveBytesLog.ToArray());
-                                }
-                                else if (receiveBytes[1] == errorFuncCode)
-                                {
-                                    index += _socket.Receive(receiveBytes, index, 1, SocketFlags.None);
-                                    continueFlag = index == 3 ? false : true;
-                                    reciveBytesLog.Add(receiveBytes[2]);
-                                    Log.ByteSteamLog(ActionType.RECEIVE, reciveBytesLog.ToArray());
-                                    Log.ErrorLog(string.Format("Modbus {0} ", Function.GetErrorString(receiveBytes[2])));
-                                }
-                            }
+                            result = receiveBytes[1] == funcCode?1:-1;
                         }
-                        return receiveBytes[1] == funcCode ? 1 : -1;
+                        catch (Exception ex)
+                        {
+                            Log.ErrorLog(string.Format("{0}: Modbus {0} ",Name, ex.Message));
+                        }
                     }
                 }
-                else
-                {
-                    return -1;
-                }
             }
-            catch (Exception ex)
-            {
-                DisConnect();
-                Log.ErrorLog(string.Format("Modbus {0} ", ex.Message));
-                return -1;
-            }
+            return result;
         }
         public override void Dispose()
         {

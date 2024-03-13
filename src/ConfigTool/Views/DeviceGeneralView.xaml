@@ -13,10 +13,10 @@
                     <TextBlock Text="ChannelName:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                     <TextBox Text="{Binding ChannelName}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                 </StackPanel>
-            <StackPanel Orientation="Horizontal" IsEnabled="False">
-                    <TextBlock Text="Driver Info.:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                    <TextBox Text="{Binding DriverInfo}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                </StackPanel>
+            <!--<StackPanel Orientation="Horizontal" IsEnabled="False">
+                <TextBlock Text="Driver Info.:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding DriverInfo}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            </StackPanel>-->
             <StackPanel IsEnabled="{Binding DeviceIsEnable}">
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="Device Name:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
@@ -38,6 +38,10 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Retry Times:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                 <TextBox Text="{Binding RetryTimes}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Timing:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Timing}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Byte Order:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>

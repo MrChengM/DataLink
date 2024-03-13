@@ -11,6 +11,7 @@ using DataServer.Config;
 using DataServer;
 using Prism.Services.Dialogs;
 using ConfigTool.Models;
+using Utillity.Data;
 
 namespace ConfigTool.ViewModels
 {
@@ -83,7 +84,13 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref requestTimeOut, value, "RequestTimeOut"); }
         }
 
+        private int timing = 0;
 
+        public int Timing
+        {
+            get { return timing; }
+            set { SetProperty(ref timing, value, "Timing"); }
+        }
         private int retryTimes = 3;
 
         public int RetryTimes
@@ -121,6 +128,7 @@ namespace ConfigTool.ViewModels
                     _deviceConfig.ConnectTimeOut = ConnectTimeOut;
                     _deviceConfig.RequestTimeOut = RequestTimeOut;
                     _deviceConfig.RetryTimes = RetryTimes;
+                    _deviceConfig.Timing = Timing;
                     ByteOrder temp;
                     Enum.TryParse(CurrentByteOrder, out temp);
                     _deviceConfig.ByteOrder = temp;
@@ -156,6 +164,7 @@ namespace ConfigTool.ViewModels
                     RequestTimeOut = _deviceConfig.RequestTimeOut;
                     RetryTimes = _deviceConfig.RetryTimes;
                     CurrentByteOrder = _deviceConfig.ByteOrder.ToString();
+                    Timing = _deviceConfig.Timing;
                 }
                 isFristIn = false;
             }

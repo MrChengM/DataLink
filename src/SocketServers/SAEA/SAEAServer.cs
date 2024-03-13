@@ -23,6 +23,7 @@ namespace SocketServers.SAEA
         private ILog log;
         private TimeOut timeOut;
         private int readCacheSize;
+        private string serverName;
 
         private SaeaConnectStatePool connectStatePool;
         #endregion
@@ -66,8 +67,9 @@ namespace SocketServers.SAEA
         public event Action<IConnectState> DisconnectEvent;
         public event Action<IConnectState> ReadComplete;
         public event Action<IConnectState> SendComplete;
-        public SAEAServer(string ipstring, int ipport, ILog log, TimeOut timeOut, int maxConnect,int readsize)
+        public SAEAServer(string serverName,string ipstring, int ipport, ILog log, TimeOut timeOut, int maxConnect,int readsize)
         {
+            this.serverName = serverName;
             this.ipString = ipstring;
             this.ipPort = ipport;
             this.log = log;
@@ -86,14 +88,14 @@ namespace SocketServers.SAEA
                 ipEndPoint = new IPEndPoint(ipAddress, ipPort);
 
                 //初始化缓存池
-                connectStatePool = new SaeaConnectStatePool(log, timeOut);
+                connectStatePool = new SaeaConnectStatePool(serverName,log, timeOut);
                 connectStatePool.Init(maxConnectNum);
            
                 return true;
             }
             catch (Exception e)
             {
-                string errorInfor = string.Format("Server init error: {0}", e.Message);
+                string errorInfor = string.Format("{0} Server init error: {1}",serverName, e.Message);
                 log.ErrorLog(errorInfor);
                 return false;
             }
@@ -111,7 +113,7 @@ namespace SocketServers.SAEA
             }
             catch (Exception e)
             {
-                string errorInfor = string.Format("Server start error: {0}", e.Message);
+                string errorInfor = string.Format("{0} Server start error: {1}", serverName, e.Message);
                 log.ErrorLog(errorInfor);
                 return false;
             }
@@ -154,7 +156,7 @@ namespace SocketServers.SAEA
             readWiteEventArg.UserToken = new AsyncUserToken { AcceptSocket = accpetEventArg.AcceptSocket };
             accpetEventArg.AcceptSocket.ReceiveAsync(readWiteEventArg);
             
-            log.NormalLog(string.Format("connect information,ReceiveAsync Start,ID:{0} , IPAdderss:{1}", connectState.ID, accpetEventArg.AcceptSocket.RemoteEndPoint));
+            log.InfoLog(string.Format("{0} connect information,ReceiveAsync Start,ID:{1} , IPAdderss:{2}",serverName, connectState.ID, accpetEventArg.AcceptSocket.RemoteEndPoint));
 
             //Accept Next;
             startAccept(accpetEventArg);

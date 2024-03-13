@@ -9,8 +9,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System.Globalization;
-using DataServer.Utillity;
 using SocketServers;
+using Utillity.Data;
 
 namespace FreedomDrivers
 {
@@ -25,7 +25,7 @@ namespace FreedomDrivers
         private SocketAsyncEventArgs _socketArg;
         private BufferMangment _bufferPool;
         private int _readCacheSize = 65535;
-
+        private string _name;
 
         private bool _subSocketArgFlag;
 
@@ -160,7 +160,42 @@ namespace FreedomDrivers
                 var point = pointStruct.Point;
                 var index = pointStruct.Index;
                 var name = string.Concat(point.Name, "[", index, "]");
-                var type = point.ValueType;
+                DataType type = DataType.Int;
+                if (typeof(T) == typeof(bool))
+                {
+                    type = DataType.Bool;
+                }
+                else if (typeof(T) == typeof(byte))
+                {
+                    type = DataType.Byte;
+                }
+                else if (typeof(T) == typeof(short))
+                {
+                    type = DataType.Short;
+                }
+                else if (typeof(T) == typeof(ushort))
+                {
+                    type = DataType.UShort;
+
+                }
+                else if (typeof(T) == typeof(int))
+                {
+                    type = DataType.Int;
+
+                }
+                else if (typeof(T) == typeof(uint))
+                {
+                    type = DataType.UInt;
+
+                }
+                else if (typeof(T) == typeof(float))
+                {
+                    type = DataType.Float;
+                }
+                else if (typeof(T) == typeof(string))
+                {
+                    type = DataType.String;
+                }
                 resultStr = string.Concat(resultStr, "<", name, ">", "<", type, ">");
             }
             funCode = string.Concat("<", funCode, ">");
@@ -176,7 +211,42 @@ namespace FreedomDrivers
                 var point = pointStruct.Point;
                 var index = pointStruct.Index;
                 var name = string.Concat(point.Name, "[", index, "]");
-                var type = point.ValueType;
+                DataType type = DataType.Int;
+                if (typeof(T) == typeof(bool))
+                {
+                    type = DataType.Bool;
+                }
+                else if (typeof(T) == typeof(byte))
+                {
+                    type = DataType.Byte;
+                }
+                else if (typeof(T) == typeof(short))
+                {
+                    type = DataType.Short;
+                }
+                else if (typeof(T) == typeof(ushort))
+                {
+                    type = DataType.UShort;
+
+                }
+                else if (typeof(T) == typeof(int))
+                {
+                    type = DataType.Int;
+
+                }
+                else if (typeof(T) == typeof(uint))
+                {
+                    type = DataType.UInt;
+
+                }
+                else if (typeof(T) == typeof(float))
+                {
+                    type = DataType.Float;
+                }
+                else if (typeof(T) == typeof(string))
+                {
+                    type = DataType.String;
+                }
                 var value = point.GetValue(index);
                 resultStr = string.Concat(resultStr, "<", name, ">", "<", type, ">", "<", value, ">");
             }
@@ -507,7 +577,7 @@ namespace FreedomDrivers
                         //收到报文记录
                         byte[] logByte = new byte[e.BytesTransferred];
                         Array.Copy(e.Buffer, logByte, logByte.Length);
-                        _log.ByteSteamLog(ActionType.RECEIVE, logByte);
+                        Log.DebugLog($"{_name}:Rx <= {NetConvert.GetHexString(logByte)}");
                         readDataHanlder();
                     }
                     else
@@ -597,7 +667,8 @@ namespace FreedomDrivers
                         int length;
                         if(bool.TryParse(datas[4*i+2],out isVirual)&&int.TryParse(datas[4 * i + 3],out length))
                         {
-                            PointMetadata metaData = new PointMetadata(datas[4 * i], datas[4 * i + 1], length, isVirual);
+                            Enum.TryParse(datas[4 * i + 1], out DataType type);
+                            PointMetadata metaData = new PointMetadata(datas[4 * i],type, length, isVirual);
                             result.Add(metaData);
                         }
                     }

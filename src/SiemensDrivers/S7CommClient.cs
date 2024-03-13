@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataServer;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System.Globalization;
-using DataServer.Utillity;
-using System.ComponentModel;
+using Utillity.Data;
 
 namespace SiemensDriver
 {
     [DriverDescription("Siemens S7",CommunicationType.Ethernet)]
     public class S7CommClient : IPLCDriver
     {
-        private TimeOut _timeOut;
+        //private TimeOut _timeOut;
         private bool _isConnect = false;
         private ILog _log;
         private int _pdu;
@@ -26,14 +21,31 @@ namespace SiemensDriver
 
         private int _handler;
 
-        public S7CommClient(EthernetSetUp ethernetSetUp, TimeOut timeOut, ILog log,int slotNo)
+        public string Name { get; set; }
+        public S7CommClient()
+        {
+            _handler = 0;
+            ConnectTimeOut = 3000;
+            RequestTimeOut = 1000;
+            RetryTimes = 1;
+        }
+      
+        public S7CommClient(EthernetSetUp ethernetSetUp)
         {
             _ethernetSetUp = ethernetSetUp;
-            _timeOut = timeOut;
-            _log = log;
-            _slotNo = slotNo;
             _handler = 0;
+            ConnectTimeOut = 3000;
+            RequestTimeOut = 1000;
+            RetryTimes = 1;
         }
+        //public S7CommClient(EthernetSetUp ethernetSetUp, TimeOut timeOut, ILog log,int slotNo)
+        //{
+        //    _ethernetSetUp = ethernetSetUp;
+        //    _timeOut = timeOut;
+        //    _log = log;
+        //    _slotNo = slotNo;
+        //    _handler = 0;
+        //}
 
         [DeviceMark]
         public int SlotNo
@@ -47,8 +59,18 @@ namespace SiemensDriver
                 _slotNo = value;
             }
         }
-      
 
+        public EthernetSetUp EthSetUp
+        {
+            get
+            {
+                return _ethernetSetUp;
+            }
+            set
+            {
+                _ethernetSetUp = value;
+            }
+        }
         public bool IsClose
         {
             get
@@ -91,18 +113,24 @@ namespace SiemensDriver
             }
         }
 
-        public TimeOut TimeOut
-        {
-            get
-            {
-                return _timeOut;
-            }
+        //public TimeOut TimeOut
+        //{
+        //    get
+        //    {
+        //        return _timeOut;
+        //    }
 
-            set
-            {
-               _timeOut=value;
-            }
-        }
+        //    set
+        //    {
+        //       _timeOut=value;
+        //    }
+        //}
+
+        public ByteOrder Order { get ; set ; }
+        public int Id { get ; set; }
+        public int ConnectTimeOut { get ; set ; }
+        public int RequestTimeOut { get ; set ; }
+        public int RetryTimes { get; set; }
 
         public bool Connect()
         {
@@ -110,10 +138,9 @@ namespace SiemensDriver
             {
                 if (_socket == null)
                     _socket = new Socket(SocketType.Stream, _ethernetSetUp.ProtocolType);
-                if (TimeOut.TimeOutSet < 1000)
-                    TimeOut.TimeOutSet = 1000;
-                _socket.SendTimeout = (int)TimeOut.TimeOutSet;
-                _socket.ReceiveTimeout = (int)TimeOut.TimeOutSet;
+               
+                _socket.SendTimeout = RequestTimeOut;
+                _socket.ReceiveTimeout = RequestTimeOut;
                 IPAddress ipaddress;
                 if (IPAddress.TryParse(_ethernetSetUp.IPAddress, out ipaddress))
                 {
@@ -129,8 +156,8 @@ namespace SiemensDriver
                     03 00 00 16 11 D0 00 01 00 06 00 C0 01 09 C1 02 01 00 C2 02 01 01   
                     *************************************/
                     string first = string.Concat("0300001611E00000000100C1020100C20201", _slotNo.ToString("X").PadLeft(2), "C00109");
-                    _log.ByteSteamLog(ActionType.SEND, getHexBytes(first));
-                    _socket.Send(getHexBytes(first));
+                    _log.DebugLog($"{Name}:Tx => 0x {first}");
+                    _socket.Send(NetConvert.GetHexBytes(first));
 
                     Thread.Sleep(10);
                     int readNumber = 0;
@@ -143,7 +170,7 @@ namespace SiemensDriver
                     //报文数据记录
                     var logBytes = new byte[readNumber];
                     Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
-                    _log.ByteSteamLog(ActionType.RECEIVE, logBytes);
+                    _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(receiveBytes)}");
                     /************************************
                    第二次握手
                    PC发出报文：
@@ -154,8 +181,8 @@ namespace SiemensDriver
                     if (initState == 0)
                     {
                         string second = "0300001902F08032010000FFFF00080000F000000100010780";
-                        _log.ByteSteamLog(ActionType.SEND, getHexBytes(second));
-                        _socket.Send(getHexBytes(second));
+                        _log.DebugLog($"{Name}:Tx => 0x {second}");
+                        _socket.Send(NetConvert.GetHexBytes(second));
                         Thread.Sleep(10);
 
                         _socket.Receive(receiveBytes, 4, SocketFlags.None);
@@ -169,48 +196,26 @@ namespace SiemensDriver
                         //报文数据记录
                         logBytes = new byte[readNumber];
                         Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
-                        _log.ByteSteamLog(ActionType.RECEIVE, logBytes);
+                        _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(receiveBytes)}");
                     }
                     return _isConnect = initState == 1 ? true : false;
                 }
                 else
                 {
-                    Log.ErrorLog("IP地址无效");
+                    Log.ErrorLog( string.Format( "{0}:IP地址无效",Name));
                     return _isConnect = false;
                 }
             }
             catch (Exception ex)
             {
                 DisConnect();
-                Log.ErrorLog("S7Comm Connect Error:" + ex.Message);
+                Log.ErrorLog(Name + ":S7Comm Connect Error:" + ex.Message);
                 return _isConnect = false;
             }
         }
-        /// <summary>
-        /// Hex字符串按2个字符转换成字节数组
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        private byte[] getHexBytes(string source)
-        {
-            byte[] result;
-            var temp = source.Length % 2;
-            if (temp == 0)
-            {
-                result = new byte[source.Length / 2];
-            }
-            else
-            {
-                source = string.Concat(source, "0");//补齐
-                result = new byte[source.Length / 2+1];
-            }
-            for(int i = 0; i < result.Length; i++)
-            {
-                result[i] =byte.Parse( source.Substring(i*2, 2),NumberStyles.HexNumber);
-            }
-            return result;
+        
 
-        }
+      
         public bool DisConnect()
         {
             if (IsConnect)
@@ -253,12 +258,12 @@ namespace SiemensDriver
                 handler.ToString("X").PadLeft(4,'0'), 
                 "000E00000401120A1002", 
                 length.ToString("X").PadLeft(4,'0'),
-                address.SalveId.ToString("X").PadLeft(4,'0'),
+                address.AreaID.ToString("X").PadLeft(4,'0'),
                 address.FuctionCode.ToString("X").PadLeft(2,'0'),
                 (address.Address*8).ToString("X").PadLeft(6,'0')
                 );
 
-           return getHexBytes(header);
+           return NetConvert.GetHexBytes(header);
         }
         /// <summary>
         /// 根据以上4个报文的demo，摸索出大致规律如下(未必完全正确，但是应付项目可以了)；
@@ -301,14 +306,14 @@ namespace SiemensDriver
                 "0501120A10",
                 "02",
                 length.ToString("X").PadLeft(4, '0'),
-                address.SalveId.ToString("X").PadLeft(4, '0'),
+                address.AreaID.ToString("X").PadLeft(4, '0'),
                 address.FuctionCode.ToString("X").PadLeft(2, '0'),
                 (address.Address*8).ToString("X").PadLeft(6, '0'),
                 "0004",
                 (length * 8).ToString("X").PadLeft(4, '0')
                 );
 
-            var headerbyte = getHexBytes(header);
+            var headerbyte = NetConvert.GetHexBytes(header);
             Array.Copy(headerbyte, result, 35);
             Array.Copy(source, 0, result, 35, length);
             return result;
@@ -329,13 +334,13 @@ namespace SiemensDriver
                 "0501120A10",
                 "01",
                 length.ToString("X").PadLeft(4, '0'),
-                address.SalveId.ToString("X").PadLeft(4, '0'),
+                address.AreaID.ToString("X").PadLeft(4, '0'),
                 address.FuctionCode.ToString("X").PadLeft(2, '0'),
                 (address.Address*8+address.BitAddress).ToString("X").PadLeft(6, '0'),
                 "0003",
                 length.ToString("X").PadLeft(4, '0')
                 );
-            var headerbyte = getHexBytes(header);
+            var headerbyte = NetConvert.GetHexBytes(header);
             Array.Copy(headerbyte, result, 35);
             if (source)
             {
@@ -343,11 +348,7 @@ namespace SiemensDriver
             }
             return result;
         }
-        public string GetAddress(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         /// <summary>
         /// 将字符串地址转换成数据结构地址
         /// </summary>
@@ -362,8 +363,15 @@ namespace SiemensDriver
                 if (strArrary[0].Contains("DB"))
                 {
                     result.FuctionCode = 0x84;
-                    result.SalveId = int.Parse(strArrary[0].Substring(2));
+                    result.AreaID = int.Parse(strArrary[0].Substring(2));
                     result.Address = int.Parse(strArrary[1].Substring(3));
+                }
+            }
+            else if (strArrary.Length == 3)
+            {
+                if (strArrary[0].Contains("DB"))
+                {
+                    result.BitAddress = int.Parse(strArrary[2].Substring(0));
                 }
             }
             return result;
@@ -397,13 +405,15 @@ namespace SiemensDriver
         /// <returns></returns>
         private byte[] readyBytes(DeviceAddress address,int length)
         {
-            try
+            byte[] result = null;
+            if (IsConnect)
             {
-                if (IsConnect)
+                if (address.FuctionCode == 0x81 || address.FuctionCode == 0x82 || address.FuctionCode == 0x83 || address.FuctionCode == 0x84)
                 {
-                    if (address.FuctionCode == 0x81 || address.FuctionCode == 0x82 || address.FuctionCode == 0x83 || address.FuctionCode == 0x84)
+                    lock (_async)
                     {
-                        lock (_async)
+                        int times = 0;
+                        while (result == null && times < RetryTimes)
                         {
                             _handler++;
                             if (_handler > 65535)
@@ -411,52 +421,50 @@ namespace SiemensDriver
                             byte[] sendBytes = createReadHeader(address, _handler, length);
                             byte[] receiveBytes = new byte[25 + length];
                             byte[] dataBytes = new byte[length];
-
-                            _log.ByteSteamLog(ActionType.SEND, sendBytes);
-                            _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
-
-                            //Thread.Sleep(10);
-                            int readNumber = 0;
-
-                            _socket.Receive(receiveBytes, 4, SocketFlags.None);
-                            _socket.Receive(receiveBytes, 4, receiveBytes[3] - 4, SocketFlags.None);
-                            readNumber = receiveBytes[3];
-
-                            //报文数据记录
-                            var logBytes = new byte[readNumber];
-                            Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
-                            _log.ByteSteamLog(ActionType.RECEIVE, logBytes);
-
-                            if (readNumber == receiveBytes.Length)
+                            _log.DebugLog($"{Name}:Tx => 0x {NetConvert.GetHexString(sendBytes)}");
+                            try
                             {
-                                Array.Copy(receiveBytes, 25, dataBytes, 0, length);
-                                return dataBytes;
+                                _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
+
+                                //Thread.Sleep(10);
+                                int readNumber = 0;
+
+                                _socket.Receive(receiveBytes, 4, SocketFlags.None);
+                                _socket.Receive(receiveBytes, 4, receiveBytes[3] - 4, SocketFlags.None);
+                                readNumber = receiveBytes[3];
+
+                                //报文数据记录
+                                var logBytes = new byte[readNumber];
+                                Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
+                                _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(logBytes)}");
+
+                                if (readNumber == receiveBytes.Length)
+                                {
+                                    Array.Copy(receiveBytes, 25, dataBytes, 0, length);
+                                    result = dataBytes;
+                                }
+                                else
+                                {
+                                    _log.ErrorLog(Name + ": S7Comm read data error:" + Convert.ToString(receiveBytes));
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                _log.ErrorLog("S7Comm read data error:" + Convert.ToString(receiveBytes));
-                                return null;
+                                Log.ErrorLog(string.Format("{0}: S7Comm {1} ",Name, ex.Message));
                             }
                         }
-                    }
-                    else
-                    {
-                        _log.ErrorLog("S7Comm read function error:" + address.FuctionCode);
-                        return null;
                     }
                 }
                 else
                 {
-                    _log.ErrorLog("S7Comm  read data error:" + "No connect");
-                    return null;
+                    _log.ErrorLog(Name + ": S7Comm read function error:" + address.FuctionCode);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                DisConnect();
-                Log.ErrorLog(string.Format("S7Comm {0} ", ex.Message));
-                return null;
+                _log.ErrorLog(Name + ": S7Comm  read data error:" + "No connect");
             }
+            return result;
         }
 
         public Item<bool> ReadBool(DeviceAddress deviceAddress)
@@ -470,7 +478,7 @@ namespace SiemensDriver
         {
             var datas = readyBytes(deviceAddress, (int)Math.Ceiling((double)(deviceAddress.BitAddress+ length)/8));
             var bools = NetConvert.BytesToBools(datas,deviceAddress.BitAddress, length);
-            return NetConvert.ToItems(bools, 0, length);
+            return NetConvertExtension.ToItems(bools, 0, length);
 
         }
         public Item<byte> ReadByte(DeviceAddress deviceAddress)
@@ -481,7 +489,7 @@ namespace SiemensDriver
         public Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length)
         {
             var datas = readyBytes(deviceAddress, length);
-            return NetConvert.ToItems(datas, 0, length);
+            return NetConvertExtension.ToItems(datas, 0, length);
         }
 
         public Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress)
@@ -498,42 +506,42 @@ namespace SiemensDriver
         {
             var datas = readyBytes(deviceAddress, 4);
             return datas == null ? Item<float>.CreateDefault() : 
-                new Item<float>() { Vaule = UnsafeNetConvert.BytesToFloat(datas, 0, deviceAddress.ByteOrder),UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<float>() { Vaule = UnsafeNetConvert.BytesToFloat(datas, 0, Order),UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
         {
             var datas = readyBytes(deviceAddress, 4* length);
-            var floats = UnsafeNetConvert.BytesToFloats(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(floats, 0, length);
+            var floats = UnsafeNetConvert.BytesToFloats(datas, 0, length, Order);
+            return NetConvertExtension.ToItems(floats, 0, length);
         }
 
         public Item<int> ReadInt(DeviceAddress deviceAddress)
         {
             var datas = readyBytes(deviceAddress, 4);
             return datas == null ? Item<int>.CreateDefault() :
-                new Item<int>() { Vaule = UnsafeNetConvert.BytesToInt(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<int>() { Vaule = UnsafeNetConvert.BytesToInt(datas, 0, Order), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length)
         {
             var datas = readyBytes(deviceAddress, 4*length);
-            var ints = UnsafeNetConvert.BytesToInts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(ints, 0, length);
+            var ints = UnsafeNetConvert.BytesToInts(datas, 0, length, Order);
+            return NetConvertExtension.ToItems(ints, 0, length);
         }
 
         public Item<short> ReadShort(DeviceAddress deviceAddress)
         {
             var datas = readyBytes(deviceAddress, 2);
             return datas == null ? Item<short>.CreateDefault() :
-                new Item<short>() { Vaule = UnsafeNetConvert.BytesToShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<short>() { Vaule = UnsafeNetConvert.BytesToShort(datas, 0, Order), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length)
         {
             var datas = readyBytes(deviceAddress, 2 * length);
-            var shorts = UnsafeNetConvert.BytesToShorts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(shorts, 0, length);
+            var shorts = UnsafeNetConvert.BytesToShorts(datas, 0, length, Order);
+            return NetConvertExtension.ToItems(shorts, 0, length);
         }
 
         public Item<string> ReadString(DeviceAddress deviceAddress)
@@ -550,46 +558,46 @@ namespace SiemensDriver
         {
             var datas = readyBytes(deviceAddress, 4);
             return datas == null ? Item<uint>.CreateDefault() :
-                new Item<uint>() { Vaule = UnsafeNetConvert.BytesToUInt(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<uint>() { Vaule = UnsafeNetConvert.BytesToUInt(datas, 0, Order), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length)
         {
             var datas = readyBytes(deviceAddress, 4 * length);
-            var Uints = UnsafeNetConvert.BytesToUInts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(Uints, 0, length);
+            var Uints = UnsafeNetConvert.BytesToUInts(datas, 0, length, Order);
+            return NetConvertExtension.ToItems(Uints, 0, length);
         }
 
         public Item<ushort> ReadUShort(DeviceAddress deviceAddress)
         {
             var datas = readyBytes(deviceAddress, 2);
             return datas == null ? Item<ushort>.CreateDefault() :
-                new Item<ushort>() { Vaule = UnsafeNetConvert.BytesToUShort(datas, 0, deviceAddress.ByteOrder), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<ushort>() { Vaule = UnsafeNetConvert.BytesToUShort(datas, 0, Order), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
         {
             var datas = readyBytes(deviceAddress, 2 * length);
-            var ushorts = UnsafeNetConvert.BytesToUShorts(datas, 0, length, deviceAddress.ByteOrder);
-            return NetConvert.ToItems(ushorts, 0, length);
+            var ushorts = UnsafeNetConvert.BytesToUShorts(datas, 0, length, Order);
+            return NetConvertExtension.ToItems(ushorts, 0, length);
         }
         /// B[1] ~B[2]: 03 00 固定报文头；
         /// B[22]: FF 标识写入正常；
         private int writedata(DeviceAddress deviceAddress,byte[] source)
         {
-            try
-            {
-                if (IsConnect)
-                {
-                    if (deviceAddress.FuctionCode == 0x81 || deviceAddress.FuctionCode == 0x82 || deviceAddress.FuctionCode == 0x83 || deviceAddress.FuctionCode == 0x84)
-                    {
-                            //_handler++;
-                            //if (_handler > 65535)
-                            //    _handler = 0;
-                            //byte[] sendBytes = createWriteHeader(deviceAddress, _handler, datas);
-                            byte[] receiveBytes = new byte[22];
+            int result = -1;
 
-                            _log.ByteSteamLog(ActionType.SEND, source);
+            if (IsConnect)
+            {
+                if (deviceAddress.FuctionCode == 0x81 || deviceAddress.FuctionCode == 0x82 || deviceAddress.FuctionCode == 0x83 || deviceAddress.FuctionCode == 0x84)
+                {
+                    int times = 0;
+                    while (result != 1 && times < RetryTimes)
+                    {
+                        try
+                        {
+                            byte[] receiveBytes = new byte[22];
+                            _log.DebugLog($"{Name}:Tx => 0x {NetConvert.GetHexString(source)}");
                             _socket.Send(source, source.Length, SocketFlags.None);
 
                             //Thread.Sleep(10);
@@ -602,53 +610,48 @@ namespace SiemensDriver
                             //报文数据记录
                             var logBytes = new byte[readNumber];
                             Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
-                            _log.ByteSteamLog(ActionType.RECEIVE, logBytes);
+                            _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(logBytes)}");
 
                             if (readNumber == receiveBytes.Length)
                             {
-                                if (receiveBytes[21] == 0xFF)
-                                {
-                                    return 1;
-                                }
-                                else
-                                {
-                                    return -1;
-                                }
+                                result = receiveBytes[21] == 0xFF ? 1 : -1;
                             }
                             else
                             {
-                            string byteSteamString = "";
-                            foreach (byte bt in receiveBytes)
-                            {
-                                byteSteamString += string.Format("{0:x2}", bt) + " ";
+                                //string byteSteamString = "";
+                                //foreach (byte bt in receiveBytes)
+                                //{
+                                //    byteSteamString += string.Format("{0:x2}", bt) + " ";
+                                //}
+                                _log.ErrorLog(Name + ":S7Comm write data error: receive byte " + NetConvert.GetHexString(receiveBytes));
                             }
-                            _log.ErrorLog("S7Comm write data error: receive byte " + byteSteamString);
-                                return -1;
-                            }
-
-                    }
-                    else
-                    {
-                        _log.ErrorLog("S7Comm write function error:" + deviceAddress.FuctionCode);
-                        return -1;
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.ErrorLog(Name + string.Format(":S7Comm {0} ", ex.Message));
+                        }
                     }
                 }
                 else
                 {
-                    _log.ErrorLog("S7Comm  write data error:" + "No connect");
-                    return -1;
+                    _log.ErrorLog(Name + ":S7Comm write function error:" + deviceAddress.FuctionCode);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                DisConnect();
-                Log.ErrorLog(string.Format("S7Comm {0} ", ex.Message));
-                return -1;
+                _log.ErrorLog(Name + ":S7Comm  write data error:" + "No connect");
             }
+            return result;
         }
 
-        public int WriteBool(DeviceAddress deviceAddress, bool datas)
+        public int WriteBool(DeviceAddress deviceAddress, bool datas, int offset = 0)
         {
+            if (deviceAddress.AreaID==0x84)
+            {
+                var length = deviceAddress.BitAddress + offset;
+                deviceAddress.BitAddress = length % 8;
+                deviceAddress.Address = length / 8;
+            }
             lock (_async)
             {
                 _handler=_handler++ >= 65535 ? 0 : _handler;
@@ -662,8 +665,12 @@ namespace SiemensDriver
             throw new NotImplementedException();
         }
 
-        public int WriteByte(DeviceAddress deviceAddress, byte datas)
+        public int WriteByte(DeviceAddress deviceAddress, byte datas,int offset=0)
         {
+            if (deviceAddress.AreaID == 0x84)
+            {
+                deviceAddress.Address += offset;
+            }
             lock (_async)
             {
                 _handler = _handler++ >= 65535 ? 0 : _handler;
@@ -682,18 +689,12 @@ namespace SiemensDriver
             }
         }
 
-        public int WriteData<T>(DeviceAddress deviceAddress, T datas)
+        public int WriteFloat(DeviceAddress deviceAddress, float datas,int offset =0)
         {
-            throw new NotImplementedException();
-        }
-
-        public int WriteDatas<T>(DeviceAddress deviceAddress, T[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int WriteFloat(DeviceAddress deviceAddress, float datas)
-        {
+            if (deviceAddress.AreaID == 0x84)
+            {
+                deviceAddress.Address += offset * 4;
+            }
             lock (_async)
             {
                 _handler = _handler++ >= 65535 ? 0 : _handler;
@@ -712,8 +713,12 @@ namespace SiemensDriver
             }
         }
 
-        public int WriteInt(DeviceAddress deviceAddress, int datas)
+        public int WriteInt(DeviceAddress deviceAddress, int datas, int offset = 0)
         {
+            if (deviceAddress.AreaID == 0x84)
+            {
+                deviceAddress.Address += offset*4;
+            }
             lock (_async)
             {
                 _handler = _handler++ >= 65535 ? 0 : _handler;
@@ -732,8 +737,12 @@ namespace SiemensDriver
             }
         }
 
-        public int WriteShort(DeviceAddress deviceAddress, short datas)
+        public int WriteShort(DeviceAddress deviceAddress, short datas, int offset = 0)
         {
+            if (deviceAddress.AreaID == 0x84)
+            {
+                deviceAddress.Address += offset*2;
+            }
             lock (_async)
             {
                 _handler = _handler++ >= 65535 ? 0 : _handler;
@@ -752,7 +761,7 @@ namespace SiemensDriver
             }
         }
 
-        public int WriteString(DeviceAddress deviceAddress, string datas)
+        public int WriteString(DeviceAddress deviceAddress, string datas , int offset = 0)
         {
             throw new NotImplementedException();
         }
@@ -762,8 +771,12 @@ namespace SiemensDriver
             throw new NotImplementedException();
         }
 
-        public int WriteUInt(DeviceAddress deviceAddress, uint datas)
+        public int WriteUInt(DeviceAddress deviceAddress, uint datas, int offset = 0)
         {
+            if (deviceAddress.AreaID == 0x84)
+            {
+                deviceAddress.Address += offset * 4;
+            }
             lock (_async)
             {
                 _handler = _handler++ >= 65535 ? 0 : _handler;
@@ -782,8 +795,12 @@ namespace SiemensDriver
             }
         }
 
-        public int WriteUShort(DeviceAddress deviceAddress, ushort datas)
+        public int WriteUShort(DeviceAddress deviceAddress, ushort datas, int offset = 0)
         {
+            if (deviceAddress.AreaID == 0x84)
+            {
+                deviceAddress.Address += offset * 2;
+            }
             lock (_async)
             {
                 _handler = _handler++ >= 65535 ? 0 : _handler;

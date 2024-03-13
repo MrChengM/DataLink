@@ -102,7 +102,7 @@ namespace ConfigTool.ViewModels
             CurrentDataType = dataTypes[0];
 
             operateWays = new List<string>();
-            foreach (var way in Enum.GetNames(typeof(OperateWay)))
+            foreach (var way in Enum.GetNames(typeof(ReadWriteWay)))
             {
                 operateWays.Add(way);
             }
@@ -120,7 +120,7 @@ namespace ConfigTool.ViewModels
                 {
                     _config.DataType = type;
                 }
-                if (Enum.TryParse(CurrentOperateWay, out OperateWay  way))
+                if (Enum.TryParse(CurrentOperateWay, out ReadWriteWay  way))
                 {
                     _config.Operate = way;
                 }

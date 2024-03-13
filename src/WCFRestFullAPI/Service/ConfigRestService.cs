@@ -28,6 +28,10 @@ namespace WCFRestFullAPI.Service
         private const string PROJECTFILE_DEFAULT = "/ProjectConfig.Json";
         private const string DLLPATH = "../../../../dll";
 
+        public event Action<ProjectConfig> ProConfRefreshEvent;
+        //public event Action<ChannelConfig> ChlConfRefreshEvent;
+        ////public event Action<AlarmsConfig> AlmConfRefreshEvent;
+        ////public event Action<RecordItemConfig> RcrdConfRefreshEvent;
         #endregion
         #region Property
         public ProjectConfig Config
@@ -321,6 +325,7 @@ namespace WCFRestFullAPI.Service
             if (isExit_Channel(channelConfig.Name))
             {
                 config.Client.Channels[channelConfig.Name] = channelConfig;
+                //ChlConfRefreshEvent.Invoke(channelConfig);
                 return RestAPIResult.OK;
             }
             else
@@ -348,6 +353,7 @@ namespace WCFRestFullAPI.Service
             if (isExit_Device(channelName, deviceConfig.Name))
             {
                 config.Client.Channels[channelName].Devices[deviceConfig.Name] = deviceConfig;
+                //ChlConfRefreshEvent.Invoke(config.Client.Channels[channelName]);
                 return RestAPIResult.OK;
             }
             else
@@ -363,6 +369,7 @@ namespace WCFRestFullAPI.Service
                 return RestAPIResult.FAIL;
             }
             config = projectConfig;
+            ProConfRefreshEvent.Invoke(config);
             return RestAPIResult.OK;
         }
 
@@ -375,6 +382,7 @@ namespace WCFRestFullAPI.Service
             if (isExit_Tag(channelName, deviceName, tagGroupName, tagConfig.Name))
             {
                 config.Client.Channels[channelName].Devices[deviceName].TagGroups[tagGroupName].Tags[tagConfig.Name] = tagConfig;
+                //ChlConfRefreshEvent.Invoke(config.Client.Channels[channelName]);
                 return RestAPIResult.OK;
             }
             else
@@ -392,6 +400,7 @@ namespace WCFRestFullAPI.Service
             if (isExit_TagGroup(channelName, deviceName, tagGroupConfig.Name))
             {
                 config.Client.Channels[channelName].Devices[deviceName].TagGroups[tagGroupConfig.Name] = tagGroupConfig;
+                //ChlConfRefreshEvent.Invoke(config.Client.Channels[channelName]);
                 return RestAPIResult.OK;
             }
             else

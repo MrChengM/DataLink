@@ -62,12 +62,12 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref initLevel, value, "InitLevel"); }
         }
 
-        private int initTimeOut=1000;
+        private int scanTime=100;
 
-        public int InitTimeOut
+        public int ScanTime
         {
-            get { return initTimeOut; }
-            set { SetProperty(ref initTimeOut, value, "InitTimeOut"); }
+            get { return scanTime; }
+            set { SetProperty(ref scanTime, value, "ScanTime"); }
         }
 
         private bool buildMode;
@@ -101,7 +101,7 @@ namespace ConfigTool.ViewModels
                     _config.DriverInformation = _configDataServer.GetDriverInfo(driverInfo);
                 }
                 _config.InitLevel = InitLevel;
-                _config.InitTimeOut = InitTimeOut;
+                _config.ScanTimes = ScanTime;
             }
         }
         #region INavigationAware
@@ -125,7 +125,7 @@ namespace ConfigTool.ViewModels
                     Name = _config.Name;
                     DriverInfo = _config.DriverInformation.Description;
                     InitLevel = _config.InitLevel;
-                    InitTimeOut = _config.InitTimeOut;
+                    ScanTime = _config.ScanTimes;
                 }
                 isFristIn = false;
             }

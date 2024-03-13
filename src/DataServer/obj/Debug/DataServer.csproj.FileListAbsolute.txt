@@ -37,3 +37,17 @@ D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.csproj.CopyComplete
 D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.dll
 D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.pdb
 D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.csproj.AssemblyReference.cache
+D:\Projects\DataLinks\src\DataServer\bin\Debug\Utillity.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.OOXML.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\BouncyCastle.Crypto.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.OpenXml4Net.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\Utillity.pdb
+D:\Projects\DataLinks\src\DataServer\bin\Debug\ICSharpCode.SharpZipLib.pdb
+D:\Projects\DataLinks\src\DataServer\bin\Debug\ICSharpCode.SharpZipLib.xml
+D:\Projects\DataLinks\src\DataServer\bin\Debug\BouncyCastle.Crypto.xml
+D:\Projects\DataLinks\src\DataServer\bin\Debug\log4net.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\log4net.xml
+D:\Projects\DataLinks\src\DataServer\bin\Debug\log4net.config

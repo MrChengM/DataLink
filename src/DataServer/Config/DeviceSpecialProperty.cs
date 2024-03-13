@@ -16,7 +16,16 @@ namespace DataServer.Config
 			set { name = value; }
 		}
 
-		private string value;
+        //private Type type;
+
+        //public Type Type
+        //{
+        //    get { return type; }
+        //    set { type = value; }
+        //}
+
+
+        private string value;
 
 		public string Value
 		{

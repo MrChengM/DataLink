@@ -28,13 +28,7 @@ namespace ConfigTool.ViewModels
             get { return name; }
             set { SetProperty(ref name, value, "Name"); }
         }
-        private int scanTimes=100;
-
-        public int ScanTimes
-        {
-            get { return scanTimes; }
-            set { SetProperty(ref scanTimes, value, "ScanTimes"); }
-        }
+       
 
         private bool buildMode;
 
@@ -57,7 +51,6 @@ namespace ConfigTool.ViewModels
             if (button == ButtonResult.OK)
             {
                 _config.Name = Name;
-                _config.ScanTimes = ScanTimes;
             }
         }
         #region INavigationAware
@@ -79,7 +72,6 @@ namespace ConfigTool.ViewModels
                 if (!BuildMode)
                 {
                     Name = _config.Name;
-                    ScanTimes = _config.ScanTimes;
                 }
                 isFristIn = false;
             }

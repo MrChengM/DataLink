@@ -6,93 +6,67 @@ using System.Threading.Tasks;
 using ds = DataServer;
 using DataServer;
 using DataServer.Points;
+using Utillity.Data;
 namespace ModbusDrivers.Server
 {
-    public class ModbusPointMapping : IPointMapping<bool>, IPointMapping<ushort>///Point Length=1;
+    public class ModbusPointMapping ///Point Length=1;
     {
         private ILog log;
 
-        /// <summary>
-        /// Mapping点存储索引
-        /// </summary>
-        private List<ModbusPointMeta> indexList;
-        /// <summary>
-        /// 线圈地址空间 key=00001~09999
-        /// </summary>
-        Dictionary<string, IPoint<bool>> coilMapping;
-        /// <summary>
-        /// 输入状态地址空间 key=10001～19999
-        /// </summary>
-        Dictionary<string, IPoint<bool>> inputStatusMapping;
-        /// <summary>
-        /// 输入寄存器空间 key=30001～39999
-        /// </summary>
-        Dictionary<string, IPoint<ushort>> inPutRegisterMapping;
-        /// <summary>
-        /// 保持寄存器空间 key=40001～49999
-        /// </summary>
-        Dictionary<string, IPoint<ushort>> holdRegisterMapping;
+        //private string _serverName;
+        private IPointMapping _pointMapping;
 
+
+        public IPointMapping PointMapping { get=> _pointMapping; set=> _pointMapping=value; }
+        Dictionary<string, PointNameIndex> _modbusMapping;
         public ILog Log
         {
             get { return log; }
             set { log = value; }
         }
-        #region 单例，确保只存在一个Moubus点表
-        private static ModbusPointMapping instance;
+        //#region 单例，确保只存在一个Moubus点表
+        //private static ModbusPointMapping instance;
 
-        private static readonly object locker = new object();
+        //private static readonly object locker = new object();
 
-        private ModbusPointMapping(ILog log)
+        public ModbusPointMapping(ILog log)
         {
-            Init(log);
-        }
-        private void Init(ILog log)
-        {
+            //_serverName = serverName;
             this.log = log;
-            indexList = new List<ModbusPointMeta>();
-            coilMapping = new Dictionary<string, IPoint<bool>>(10000);
-            inputStatusMapping = new Dictionary<string, IPoint<bool>>(10000);
-            inPutRegisterMapping = new Dictionary<string, IPoint<ushort>>(10000);
-            holdRegisterMapping = new Dictionary<string, IPoint<ushort>>(10000);
+            _modbusMapping = new Dictionary<string, PointNameIndex>(10000);
         }
-        public static ModbusPointMapping GetInstance(ILog log)
-        {
-            if (instance == null)
-            {
-                lock (locker)
-                {
-                    if (instance == null)
-                    {
-                        instance = new ModbusPointMapping(log);
-                    }
-                }
-            }
-            return instance;
-        }
-        #endregion
-
-        #region IPointMapping:bool,ushort
+        //public static ModbusPointMapping GetInstance(ILog log)
+        //{
+        //    if (instance == null)
+        //    {
+        //        lock (locker)
+        //        {
+        //            if (instance == null)
+        //            {
+        //                instance = new ModbusPointMapping(log);
+        //            }
+        //        }
+        //    }
+        //    return instance;
+        //}
+        //#endregion
+        #region Method
         /// <summary>
         /// 注册bool类型modbus点
         /// </summary>
         /// <param name="key">00001～09999，10001～19999</param>
         /// <param name="point">长度为1的bool型</param>
-        public void Register(string key, IPoint<bool> point)
+        public void Register(string key, PointNameIndex nameIndex)
         {
             if (!Find(key))
             {
-                if (key.Substring(0, 1) == "0")
+                if (key.Substring(0, 1) == "0" || key.Substring(0, 1) == "1" || key.Substring(0, 1) == "3" || key.Substring(0, 1) == "4")
                 {
-                    coilMapping.Add(key, point);
-                }
-                else if (key.Substring(0, 1) == "1")
-                {
-                    inputStatusMapping.Add(key, point);
+                    _modbusMapping.Add(key, nameIndex);
                 }
                 else
                 {
-                    log.ErrorLog("ModbusMapping Register Error: Key value not match point Type,Key : {0} , type ： {1}", key, point.ValueType);
+                    log.ErrorLog("ModbusMapping Register Error: Key value not match modbus  standard,Key : {0} ", key);
                 }
             }
             else
@@ -104,286 +78,192 @@ namespace ModbusDrivers.Server
 
         public void Remove(string key)
         {
-            string type;
-            if(Find(key,out type))
+            if(Find(key))
             {
-                switch (type)
-                {
-                    case ModbusType.Coil:
-                        coilMapping.Remove(key);
-                        break;
-                    case ModbusType.InputStatus:
-                        coilMapping.Remove(key);
-                        break;
-                    case ModbusType.InputRegister:
-                        coilMapping.Remove(key);
-                        break;
-                    case ModbusType.HoldRegister:
-                        coilMapping.Remove(key);
-                        break;
-                }
+                _modbusMapping.Remove(key);
             }
         }
- 
         public bool Find(string key)
         {
-           string type;
-           return Find(key, out type);
+           //string type;
+           return _modbusMapping.ContainsKey(key);
         }
 
-        public bool Find(string key, out string type)
+        /// <summary>
+        /// 获取bool点位布尔量数组
+        /// </summary>
+        /// <param name="key">00001-09999;10001-19999</param>
+        /// <returns></returns>
+        public bool[] GetBools(string key)
         {
-            string Head = key.Substring(0, 1);
-            switch (Head)
+            bool[] result;
+            if (Find(key))
             {
-                case "0":
-                    type = ModbusType.Coil;
-                    return coilMapping.ContainsKey(key);
-                case "1":
-                    type = ModbusType.InputStatus;
-                    return inputStatusMapping.ContainsKey(key);
-                case "3":
-                    type = ModbusType.InputRegister;
-                    return inPutRegisterMapping.ContainsKey(key);
-                case "4":
-                    type = ModbusType.HoldRegister;
-                    return holdRegisterMapping.ContainsKey(key);
-                default:
-                    type = null;
-                    return false;
-            }
-        }
-        public IPoint<bool> GetPoint(string key)
-        {
-            string type;
-            if (Find(key, out type))
-            {
-                if (type == ModbusType.Coil)
+                var pointIndex = _modbusMapping[key];
+                var pointMeta = _pointMapping.GetPointMetaData(pointIndex.PointName);
+                if (pointMeta.ValueType == DataType.Bool)
                 {
-                   return coilMapping[key];
-                }
-                else if(type == ModbusType.InputStatus)
-                {
-                    return inputStatusMapping[key];
+                    IPoint<bool> boolPoint = _pointMapping.GetBoolPoint(key);
+                    result = pointIndex.Index > -1
+                        ? (new bool[] { boolPoint[pointIndex.Index]})
+                        :boolPoint.GetValues();
                 }
                 else
                 {
-                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
-                    return null;
+                    log.ErrorLog("ModbusMapping Get Point Error: Value Type error ,Key : {0} ", key);
+                    result = null;
                 }
             }
             else
             {
                 log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
-                return null;
+                result = null;
             }
-            
-        }
+            return result;
 
-        public bool[] GetValue(string key)
-        {
-            IPoint<bool> point = GetPoint(key);
-            if (point != null)
-            {
-                return point.GetValues();
-            }
-            else
-            {
-                return null;
-            }
         }
-        public int SetValue(string key, bool[] value)
+        /// <summary>
+        /// 获取Short/Int/Float点位字节数组
+        /// </summary>
+        /// <param name="key">30001-39999;40001-49999</param>
+        /// <returns></returns>
+        public byte[] GetBytes(string key)
         {
-            string type;
-            if (Find(key, out type))
+            byte[] result;
+            if (Find(key))
             {
-                if (type == ModbusType.Coil)
+                var pointIndex = _modbusMapping[key];
+                var pointMeta = _pointMapping.GetPointMetaData(pointIndex.PointName);
+                 if (pointMeta.ValueType == DataType.Short)
                 {
-                    coilMapping[key].SetValue(value);
-                    return 1;
-                      
+
+                    IPoint<short> shortPoint = _pointMapping.GetShortPoint(key);
+                    result = pointIndex.Index > -1
+                        ? UnsafeNetConvert.ShortToBytes( shortPoint[pointIndex.Index],ByteOrder.BigEndian)
+                        : UnsafeNetConvert.ShortsToBytes(shortPoint.GetValues(), ByteOrder.BigEndian);
                 }
-                else if (type == ModbusType.InputStatus)
+                else if (pointMeta.ValueType == DataType.UShort)
                 {
-                    inputStatusMapping[key].SetValue(value);
-                    return 1;
+                    IPoint<ushort> ushortPoint = _pointMapping.GetUShortPoint(key);
+                    result = pointIndex.Index > -1
+                        ? UnsafeNetConvert.UShortToBytes(ushortPoint[pointIndex.Index], ByteOrder.BigEndian)
+                        : UnsafeNetConvert.UShortsToBytes(ushortPoint.GetValues(), ByteOrder.BigEndian);
+                }
+                else if (pointMeta.ValueType == DataType.Int)
+                {
+
+                    IPoint<int> intPoint = _pointMapping.GetIntPoint(key);
+                    result = pointIndex.Index > -1
+                        ? UnsafeNetConvert.IntToBytes(intPoint[pointIndex.Index], ByteOrder.BigEndian)
+                        : UnsafeNetConvert.IntsToBytes(intPoint.GetValues(), ByteOrder.BigEndian);
+                }
+                else if (pointMeta.ValueType == DataType.UInt)
+                {
+                    IPoint<uint> uintPoint = _pointMapping.GetUIntPoint(key);
+                    result = pointIndex.Index > -1
+                        ? UnsafeNetConvert.UIntToBytes(uintPoint[pointIndex.Index], ByteOrder.BigEndian)
+                        : UnsafeNetConvert.UIntsToBytes(uintPoint.GetValues(), ByteOrder.BigEndian);
+                }
+                else if (pointMeta.ValueType == DataType.Float)
+                {
+                    IPoint<float> floatPoint = _pointMapping.GetFloatPoint(key);
+                    result = pointIndex.Index > -1
+                        ? UnsafeNetConvert.FloatToBytes(floatPoint[pointIndex.Index], ByteOrder.BigEndian)
+                        : UnsafeNetConvert.FloatsToBytes(floatPoint.GetValues(), ByteOrder.BigEndian);
                 }
                 else
                 {
-                    log.ErrorLog("ModbusMapping Set Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
-                    return -1;
+                    log.ErrorLog("ModbusMapping Get Point Error: Value Type error ,Key : {0} ", key);
+                    result = null;
                 }
+            }
+            else
+            {
+                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
+                result = null;
+            }
+            return result;
+        }
+        /// <summary>
+        /// Force Single Coil Value Or Force Multi Coils Rely
+        /// </summary>
+        /// <param name="key">00001 - 09999</param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool SetValue(string key, bool[] value)
+        {
+            bool result = false;
+            if (Find(key))
+            {
+                var pointIndex = _modbusMapping[key];
+                var pointMeta = _pointMapping.GetPointMetaData(pointIndex.PointName);
+                if (pointMeta.ValueType == DataType.Bool)
+                {
+                    IPoint<bool> boolPoint = _pointMapping.GetBoolPoint(key);
+                    result = pointIndex.Index > -1 ? boolPoint.SetValue(value[0], pointIndex.Index)
+                        : boolPoint.SetValue(value);
+                }
+                else
+                {
+                    log.ErrorLog("ModbusMapping Set Point Error: Point Type error,Key : {0} , type ： {1}", key, pointMeta.ValueType);
+                }
+
             }
             else
             {
                 log.ErrorLog("ModbusMapping Set Point Error: Point not exsit ,Key : {0} ", key);
-                return -1;
             }
+            return result;
         }
-        /// <summary>
-        /// 注册ushort类型数据
-        /// </summary>
-        /// <param name="key">30001～39999，40001～49999</param>
-        /// <param name="point">长度为1的ushort点</param>
-        public void Register(string key, IPoint<ushort> point)
+        public bool SetValue(string key, byte[] value,int count)
         {
-                if (!Find(key))
-                {
-
-                    if (key.Substring(0, 1) == "3")
-                    {
-                        inPutRegisterMapping.Add(key, point);
-                    }
-                    else if (key.Substring(0, 1) == "4")
-                    {
-                        holdRegisterMapping.Add(key, point);
-                    }
-                    else
-                    {
-                        log.ErrorLog("ModbusMapping Register Error: Key value not match point Type,Key : {0} , type ： {1}", key, point.ValueType);
-                    }
-                }
-                else
-                {
-                    log.ErrorLog("ModbusMapping Register Error: Key have exist,Key : {0} ", key);
-                }
-        }
-
-
-
-        IPoint<ushort> IPointMapping<ushort>.GetPoint(string key)
-        {
-            string type;
-            if (Find(key, out type))
+            bool result =false;
+            if (Find(key))
             {
-                if (type == ModbusType.InputRegister)
+                var pointIndex = _modbusMapping[key];
+                var pointMeta = _pointMapping.GetPointMetaData(pointIndex.PointName);
+                if (pointMeta.ValueType == DataType.Short)
                 {
-                    return inPutRegisterMapping[key];
+                    IPoint<short> shortPoint = _pointMapping.GetShortPoint(key);
+                    result = pointIndex.Index > -1 ? shortPoint.SetValue(UnsafeNetConvert.BytesToShort(value, 0, ByteOrder.BigEndian), pointIndex.Index)
+                                           : shortPoint.SetValue(UnsafeNetConvert.BytesToShorts(value, 0, count, ByteOrder.BigEndian));
                 }
-                else if (type == ModbusType.HoldRegister)
+                else if (pointMeta.ValueType == DataType.UShort)
                 {
-                    return holdRegisterMapping[key];
+                    IPoint<ushort> ushortPoint = _pointMapping.GetUShortPoint(key);
+                   result = pointIndex.Index > -1 ? ushortPoint.SetValue(UnsafeNetConvert.BytesToUShort(value, 0, ByteOrder.BigEndian), pointIndex.Index)
+                                           : ushortPoint.SetValue(UnsafeNetConvert.BytesToUShorts(value, 0, count, ByteOrder.BigEndian));
+                }
+                else if (pointMeta.ValueType == DataType.Int)
+                {
+                    IPoint<int> intPoint = _pointMapping.GetIntPoint(key);
+                    result = pointIndex.Index > -1 ? intPoint.SetValue(UnsafeNetConvert.BytesToInt(value, 0, ByteOrder.BigEndian), pointIndex.Index)
+                                            : intPoint.SetValue(UnsafeNetConvert.BytesToInts(value, 0, count / 2, ByteOrder.BigEndian));
+                }
+                else if (pointMeta.ValueType == DataType.UInt)
+                {
+                    IPoint<uint> uintPoint = _pointMapping.GetUIntPoint(key);
+                    result = pointIndex.Index > -1 ? uintPoint.SetValue(UnsafeNetConvert.BytesToUInt(value, 0, ByteOrder.BigEndian), pointIndex.Index)
+                                          : uintPoint.SetValue(UnsafeNetConvert.BytesToUInts(value, 0, count / 2, ByteOrder.BigEndian));
+                }
+                else if (pointMeta.ValueType == DataType.Float)
+                {
+                    IPoint<float> floatPoint = _pointMapping.GetFloatPoint(key);
+                    result = pointIndex.Index > -1 ? floatPoint.SetValue(UnsafeNetConvert.BytesToFloat(value, 0, ByteOrder.BigEndian), pointIndex.Index)
+                                            : floatPoint.SetValue(UnsafeNetConvert.BytesToFloats(value, 0, count / 2, ByteOrder.BigEndian));
                 }
                 else
                 {
-                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
-                    return null;
+                    log.ErrorLog("ModbusMapping Set Point Error: Point Type error,Key : {0} , type ： {1}", key, pointMeta.ValueType);
                 }
+
             }
             else
             {
-                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
-                return null;
+                log.ErrorLog("ModbusMapping Set Point Error: Point not exsit ,Key : {0} ", key);
             }
+            return result;
         }
-
-        ushort[] IPointMapping<ushort>.GetValue(string key)
-        {
-
-            string type;
-            if (Find(key, out type))
-            {
-                if (type == ModbusType.InputRegister)
-                {
-                    return inPutRegisterMapping[key].GetValues();
-                }
-                else if (type == ModbusType.HoldRegister)
-                {
-                    return holdRegisterMapping[key].GetValues();
-                }
-                else
-                {
-                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
-                    return null;
-                }
-            }
-            else
-            {
-                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
-                return null;
-            }
-        }
-
-        public int SetValue(string key, ushort[] value)
-        {
-            string type;
-            if (Find(key, out type))
-            {
-                if (type == ModbusType.InputRegister)
-                {
-                   return inPutRegisterMapping[key].SetValue(value)?1:-1;
-                }
-                else if (type == ModbusType.HoldRegister)
-                {
-                    return holdRegisterMapping[key].SetValue(value)?1:-1;
-                }
-                else
-                {
-                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
-                    return -1;
-                }
-            }
-            else
-            {
-                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
-                return -1;
-            }
-        }
-
-        public bool SetQuality(string key, QUALITIES quality)
-        {
-            string type;
-            if (Find(key, out type))
-            {
-                if (type == ModbusType.Coil)
-                {
-                    return coilMapping[key].SetQuality(quality) ? true : false;
-                }
-                else if (type == ModbusType.InputStatus)
-                {
-                    return inputStatusMapping[key].SetQuality(quality) ? true : false;
-                }
-                if (type == ModbusType.InputRegister)
-                {
-                    return inPutRegisterMapping[key].SetQuality(quality) ? true :false;
-                }
-                else if (type == ModbusType.HoldRegister)
-                {
-                    return holdRegisterMapping[key].SetQuality(quality) ? true : false;
-                }
-                else
-                {
-                    log.ErrorLog("ModbusMapping Get Point Error: Key value not match point Type,Key : {0} , type ： {1}", key, type);
-                    return false;
-                }
-            }
-            else
-            {
-                log.ErrorLog("ModbusMapping Get Point Error: Point not exsit ,Key : {0} ", key);
-                return false;
-            }
-        }
-
-        public bool GetValue(string key, byte index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int SetValue(string key, bool value, byte index)
-        {
-            throw new NotImplementedException();
-        }
-
-        ushort IPointMapping<ushort>.GetValue(string key, byte index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int SetValue(string key, ushort value, byte index)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
     public static class ModbusType
@@ -393,16 +273,5 @@ namespace ModbusDrivers.Server
         public const string InputRegister = "inputregister";
         public const string HoldRegister = "holdregister";
     }
-    internal class ModbusPointMeta
-    {
-        /// <summary>
-        /// Modbus点名，例如:00001,10001,30001,40001
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// modbus格式,例如：coil,inputstatus,inputregister,holdregister
-        /// </summary>
-        public string Type { get; set; }
-
-    }
+   
 }

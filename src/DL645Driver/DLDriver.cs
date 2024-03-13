@@ -367,7 +367,7 @@ namespace DL645Driver
         {
             try
             {
-                var savleId = getSalveID(address.SalveId);
+                var savleId = getSalveID(address.AreaID);
                 var dataArea = getDataArea(address.Address);
                 var SendData = createReadHeader(savleId, dataArea);
                 lock (_async)

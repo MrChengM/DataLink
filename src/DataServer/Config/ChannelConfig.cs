@@ -31,13 +31,13 @@ namespace DataServer.Config
             set { driverInformation = value; }
         }
 
-        private int initTimeOut;
+        private int scanTimes;
 
         [DataMember]
-        public int InitTimeOut
+        public int ScanTimes
         {
-            get { return initTimeOut; }
-            set { initTimeOut = value; }
+            get { return scanTimes; }
+            set { scanTimes = value; }
         }
 
         private int initLevel;

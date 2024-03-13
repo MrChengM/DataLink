@@ -31,7 +31,7 @@ namespace DataServer.Config
             var comJobj = jobj["ComunicationSetUp"];
             channelConfig.Name = jobj.Value<string>("Name");
             channelConfig.InitLevel = jobj.Value<int>("InitLevel");
-            channelConfig.InitTimeOut = jobj.Value<int>("InitTimeOut");
+            channelConfig.ScanTimes = jobj.Value<int>("InitTimeOut");
             channelConfig.DriverInformation = jobj["DriverInformation"].ToObject<DriverInfo>();
             channelConfig.Devices = jobj["Devices"].ToObject<Dictionary<string,DeviceConfig>>();
             switch (channelConfig.DriverInformation.CommType)
@@ -58,7 +58,7 @@ namespace DataServer.Config
             JObject o = new JObject();
             o["Name"]=channel.Name;
             o.Add("DriverInformation",JToken.FromObject(channel.DriverInformation));
-            o["InitTimeOut"]=channel.InitTimeOut;
+            o["InitTimeOut"]=channel.ScanTimes;
             o["InitLevel"]=channel.InitLevel;
             o["Devices"]= JToken.FromObject(channel.Devices);
             o.Add("ComunicationSetUp",JToken.FromObject(channel.ComunicationSetUp));

@@ -53,9 +53,9 @@ namespace DataServer.Config
             set { scaling = value; }
         }
 
-        private OperateWay operate;
+        private ReadWriteWay operate;
         [DataMember]
-        public OperateWay Operate
+        public ReadWriteWay Operate
         {
             get { return operate; }
             set { operate = value; }

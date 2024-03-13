@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using Utillity.Data;
 
 namespace DataServer.Config
 {
@@ -67,6 +68,13 @@ namespace DataServer.Config
             set { retryTimes = value; }
         }
 
+        private int timing;
+        [DataMember]
+        public int Timing
+        {
+            get { return timing; }
+            set { timing = value; }
+        }
 
         private Dictionary<string, TagGroupConfig> tagGroups = new Dictionary<string, TagGroupConfig>();
         [DataMember]

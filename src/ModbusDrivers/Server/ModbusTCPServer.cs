@@ -5,21 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using DataServer;
 using DataServer.Points;
-using DataServer.Utillity;
 using SocketServers;
+using Utillity.Data;
+using DataServer.Config;
 
 namespace ModbusDrivers.Server
 {
-    public class ModbusTCPServer: IServerDrivers
+    public class ModbusTCPServer : IServerDrivers
     {
         private ILog _log;
         private ModbusPointMapping _mapping;
         private ISockteServer _socketServer;
         private TimeOut _timeOut;
-        private int _maxConnect;
+        private int _maxConnect = 100;
         private string _ipString="127.0.0.1";
         private int _port = 502;
         private SocketServerType _socketServerType;
+        private ComPhyLayerSetting _phyLayerSetting;
+        private string _serverName;
         /// <summary>
         /// 报头长度
         /// </summary>
@@ -29,7 +32,7 @@ namespace ModbusDrivers.Server
         /// </summary>
         private const int readCacheSize = 1024;
         private bool _isRunning;
-        private int _salveId;
+        private int _salveId = 1;
 
         public ILog Log
         {
@@ -55,9 +58,13 @@ namespace ModbusDrivers.Server
             get { return _port; }
             set { _port = value; }
         }
-        public ModbusTCPServer()
-        {
-        }
+
+        public string ServerName { get => _serverName; set => _serverName = value; }
+        public ComPhyLayerSetting PhyLayerSetting { get => _phyLayerSetting; set => _phyLayerSetting = value; }
+        public TimeOut TimeOut { get => _timeOut; set => _timeOut = value; }
+        public int MaxConnect { get => _maxConnect; set => _maxConnect = value; }
+        public IPointMapping PointMapping { get => _mapping.PointMapping ; set => _mapping.PointMapping = value; }
+
         /// <summary>
         /// ModbusTCP服务实例化
         /// </summary>
@@ -66,22 +73,29 @@ namespace ModbusDrivers.Server
         /// <param name="maxConnect">最大连接数</param>
         /// <param name="salveId">地址码</param>
         /// <param name="type">socket服务格式：Apm，SAEA等</param>
-        public ModbusTCPServer(EthernetSetUp setUp, TimeOut timeOut, ILog log, int maxConnect,int salveId,SocketServerType type=SocketServerType.SaeaServer)
+        public ModbusTCPServer(string serverName, ComPhyLayerSetting phyLayerSetting, TimeOut timeOut, ILog log, int maxConnect,int salveId,SocketServerType type=SocketServerType.SaeaServer)
         {
+            _serverName = serverName;
             _log = log;
             _timeOut = timeOut;
             _maxConnect = maxConnect;
             _salveId = salveId;
             _socketServerType = type;
-            _ipString = setUp.IPAddress;
-            _port = setUp.PortNumber;
+            _phyLayerSetting = phyLayerSetting;
+            _mapping = new ModbusPointMapping(_log);
         }
-
+        public ModbusTCPServer( SocketServerType type = SocketServerType.SaeaServer)
+        {
+            _socketServerType = type;
+        }
         public bool Init()
         {
-            _mapping = ModbusPointMapping.GetInstance(_log);
+            _mapping = new ModbusPointMapping(_log);
 
-            var factory = new SocketServerFactroy(_ipString,_port,_log,_timeOut,readCacheSize,_maxConnect);
+            _ipString = _phyLayerSetting.EthernetSet.IPAddress;
+            _port = _phyLayerSetting.EthernetSet.PortNumber;
+
+            var factory = new SocketServerFactroy(_serverName, _ipString,_port,_log,_timeOut,readCacheSize,_maxConnect);
             _socketServer = factory.CreateInstance(_socketServerType);
             if(_socketServer.Init())
             {
@@ -91,7 +105,6 @@ namespace ModbusDrivers.Server
             }
             return false;
         }
-
         private void sendComplete(IConnectState connecter)
         {
             if (connecter.ReadBufferPool.IsEmpty)
@@ -247,7 +260,7 @@ namespace ModbusDrivers.Server
             catch (Exception ex)
             {
 
-                Log.ErrorLog(string.Format("Modbus buffer Rely Error:{0}", ex.ToString()));
+                Log.ErrorLog(string.Format("{0}: Modbus buffer Rely Error:{1}",_serverName, ex.ToString()));
             }
             return getBuffer;
         }
@@ -267,18 +280,17 @@ namespace ModbusDrivers.Server
             byte[] relyBuffer; //addtion SlaveId，Function.
 
             
-            for (int i = 0; i < count; i++)
+
+                var addressString = string.Format("{0:D5}", address +1);//地址偏移+1
+            var getBools = _mapping.GetBools(addressString);
+            if (getBools != null || getBools.Length >= count)
             {
-                var addressString = string.Format("{0:D5}", address+i+1);//地址偏移+1
-                if (_mapping.Find(addressString))
-                {
-                    boolDate[i] = _mapping.GetValue(addressString)[0];
-                }
-                else
-                {
-                    return errorRely(FunctionCode.ReadCoil, ErrorCode.LllegalDataAddress);
-                };
+                Array.Copy(getBools, boolDate, count);
             }
+            else
+            {
+                return errorRely(FunctionCode.ReadCoil, ErrorCode.LllegalDataAddress);
+            };
             dataBuffer = NetConvert.BoolstoBytes(boolDate);
             relyBuffer = new byte[dataBuffer.Length + 3];
             relyBuffer[0] = (byte)_salveId;
@@ -298,23 +310,23 @@ namespace ModbusDrivers.Server
         private byte[] readInStatusRely(int address, int count)
         {
 
-            bool[] boolDate = new bool[count];
+            bool[] boolDate=new bool[count];
             byte[] dataBuffer;
             byte[] relyBuffer; //addtion SlaveId，Function.
 
 
-            for (int i = 0; i < count; i++)
+
+                var addressString = string.Format("{0:D5}", address+1+10000);
+
+                    var getBools = _mapping.GetBools(addressString);
+            if (getBools != null || getBools.Length >= count)
             {
-                var addressString = string.Format("{0:D5}", address+i+1+10000);
-                if (_mapping.Find(addressString))
-                {
-                    boolDate[i] = _mapping.GetValue(addressString)[0];
-                }
-                else
-                {
-                    return errorRely(FunctionCode.ReadInputStatus, ErrorCode.LllegalDataAddress);
-                };
+                Array.Copy(getBools, boolDate, count);
             }
+            else
+            {
+                return errorRely(FunctionCode.ReadInputStatus, ErrorCode.LllegalDataAddress);
+            };
             dataBuffer = NetConvert.BoolstoBytes(boolDate);
             relyBuffer = new byte[dataBuffer.Length + 3];
             relyBuffer[0] = (byte)_salveId;
@@ -333,26 +345,20 @@ namespace ModbusDrivers.Server
         private byte[] readInputRegisterRely(int address, int count)
         {
 
-            byte[] dataBuffer=new byte[count*2];
-            byte[] relyBuffer=new byte[count*2+3]; //addtion SlaveId，Function,Count
-            IPointMapping<ushort> _ushortMapping = _mapping as IPointMapping<ushort>;
+            byte[] dataBuffer = new byte[count * 2];
+            byte[] relyBuffer = new byte[count * 2 + 3]; //addtion SlaveId，Function,Count
 
 
-            var ushortData = new ushort[count];
-            for (int i = 0; i < count; i++)
+            var addressString = string.Format("{0:D5}", address + 1 + 30000);//地址偏移+1
+            byte[] getBuffer = _mapping.GetBytes(addressString);
+            if (getBuffer != null || getBuffer.Length >= dataBuffer.Length)
             {
-                var addressString = string.Format("{0:D5}", address+i+1 + 30000);//地址偏移+1
-                if (_mapping.Find(addressString))
-                {
-                    ushortData[i] = _ushortMapping.GetValue(addressString)[0];
-                }
-                else
-                {
-                    return errorRely(FunctionCode.ReadInputRegister, ErrorCode.LllegalDataAddress);
-                };
+                Array.Copy(getBuffer, dataBuffer, dataBuffer.Length);
             }
-            dataBuffer = UnsafeNetConvert.UShortsToBytes(ushortData, ByteOrder.BigEndian);
-
+            else
+            {
+                return errorRely(FunctionCode.ReadInputRegister, ErrorCode.LllegalDataAddress);
+            };
             relyBuffer[0] = (byte)_salveId;
             relyBuffer[1] = (byte)FunctionCode.ReadInputRegister;
             relyBuffer[2] = (byte)dataBuffer.Length;
@@ -371,24 +377,18 @@ namespace ModbusDrivers.Server
 
             byte[] dataBuffer = new byte[count * 2];
             byte[] relyBuffer = new byte[count * 2 + 3]; //addtion SlaveId，Function,Count
-            IPointMapping<ushort> _ushortMapping = _mapping as IPointMapping<ushort>;
 
+            var addressString = string.Format("{0:D5}", address + 1 + 40000);//地址偏移+1
 
-            var ushortData = new ushort[count];
-            for (int i = 0; i < count; i++)
+            byte[] getBuffer = _mapping.GetBytes(addressString);
+            if (getBuffer != null || getBuffer.Length >= dataBuffer.Length)
             {
-                var addressString = string.Format("{0:D5}", address +i+1+ 40000);//地址偏移+1
-                if (_mapping.Find(addressString))
-                {
-                    ushortData[i] = _ushortMapping.GetValue(addressString)[0];
-                }
-                else
-                {
-                    return errorRely(FunctionCode.ReadHoldRegister, ErrorCode.LllegalDataAddress);
-                };
+                Array.Copy(getBuffer, dataBuffer, dataBuffer.Length);
             }
-            dataBuffer = UnsafeNetConvert.UShortsToBytes(ushortData, ByteOrder.BigEndian);
-
+            else
+            {
+                return errorRely(FunctionCode.ReadInputRegister, ErrorCode.LllegalDataAddress);
+            };
             relyBuffer[0] = (byte)_salveId;
             relyBuffer[1] = (byte)FunctionCode.ReadHoldRegister;
             relyBuffer[2] = (byte)dataBuffer.Length;
@@ -412,7 +412,7 @@ namespace ModbusDrivers.Server
             {
                 value[0] = true;
             }
-            if (_mapping.SetValue(addressString, value)==-1)
+            if (_mapping.SetValue(addressString,value))
             {
                 return errorRely(FunctionCode.ForceSingleCoil, ErrorCode.LllegalDataAddress);
             }
@@ -436,13 +436,11 @@ namespace ModbusDrivers.Server
         {
             byte[] relyBuffer = new byte[6];
             var values = NetConvert.BytesToBools(data, count);
-            for(int i = 0; i < count; i++)
+
+            var addressString = string.Format("{0:D5}", address + 1);//地址偏移+1
+            if (!_mapping.SetValue(addressString, values))
             {
-                var addressString = string.Format("{0:D5}", address+i+1);//地址偏移+1
-                if(_mapping.SetValue(addressString, new bool[] { values[i] })== -1)
-                {
-                    return errorRely(FunctionCode.ForceMulCoil, ErrorCode.LllegalDataAddress);
-                }
+                return errorRely(FunctionCode.ForceMulCoil, ErrorCode.LllegalDataAddress);
             }
             relyBuffer[0] = (byte)_salveId;
             relyBuffer[1] = (byte)FunctionCode.ForceMulCoil;
@@ -463,8 +461,8 @@ namespace ModbusDrivers.Server
         {
             byte[] relyBuffer = new byte[6];
             var value = UnsafeNetConvert.BytesToUShort(data, 0, ByteOrder.BigEndian);
-            var addressString = string.Format("{0:D5}", address+1+40000);             //地址偏移+1
-            if (_mapping.SetValue(addressString, new ushort[] { value }) == -1)
+            var addressString = string.Format("{0:D5}", address + 1 + 40000);             //地址偏移+1
+            if (!_mapping.SetValue(addressString, data,1))
                 return errorRely(FunctionCode.WriteSingleRegister, ErrorCode.LllegalDataAddress);
             relyBuffer[0] = (byte)_salveId;
             relyBuffer[1] = (byte)FunctionCode.WriteSingleRegister;
@@ -485,12 +483,9 @@ namespace ModbusDrivers.Server
             byte[] relyBuffer = new byte[6];
             var count = data.Length / 2;
             var value = UnsafeNetConvert.BytesToUShorts(data, 0, count, ByteOrder.BigEndian);
-            for(int i = 0; i < count; i++)
-            {
-                var addressString = string.Format("{0:D5}", address +i+ 1+40000);             //地址偏移+1
-                if (_mapping.SetValue(addressString, new ushort[] { value[i] }) == -1)
-                    return errorRely(FunctionCode.WriteMulRegister, ErrorCode.LllegalDataAddress);
-            }
+            var addressString = string.Format("{0:D5}", address + 1 + 40000);             //地址偏移+1
+            if (!_mapping.SetValue(addressString, data, count))
+                return errorRely(FunctionCode.WriteMulRegister, ErrorCode.LllegalDataAddress);
             relyBuffer[0] = (byte)_salveId;
             relyBuffer[1] = (byte)FunctionCode.WriteMulRegister;
             var addrByte = UnsafeNetConvert.UShortToBytes((ushort)address, ByteOrder.BigEndian);
@@ -517,10 +512,8 @@ namespace ModbusDrivers.Server
         #endregion
         public bool Start()
         {
-            
-           return _isRunning= _socketServer.Start(); 
+            return _isRunning = _socketServer.Start();
         }
-
         public bool Stop()
         {
             if( _isRunning)
@@ -564,6 +557,26 @@ namespace ModbusDrivers.Server
             Dispose(true);
             // TODO: uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
+        }
+
+        public void RegisterMapping(Dictionary<string, TagBindingConfig> tagBindings)
+        {
+            foreach (var tagBinding in tagBindings)
+            {
+                var pointNameGroup = StringHandler.Split(tagBinding.Value. SourceTagName);
+                if (pointNameGroup.Length > 1)
+                {
+                    var pointName = pointNameGroup[0];
+                    var index = int.Parse(pointNameGroup[1]);
+                    var pointNameIndex = new PointNameIndex(pointName, index);
+                    _mapping.Register(tagBinding.Value.DestTagName, pointNameIndex);
+                }
+                else
+                {
+                    var pointNameIndex = new PointNameIndex(pointNameGroup[0], -1);
+                    _mapping.Register(tagBinding.Value.DestTagName, pointNameIndex);
+                }
+            }
         }
         #endregion
     }

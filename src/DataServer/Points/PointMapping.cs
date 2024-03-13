@@ -6,64 +6,97 @@ using System.Threading.Tasks;
 
 namespace DataServer.Points
 {
-    /// <summary>
-    /// 点列表泛型类
-      /// </summary>
-    /// <typeparam name="T">bool，short，int等数据类型</typeparam>
-    public class PointMapping<T> : IPointMapping<T>
+    public interface IPointMapping
     {
-        public static PointMapping<T> Instance;
-        private static readonly object locker = new object();
-        private PointMeDataList _indexList;
 
-        Dictionary<string,IPoint<T>> mapping=new Dictionary<string, IPoint<T>>();
-        private ILog _log;
+        void Register(string key, IPoint<bool> point);
+        void Register(string key, IPoint<byte> point);
+        void Register(string key, IPoint<short> point);
+        void Register(string key, IPoint<ushort> point);
+        void Register(string key, IPoint<int> point);
+        void Register(string key, IPoint<uint> point);
+        void Register(string key, IPoint<float> point);
+        //void Register(string key, IPoint<double> point);
+        void Register(string key, IPoint<string> point);
+        /// <summary>
+        /// 从Mapping中移除点
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="point"></param>
+        void Remove(string key);
+        /// <summary>
+        /// 通过键索引查找点
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        bool Find(string key);
+        PointMetadata GetPointMetaData(string key);
 
+        IPoint<bool> GetBoolPoint(string key);
+        IPoint<byte> GetBytePoint(string key);
+        IPoint<short> GetShortPoint(string key);
+        IPoint<ushort> GetUShortPoint(string key);
+        IPoint<int> GetIntPoint(string key);
+        IPoint<uint> GetUIntPoint(string key);
+        IPoint<float> GetFloatPoint(string key);
+        //IPoint<double> GetDoublePoint(string key);
+        IPoint<string> GetStringPoint(string key);
 
-        //public void Init(ILog log)
-        //{
-        //    mapping = new Dictionary<string, IPoint<T>>();
-        //    _log = log;
-        //}
-        public static PointMapping<T> GetInstance(ILog log)
-        {
-            if (Instance == null)
-            {
-                lock (locker)
-                {
-                    if (Instance == null)
-                    {
-                        Instance = new PointMapping<T>(log);
-                    }
-                }
-            }
-            return Instance;
-        }
-        private PointMapping(ILog log)
-        {
-            this._log = log;
-            _indexList = PointMeDataList.GetInstance();
-        }
-        public ILog Log
-        {
-            get { return _log; }
-            set { _log = value; }
-        }
+        Dictionary<string, PointMetadata> GetPointMetadatas();
+    }
+    public class PointMapping : IPointMapping
+    {
+        private Dictionary<string, IPoint<bool>> _boolPointMapping = new Dictionary<string, IPoint<bool>>();
+        private Dictionary<string, IPoint<byte>> _bytePointMapping = new Dictionary<string, IPoint<byte>>();
+        private Dictionary<string, IPoint<short>> _shortPointMapping = new Dictionary<string, IPoint<short>>();
+        private Dictionary<string, IPoint<ushort>> _ushortPointMapping = new Dictionary<string, IPoint<ushort>>();
+        private Dictionary<string, IPoint<int>> _intPointMapping = new Dictionary<string, IPoint<int>>();
+        private Dictionary<string, IPoint<uint>> _uintPointMapping = new Dictionary<string, IPoint<uint>>();
+        private Dictionary<string, IPoint<float>> _floatPointMapping = new Dictionary<string, IPoint<float>>();
+        //private Dictionary<string, IPoint<double>> _doublePointMapping = new Dictionary<string, IPoint<double>>();
+        private Dictionary<string, IPoint<string>> _stringPointMapping = new Dictionary<string, IPoint<string>>();
+        private Dictionary<string, PointMetadata> _pointMetaMapping = new Dictionary<string, PointMetadata>();
+
         public bool Find(string key)
         {
-           return _indexList.Find(key);
+          return _pointMetaMapping.ContainsKey(key);
         }
 
-        public bool Find(string key, out string type)
+        public IPoint<bool> GetBoolPoint(string key)
         {
-            return _indexList.Find(key, out type);
+            _boolPointMapping.TryGetValue(key, out IPoint<bool> result);
+            return result;
         }
 
-        public IPoint<T> GetPoint(string key)
+        public IPoint<byte> GetBytePoint(string key)
+        {
+            _bytePointMapping.TryGetValue(key, out IPoint<byte> result);
+            return result;
+        }
+
+        //public IPoint<double> GetDoublePoint(string key)
+        //{
+        //    _doublePointMapping.TryGetValue(key, out IPoint<double> result);
+        //    return result;
+        //}
+
+        public IPoint<float> GetFloatPoint(string key)
+        {
+            _floatPointMapping.TryGetValue(key, out IPoint<float> result);
+            return result;
+        }
+
+        public IPoint<int> GetIntPoint(string key)
+        {
+            _intPointMapping.TryGetValue(key, out IPoint<int> result);
+            return result;
+        }
+        public PointMetadata GetPointMetaData(string key)
         {
             if (Find(key))
             {
-               return mapping[key];
+                return _pointMetaMapping[key];
             }
             else
             {
@@ -71,192 +104,195 @@ namespace DataServer.Points
             }
         }
 
-        public T[] GetValue(string key)
+        //public IPoint<bool> GetPoint(string key)
+        //{
+        //    IPoint<bool> result;
+        //    _boolPointMapping.TryGetValue(key, out result);
+        //    return result;
+        //}
+
+        public Dictionary<string,PointMetadata> GetPointMetadatas()
         {
-            if (Find(key))
+            return _pointMetaMapping;
+        }
+
+        public IPoint<short> GetShortPoint(string key)
+        {
+            _shortPointMapping.TryGetValue(key, out IPoint<short> result);
+            return result;
+        }
+
+        public IPoint<string> GetStringPoint(string key)
+        {
+            _stringPointMapping.TryGetValue(key, out IPoint<string> result);
+            return result;
+        }
+
+        public IPoint<uint> GetUIntPoint(string key)
+        {
+            _uintPointMapping.TryGetValue(key, out IPoint<uint> result);
+            return result;
+        }
+
+        public IPoint<ushort> GetUShortPoint(string key)
+        {
+            _ushortPointMapping.TryGetValue(key, out IPoint<ushort> result);
+            return result;
+        }
+
+        public void Register(string key, IPoint<bool> point)
+        {
+            if (!Find(key))
             {
-                return GetPoint(key).GetValues();
-            }
-            else
-            {
-                return null;
+                _boolPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Bool, point.Length, point.IsVirtual()));
             }
         }
 
-        public void Register(string key, IPoint<T> point)
+        public void Register(string key, IPoint<byte> point)
         {
-            if(!Find(key))
+
+            if (!Find(key))
             {
-                
-                mapping.Add(key, point);
-                _indexList.Add(new PointMetadata(point.Name, point.ValueType,point.Length,point.IsVirtual()));
+                _bytePointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Byte, point.Length, point.IsVirtual()));
+            }
+        }
+
+        public void Register(string key, IPoint<short> point)
+        {
+
+            if (!Find(key))
+            {
+                _shortPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Short, point.Length, point.IsVirtual()));
+
+            }
+        }
+
+        public void Register(string key, IPoint<ushort> point)
+        {
+            if (!Find(key))
+            {
+                _ushortPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.UShort, point.Length, point.IsVirtual()));
+
+            }
+        }
+
+        public void Register(string key, IPoint<int> point)
+        {
+            if (!Find(key))
+            {
+                _intPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Int, point.Length, point.IsVirtual()));
+
+            }
+        }
+
+        public void Register(string key, IPoint<uint> point)
+        {
+            if (!Find(key))
+            {
+                _uintPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.UInt, point.Length, point.IsVirtual()));
+
+            }
+        }
+
+        public void Register(string key, IPoint<float> point)
+        {
+            if (!Find(key))
+            {
+                _floatPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Float, point.Length, point.IsVirtual()));
+
+            }
+        }
+
+        //public void Register(string key, IPoint<double> point)
+        //{
+        //    if (!Find(key))
+        //    {
+        //        _doublePointMapping.Add(key, point);
+        //        _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Double, point.Length, point.IsVirtual()));
+
+        //    }
+        //}
+
+        public void Register(string key, IPoint<string> point)
+        {
+            if (!Find(key))
+            {
+                _stringPointMapping.Add(key, point);
+                _pointMetaMapping.Add(key, new PointMetadata(key, DataType.String, point.Length, point.IsVirtual()));
             }
         }
 
         public void Remove(string key)
         {
-            if (Find(key))
+            var meteData = GetPointMetaData(key);
+            if (meteData!=null)
             {
-                mapping.Remove(key);
-                _indexList.Delete(key);
-            }
-        }
-
-        public bool SetQuality(string key, QUALITIES quality)
-        {
-            if (Find(key))
-            {
-               return mapping[key].SetQuality(quality);
-            }
-            else
-            {
-              return  false;
-            }
-        }
-
-        public int SetValue(string key, T[] value)
-        {
-            if (Find(key))
-            {
-              return  mapping[key].SetValue(value)?1:-1;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        public T GetValue(string key, byte index)
-        {
-            if (Find(key))
-            {
-                return GetPoint(key).GetValue(index);
-            }
-            else
-            {
-                return default(T);
-            }
-        }
-
-        public int SetValue(string key, T value, byte index)
-        {
-            if (Find(key))
-            {
-                return mapping[key].SetValue(value, index) ? 1 : -1;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-    }
-    public class PointMeDataList
-    {
-        List<PointMetadata> _data;
-        #region 单例模式，PointMapping只有一个索引
-        public static PointMeDataList Instance;
-        private static readonly object locker=new object() ;
-        private PointMeDataList()
-        {
-            _data = new List<PointMetadata>();
-        }
-        public static PointMeDataList GetInstance()
-        {
-
-            if (Instance == null)
-            {
-                lock (locker)
+                switch (meteData.ValueType)
                 {
-                    if (Instance == null)
-                    {
-                        Instance = new PointMeDataList ();
-                    }
+                    case DataType.Bool:
+                        _boolPointMapping.Remove(key);
+                        break;
+                    case DataType.Byte:
+                        _bytePointMapping.Remove(key);
+                        break;
+                    case DataType.Short:
+                        _shortPointMapping.Remove(key);
+                        break;
+                    case DataType.UShort:
+                        _ushortPointMapping.Remove(key);
+                        break;
+                    case DataType.Int:
+                        _intPointMapping.Remove(key);
+                        break;
+                    case DataType.UInt:
+                        _uintPointMapping.Remove(key);
+                        break;
+                    case DataType.Float:
+                        _floatPointMapping.Remove(key);
+                        break;
+                    //case DataType.Double:
+                    //    _doublePointMapping.Remove(key);
+                    //    break;
+                    case DataType.String:
+                        _stringPointMapping.Remove(key);
+                        break;
+                    default:
+                        break;
                 }
             }
-            return Instance;
         }
-
-        public List<PointMetadata> Data
-        {
-            get { return _data; }
-        }
-        #endregion
-        #region 增，删，查，改
-        public void Add(PointMetadata index)
-        {
-            if (!Find(index.Name))
-                _data.Add(index);
-        }
-
-        public void Delete(string name )
-        {
-                _data.RemoveAll((s)=>s.Name==name);
-        }
-        public bool Find(string name)
-        {
-           return _data.Exists((s)=>s.Name==name);
-        }
-        public bool Find(string name,out string type)
-        {
-            var index = _data.Find((s) => s.Name == name);
-            if(index!=null)
-            {
-                type = index.ValueType;
-                return true;
-            }
-            else
-            {
-                type = null;
-                return false;
-                
-            }
-        }
-        #endregion
     }
     public class PointMetadata
     {
-        string _name;
-        string _valueType;
-        int _length;
-        bool _isVirtual;
-
-        public PointMetadata(string name,string valueType,int length,bool isVirtual)
+        public PointMetadata(string name, DataType valueType,int length,bool isVirtual)
         {
-            _name = name;
-            _valueType = valueType;
-            _length = length;
-            _isVirtual = isVirtual;
+            Name = name;
+            ValueType = valueType;
+            Length = length;
+            IsVirtual = isVirtual;
         }
 
-        public string Name
+        public string Name { get; set; }
+        public DataType ValueType { get; set; }
+        public int Length { get; set; }
+        public bool IsVirtual { get; set; }
+    }
+    public class PointNameIndex
+    {
+        public PointNameIndex(string name, int index)
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
+            PointName = name;
+            Index = index;
         }
-        public string ValueType
-        {
-            get { return _valueType; }
-            set { _valueType = value; }
-        }
-        public int Length
-        {
-            get { return _length; }
-            set { _length = value; }
-        }
-        public bool IsVirtual
-        {
-            get { return _isVirtual; }
-            set
-            {
-                _isVirtual = value;
+        public string PointName { get; set; }
 
-            }
-        }
+        public int Index { get; set; }
     }
 }

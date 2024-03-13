@@ -26,6 +26,14 @@ namespace ConfigTool.Models
             set { SetProperty(ref propertyValue, value, "PropertyValue"); }
         }
 
+        //private Type propertyType;
+
+        //public Type PropertyType
+        //{
+        //    get { return propertyType; }
+        //    set { propertyType = value; }
+        //}
+
         public DeviceSpecialProperty Convert()
         {
             return new DeviceSpecialProperty { Name = PropertyName, Value = PropertyValue };

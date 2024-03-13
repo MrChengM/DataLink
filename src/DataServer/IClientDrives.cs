@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
+using Utillity.Data;
 
 namespace DataServer
 {
@@ -27,7 +28,7 @@ namespace DataServer
         /// <typeparam name="TResult">数据类型</typeparam>
         /// <param name="deviceAddress">设备地址</param>
         /// <returns></returns>
-        Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress);
+        //Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress);
 
         //读取连续数据
         Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length);
@@ -45,27 +46,35 @@ namespace DataServer
         /// <param name="deviceAddress"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        Item<TResult>[] ReadDatas<TResult>(DeviceAddress deviceAddress, ushort length);
+        //Item<TResult>[] ReadDatas<TResult>(DeviceAddress deviceAddress, ushort length);
     }
     public interface IWrite
     {
         //写单个数据
-        int WriteBool(DeviceAddress deviceAddress, bool datas);
-        int WriteByte(DeviceAddress deviceAddress, byte datas);
-        int WriteShort(DeviceAddress deviceAddress, short datas);
-        int WriteUShort(DeviceAddress deviceAddress, ushort datas);
-        int WriteInt(DeviceAddress deviceAddress, int datas);
-        int WriteUInt(DeviceAddress deviceAddress, uint datas);
-        int WriteFloat(DeviceAddress deviceAddress, float datas);
-        int WriteString(DeviceAddress deviceAddress, string datas);
-        /// <summary>
-        /// 泛型方法，暂不实现
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="deviceAddress"></param>
-        /// <param name="datas"></param>
-        /// <returns></returns>
-        int WriteData<T>(DeviceAddress deviceAddress, T datas);
+        //int WriteBool(DeviceAddress deviceAddress, bool datas);
+        //int WriteByte(DeviceAddress deviceAddress, byte datas);
+        //int WriteShort(DeviceAddress deviceAddress, short datas);
+        //int WriteUShort(DeviceAddress deviceAddress, ushort datas);
+        //int WriteInt(DeviceAddress deviceAddress, int datas);
+        //int WriteUInt(DeviceAddress deviceAddress, uint datas);
+        //int WriteFloat(DeviceAddress deviceAddress, float datas);
+
+        int WriteBool(DeviceAddress deviceAddress, bool datas, int offset = 0);
+        int WriteByte(DeviceAddress deviceAddress, byte datas, int offset = 0);
+        int WriteShort(DeviceAddress deviceAddress, short datas, int offset = 0);
+        int WriteUShort(DeviceAddress deviceAddress, ushort datas, int offset = 0);
+        int WriteInt(DeviceAddress deviceAddress, int datas, int offset = 0);
+        int WriteUInt(DeviceAddress deviceAddress, uint datas, int offset = 0);
+        int WriteFloat(DeviceAddress deviceAddress, float datas, int offset = 0);
+        int WriteString(DeviceAddress deviceAddress, string datas,int offset=0);
+        ///// <summary>
+        ///// 泛型方法，暂不实现
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="deviceAddress"></param>
+        ///// <param name="datas"></param>
+        ///// <returns></returns>
+        //int WriteData<T>(DeviceAddress deviceAddress, T datas);
         //写多个数据
         int WriteBools(DeviceAddress deviceAddress, bool[] datas);
         int WriteBytes(DeviceAddress deviceAddress, byte[] datas);
@@ -75,14 +84,14 @@ namespace DataServer
         int WriteUInts(DeviceAddress deviceAddress, uint[] datas);
         int WriteFloats(DeviceAddress deviceAddress, float[] datas);
         int WriteStrings(DeviceAddress deviceAddress, string[] datas);
-        /// <summary>
-        /// 泛型方法，暂不实现
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="deviceAddress"></param>
-        /// <param name="datas"></param>
-        /// <returns></returns>
-        int WriteDatas<T>(DeviceAddress deviceAddress, T[] datas);
+        ///// <summary>
+        ///// 泛型方法，暂不实现
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="deviceAddress"></param>
+        ///// <param name="datas"></param>
+        ///// <returns></returns>
+        //int WriteDatas<T>(DeviceAddress deviceAddress, T[] datas);
     }
     public interface IDriver : IDisposable
     {
@@ -90,20 +99,34 @@ namespace DataServer
         //驱动类型
         //DriverType DriType { get; }
         //状态判断
+        string Name { get; set; }
         bool IsConnect { get; }
         bool Connect();
         bool DisConnect();
         bool IsClose { get; }
-        TimeOut TimeOut { get; set; }
+        //TimeOut TimeOut { get; set; }
         ILog Log { get; set; }
+
+        int ConnectTimeOut { get; set; }
+
+        int RequestTimeOut { get; set; }
+
+        int RetryTimes { get; set; }
 
     }
     public interface IPLCDriver : IRead, IWrite, IDriver
     {
-        //报文数据长度
+        /// <summary>
+        /// 报文数据长度
+        /// </summary>
         int PDU { get; set; }
+        /// <summary>
+        /// 字节顺序
+        /// </summary>
+        ByteOrder Order { get; set; }
+        int Id { get; set; }
         DeviceAddress GetDeviceAddress(string address);
-        string GetAddress(DeviceAddress deviceAddress);
+
     }
     #endregion
     //[DataContract]
@@ -214,19 +237,15 @@ namespace DataServer
     /// </summary>
     public struct DeviceAddress
     {
-        public int SalveId { get; set; }
+        public int AreaID { get; set; }
         public int FuctionCode { get; set; }
         public int Address { get; set; }
         public int BitAddress { get; set; }
-        //public string VarType { get; set; }
-        public ByteOrder ByteOrder { get; set; }
-        public DeviceAddress(int area, int address, int bitAddress=0,int fuctioncode=0x00, ByteOrder byteOrder = ByteOrder.None)
+        public DeviceAddress(int area, int address, int bitAddress=0,int fuctioncode=0x00)
         {
-            SalveId = area;
+            AreaID = area;
             FuctionCode = fuctioncode;
             Address = address;
-            //VarType = varType;
-            ByteOrder = byteOrder;
             BitAddress = bitAddress;
         }
 
@@ -236,7 +255,7 @@ namespace DataServer
     /// 数据单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Item<T>
+    public struct Item<T> 
     {
         public T Vaule { get; set; }
         public DateTime UpdateTime { get; set; }
@@ -245,7 +264,20 @@ namespace DataServer
         /// </summary>
         public DateTime AppearTime { get; set; }
         public QUALITIES Quality { get; set; }
-        public static Item<T> CreateDefault() => new Item<T> { Vaule = default(T), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_BAD,AppearTime=new DateTime(1990,01,01,00,00,00) };  
+        public static Item<T> CreateDefault() => new Item<T> { Vaule = default(T), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_BAD,AppearTime=new DateTime(1990,01,01,00,00,00) };
+        // override object.Equals
+        public bool Equals(Item<T> soure)
+        {
+            if (Vaule.Equals(soure.Vaule) && Quality == soure.Quality)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
     }
     /// <summary>
     /// 通信质量
@@ -280,50 +312,16 @@ namespace DataServer
         Byte = 0x02,
         Short = 0x03,
         UShort = 0x04,
-        Word = 0x05,
-        UWord = 0X06,
-        Dword = 0x07,
-        UDword = 0x08,
-        Folat = 0x09,
-        UFolat = 0x10,
-        String = 0x11
+        Int = 0x05,
+        UInt = 0x06,
+        Float = 0x07,
+        //Double = 0x08,
+        String = 0x09
 
-    }
-    public static class ValueType
-    {
-        public static string Bool = "bool";
-        public static string Byte = "byte";
-        public static string Int16 = "short";
-        public static string UInt16 = "ushort";
-        public static string Int32 = "int";
-        public static string UInt32 = "uint";
-        public static string Float = "float";
-        public static string Double = "double";
-        public static string String = "string";
     }
     /// <summary>
     /// 字节组合高低位，word高低位，dword高低位，float高低位
     /// </summary>
-    [Flags]
-    public enum ByteOrder : byte
-    {
-        None = 0,
-        /// <summary>
-        /// 大端法，高位存储在字节低位，低位存储在字节高位
-        /// </summary>
-        BigEndian = 1,
-        /// <summary>
-        /// 大端法，高位存储在字节低位，低位存储在字节高位（发送报文时，字需要调换字节高低位）
-        /// </summary>
-        BigEndianAndRervseWord = 2,
-        /// <summary>
-        /// 小端法，低位存储在字节低位，高位存储在字节高位
-        /// </summary>
-        LittleEndian = 4,
-        //Network = 4,
-        //Host = 8
-    }
-
     public class Scaling
     {
 
@@ -359,13 +357,7 @@ namespace DataServer
         Linear,
         SquareRoot,
     }
-    public static class EthProtocolType
-    {
-        public const string TCPIP = "TCP/IP";
-        public const string UDP = "UDP";
-        public const string SOAP = "SOAP";
-    }
-    public enum OperateWay
+    public enum ReadWriteWay
     {
         Read,
         Write,

@@ -1,5 +1,4 @@
 ﻿using DataServer.Config;
-using DataServer.Utillity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -369,26 +368,26 @@ namespace ConfigTool.Service
                     {
                         foreach (var tag in tagGroup.Value.Tags)
                         {
-                            for (int i = 0; i < tag.Value.Length; i++)
+                            TagListItem tagItemArrary = new TagListItem();
+                            tagItemArrary.Name = $"{channel.Key}.{device.Key}.{tagGroup.Key}.{tag.Key}";
+                            tagItemArrary.Length = tag.Value.Length;
+                            tagItemArrary.DataType = tag.Value.DataType.ToString();
+                            tagItemArrary.OperateWay = tag.Value.Operate.ToString();
+                            result.Add(tagItemArrary);
+                            if (tag.Value.Length > 1)
                             {
-                                TagListItem tagItem = new TagListItem();
-
-                                if (i == 0)
+                                for (int i = 0; i < tag.Value.Length; i++)
                                 {
-                                    tagItem.Name = $"{channel.Key}.{device.Key}.{tagGroup.Key}.{tag.Key}";
+                                    TagListItem tagItem = new TagListItem();
+                                    tagItem.Name = $"{channel.Key}.{device.Key}.{tagGroup.Key}.{tag.Key}[{i}]";
+                                    tagItem.Length = 1;
+                                    tagItem.DataType = tag.Value.DataType.ToString();
+                                    tagItem.OperateWay = tag.Value.Operate.ToString();
+                                    result.Add(tagItem);
                                 }
-                                else
-                                {
-                                    tagItem.Name = $"{channel.Key}.{device.Key}.{tagGroup.Key}.{tag.Key}_{i}";
-                                }
-                                tagItem.Length = 1;
-                                tagItem.DataType = tag.Value.DataType.ToString();
-                                tagItem.OperateWay = tag.Value.Operate.ToString();
-                                result.Add(tagItem);
                             }
-
                         }
-
+                          
                     }
                 }
             }

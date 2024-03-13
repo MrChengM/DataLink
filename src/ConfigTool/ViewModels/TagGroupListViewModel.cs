@@ -152,7 +152,7 @@ namespace ConfigTool.ViewModels
             if (tagGroupConfig != null)
             {
                 infor.Name = tagGroupConfig.Name;
-                infor.Scan = tagGroupConfig.ScanTimes;
+                //infor.Scan = tagGroupConfig.ScanTimes;
                 result = true;
             }
             else

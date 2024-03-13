@@ -14,10 +14,10 @@
                 <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
                 <TextBox Text="{Binding Name}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Scan Times:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
                 <TextBox Text="{Binding ScanTimes}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
-            </StackPanel>
+            </StackPanel>-->
         </StackPanel>
     </Grid>
 </UserControl>
