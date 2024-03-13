@@ -10,7 +10,7 @@ using System.Data;
 using NPOI.SS.UserModel;
 using System.IO;
 
-namespace Utillity.FileOperation
+namespace Utillity.File
 {
     public static class NpoiExcelFunction
     {
@@ -20,14 +20,14 @@ namespace Utillity.FileOperation
         /// <param name="filePath">文件目录</param>
         /// <param name="log">log记录，继承ILog接口</param>
         /// <returns></returns>
-        public static DataSet ExcelRead(string filePath, ILog log)
+        public static DataSet ExcelRead(string filePath)
         {
             DataSet da = new DataSet();
             DataTable dt = null;
             IWorkbook workbook = null;
             try
             {
-                if (File.Exists(filePath))
+                if (System.IO.File.Exists(filePath))
                 {
                     FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read);
                     string fileType = Path.GetExtension(filePath);
@@ -74,8 +74,7 @@ namespace Utillity.FileOperation
             }
             catch (Exception e)
             {
-                log.ErrorLog($"Excel Read error:{e.Message}");
-                return da;
+                throw new Exception($"Excel Read error:{e.Message}");
             }
             finally
             {
@@ -86,14 +85,14 @@ namespace Utillity.FileOperation
 
         }
 
-        public static List<T> ExcelRead<T>(string filePath, string sheetName, CellParse<T> cellParse, ILog log) where T : new()
+        public static List<T> ExcelRead<T>(string filePath, string sheetName, CellParse<T> cellParse) where T : new()
         {
             var result = new List<T>();
 
             IWorkbook workbook = null;
             try
             {
-                if (File.Exists(filePath))
+                if (System.IO.File.Exists(filePath))
                 {
                     FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read);
                     string fileType = Path.GetExtension(filePath);
@@ -107,7 +106,7 @@ namespace Utillity.FileOperation
                 }
                 else
                 {
-                    log.ErrorLog($"Excel Read error:File not exsit!");
+                    throw new Exception($"Excel Read error:File not exsit!");
                 }
                 if (workbook!=null)
                 {
@@ -130,7 +129,7 @@ namespace Utillity.FileOperation
             }
             catch(Exception e)
             {
-                log.ErrorLog($"Excel Read error:{e.Message}!");
+                throw new Exception($"Excel Read error:{e.Message}!");
             }
             workbook?.Close();
             return result;
@@ -186,7 +185,7 @@ namespace Utillity.FileOperation
                 }
             return result;
         }
-        public static void ExcelWrite<T>(string filename, string sheetName, List<T> sources, IColumns columns, ILog log) where T : IEnumerable<string>
+        public static void ExcelWrite<T>(string filename, string sheetName, List<T> sources, IColumns columns) where T : IEnumerable<string>
         {
             IWorkbook workbook = null;
             IRow row = null;
@@ -202,7 +201,7 @@ namespace Utillity.FileOperation
             string fileType = Path.GetExtension(filename);
             try
             {
-                if (File.Exists(filename))
+                if (System.IO.File.Exists(filename))
                 {
                     FileStream infile = new FileStream(filename, FileMode.Open, FileAccess.Read);
                     if (fileType == ".xls")
@@ -298,7 +297,7 @@ namespace Utillity.FileOperation
             }
             catch (Exception e)
             {
-                log.ErrorLog(string.Format("OutPut file error:{0}", e.Message));
+                throw new Exception(string.Format("OutPut file error:{0}", e.Message));
             }
         }
     }

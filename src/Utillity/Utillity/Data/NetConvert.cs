@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Utillity.StructOperation
+namespace Utillity.Data
 {
     public class NetConvert
     {
@@ -30,6 +31,27 @@ namespace Utillity.StructOperation
                     return result;
             }
             return null;
+        }
+        public static byte[] ShortsToBytes(short[] datas, ByteOrder byteOrder)
+        {
+            List<byte> byteList=new List<byte>();
+
+            foreach (var data in datas)
+            {
+                var byteVaules = ShortToBytes(data, byteOrder);
+                if (byteVaules != null) 
+                {
+                    foreach (var byteVaule in byteVaules)
+                    {
+                        byteList.Add(byteVaule);
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return byteList.ToArray();
         }
         /// <summary>
         /// 32整形转换为字节数组
@@ -199,6 +221,34 @@ namespace Utillity.StructOperation
             return result;
         }
         /// <summary>
+        /// 字节数组转bool数组
+        /// </summary>
+        /// <param name="sourceBytes">源目标字节数组</param>
+        /// <param name="length">转换长度，最大值为byte[].length*8</param>
+        /// <returns></returns>
+        public static bool[] BytesToBools(byte[] sourceBytes, int positon, int length)
+        {
+            if (sourceBytes == null || length + positon > sourceBytes.Length * 8)
+                return null;
+            bool[] result = new bool[length];
+            int index1 = 0;
+            int index2 = 0;
+            for (int i = 0; i < sourceBytes.Length; i++)
+            {
+                index1 = 8 * i;
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((index2 = index1 + j - positon) >= 0)
+                    {
+                        if (index2 >= length)
+                            return result;
+                        result[index2] = ByteToBool(sourceBytes[i], j);
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
         /// 字节数组转换为16位整型
         /// </summary>
         /// <param name="data"> 输入值</param>
@@ -293,7 +343,57 @@ namespace Utillity.StructOperation
             }
             return result;
         }
+
+        /// <summary>
+        /// Hex字符串按2个字符转换成字节数组
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static byte[] GetHexBytes(string source)
+        {
+            byte[] result;
+            var temp = source.Length % 2;
+            if (temp == 0)
+            {
+                result = new byte[source.Length / 2];
+            }
+            else
+            {
+                source = string.Concat(source, "0");//补齐
+                result = new byte[source.Length / 2 + 1];
+            }
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = byte.Parse(source.Substring(i * 2, 2), NumberStyles.HexNumber);
+            }
+            return result;
+
+        }
+        /// <summary>
+        /// 字节数组转换为16进制字符串
+        /// </summary>
+        /// <param name="soure"></param>
+        /// <returns></returns>
+        public static string GetHexString(byte[] soure)
+        {
+
+            string result=null;
+
+            foreach (var data in soure)
+            {
+                if (result==null)
+                {
+                    result = string.Format("{0:X2}", data);
+
+                }
+                else
+                {
+                    result.Contains(string.Format("{0:X2}", data));
+
+                }
+            }
+            return result;
+        }
         #endregion
     }
-   
 }

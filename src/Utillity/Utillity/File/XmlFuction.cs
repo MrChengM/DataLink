@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Utillity.FileOperation
+namespace Utillity.File
 {
     public class XmlFuction
     {
@@ -52,7 +52,7 @@ namespace Utillity.FileOperation
         }
         public void XmlWrite(string _sFileName,List<List<string>> _lDataList)
         {
-            int iCounts = (_lDataList.Count / 1000);
+            int iCounts = _lDataList.Count / 1000;
             for(int i=0; i <= iCounts; i++)
             {
                  XmlDocument xmlDoc = new XmlDocument();
@@ -102,13 +102,13 @@ namespace Utillity.FileOperation
         /// <param name="cellParse">托管函数：配置文件=>配置类逻辑</param>
         /// <param name="nodeElement">树状节点集合</param>
         /// <returns></returns>
-        public static List<T> ReadXMLConfig<T>(string filePath, CellParse<T> cellParse, string nodeElement, string handler,ILog log) where T : new()
+        public static List<T> ReadXMLConfig<T>(string filePath, CellParse<T> cellParse, string nodeElement, string handler) where T : new()
         {
             List<T> result = new List<T>();
             string fileType = Path.GetExtension(filePath);
             if (fileType == ".xml")
             {
-                if (File.Exists(filePath))
+                if (System.IO.File.Exists(filePath))
                 {
                     Stream sFileSteam = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
                     XmlReader xmlReader = XmlReader.Create(sFileSteam);
@@ -132,12 +132,12 @@ namespace Utillity.FileOperation
                 }
                 else
                 {
-                    log.ErrorLog("Read configration error: file not exsit!");
+                    throw new Exception("Read configration error: file not exsit!");
                 }
             }
             else
             {
-                log.ErrorLog("Read configration error: file type error!");
+                throw new Exception("Read configration error: file type error!");
             }
             return result;
         }
@@ -149,13 +149,13 @@ namespace Utillity.FileOperation
         /// <param name="filePath">文件目录</param>
         /// <param name="cellParse">委托函数，具体逻辑判断</param>
         /// <returns></returns>
-        public static List<T> ReadXMLConfig<T>(string filePath, CellParse1<T> cellParse,ILog log) 
+        public static List<T> ReadXMLConfig<T>(string filePath, CellParse1<T> cellParse) 
         {
             List<T> result = new List<T>();
             string fileType = Path.GetExtension(filePath);
             if (fileType == ".xml")
             {
-                if (File.Exists(filePath))
+                if (System.IO.File.Exists(filePath))
                 {
                     Stream sFileSteam = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
                     XmlReader xmlReader = XmlReader.Create(sFileSteam);
@@ -170,12 +170,12 @@ namespace Utillity.FileOperation
                 }
                 else
                 {
-                    log.ErrorLog("Read configration error: file not exsit!");
+                    throw new Exception("Read configration error: file not exsit!");
                 }
             }
             else
             {
-                log.ErrorLog("Read configration error: file type error!");
+                throw new Exception("Read configration error: file type error!");
             }
             return result;
         }

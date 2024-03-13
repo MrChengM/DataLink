@@ -10,39 +10,31 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Utillity.FileOperation
+namespace Utillity.File
 {
     public class XmlSerialiaztion
     {
-        public static bool XmlSerial<T>(string sFilePath,T XmlSerialClass,ILog log) where T: IXmlSerializable
+        public static bool XmlSerial<T>(string sFilePath,T XmlSerialClass) where T: IXmlSerializable
         {
-            try
+            using (Stream sFileSteam = new FileStream(sFilePath, FileMode.Create, FileAccess.ReadWrite))
             {
-                Stream sFileSteam = new FileStream(sFilePath, FileMode.Create, FileAccess.ReadWrite);
                 XmlSerializer xmlserial = new XmlSerializer(typeof(T));
+
                 xmlserial.Serialize(sFileSteam, XmlSerialClass);
-                if(typeof(T)== typeof(XMLWorkbook))
+                if (typeof(T) == typeof(XMLWorkbook))
                 {
                     string sXml = "\r\n" + "<?mso-application progid=\"Excel.Sheet\"?>";
                     FileStreamInsert(sFileSteam, sXml, 21);
                 }
-                sFileSteam.Flush();
-                sFileSteam.Close();
                 return true;
-            }
-            catch(Exception ex)
-            {
-                log.ErrorLog(typeof(T).ToString() + ":" + ex.Message);
-                return false;
-            }
+            } 
+        
 
         }
-        public static T XmlDeserial<T>(string sFilePath,ILog log)where T:IXmlSerializable
+        public static T XmlDeserial<T>(string sFilePath) where T : IXmlSerializable
         {
-            try
+            using (Stream sFileSteam = new FileStream(sFilePath, FileMode.Open, FileAccess.ReadWrite))
             {
-                //T xmlDeserialClass = new T();
-                Stream sFileSteam = new FileStream(sFilePath, FileMode.Open, FileAccess.ReadWrite);
                 XmlSerializer xmlserial;
                 if (typeof(T) == typeof(XMLWorkbook))
                 {
@@ -54,17 +46,9 @@ namespace Utillity.FileOperation
                 }
                 sFileSteam.Position = 0;
                 T xmlDeserialClass = (T)xmlserial.Deserialize(sFileSteam);
-                sFileSteam.Flush();
-                sFileSteam.Close();
                 return xmlDeserialClass;
-
             }
-            catch (Exception ex)
-            {
-                log.ErrorLog(typeof(T).ToString()+ ":" + ex.Message);
-                return default(T);
-            }
-
+            //T xmlDeserialClass = new T();
         }
         /// <summary>
         /// File stream insert fuction

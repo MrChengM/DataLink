@@ -56,10 +56,6 @@
     <Folder Include="TAP\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utillity\Utillity\Utillity.csproj">
-      <Project>{01177E8D-1A3D-4E01-A32F-42B62E989DFB}</Project>
-      <Name>Utillity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>

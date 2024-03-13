@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
@@ -39,24 +40,26 @@
       <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\DataLinks\src\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NPOI, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\DataLinks\src\packages\NPOI.2.5.1\lib\net45\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OOXML, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.OOXML.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\DataLinks\src\packages\NPOI.2.5.1\lib\net45\NPOI.OOXML.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OpenXml4Net, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\DataLinks\src\packages\NPOI.2.5.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats, Version=2.5.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\DataLinks\src\packages\NPOI.2.5.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,19 +68,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StructOperation\ByteCheck.cs" />
-    <Compile Include="StructOperation\ByteOrder.cs" />
-    <Compile Include="StructOperation\NetConvert.cs" />
-    <Compile Include="StructOperation\UnsafeNetConvert.cs" />
-    <Compile Include="FileOperation\CsvFunction.cs" />
-    <Compile Include="FileOperation\NpoiExcelFunction.cs" />
-    <Compile Include="FileOperation\XmlFuction.cs" />
-    <Compile Include="FileOperation\XmlSerialiaztion.cs" />
-    <Compile Include="FileOperation\XmlWorkbook.cs" />
-    <Compile Include="ILog.cs" />
+    <Compile Include="Data\StringHandler.cs" />
+    <Compile Include="File\FileCopy.cs" />
+    <Compile Include="File\FileDialog.cs" />
+    <Compile Include="File\FileBinary.cs" />
+    <Compile Include="File\JsonFunction.cs" />
+    <Compile Include="Reflection\ReflectionFunction.cs" />
+    <Compile Include="Data\ByteCheck.cs" />
+    <Compile Include="Data\ByteOrder.cs" />
+    <Compile Include="Data\NetConvert.cs" />
+    <Compile Include="Data\UnsafeNetConvert.cs" />
+    <Compile Include="File\CsvFunction.cs" />
+    <Compile Include="File\NpoiExcelFunction.cs" />
+    <Compile Include="File\XmlFuction.cs" />
+    <Compile Include="File\XmlSerialiaztion.cs" />
+    <Compile Include="File\XmlWorkbook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

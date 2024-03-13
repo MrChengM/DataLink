@@ -48,10 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utillity\Utillity\Utillity.csproj">
-      <Project>{01177e8d-1a3d-4e01-a32f-42b62e989dfb}</Project>
-      <Name>Utillity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>
