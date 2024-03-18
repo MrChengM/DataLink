@@ -5,6 +5,7 @@ using DataServer;
 using DataServer.Config;
 using Timer = System.Timers;
 using System.Threading;
+using Utillity.Data;
 
 namespace TaskMgr.Task
 {
@@ -402,8 +403,8 @@ namespace TaskMgr.Task
 
         private  IPLCDriver getPLCDriver(string deviceName)
         {
-            var strs = deviceName.Split('.');
-            updateDriverPropety(_channelConfig.Devices[strs[1]]);
+           
+            updateDriverPropety(_channelConfig.Devices[deviceName]);
             return _client;
         }
 
@@ -412,7 +413,7 @@ namespace TaskMgr.Task
             _pointsPool = new Dictionary<string, DevicePointsBuffer>();
             foreach (var device in _channelConfig.Devices)
             {
-                var deviceName = string.Format("{0}.{1}", _channelConfig.Name, device.Key);
+                var deviceName = device.Key;
 
                 DevicePointsBuffer points = new DevicePointsBuffer();
                 foreach (var tags in device.Value.TagGroups)

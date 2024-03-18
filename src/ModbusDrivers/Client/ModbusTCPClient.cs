@@ -285,7 +285,7 @@ namespace ModbusDrivers.Client
                                         }
                                     }
                                 }
-                                Log.DebugLog($"{Name}:Re <=> {NetConvert.GetHexString(reciveBytesLog.ToArray())}");
+                                Log.DebugLog($"{Name}:Re <= {NetConvert.GetHexString(reciveBytesLog.ToArray())}");
 
                                 //获取正确报文并处理
                                 if (receiveBytes[1] == funcCode)

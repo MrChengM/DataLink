@@ -86,3 +86,14 @@ D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\log4net.xml
 D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\ICSharpCode.SharpZipLib.pdb
 D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\ICSharpCode.SharpZipLib.xml
 D:\Projects\DataLinks\src\ModbusDrivers\bin\Debug\BouncyCastle.Crypto.xml
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\log4net.config
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\Utillity.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\log4net.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\NPOI.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\NPOI.OOXML.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\NPOI.OpenXml4Net.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\Utillity.pdb
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\log4net.xml
+D:\Projects\DriverLibrary\src\ModbusDrivers\bin\Debug\Newtonsoft.Json.xml

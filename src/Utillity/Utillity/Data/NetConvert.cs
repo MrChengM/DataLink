@@ -388,7 +388,7 @@ namespace Utillity.Data
                 }
                 else
                 {
-                    result.Contains(string.Format("{0:X2}", data));
+                    result= $"{result} {string.Format("{0:X2}", data)}" ;
 
                 }
             }
