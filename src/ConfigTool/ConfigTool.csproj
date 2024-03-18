@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -445,6 +445,10 @@
     <ProjectReference Include="..\SocketServers\SocketServers.csproj">
       <Project>{6eeabb49-2f57-42b0-96fc-e7a2f5723d36}</Project>
       <Name>SocketServers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utillity\Utillity\Utillity.csproj">
+      <Project>{01177e8d-1a3d-4e01-a32f-42b62e989dfb}</Project>
+      <Name>Utillity</Name>
     </ProjectReference>
     <ProjectReference Include="..\WCFRestFullAPI\WCFRestFullAPI.csproj">
       <Project>{da8bfd23-e12f-4030-900e-e4fcd60a65e2}</Project>

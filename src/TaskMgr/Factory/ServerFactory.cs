@@ -7,20 +7,29 @@ using DataServer;
 using DataServer.Config;
 using ModbusServer;
 using FreedomDriversV2;
+using DataServer.Points;
 namespace TaskMgr.Factory
 {
     public class ServerFactory
     {
-        public IServerDrivers CreateInstance(ServerOption serverOption)
+
+        IPointMapping _pointMapping;
+        ILog _log;
+        public ServerFactory(IPointMapping pointMapping,ILog log)
         {
-            switch (serverOption)
+            _pointMapping = pointMapping;
+            _log = log;
+        }
+        public IServerDrivers CreateInstance(ServerItemConfig serverItemConfig)
+        {
+            switch (serverItemConfig.Option)
             {
                 case ServerOption.ModbusTCP:
-                    return new ModbusTCPServer();
+                    return new ModbusTCPServer(serverItemConfig,_log) { PointMapping = _pointMapping};
                 case ServerOption.ModbusRTU:
                     return null;
                 case ServerOption.Freedom:
-                    return new FreedomServer();
+                    return new FreedomServer(serverItemConfig,_log) { PointMapping = _pointMapping};
                 default:
                     return null;
             }

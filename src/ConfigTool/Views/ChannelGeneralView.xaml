@@ -19,12 +19,12 @@
                     <ComboBox  ItemsSource="{Binding DriverInfos}" SelectedValue="{Binding DriverInfo}"   Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Init Level"  Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
                 <TextBox Text="{Binding InitLevel}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
-            </StackPanel>
+            </StackPanel>-->
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Init TimeOut"  Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
+                <TextBlock Text="Scan TimeOut"  Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
                 <TextBox Text="{Binding ScanTime}"  Width="160" Height="30"   HorizontalAlignment="Left" Margin="0,20,20,0"/>
             </StackPanel>
         </StackPanel>

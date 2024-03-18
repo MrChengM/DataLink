@@ -21,7 +21,7 @@ namespace ModbusServer
         private string _ipString="127.0.0.1";
         private int _port = 502;
         private SocketServerType _socketServerType;
-        private ComPhyLayerSetting _phyLayerSetting;
+        //private ComPhyLayerSetting _phyLayerSetting;
         private string _serverName;
         /// <summary>
         /// 报头长度
@@ -60,7 +60,6 @@ namespace ModbusServer
         }
 
         public string ServerName { get => _serverName; set => _serverName = value; }
-        public ComPhyLayerSetting PhyLayerSetting { get => _phyLayerSetting; set => _phyLayerSetting = value; }
         public TimeOut TimeOut { get => _timeOut; set => _timeOut = value; }
         public int MaxConnect { get => _maxConnect; set => _maxConnect = value; }
         public IPointMapping PointMapping { get => _mapping.PointMapping ; set => _mapping.PointMapping = value; }
@@ -73,7 +72,7 @@ namespace ModbusServer
         /// <param name="maxConnect">最大连接数</param>
         /// <param name="salveId">地址码</param>
         /// <param name="type">socket服务格式：Apm，SAEA等</param>
-        public ModbusTCPServer(string serverName, ComPhyLayerSetting phyLayerSetting, TimeOut timeOut, ILog log, int maxConnect,int salveId,SocketServerType type=SocketServerType.SaeaServer)
+        public ModbusTCPServer(string serverName, TimeOut timeOut, ILog log, int maxConnect,int salveId,SocketServerType type=SocketServerType.SaeaServer)
         {
             _serverName = serverName;
             _log = log;
@@ -81,20 +80,22 @@ namespace ModbusServer
             _maxConnect = maxConnect;
             _salveId = salveId;
             _socketServerType = type;
-            _phyLayerSetting = phyLayerSetting;
             _mapping = new ModbusPointMapping(_log);
         }
-        public ModbusTCPServer( SocketServerType type = SocketServerType.SaeaServer)
+        public ModbusTCPServer(ServerItemConfig config, ILog log, SocketServerType type = SocketServerType.SaeaServer)
         {
+            _serverName = config.Name;
+            _port = config.ComunicationSetUp.EthernetSet.PortNumber;
+            _ipString = config.ComunicationSetUp.EthernetSet.LocalNetworkAdpt;
+            _timeOut = new TimeOut() { TimeOutSet = config.TimeOut };
+            _maxConnect = config.MaxConnect;
+            _salveId =  config.ID;
+            _log = log;
             _socketServerType = type;
+            _mapping = new ModbusPointMapping(_log);
         }
         public bool Init()
         {
-            _mapping = new ModbusPointMapping(_log);
-
-            _ipString = _phyLayerSetting.EthernetSet.IPAddress;
-            _port = _phyLayerSetting.EthernetSet.PortNumber;
-
             var factory = new SocketServerFactroy(_serverName, _ipString,_port,_log,_timeOut,readCacheSize,_maxConnect);
             _socketServer = factory.CreateInstance(_socketServerType);
             if(_socketServer.Init())
@@ -158,10 +159,10 @@ namespace ModbusServer
                 }
             }
         }
-        static readonly object locker=new object();
+        static readonly object locker = new object();
         private byte[] bufferRely(byte[] buffer)
         {
-            byte[] getBuffer=null;
+            byte[] getBuffer = null;
             try
             {
                 if (buffer[0] == (byte)_salveId)

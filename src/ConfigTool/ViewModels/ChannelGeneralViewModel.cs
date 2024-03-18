@@ -21,7 +21,7 @@ namespace ConfigTool.ViewModels
         private ChannelConfig _config;
         private IConfigDataServer _configDataServer;
 
-        private string name="Channel1";
+        private string name = "Channel1";
 
         public string Name
         {
@@ -62,7 +62,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref initLevel, value, "InitLevel"); }
         }
 
-        private int scanTime=100;
+        private int scanTime = 100;
 
         public int ScanTime
         {

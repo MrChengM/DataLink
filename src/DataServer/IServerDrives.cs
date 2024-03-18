@@ -11,7 +11,6 @@ namespace DataServer
     public interface IServerDrivers : IDisposable
     {
         string ServerName { get; set; }
-        ComPhyLayerSetting PhyLayerSetting { get; set; }
         ILog Log { get; set; }
         TimeOut TimeOut { get; set; }
         int MaxConnect { get; set; }

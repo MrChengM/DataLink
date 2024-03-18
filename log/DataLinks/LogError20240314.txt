@@ -1,0 +1,28 @@
+2024-03-14 09:46:39,941 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 09:46:39,941 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 10:09:01,623 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 10:09:01,623 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 10:28:54,627 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 10:28:54,628 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 11:06:08,156 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 11:06:08,157 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 11:29:17,415 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 11:29:17,416 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 13:45:34,321 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 13:45:34,321 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 13:51:46,008 ERROR DataLinksLogger Channel1: Init error '值不能为 null。
+参数名: type'  
+2024-03-14 13:51:46,009 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 15:09:42,985 ERROR DataLinksLogger Channel1: Init error '参数“interval”的值“0”无效。'  
+2024-03-14 15:09:42,986 ERROR DataLinksLogger Task<Channel1> init failed!  
+2024-03-14 15:27:15,512 ERROR DataLinksLogger Task<Channel2> init failed!  
+2024-03-14 18:10:36,462 ERROR DataLinksLogger Server01 Server init error: 值不能为 null。
+参数名: ipString  
+2024-03-14 18:10:36,463 ERROR DataLinksLogger Server01: Init error   
+2024-03-14 18:10:36,464 ERROR DataLinksLogger Task<Server01> init failed!  

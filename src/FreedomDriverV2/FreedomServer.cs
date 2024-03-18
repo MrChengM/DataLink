@@ -81,16 +81,21 @@ namespace FreedomDriversV2
             _port = setUp.PortNumber;
             _subscribeGroup = new List<SubscribeItem>();
         }
-        public FreedomServer(SocketServerType type = SocketServerType.SaeaServer)
+        public FreedomServer(ServerItemConfig config, ILog log, SocketServerType type = SocketServerType.SaeaServer)
         {
+            _serverName = config.Name;
+            _ipString = config.ComunicationSetUp.EthernetSet.LocalNetworkAdpt;
+            _port = config.ComunicationSetUp.EthernetSet.PortNumber;
+            _timeOut = new TimeOut() { TimeOutSet = config.TimeOut };
+            _maxConnect = config.MaxConnect;
+            _log = log;
             _socketServerType = type;
+
         }
         public bool Init()
         {
             _subscribeGroup = new List<SubscribeItem>();
 
-            _ipString = _phyLayerSetting.EthernetSet.IPAddress;
-            _port = _phyLayerSetting.EthernetSet.PortNumber;
             var factory = new SocketServerFactroy( _serverName,_ipString, _port, _log, _timeOut,_readCacheSize, _maxConnect);
             _socketServer = factory.CreateInstance(_socketServerType);
             if (_socketServer.Init())

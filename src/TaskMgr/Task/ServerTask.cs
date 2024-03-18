@@ -9,18 +9,19 @@ using DataServer.Points;
 using TaskMgr.Factory;
 namespace TaskMgr.Task
 {
-    public class ServerTask:AbstractTask
+    public class ServerTask : AbstractTask
     {
-        private IServerDrivers   _server;
+        private IServerDrivers _server;
         private IPointMapping _pointMapping;
         private ServerItemConfig _serverConfig;
 
-        public ServerTask(ServerItemConfig serverConfig,IPointMapping pointMapping)
+        public ServerTask(ServerItemConfig serverConfig,IPointMapping pointMapping,ILog log)
         {
             _taskName = serverConfig.Name;
             _initLevel = 4;
             _serverConfig = serverConfig;
             _pointMapping = pointMapping;
+            _log = log;
             _server = ctreatServer(_serverConfig);
             _timeout = new TimeOut() { TimeOutSet = 1000 };
         }
@@ -29,11 +30,6 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Init => Initing ");
             if (_server != null && _server.Init())
             {
-                _server.ServerName = _serverConfig.Name;
-                _server.PhyLayerSetting = _serverConfig.ComunicationSetUp;
-                _server.PointMapping = _pointMapping;
-                _server.Log = _log;
-                _server.TimeOut = TimeOut;
                 _server.RegisterMapping(_serverConfig.TagBindingList);
                 _log.InfoLog($"{_taskName}: Initing=>Inited");
                 return true;
@@ -46,7 +42,7 @@ namespace TaskMgr.Task
         }
         private IServerDrivers ctreatServer(ServerItemConfig serverItem)
         {
-            return new ServerFactory().CreateInstance(serverItem.Option);
+            return new ServerFactory(_pointMapping,_log).CreateInstance(serverItem);
         }
         public override bool OnStart()
         {

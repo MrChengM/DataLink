@@ -178,12 +178,12 @@ namespace ConfigTool.Models
             set { SetProperty(ref option, value, "Option"); }
         }
 
-        private string address;
+        private int id;
 
-        public string Address
+        public int ID
         {
-            get { return address; }
-            set { SetProperty(ref address, value, "Address"); }
+            get { return id; }
+            set { SetProperty(ref id, value, "ID"); }
         }
 
         private string phySetting;

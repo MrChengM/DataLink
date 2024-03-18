@@ -20,14 +20,16 @@ namespace TaskMgr
         private ProjectConfig _projectConfig;
         private IPointMapping _pointMapping;
         private static TaskMagr _intance;
+        private Dictionary<string, Type> _driverTypes;
         private void creatTask()
         {
             _tasks = new List<AbstractTask>();
 
             var client = _projectConfig.Client;
+            var ctFactory = new ChannelTaskFactory(_pointMapping, _driverTypes, _log);
             foreach (var item in client.Channels)
             {
-                AbstractTask channelTask = new ChannelTaskFactory(_pointMapping, item.Value, _log).CreatChannelTask();
+                var channelTask = ctFactory.CreatChannelTask(item.Value);
 
                 _tasks.Add(channelTask);
             }
@@ -36,7 +38,7 @@ namespace TaskMgr
 
             foreach (var item in servers.Items)
             {
-                var severTask = new ServerTask(item.Value, _pointMapping) { Log = _log };
+                var severTask = new ServerTask(item.Value, _pointMapping,_log);
                 _tasks.Add(severTask);
             }
 
@@ -81,7 +83,7 @@ namespace TaskMgr
         {
             if (_tasks != null)
             {
-                _tasks.Sort((AbstractTask TaskA, AbstractTask TaskB) => (TaskA.InitLevel != TaskB.InitLevel ? TaskA.InitLevel - TaskB.InitLevel : string.Compare(TaskA.TaskName, TaskB.TaskName, StringComparison.Ordinal)));
+                _tasks.Sort((AbstractTask TaskA, AbstractTask TaskB) => TaskA.InitLevel != TaskB.InitLevel ? TaskA.InitLevel - TaskB.InitLevel : string.Compare(TaskA.TaskName, TaskB.TaskName, StringComparison.Ordinal));
             }
         }
         private bool run()
@@ -124,6 +126,7 @@ namespace TaskMgr
             configRestServerHost.Open();
 
             _projectConfig = configRestServerHost.RestService.Config;
+            _driverTypes= configRestServerHost.RestService.DriverTypes;
             configRestServerHost.RestService.ProConfRefreshEvent += RestService_ProConfRefreshEvent;
         }
 
@@ -146,6 +149,7 @@ namespace TaskMgr
         private TaskMagr()
         {
             _log = new Log4netWrapper();
+            _log.LogNotifyEvent += t => { Console.WriteLine(t); };
             _pointMapping = new PointMapping();
             openConfigRestApiServer();
             creatTask();

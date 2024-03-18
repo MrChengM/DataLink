@@ -33,14 +33,32 @@ namespace DataServer.Config
             get { return phyLayerSetting; }
             set { phyLayerSetting = value; }
         }
-        private string addressId;
+        private int id;
 
         [DataMember]
-        public string Address
+        public int ID
         {
-            get { return addressId; }
-            set { addressId = value; }
+            get { return id; }
+            set { id = value; }
         }
+
+        private int maxConnect;
+        [DataMember]
+        public int MaxConnect
+        {
+            get { return maxConnect; }
+            set { maxConnect = value; }
+        }
+        private int timeOut;
+        [DataMember]
+
+        public int TimeOut
+        {
+            get { return timeOut; }
+            set { timeOut = value; }
+        }
+
+
         private Dictionary<string,TagBindingConfig> tagBindingList=new Dictionary<string, TagBindingConfig>();
         [DataMember]
         public Dictionary<string, TagBindingConfig> TagBindingList

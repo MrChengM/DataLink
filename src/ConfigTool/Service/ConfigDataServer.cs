@@ -467,27 +467,14 @@ namespace ConfigTool.Service
         //}
         public void Load()
         {
-            Updata();
+           if(!Updata())
+            {
+                _log.Info($"Load DriverInfos form defult path,Path:\'{CONFIGPATH}{DRIVERFILE_DEFAULT}\'");
+                _driverInfos = JsonFunction.Load<Dictionary<string, DriverInfo>>(CONFIGPATH + DRIVERFILE_DEFAULT);
+                _log.Info($"Load ProjectConfig form defult path,Path:\'{CONFIGPATH}{PROJECTFILE_DEFAULT}\'");
+                _projectConfig = JsonFunction.Load<ProjectConfig>(CONFIGPATH + PROJECTFILE_DEFAULT);
+            }
         }
-
-        //private void loadDriverInfo()
-        //{
-        //    //string[] driversPath = System.IO.Directory.GetFiles(DLLPATH);
-        //    ////var temp = new string[] { driversPath[1], driversPath[2] };
-        //    //foreach (var path in driversPath)
-        //    //{
-        //    //    var infos = RegisterDriver(path, true);
-        //    //    foreach (var info in infos)
-        //    //    {
-        //    //        AddDriverInfo(info.Value);
-        //    //    }
-        //    //}
-        //    //_log.Info($"Load Driver information finish from:\'{DLLPATH}\'");
-        //}
-        //private void loadConfigFile()
-        //{
-        //    UpdataConfig();
-        //}
         private bool Open(string path)
         {
             bool result;

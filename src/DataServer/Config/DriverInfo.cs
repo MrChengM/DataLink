@@ -44,6 +44,15 @@ namespace DataServer.Config
             set { devicePropertyInfos  = value; }
         }
 
+        //private Type driverType;
+        //[DataMember]
+        //public Type DriverType
+        //{
+        //    get { return driverType; }
+        //    set { driverType = value; }
+        //}
+
+
 
     }
     [DataContract]

@@ -55,6 +55,10 @@
       <Project>{6eeabb49-2f57-42b0-96fc-e7a2f5723d36}</Project>
       <Name>SocketServers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utillity\Utillity\Utillity.csproj">
+      <Project>{01177e8d-1a3d-4e01-a32f-42b62e989dfb}</Project>
+      <Name>Utillity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -84,7 +84,7 @@ namespace ConfigTool.ViewModels
                     if (convertToServerInfor(serverItemConfig, out ServerListItem infor))
                     {
                         serverInfor.Name = infor.Name;
-                        serverInfor.Address = infor.Address;
+                        serverInfor.ID = infor.ID;
                         serverInfor.Option = infor.Option;
                         serverInfor.PhySetting = infor.PhySetting;
                     }
@@ -128,7 +128,7 @@ namespace ConfigTool.ViewModels
             if (serverItemConfig != null)
             {
                 infor.Name = serverItemConfig.Name;
-                infor.Address = serverItemConfig.Address;
+                infor.ID = serverItemConfig.ID;
                 infor.Option = serverItemConfig.Option.ToString();
                 switch (serverItemConfig.Option)
                 {

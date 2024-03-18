@@ -30,12 +30,28 @@ namespace ConfigTool.ViewModels
         }
 
 
-        private string address= "127.0.0.1";
+        private int id = 1;
 
-        public string Address
+        public int ID
         {
-            get { return address; }
-            set { SetProperty(ref address, value, "Address"); }
+            get { return id; }
+            set { SetProperty(ref id, value, "ID"); }
+        }
+
+        private int timeOut;
+
+        public int TimeOut
+        {
+            get { return timeOut; }
+            set { SetProperty(ref timeOut, value, "TimeOut"); }
+        }
+
+        private int maxConnect;
+
+        public int MaxConnect
+        {
+            get { return maxConnect; }
+            set { SetProperty(ref maxConnect, value, "MaxConnect"); }
         }
 
         private bool buildMode;
@@ -98,8 +114,10 @@ namespace ConfigTool.ViewModels
                         _config.Option = option;
                     }
                 }
-                _config.Address = Address;
-                
+                _config.ID = ID;
+                _config.MaxConnect = MaxConnect;
+                _config.TimeOut = TimeOut;
+
             }
         }
 
@@ -121,8 +139,10 @@ namespace ConfigTool.ViewModels
                 if (!BuildMode)
                 {
                     Name = _config.Name;
-                    Address = _config.Address;
+                    ID = _config.ID;
                     CurrentServer = _config.Option.ToString();
+                    MaxConnect = _config.MaxConnect;
+                    TimeOut = _config.TimeOut;
                 }
                 isFristIn = false;
             }

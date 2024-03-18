@@ -30,7 +30,7 @@ namespace ConfigTool.ViewModels
             set { networkAdapters = value; }
         }
 
-        private string networkAdapter = "Default";
+        private string networkAdapter = "127.0.0.1";
 
         public string NetworkAdapter
         {
@@ -85,7 +85,7 @@ namespace ConfigTool.ViewModels
             _ethernetSetUp = new EthernetSetUp();
             protocols = new ObservableCollection<string>() { ProtocolType.Tcp.ToString(), ProtocolType.Udp.ToString() };
             networkAdapters = new ObservableCollection<string>(getNetworkAdapter());
-            networkAdapters.Add("Default");
+            networkAdapters.Add("127.0.0.1");
             _ea.GetEvent<ButtonConfrimEvent>().Subscribe(r =>
             {
                 if (r == ButtonResult.OK)

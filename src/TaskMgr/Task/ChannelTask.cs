@@ -21,14 +21,16 @@ namespace TaskMgr.Task
 
         private object _locker = new object();
 
+        private Type _driverType;
         /// <summary>
         /// 所有设备点集合，按设备分类
         /// </summary>
-        public ComChannelTask(ChannelConfig channelConfig, IPointMapping pointMapping)
+        public ComChannelTask(ChannelConfig channelConfig, IPointMapping pointMapping,Type driverType)
         {
             _channelConfig = channelConfig;
             _taskName = _channelConfig.Name;
             _pointMapping = pointMapping;
+            _driverType = driverType;
             _initLevel = 1;
 
         }
@@ -56,13 +58,20 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Start=>Starting ");
             if (_client != null && _timeRead != null)
             {
-                _client.Connect();
-
-                _timeRead.Elapsed += TimeRead_Elapsed;
-                _timeRead.AutoReset = true;
-                _timeRead.Start();
-                _log.InfoLog($"{_taskName}: Starting=>Started ");
-                return true;
+                if (_client.Connect())
+                {
+                    _timeRead.Elapsed += TimeRead_Elapsed;
+                    _timeRead.AutoReset = true;
+                    _timeRead.Start();
+                    _log.InfoLog($"{_taskName}: Starting=>Started ");
+                    return true;
+                }
+                else
+                {
+                    _log.InfoLog($"{_taskName}: Start Failed ");
+                    return false;
+                }
+                
             }
             else
             {
@@ -369,10 +378,9 @@ namespace TaskMgr.Task
         /// <returns></returns>
         private IPLCDriver createClient()
         {
-            Type driverType = Type.GetType(_channelConfig.DriverInformation.FullName);
-            IPLCDriver pLCDriver = (IPLCDriver)Activator.CreateInstance(driverType);
+            IPLCDriver pLCDriver = (IPLCDriver)Activator.CreateInstance(_driverType);
             pLCDriver.Log = _log;
-            driverType.GetProperty("PortSetUp").SetValue(pLCDriver, _channelConfig.ComunicationSetUp.SerialportSet);
+            _driverType.GetProperty("PortSetUp").SetValue(pLCDriver, _channelConfig.ComunicationSetUp.SerialportSet);
             return pLCDriver;
         }
 
@@ -528,12 +536,13 @@ namespace TaskMgr.Task
         private ChannelConfig _channelConfig;
         private List<SingleSocketTask> _socketTasks;
         private IPointMapping _pointMapping;
-
-        public EthernetChannelTask(ChannelConfig channelConfig,IPointMapping pointMapping)
+        private Type _driverType;
+        public EthernetChannelTask(ChannelConfig channelConfig,IPointMapping pointMapping,Type driverType)
         {
             _channelConfig = channelConfig;
             _taskName = channelConfig.Name;
             _pointMapping = pointMapping;
+            _driverType = driverType;
             _socketTasks = new List<SingleSocketTask>();
             _initLevel = 1;
         }
@@ -543,15 +552,23 @@ namespace TaskMgr.Task
 
             bool result = false;
             _log.InfoLog($"{_taskName}: Init => Initing ");
-            foreach (var device in _channelConfig.Devices)
+            try
             {
-                var task = new SingleSocketTask(_channelConfig.DriverInformation.FullName, _channelConfig.Name,_channelConfig.ScanTimes, _pointMapping, device.Value, _channelConfig.ComunicationSetUp.EthernetSet, _log);
-                _socketTasks.Add(task);
+                foreach (var device in _channelConfig.Devices)
+                {
+                    var deveiceEthernetSet = EthernetSetUp.Clone(_channelConfig.ComunicationSetUp.EthernetSet);
+                    deveiceEthernetSet.IPAddress = device.Value.ID;
+                    var task = new SingleSocketTask(_driverType, _channelConfig.Name, _channelConfig.ScanTimes, _pointMapping, device.Value, deveiceEthernetSet, _log);
+                    _socketTasks.Add(task);
+                }
+                _log.InfoLog($"{_taskName}: Initing => Inited ");
+                result = true;
             }
+            catch (Exception e)
+            {
 
-
-            _log.InfoLog($"{_taskName}: Initing => Inited ");
-
+                _log.ErrorLog($"{_taskName}: Init failed,'{e.Message}'");
+            }
             return result;
         }
 
@@ -634,7 +651,7 @@ namespace TaskMgr.Task
 
 
         private string _channelName;
-        private string _driverName;
+        private Type _driverType;
         private DeviceConfig _deviceConfig;
         private EthernetSetUp _ethernetSetUp;
         private ILog _log;
@@ -642,14 +659,13 @@ namespace TaskMgr.Task
 
 
         
-        public SingleSocketTask(string driverName,string channelName,int pollTime, IPointMapping pointMapping, DeviceConfig deviceConfig,EthernetSetUp ethernetSetUp,ILog log)
+        public SingleSocketTask(Type drivertype,string channelName,int pollTime, IPointMapping pointMapping, DeviceConfig deviceConfig,EthernetSetUp ethernetSetUp,ILog log)
         {
-            _driverName = driverName;
+            _driverType = drivertype;
             _channelName = channelName;
             _pollTime = pollTime;
             _deviceConfig = deviceConfig;
             _ethernetSetUp = ethernetSetUp;
-            _ethernetSetUp.IPAddress = deviceConfig.ID;
             _log = log;
             _pointMapping = pointMapping;
             _timeRead = new Timer.Timer(_pollTime);
@@ -742,13 +758,19 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_name}: Start=>Starting ");
             if (_client != null && _timeRead != null)
             {
-                _client.Connect();
-
-                _timeRead.Elapsed += TimeRead_Elapsed;
-                _timeRead.AutoReset = true;
-                _timeRead.Start();
-                _log.InfoLog($"{_name}: Starting=>Started ");
-                return true;
+                if (_client.Connect())
+                {
+                    _timeRead.Elapsed += TimeRead_Elapsed;
+                    _timeRead.AutoReset = true;
+                    _timeRead.Start();
+                    _log.InfoLog($"{_name}: Starting=>Started ");
+                    return true;
+                }
+                else
+                {
+                    _log.InfoLog($"{_name} :Start Failed ");
+                    return false;
+                }
             }
             else
             {
@@ -795,17 +817,17 @@ namespace TaskMgr.Task
         }
         private IPLCDriver createClient()
         {
-            Type driverType = Type.GetType(_driverName);
-            IPLCDriver pLCDriver = (IPLCDriver)Activator.CreateInstance(driverType);
+            IPLCDriver pLCDriver = (IPLCDriver)Activator.CreateInstance(_driverType);
+            pLCDriver.Name = _name;
             pLCDriver.Log = _log;
             pLCDriver.Order = _deviceConfig.ByteOrder;
             pLCDriver.ConnectTimeOut = _deviceConfig.ConnectTimeOut;
             pLCDriver.RequestTimeOut = _deviceConfig.RequestTimeOut;
             pLCDriver.RetryTimes = _deviceConfig.RetryTimes;
-            driverType.GetProperty("EthSetUp").SetValue(pLCDriver,_ethernetSetUp);
+            _driverType.GetProperty("EthSetUp").SetValue(pLCDriver,_ethernetSetUp);
             foreach (var p in _deviceConfig.SpecialProperties)
             {
-                driverType.GetProperty(p.Name).SetValue(driverType, p.Value);
+                _driverType.GetProperty(p.Name).SetValue(_driverType, p.Value);
 
             }
             return pLCDriver;
@@ -1057,14 +1079,14 @@ namespace TaskMgr.Task
     /// </summary>
     public class DevicePointsBuffer
     {
-        public List<DevicePoint<bool>> BoolPoints { get; set; }
-        public List<DevicePoint<byte>> BytePoints { get; set; }
-        public List<DevicePoint<short>> ShortPoints { get; set; }
-        public List<DevicePoint<ushort>> UShortPoints { get; set; }
-        public List<DevicePoint<int>> IntPoints { get; set; }
-        public List<DevicePoint<uint>> UIntPoints { get; set; }
-        public List<DevicePoint<float>> FloatPoints { get; set; }
-        public List<DevicePoint<string>> StringPoints { get; set; }
+        public List<DevicePoint<bool>> BoolPoints { get; set; } = new List<DevicePoint<bool>>();
+        public List<DevicePoint<byte>> BytePoints { get; set; } = new List<DevicePoint<byte>>();
+        public List<DevicePoint<short>> ShortPoints { get; set; } = new List<DevicePoint<short>>();
+        public List<DevicePoint<ushort>> UShortPoints { get; set; } = new List<DevicePoint<ushort>>();
+        public List<DevicePoint<int>> IntPoints { get; set; } = new List<DevicePoint<int>>();
+        public List<DevicePoint<uint>> UIntPoints { get; set; } = new List<DevicePoint<uint>>();
+        public List<DevicePoint<float>> FloatPoints { get; set; } = new List<DevicePoint<float>>();
+        public List<DevicePoint<string>> StringPoints { get; set; } = new List<DevicePoint<string>>();
 
     }
 }

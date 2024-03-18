@@ -12,6 +12,7 @@ namespace DriverLibrary
         static void Main(string[] args)
         {
             TaskMagr.Main(args);
+            Console.ReadLine();
         }
     }
 }

@@ -24,9 +24,11 @@ namespace WCFRestFullAPI.Service
         #region Field
         private ProjectConfig config;
         private Dictionary<string, DriverInfo> driverInfos;
+        private Dictionary<string, Type> driverTypes;
         private const string CONFIGPATH = "../../../../conf";
         private const string PROJECTFILE_DEFAULT = "/ProjectConfig.Json";
         private const string DLLPATH = "../../../../dll";
+        private const string DRIVERINFOS_DEFAULT = "/DriverInformation.Json";
 
         public event Action<ProjectConfig> ProConfRefreshEvent;
         //public event Action<ChannelConfig> ChlConfRefreshEvent;
@@ -39,7 +41,11 @@ namespace WCFRestFullAPI.Service
             get { return config; }
             //set { config = value; }
         }
-
+        public Dictionary<string, Type> DriverTypes
+        {
+            get { return driverTypes; }
+            //set { config = value; }
+        }
         public Dictionary<string, DriverInfo> DriverInfos
         {
             get { return driverInfos; }
@@ -54,6 +60,7 @@ namespace WCFRestFullAPI.Service
         {
             config = new ProjectConfig();
             driverInfos = new Dictionary<string, DriverInfo>();
+            driverTypes = new Dictionary<string, Type>();
             loadProjectConfig();
             loadDriverInfos();
         }
@@ -71,7 +78,17 @@ namespace WCFRestFullAPI.Service
                 {
                     continue;
                 }
-                var infos = getInfos(ReflectionFunction.GetTypesLoad(path));
+
+                var types = ReflectionFunction.GetTypesLoad(path);
+                foreach (var t in types)
+                {
+                    if (!driverTypes.ContainsKey(t.FullName))
+                    {
+                        driverTypes.Add(t.FullName, t);
+                    }
+                }
+
+                var infos = getInfos(types);
                 foreach (var info in infos)
                 {
                     if (!driverInfos.ContainsKey(info.Key))
@@ -80,6 +97,16 @@ namespace WCFRestFullAPI.Service
                     }
                 }
             }
+            saveDrivierInfos();
+        }
+
+        private void saveDrivierInfos()
+        {
+            JsonFunction.Save(CONFIGPATH + DRIVERINFOS_DEFAULT, driverInfos);
+        }
+        private void saveProjectConfig()
+        {
+            JsonFunction.Save(CONFIGPATH + PROJECTFILE_DEFAULT, config);
         }
         public bool isExit_Channel(string channelName)
         {
@@ -369,6 +396,7 @@ namespace WCFRestFullAPI.Service
                 return RestAPIResult.FAIL;
             }
             config = projectConfig;
+            saveProjectConfig();
             ProConfRefreshEvent.Invoke(config);
             return RestAPIResult.OK;
         }
@@ -469,7 +497,16 @@ namespace WCFRestFullAPI.Service
                 string filePath = DLLPATH + "//" + fileName;
                 FileBinary.Write(filePath, stream);
 
-                var infos = getInfos(ReflectionFunction.GetTypesLoad(filePath));
+                var types = ReflectionFunction.GetTypesLoad(filePath);
+                foreach (var t in types)
+                {
+                    if (!driverTypes.ContainsKey(t.FullName))
+                    {
+                        driverTypes.Add(t.FullName, t);
+                    }
+                }
+
+                var infos = getInfos(types);
                 foreach (var info in infos)
                 {
                     if (driverInfos.ContainsKey(info.Key))
@@ -481,6 +518,7 @@ namespace WCFRestFullAPI.Service
                         driverInfos.Add(info.Key, info.Value);
                     }
                 }
+                saveDrivierInfos();
                 return new UpDllFileResult() { DriverInfos = driverInfos, Result = RestAPIResult.OK, ErrorMsg = null };
             }
             catch (Exception e)

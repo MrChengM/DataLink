@@ -9,7 +9,7 @@
           "Description": "Modbus RTU",
           "DevicePropertyInfos": []
         },
-        "InitTimeOut": 1000,
+        "ScanTimes": 100,
         "InitLevel": 1,
         "Devices": {
           "Device1": {
@@ -19,10 +19,10 @@
             "ConnectTimeOut": 3000,
             "RequestTimeOut": 1000,
             "RetryTimes": 3,
+            "Timing": 0,
             "TagGroups": {
               "Group1": {
                 "Name": "Group1",
-                "ScanTimes": 100,
                 "Tags": {
                   "Tag1": {
                     "Name": "Tag1",
@@ -89,7 +89,7 @@
           "Description": "Modbus TCP",
           "DevicePropertyInfos": []
         },
-        "InitTimeOut": 1000,
+        "ScanTimes": 100,
         "InitLevel": 1,
         "Devices": {
           "Device1": {
@@ -99,10 +99,10 @@
             "ConnectTimeOut": 3000,
             "RequestTimeOut": 1000,
             "RetryTimes": 3,
+            "Timing": 0,
             "TagGroups": {
               "Group1": {
                 "Name": "Group1",
-                "ScanTimes": 100,
                 "Tags": {
                   "Tag1": {
                     "Name": "Tag1",
@@ -149,7 +149,7 @@
             "OddEvenCheck": 0
           },
           "EthernetSet": {
-            "LocalNetworkAdpt": "Default",
+            "LocalNetworkAdpt": "127.0.0.1",
             "IPAddress": null,
             "PortNumber": 502,
             "ProtocolType": 6
@@ -177,7 +177,7 @@
             "OddEvenCheck": 0
           },
           "EthernetSet": {
-            "LocalNetworkAdpt": "Default",
+            "LocalNetworkAdpt": "127.0.0.1",
             "IPAddress": null,
             "PortNumber": 502,
             "ProtocolType": 6
@@ -188,7 +188,9 @@
             "TopicName": null
           }
         },
-        "Address": "127.0.0.1",
+        "ID": 1,
+        "MaxConnect": 100,
+        "TimeOut": 1000,
         "TagBindingList": {
           "40001": {
             "DestTagName": "40001",
@@ -196,48 +198,70 @@
           },
           "40002": {
             "DestTagName": "40002",
-            "SourceTagName": "Channel2.Device1.Group1.Tag1_5"
+            "SourceTagName": "Channel2.Device1.Group1.Tag1[5]"
           },
           "40003": {
             "DestTagName": "40003",
-            "SourceTagName": "Channel2.Device1.Group1.Tag1_2"
+            "SourceTagName": "Channel2.Device1.Group1.Tag1[2]"
           }
         }
+      },
+      "Server02": {
+        "Name": "Server02",
+        "Option": 2,
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": null,
+            "BuadRate": 0,
+            "DataBit": 0,
+            "StopBit": 0,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": "127.0.0.1",
+            "IPAddress": null,
+            "PortNumber": 9527,
+            "ProtocolType": 6
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        },
+        "ID": 1,
+        "MaxConnect": 100,
+        "TimeOut": 1000,
+        "TagBindingList": {}
       }
     }
   },
   "Alarms": {
-    "AlarmGroup": {
-      "Channel1.Device1.Group1.Tag1.AL4001": {
-        "TagName": "Channel1.Device1.Group1.Tag1",
-        "AlarmTag": "Channel1.Device1.Group1.Tag1.AL4001",
-        "PartName": "",
-        "AlarmDescription": "door open",
-        "AlarmType": 20,
-        "ALNumber": "AL4001",
-        "Level1View": "L1View",
-        "Level2View": "L2View",
-        "ConditionType": 0,
-        "ConditionValue": 0,
-        "AlarmGroup": "Channel1.Device1"
-      }
-    }
+    "AlarmGroup": {}
   },
   "Records": {
     "RecordGroup": {
       "Record01": {
         "Name": "Record01",
         "Option": 0,
-        "TimeSpan": 60,
+        "TimeSpan": 6000,
         "TagNames": [
-          "Channel2.Device1.Group1.Tag1_1",
-          "Channel2.Device1.Group1.Tag1_2",
-          "Channel2.Device1.Group1.Tag1_3",
-          "Channel2.Device1.Group1.Tag1_4",
-          "Channel2.Device1.Group1.Tag1_5",
-          "Channel2.Device1.Group1.Tag1_6",
-          "Channel2.Device1.Group1.Tag1_7",
-          "Channel1.Device1.Group1.Tag1"
+          "Channel1.Device1.Group1.Tag1",
+          "Channel1.Device1.Group1.Tag2",
+          "Channel1.Device1.Group1.Tag2[0]",
+          "Channel1.Device1.Group1.Tag2[1]",
+          "Channel2.Device1.Group1.Tag1",
+          "Channel2.Device1.Group1.Tag1[0]",
+          "Channel2.Device1.Group1.Tag1[1]",
+          "Channel2.Device1.Group1.Tag1[2]",
+          "Channel2.Device1.Group1.Tag1[3]",
+          "Channel2.Device1.Group1.Tag1[4]",
+          "Channel2.Device1.Group1.Tag1[5]",
+          "Channel2.Device1.Group1.Tag1[6]",
+          "Channel2.Device1.Group1.Tag1[7]",
+          "Channel2.Device1.Group1.Tag1[8]",
+          "Channel2.Device1.Group1.Tag1[9]",
+          "Channel2.Device1.Group1.Tag2"
         ]
       }
     }

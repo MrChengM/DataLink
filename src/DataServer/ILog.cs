@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DataServer
 {
     public interface ILog
@@ -42,39 +43,67 @@ namespace DataServer
         ///  <param name="format">Log string (Example:This is the log {0},{1})</param>
         ///  <param name="parameters">Parameters for the log string and/or Exception</param>
         void WarningLog(string format, params object[] parameters);
+        event Action<string> LogNotifyEvent;
+
+    }
+    public enum LogLevel
+    {
+        Debug,
+        Info,
+        Warn,
+        Error,
+        Fatal
 
     }
     public class Log4netWrapper : ILog
     {
         private log4net.ILog log;
+
+        public event Action<string> LogNotifyEvent;
         public Log4netWrapper()
         {
-            log = LogManager.GetLogger("DataLinkLogger");
+            log = LogManager.GetLogger("DataLinksLogger");
         }
         public void DebugLog(string format, params object[] parameters)
         {
-            log.Debug(string.Format(format,parameters));
+            var message = string.Format(format, parameters);
+            log.Debug(message);
+            rasieLogNotifyEvent(LogLevel.Debug, message);
         }
 
         public void ErrorLog(string format, params object[] parameters)
         {
+            var message = string.Format(format, parameters);
             log.Error(string.Format(format, parameters));
+            rasieLogNotifyEvent(LogLevel.Error, message);
         }
 
         public void FatalLog(string format, params object[] parameters)
         {
+            var message = string.Format(format, parameters);
             log.Fatal(string.Format(format, parameters));
+            rasieLogNotifyEvent(LogLevel.Fatal, message);
+
         }
 
         public void InfoLog(string format, params object[] parameters)
         {
+            var message = string.Format(format, parameters);
             log.Info(string.Format(format, parameters));
+            rasieLogNotifyEvent(LogLevel.Info, message);
+
         }
 
         public void WarningLog(string format, params object[] parameters)
         {
+            var message = string.Format(format, parameters);
             log.Warn(string.Format(format, parameters));
+            rasieLogNotifyEvent(LogLevel.Warn, message);
+        }
 
+        private void rasieLogNotifyEvent(LogLevel level,string message)
+        {
+            LogNotifyEvent?.Invoke($"{DateTime.Now} {level} {message}");
         }
     }
     [Flags]
@@ -192,6 +221,9 @@ namespace DataServer
         }
 
         private static readonly object locker = new object();
+
+        public event Action<string> LogNotifyEvent;
+
         private void writeLog(string sFilePath, string fileName, string sLogMessage)
         {
             lock (locker)

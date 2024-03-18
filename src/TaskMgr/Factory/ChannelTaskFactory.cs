@@ -14,24 +14,26 @@ namespace TaskMgr.Factory
     public class ChannelTaskFactory
     {
         private IPointMapping _pointMapping;
-        private ChannelConfig _channelConfig;
         private ILog _log;
+        private Dictionary<string, Type> _driverTypes;
 
-        public  ChannelTaskFactory(IPointMapping pointMapping,ChannelConfig channelConfig,ILog log)
+        public  ChannelTaskFactory(IPointMapping pointMapping, Dictionary<string, Type> driverTypes, ILog log)
         {
             _pointMapping = pointMapping;
-            _channelConfig = channelConfig;
+            _driverTypes = driverTypes;
             _log = log;
         }
-        public AbstractTask CreatChannelTask()
+        public AbstractTask CreatChannelTask(ChannelConfig channelConfig)
         {
-            CommunicationType type = _channelConfig.DriverInformation.CommType;
-            switch (type)
+            _driverTypes.TryGetValue(channelConfig.DriverInformation.FullName, out Type driverType);
+
+            CommunicationType commtionType = channelConfig.DriverInformation.CommType;
+            switch (commtionType)
             {
                 case CommunicationType.Serialport:
-                    return new ComChannelTask(_channelConfig, _pointMapping) { Log = _log };
+                    return new ComChannelTask(channelConfig, _pointMapping, driverType) { Log = _log };
                 case CommunicationType.Ethernet:
-                    return new EthernetChannelTask(_channelConfig, _pointMapping) { Log = _log };
+                    return new EthernetChannelTask(channelConfig, _pointMapping, driverType) { Log = _log };
                 case CommunicationType.File:
                     return null;
                 case CommunicationType.Memory:

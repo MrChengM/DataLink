@@ -205,6 +205,10 @@ namespace DataServer
         {
             return $"Ethernet:{PortNumber}";
         }
+        public static EthernetSetUp Clone(EthernetSetUp source)
+        {
+            return new EthernetSetUp(source.IPAddress, source.PortNumber, source.ProtocolType) { LocalNetworkAdpt = source.LocalNetworkAdpt };
+        }
     }
 
     [DataContract]
