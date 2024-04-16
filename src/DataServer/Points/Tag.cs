@@ -12,6 +12,8 @@ namespace DataServer.Points
         DataType Type { get; set; }
         string Value { get; set; }
         QUALITIES Quality { get; set; }
+
+        DateTime TimeStamp { get; set; }
     }
 
 
@@ -21,5 +23,6 @@ namespace DataServer.Points
         public DataType Type { get; set; }
         public string Value { get; set; }
         public QUALITIES Quality { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
 }

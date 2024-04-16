@@ -1,0 +1,14 @@
+2024-04-16 16:19:30,094 INFO  DataLinksLogger Channel1: Init => Initing   
+2024-04-16 16:19:30,129 INFO  DataLinksLogger Channel1: Initing=>Inited  
+2024-04-16 16:19:30,130 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-16 16:19:30,134 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-16 16:19:30,241 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-04-16 16:19:30,243 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-04-16 16:19:30,245 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-16 16:19:30,245 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-16 16:19:30,247 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-16 16:19:30,290 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-16 16:19:30,291 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-16 16:19:30,292 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-16 16:19:30,293 INFO  DataLinksLogger Channel1: Start=>Starting   
+2024-04-16 16:19:30,446 INFO  DataLinksLogger Channel1: Start Failed   

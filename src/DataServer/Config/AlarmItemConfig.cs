@@ -80,9 +80,9 @@ namespace DataServer.Config
             set { conditionType = value; }
         }
 
-        private int conditionValue;
+        private float conditionValue;
         [DataMember]
-        public int ConditionValue
+        public float ConditionValue
         {
             get { return conditionValue; }
             set { conditionValue = value; }

@@ -38,8 +38,16 @@ namespace TaskMgr
 
             foreach (var item in servers.Items)
             {
-                var severTask = new ServerTask(item.Value, _pointMapping,_log);
-                _tasks.Add(severTask);
+                var serverTask = new ServerTask(item.Value, _pointMapping,_log);
+                _tasks.Add(serverTask);
+            }
+
+            var records = _projectConfig.Records;
+            var recordFactory = new RecordTagTaskFactory(_pointMapping, _log);
+            foreach (var item in records.RecordGroup)
+            {
+                var recordTask = recordFactory.CreatRecordTask(item.Value);
+                _tasks.Add(recordTask);
             }
 
             //var records = _projectConfig.Records;
@@ -48,8 +56,10 @@ namespace TaskMgr
 
             //}
 
-            //var alarms = _projectConfig.Alarms;
-          
+            var alarms = _projectConfig.Alarms;
+
+            var alarmTask = new AlarmTask(_pointMapping, alarms, _log);
+            _tasks.Add(alarmTask);
 
         }
         private bool init()

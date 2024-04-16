@@ -155,12 +155,41 @@ namespace Utillity.Data
         /// <param name="sourceByte">源数据字节,</param>
         /// <param name="positon">定位,小于等于8</param>
         /// <returns></returns>
-        public static bool ByteToBool(byte sourceByte, int positon)
+        public static bool ByteToBool(byte source, int positon)
         {
             if (positon > 8)
                 throw new NotImplementedException();
             byte a = 1;
-            return (sourceByte >> positon & a) != 0;
+            return (source >> positon & a) != 0;
+        }
+
+        public static bool shortToBool(short source, int positon)
+        {
+            if (positon > 16)
+                throw new NotImplementedException();
+            byte a = 1;
+            return (source >> positon & a) != 0;
+        }
+        public static bool ushortToBool(ushort source, int positon)
+        {
+            if (positon > 16)
+                throw new NotImplementedException();
+            byte a = 1;
+            return (source >> positon & a) != 0;
+        }
+        public static bool IntToBool(int source, int positon)
+        {
+            if (positon > 32)
+                throw new NotImplementedException();
+            byte a = 1;
+            return (source >> positon & a) != 0;
+        }
+        public static bool uintToBool(uint source, int positon)
+        {
+            if (positon > 32)
+                throw new NotImplementedException();
+            byte a = 1;
+            return (source >> positon & a) != 0;
         }
         public static byte BooltoByte(bool source, int positon)
         {

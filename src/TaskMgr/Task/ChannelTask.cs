@@ -44,6 +44,8 @@ namespace TaskMgr.Task
                 _client = createClient();
                 registerPoints();
                 _timeRead = new Timer.Timer(_channelConfig.ScanTimes);
+                _timeRead.Elapsed += TimeRead_Elapsed;
+                _timeRead.AutoReset = true;
                 _log.InfoLog($"{_taskName}: Initing=>Inited");
                 result = true;
             }
@@ -61,8 +63,6 @@ namespace TaskMgr.Task
             {
                 if (_client.Connect())
                 {
-                    _timeRead.Elapsed += TimeRead_Elapsed;
-                    _timeRead.AutoReset = true;
                     _timeRead.Start();
                     _log.InfoLog($"{_taskName}: Starting=>Started ");
                     return true;
@@ -595,7 +595,7 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Stop => Stopping ");
             foreach (var task in _socketTasks)
             {
-                if (!task.Start())
+                if (!task.Stop())
                 {
                     _log.InfoLog($"{_taskName}: Stop Failed ");
                     return result = false;

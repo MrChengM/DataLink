@@ -1,0 +1,48 @@
+2024-04-09 16:59:41,228 INFO  DataLinksLogger Channel1: Init => Initing   
+2024-04-09 16:59:41,254 INFO  DataLinksLogger Channel1: Initing=>Inited  
+2024-04-09 16:59:41,255 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-09 16:59:41,257 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-09 16:59:41,257 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-09 16:59:41,284 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-09 16:59:41,284 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-09 16:59:41,285 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-09 16:59:41,287 INFO  DataLinksLogger Channel1: Start=>Starting   
+2024-04-09 16:59:41,338 INFO  DataLinksLogger Channel1: Start Failed   
+2024-04-09 17:31:48,207 INFO  DataLinksLogger : Init => Initing   
+2024-04-09 17:31:48,222 INFO  DataLinksLogger : Initing=>Inited  
+2024-04-09 17:31:48,223 INFO  DataLinksLogger Channel1: Init => Initing   
+2024-04-09 17:31:48,231 INFO  DataLinksLogger Channel1: Initing=>Inited  
+2024-04-09 17:31:48,232 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-09 17:31:48,233 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-09 17:31:48,234 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-09 17:31:48,255 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-09 17:31:48,255 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-09 17:31:48,256 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-09 17:31:48,256 INFO  DataLinksLogger : Start=>Starting   
+2024-04-09 17:31:48,257 INFO  DataLinksLogger : Starting=>Started   
+2024-04-09 17:31:48,257 INFO  DataLinksLogger Channel1: Start=>Starting   
+2024-04-09 17:31:48,299 INFO  DataLinksLogger Channel1: Start Failed   
+2024-04-09 17:35:24,085 INFO  DataLinksLogger Channel1: Init => Initing   
+2024-04-09 17:35:24,125 INFO  DataLinksLogger Channel1: Initing=>Inited  
+2024-04-09 17:35:24,126 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-09 17:35:24,129 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-09 17:35:31,581 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-09 17:35:31,582 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-09 17:35:31,582 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-09 17:35:31,602 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-09 17:35:31,602 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-09 17:35:31,603 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-09 17:35:31,603 INFO  DataLinksLogger Channel1: Start=>Starting   
+2024-04-09 17:35:31,642 INFO  DataLinksLogger Channel1: Start Failed   
+2024-04-09 17:51:26,737 INFO  DataLinksLogger Channel1: Init => Initing   
+2024-04-09 17:51:26,790 INFO  DataLinksLogger Channel1: Initing=>Inited  
+2024-04-09 17:51:26,791 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-09 17:51:26,800 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-09 17:51:26,827 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-09 17:51:26,828 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-09 17:51:26,828 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-09 17:51:26,888 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-09 17:51:26,890 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-09 17:51:26,893 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-09 17:51:26,894 INFO  DataLinksLogger Channel1: Start=>Starting   
+2024-04-09 17:51:27,054 INFO  DataLinksLogger Channel1: Start Failed   

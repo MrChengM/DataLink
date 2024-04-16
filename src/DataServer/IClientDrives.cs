@@ -388,7 +388,7 @@ namespace DataServer
     public enum RecordWay
     {
         OnTime,
-        Change,
-        OnTime_Change
+        OnChange,
+        //OnTime_Change
     }
 }

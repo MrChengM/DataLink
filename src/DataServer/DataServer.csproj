@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alarm\AlarmInstance.cs" />
+    <Compile Include="Alarm\HistoryAlarm.cs" />
+    <Compile Include="Alarm\IHisAlarmRecord.cs" />
     <Compile Include="Config\AlarmsConfig.cs" />
     <Compile Include="Config\AlarmItemConfig.cs" />
     <Compile Include="Config\ChannelConfig.cs" />
@@ -74,6 +77,7 @@
     <Compile Include="IClientDrives.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="IServerDrives.cs" />
+    <Compile Include="Points\ITagRecord.cs" />
     <Compile Include="Points\Point.cs" />
     <Compile Include="Points\PointMapping.cs" />
     <Compile Include="Points\Tag.cs" />

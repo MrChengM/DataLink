@@ -43,6 +43,9 @@ namespace DataServer.Points
         //IPoint<double> GetDoublePoint(string key);
         IPoint<string> GetStringPoint(string key);
 
+        ITag GetTag(PointNameIndex pointNameIndex);
+        ITag[] GetTags(string pointName);
+
         Dictionary<string, PointMetadata> GetPointMetadatas();
     }
     public class PointMapping : IPointMapping
@@ -127,7 +130,6 @@ namespace DataServer.Points
             _stringPointMapping.TryGetValue(key, out IPoint<string> result);
             return result;
         }
-
         public IPoint<uint> GetUIntPoint(string key)
         {
             _uintPointMapping.TryGetValue(key, out IPoint<uint> result);
@@ -139,7 +141,180 @@ namespace DataServer.Points
             _ushortPointMapping.TryGetValue(key, out IPoint<ushort> result);
             return result;
         }
+        public ITag GetTag(PointNameIndex pointNameIndex)
+        {
+            ITag result;   
+            var metaData = GetPointMetaData(pointNameIndex.PointName);
+            string pointName = metaData.Name;
+            int index = pointNameIndex.Index;
+            var type = metaData.ValueType;
+            if (type == DataType.Bool)
+            {
+                var point =GetBoolPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+            }
+            else if (type == DataType.Byte)
+            {
+                var point = GetBytePoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
 
+            }
+            else if (type == DataType.UShort)
+            {
+                var point = GetUShortPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+
+
+            }
+            else if (type == DataType.Short)
+            {
+                var point = GetShortPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+
+            }
+            else if (type == DataType.UInt)
+            {
+                var point = GetUIntPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+
+            }
+            else if (type == DataType.Int)
+            {
+                var point = GetIntPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+
+
+            }
+            else if (type == DataType.Float)
+            {
+                var point = GetFloatPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+            }
+            else if (type == DataType.String)
+            {
+                var point = GetStringPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
+                result = new Tag { Name = pointName + $"[{index}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value};
+            }
+            else
+            {
+                return null;
+            }
+            return result;
+        }
+        public ITag[] GetTags(string pointName)
+        {
+            ITag[] result ;
+
+            var metaData = GetPointMetaData(pointName);
+            var length = metaData.Length;
+            var type = metaData.ValueType;
+
+            result = new ITag[length];
+            if (type == DataType.Bool)
+            {
+                var point = GetBoolPoint(pointName);
+                
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+            }
+            else if (type == DataType.Byte)
+            {
+                var point = GetBytePoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+            }
+            else if (type == DataType.UShort)
+            {
+                var point = GetUShortPoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+
+            }
+            else if (type == DataType.Short)
+            {
+                var point = GetShortPoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+            }
+            else if (type == DataType.UInt)
+            {
+                var point = GetUIntPoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+            }
+            else if (type == DataType.Int)
+            {
+                var point = GetIntPoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+
+            }
+            else if (type == DataType.Float)
+            {
+                var point = GetFloatPoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+            }
+            else if (type == DataType.String)
+            {
+                var point = GetStringPoint(pointName);
+                var quality = point.GetQuality();
+                for (int i = 0; i < length; i++)
+                {
+                    var value = point[i];
+                    result[i] = new Tag { Name = pointName + $"[{i}]", Quality = quality, TimeStamp = DateTime.Now, Type = type, Value = value.ToString() };
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return result;
+        }
         public void Register(string key, IPoint<bool> point)
         {
             if (!Find(key))

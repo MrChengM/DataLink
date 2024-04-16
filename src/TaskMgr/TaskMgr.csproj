@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\ChannelTaskFactory.cs" />
+    <Compile Include="Factory\RecordTagTaskFactory.cs" />
     <Compile Include="Factory\ServerFactory.cs" />
     <Compile Include="Factory\TaskFactory.cs" />
     <Compile Include="TaskMagr.cs" />
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBHandler_EF\DBHandler_EF.csproj">
+      <Project>{72ba66f7-c788-4b35-862c-611c08b6abfe}</Project>
+      <Name>DBHandler_EF</Name>
     </ProjectReference>
     <ProjectReference Include="..\FreedomDriverV2\FreedomDriversV2.csproj">
       <Project>{d8c4fc33-2adf-42c7-94eb-730da8da8b20}</Project>
