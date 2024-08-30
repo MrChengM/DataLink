@@ -8,7 +8,7 @@ namespace DataServer.Points
 {
     public interface IWrite<T>
     {
-        event Action<DevicePoint<T>, int> WriteEvent;
+        event Func<DevicePoint<T>, int,int> WriteEvent;
 
     }
     public interface IUpdate<T>
@@ -178,6 +178,10 @@ namespace DataServer.Points
 
         public bool SetValue( T value, int index)
         {
+            if (RW ==ReadWriteWay.Read)
+            {
+                return false;
+            }
             if (index < _length)
             {
                 if (!_value[index].Vaule.Equals(value))
@@ -194,6 +198,10 @@ namespace DataServer.Points
         }
         public bool SetValue(T[] value)
         {
+            if (RW == ReadWriteWay.Read)
+            {
+                return false;
+            }
             if (value.Length <= _value.Length)
             {
                 for (int i = 0; i < value.Length; i++)
@@ -203,16 +211,26 @@ namespace DataServer.Points
                         _value[i].Vaule = value[i];
                     }
                 }
-                RaisWriteEvent(this, -1);
-                return true;
+                if (RaisWriteEvent(this, -1)==-1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
             return false;
         }
-        void RaisWriteEvent(DevicePoint<T> point, int index)
+        int RaisWriteEvent(DevicePoint<T> point, int index)
         {
-            if (rw == ReadWriteWay.ReadAndWrite || rw == ReadWriteWay.Write)
+            if (WriteEvent != null)
             {
-                WriteEvent?.Invoke(point, index);
+                return WriteEvent.Invoke(point, index);
+            }
+            else
+            {
+                return -1;
             }
         }
         public void SetQuality(QUALITIES qualitity, int index)
@@ -224,7 +242,7 @@ namespace DataServer.Points
         }
 
         public event Action<IPoint<T>, int> UpdataEvent;
-        public event Action<DevicePoint<T>, int> WriteEvent;
+        public event Func<DevicePoint<T>, int,int> WriteEvent;
     }
     public class VirtulPoint<T>: IPoint<T>
     {

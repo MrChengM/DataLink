@@ -340,6 +340,7 @@ namespace ConfigTool.Models
             _deviceName = deviceName;
             _tagGroupConfig = new TagGroupConfig();
             _np = new NavigationParameters();
+            _np.Add("DeviceConfig", _configDataServer.GetDevice(channelName, deviceName));
             _np.Add("TagGroupConfig", _tagGroupConfig);
             _np.Add("isBuild", true);
         }
@@ -361,6 +362,7 @@ namespace ConfigTool.Models
             _deviceName = deviceName;
             _tagGroupConfig = tagGroupConfig;
             _np = new NavigationParameters();
+            _np.Add("DeviceConfig", _configDataServer.GetDevice(channelName, deviceName));
             _np.Add("TagGroupConfig", _tagGroupConfig);
             _np.Add("isBuild", false);
             initOptionItems();
@@ -441,6 +443,7 @@ namespace ConfigTool.Models
             _tagGroupName = tagGroupName;
             _tagConfig = new TagConfig();
             _np = new NavigationParameters();
+            _np.Add("TagGroupConfig", _configDataServer.GetTagGroup(_channelName,_deviceName,_tagGroupName));
             _np.Add("TagConfig", _tagConfig);
             _np.Add("isBuild", true);
         }
@@ -462,6 +465,7 @@ namespace ConfigTool.Models
             _tagGroupName = tagGroupName;
             _tagConfig = tagConfig;
             _np = new NavigationParameters();
+            _np.Add("TagGroupConfig", _configDataServer.GetTagGroup(_channelName, _deviceName, _tagGroupName));
             _np.Add("TagConfig", _tagConfig);
             _np.Add("isBuild", false);
             initOptionItems();
@@ -713,6 +717,7 @@ namespace ConfigTool.Models
             _serverName = serverName;
             _tagBinding = new TagBindingConfig();
             _np = new NavigationParameters();
+            _np.Add("ServerItemConfig", _configDataServer.GetServerItem(serverName));
             _np.Add("TagBindingConfig", _tagBinding);
             _np.Add("isBuild", true);
         }
@@ -732,6 +737,7 @@ namespace ConfigTool.Models
             _serverName = serverName;
             _tagBinding = tagBinding;
             _np = new NavigationParameters();
+            _np.Add("ServerItemConfig", _configDataServer.GetServerItem(serverName));
             _np.Add("TagBindingConfig", _tagBinding);
             _np.Add("isBuild", false);
             initOptionItems();

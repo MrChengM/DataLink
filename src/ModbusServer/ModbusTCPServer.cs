@@ -382,7 +382,7 @@ namespace ModbusServer
             var addressString = string.Format("{0:D5}", address + 1 + 40000);//地址偏移+1
 
             byte[] getBuffer = _mapping.GetBytes(addressString);
-            if (getBuffer != null || getBuffer.Length >= dataBuffer.Length)
+            if (getBuffer != null && getBuffer.Length >= dataBuffer.Length)
             {
                 Array.Copy(getBuffer, dataBuffer, dataBuffer.Length);
             }
@@ -564,7 +564,7 @@ namespace ModbusServer
         {
             foreach (var tagBinding in tagBindings)
             {
-                var pointNameGroup = StringHandler.Split(tagBinding.Value. SourceTagName);
+                var pointNameGroup = StringHandler.SplitEndWith(tagBinding.Value. SourceTagName);
                 if (pointNameGroup.Length > 1)
                 {
                     var pointName = pointNameGroup[0];

@@ -322,9 +322,9 @@ namespace FreedomDriversV2
         {
             if (IsConnect)
             {
+                _socket?.Shutdown(SocketShutdown.Both);
                 _socket?.Close();
             }
-            _socket?.Dispose();
             _socket = null;
             _isConnect = false;
             return true;

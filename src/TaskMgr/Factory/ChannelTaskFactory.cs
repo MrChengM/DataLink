@@ -7,7 +7,8 @@ using TaskMgr.Task;
 using DataServer.Points;
 using DataServer.Config;
 using DataServer;
-   
+using DataServer.Task;
+using Unity;
 
 namespace TaskMgr.Factory
 {
@@ -15,8 +16,20 @@ namespace TaskMgr.Factory
     {
         private IPointMapping _pointMapping;
         private ILog _log;
+
         private Dictionary<string, Type> _driverTypes;
 
+        public Dictionary<string, Type> DriverTypes
+        {
+            get { return _driverTypes; }
+            set { _driverTypes = value; }
+        }
+        [InjectionConstructor]
+        public ChannelTaskFactory(IPointMapping pointMapping, ILog log)
+        {
+            _pointMapping = pointMapping;
+            _log = log;
+        }
         public  ChannelTaskFactory(IPointMapping pointMapping, Dictionary<string, Type> driverTypes, ILog log)
         {
             _pointMapping = pointMapping;

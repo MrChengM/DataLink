@@ -6,6 +6,8 @@ using DataServer.Config;
 using Timer = System.Timers;
 using System.Threading;
 using Utillity.Data;
+using DataServer.Task;
+using Unity;
 
 namespace TaskMgr.Task
 {
@@ -23,6 +25,14 @@ namespace TaskMgr.Task
         private object _locker = new object();
 
         private Type _driverType;
+
+        private ILog _log;
+        [Dependency]
+        public ILog Log
+        {
+            get { return _log; }
+            set { _log = value; }
+        }
         /// <summary>
         /// 所有设备点集合，按设备分类
         /// </summary>
@@ -61,23 +71,14 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Start=>Starting ");
             if (_client != null && _timeRead != null)
             {
-                if (_client.Connect())
-                {
-                    _timeRead.Start();
-                    _log.InfoLog($"{_taskName}: Starting=>Started ");
-                    return true;
-                }
-                else
-                {
-                    _log.InfoLog($"{_taskName}: Start Failed ");
-                    return false;
-                }
-                
+                _client.Connect();
+                _timeRead.Start();
+                _log.InfoLog($"{_taskName}: Starting=>Started ");
+                return true;
             }
             else
             {
                 _log.InfoLog($"{_taskName}: Start Failed ");
-
                 return false;
             }
         }
@@ -86,6 +87,7 @@ namespace TaskMgr.Task
         {
             _log.InfoLog($"{_taskName}: Stop=>Stopping");
             _timeRead.Stop();
+            Thread.Sleep(3000);
             var result = _client.DisConnect();
             if (result)
             {
@@ -127,6 +129,8 @@ namespace TaskMgr.Task
             return result;
 
         }
+
+        int maxErrorTimes = 3;
         void TimeRead_Elapsed(object sender, Timer.ElapsedEventArgs e)
         {
             var t = sender as Timer.Timer;
@@ -134,6 +138,7 @@ namespace TaskMgr.Task
             foreach (var item in _pointsPool)
             {
 
+                int errorTimes = 0;
                 lock (_locker)
                 {
                     var client = getPLCDriver(item.Key);
@@ -145,64 +150,143 @@ namespace TaskMgr.Task
                     }
                     foreach (var point in _points.BoolPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
-                            point.Value = client.ReadBools(point.Address, (ushort)point.Length);
-                            Thread.Sleep(deviceConfig.Timing);
+                            point.Value = client.ReadBools(point.Address, (ushort)point.Length); 
+
+                            Thread.Sleep(deviceConfig.Timing); 
+                           
                         }
+                        
+                    }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
                     }
                     foreach (var point in _points.BytePoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.ReadBytes(point.Address, (ushort)point.Length);
+                            if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                            {
+                                errorTimes++;
+                                if (errorTimes >= maxErrorTimes)
+                                {
+                                    break;
+                                }
+                            }
                             Thread.Sleep(deviceConfig.Timing);
                         }
+                    }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
                     }
                     foreach (var point in _points.UShortPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.ReadUShorts(point.Address, (ushort)point.Length);
+                            if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                            {
+                                errorTimes++;
+                                if (errorTimes >= maxErrorTimes)
+                                {
+                                    break;
+                                }
+                            }
                             Thread.Sleep(deviceConfig.Timing);
                         }
+                    }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
                     }
                     foreach (var point in _points.ShortPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.ReadShorts(point.Address, (ushort)point.Length);
+                            if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                            {
+                                errorTimes++;
+                                if (errorTimes >= maxErrorTimes)
+                                {
+                                    break;
+                                }
+                            }
                             Thread.Sleep(deviceConfig.Timing);
                         }
                     }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
+                    }
                     foreach (var point in _points.IntPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.ReadInts(point.Address, (ushort)point.Length);
+                            if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                            {
+                                errorTimes++;
+                                if (errorTimes >= maxErrorTimes)
+                                {
+                                    break;
+                                }
+                            }
                             Thread.Sleep(deviceConfig.Timing);
                         }
 
                     }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
+                    }
                     foreach (var point in _points.UIntPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.ReadUInts(point.Address, (ushort)point.Length);
+                            if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                            {
+                                errorTimes++;
+                                if (errorTimes >= maxErrorTimes)
+                                {
+                                    break;
+                                }
+                            }
                             Thread.Sleep(deviceConfig.Timing);
                         }
+                    }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
                     }
                     foreach (var point in _points.FloatPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.Readfloats(point.Address, (ushort)point.Length);
+                            if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                            {
+                                errorTimes++;
+                                if (errorTimes >= maxErrorTimes)
+                                {
+                                    break;
+                                }
+                            }
                             Thread.Sleep(deviceConfig.Timing);
                         }
                     }
+                    if (errorTimes >= 3)
+                    {
+                        continue;
+                    }
                     foreach (var point in _points.StringPoints)
                     {
-                        if (point.RW == ReadWriteWay.Read)
+                        if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                         {
                             point.Value = client.ReadStrings(point.Address, (ushort)point.Length);
                             Thread.Sleep(deviceConfig.Timing);
@@ -212,163 +296,138 @@ namespace TaskMgr.Task
             }
             t.Start();
         }
-        private void StringPoint_WriteEvent(DevicePoint<string> point, int index)
+        private int StringPoint_WriteEvent(DevicePoint<string> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
 
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteStrings(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteString(point.Address, point.GetValue(index), index);
-                    }
+                    return client.WriteStrings(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteString(point.Address, point.GetValue(index), index);
                 }
 
             }
         }
 
-        private void FloatPoint_WriteEvent(DevicePoint<float> point, int index)
+        private int FloatPoint_WriteEvent(DevicePoint<float> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteFloats(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteFloat(point.Address, point.GetValue(index), index);
-                    }
+                    return client.WriteFloats(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteFloat(point.Address, point.GetValue(index), index);
                 }
 
             }
 
         }
 
-        private void UintPoint_WriteEvent(DevicePoint<uint> point, int index)
+        private int UintPoint_WriteEvent(DevicePoint<uint> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteUInts(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteUInt(point.Address, point.GetValue(index), index);
-                    }
+                   return client.WriteUInts(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteUInt(point.Address, point.GetValue(index), index);
                 }
             }
         }
 
-        private void IntPoint_WriteEvent(DevicePoint<int> point, int index)
+        private int IntPoint_WriteEvent(DevicePoint<int> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteInts(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteInt(point.Address, point.GetValue(index), index);
-                    }
+                   return client.WriteInts(point.Address, point.GetValues());
                 }
-
+                else
+                {
+                    return client.WriteInt(point.Address, point.GetValue(index), index);
+                }
             }
         }
 
-        private void UshortPoint_WriteEvent(DevicePoint<ushort> point, int index)
+        private int UshortPoint_WriteEvent(DevicePoint<ushort> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteUShorts(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteUShort(point.Address, point.GetValue(index), index);
-                    }
+                   return client.WriteUShorts(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteUShort(point.Address, point.GetValue(index), index);
                 }
             }
 
         }
 
-        private void ShortPoint_WriteEvent(DevicePoint<short> point, int index)
+        private int ShortPoint_WriteEvent(DevicePoint<short> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteShorts(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteShort(point.Address, point.GetValue(index), index);
-                    }
+                   return client.WriteShorts(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteShort(point.Address, point.GetValue(index), index);
                 }
 
             }
         }
 
-        private void BytePoint_WriteEvent(DevicePoint<byte> point, int index)
+        private int BytePoint_WriteEvent(DevicePoint<byte> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
 
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteBytes(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteByte(point.Address, point.GetValue(index), index);
-                    }
+                    return client.WriteBytes(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteByte(point.Address, point.GetValue(index), index);
                 }
             }
 
         }
-        private void BoolPoint_WriteEvent(DevicePoint<bool> point, int index)
+        private int BoolPoint_WriteEvent(DevicePoint<bool> point, int index)
         {
             lock (_locker)
             {
                 var client = getPLCDriver(point.DeviceName);
-
-                if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+                if (index == -1)
                 {
-                    if (index == -1)
-                    {
-                        client.WriteBools(point.Address, point.GetValues());
-                    }
-                    else
-                    {
-                        client.WriteBool(point.Address, point.GetValue(index), index);
-                    }
+                    return client.WriteBools(point.Address, point.GetValues());
+                }
+                else
+                {
+                    return client.WriteBool(point.Address, point.GetValue(index), index);
                 }
             }
         }
@@ -425,49 +484,49 @@ namespace TaskMgr.Task
                         switch (tag.Value.DataType)
                         {
                             case DataType.Bool:
-                                var boolPoint = new DevicePoint<bool>(pointName, tag.Value.Length, address, deviceName);
+                                var boolPoint = new DevicePoint<bool>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 boolPoint.WriteEvent += BoolPoint_WriteEvent;
                                 _pointMapping.Register(pointName, boolPoint);
                                 points.BoolPoints.Add(boolPoint);
                                 break;
                             case DataType.Byte:
-                                var bytePoint = new DevicePoint<byte>(pointName, tag.Value.Length, address, deviceName);
+                                var bytePoint = new DevicePoint<byte>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 bytePoint.WriteEvent += BytePoint_WriteEvent; ;
                                 _pointMapping.Register(pointName, bytePoint);
                                 points.BytePoints.Add(bytePoint);
                                 break;
                             case DataType.Short:
-                                var shortPoint = new DevicePoint<short>(pointName, tag.Value.Length, address, deviceName);
+                                var shortPoint = new DevicePoint<short>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 shortPoint.WriteEvent += ShortPoint_WriteEvent;
                                 _pointMapping.Register(pointName, shortPoint);
                                 points.ShortPoints.Add(shortPoint);
                                 break;
                             case DataType.UShort:
-                                var ushortPoint = new DevicePoint<ushort>(pointName, tag.Value.Length, address, deviceName);
+                                var ushortPoint = new DevicePoint<ushort>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 ushortPoint.WriteEvent += UshortPoint_WriteEvent;
                                 _pointMapping.Register(pointName, ushortPoint);
                                 points.UShortPoints.Add(ushortPoint);
                                 break;
                             case DataType.Int:
-                                var intPoint = new DevicePoint<int>(pointName, tag.Value.Length, address, deviceName);
+                                var intPoint = new DevicePoint<int>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 intPoint.WriteEvent += IntPoint_WriteEvent;
                                 _pointMapping.Register(pointName, intPoint);
                                 points.IntPoints.Add(intPoint);
                                 break;
                             case DataType.UInt:
-                                var uintPoint = new DevicePoint<uint>(pointName, tag.Value.Length, address, deviceName);
+                                var uintPoint = new DevicePoint<uint>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 uintPoint.WriteEvent += UintPoint_WriteEvent;
                                 _pointMapping.Register(pointName, uintPoint);
                                 points.UIntPoints.Add(uintPoint);
                                 break;
                             case DataType.Float:
-                                var floatPoint = new DevicePoint<float>(pointName, tag.Value.Length, address, deviceName);
+                                var floatPoint = new DevicePoint<float>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 floatPoint.WriteEvent += FloatPoint_WriteEvent;
                                 _pointMapping.Register(pointName, floatPoint);
                                 points.FloatPoints.Add(floatPoint);
                                 break;
                             case DataType.String:
-                                var stringPoint = new DevicePoint<string>(pointName, tag.Value.Length, address, deviceName);
+                                var stringPoint = new DevicePoint<string>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                                 stringPoint.WriteEvent += StringPoint_WriteEvent;
                                 _pointMapping.Register(pointName, stringPoint);
                                 points.StringPoints.Add(stringPoint);
@@ -538,6 +597,14 @@ namespace TaskMgr.Task
         private List<SingleSocketTask> _socketTasks;
         private IPointMapping _pointMapping;
         private Type _driverType;
+
+        private ILog _log;
+        [Dependency]
+        public ILog Log
+        {
+            get { return _log; }
+            set { _log = value; }
+        }
         public EthernetChannelTask(ChannelConfig channelConfig,IPointMapping pointMapping,Type driverType)
         {
             _channelConfig = channelConfig;
@@ -579,11 +646,7 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Start => Starting ");
             foreach (var task in _socketTasks)
             {
-                if (!task.Start())
-                {
-                    _log.InfoLog($"{_taskName}: Start Failed");
-                    return result = false;
-                } 
+                task.Start();
             }
             return result;
 
@@ -683,11 +746,17 @@ namespace TaskMgr.Task
             {
                 if (!_client.IsConnect)
                 {
+                    //if (!_client.Connect())
+                    //{
+                    //    t.Interval = 10000;
+                    //    t.Start();
+                    //    return;
+                    //} 
                     _client.Connect();
                 }
                 foreach (var point in _devicePoints.BoolPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read|| point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadBools(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
@@ -695,7 +764,7 @@ namespace TaskMgr.Task
                 }
                 foreach (var point in _devicePoints.BytePoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadBytes(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
@@ -703,7 +772,7 @@ namespace TaskMgr.Task
                 }
                 foreach (var point in _devicePoints.UShortPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadUShorts(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
@@ -711,7 +780,7 @@ namespace TaskMgr.Task
                 }
                 foreach (var point in _devicePoints.ShortPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadShorts(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
@@ -719,16 +788,20 @@ namespace TaskMgr.Task
                 }
                 foreach (var point in _devicePoints.IntPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadInts(point.Address, (ushort)point.Length);
+                        if (point.GetQuality() != QUALITIES.QUALITY_GOOD)
+                        {
+                            break;
+                        }
                         Thread.Sleep(_deviceConfig.Timing);
                     }
 
                 }
                 foreach (var point in _devicePoints.UIntPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadUInts(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
@@ -736,7 +809,7 @@ namespace TaskMgr.Task
                 }
                 foreach (var point in _devicePoints.FloatPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.Readfloats(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
@@ -744,12 +817,20 @@ namespace TaskMgr.Task
                 }
                 foreach (var point in _devicePoints.StringPoints)
                 {
-                    if (point.RW == ReadWriteWay.Read)
+                    if (point.RW == ReadWriteWay.Read || point.RW == ReadWriteWay.ReadAndWrite)
                     {
                         point.Value = _client.ReadStrings(point.Address, (ushort)point.Length);
                         Thread.Sleep(_deviceConfig.Timing);
                     }
                 }
+            }
+            if (_client.IsConnect)
+            {
+                t.Interval = _pollTime;
+            }
+            else
+            {
+                t.Interval = 5000;
             }
             t.Start();
         }
@@ -759,19 +840,13 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_name}: Start=>Starting ");
             if (_client != null && _timeRead != null)
             {
-                if (_client.Connect())
-                {
-                    _timeRead.Elapsed += TimeRead_Elapsed;
-                    _timeRead.AutoReset = true;
-                    _timeRead.Start();
-                    _log.InfoLog($"{_name}: Starting=>Started ");
-                    return true;
-                }
-                else
-                {
-                    _log.InfoLog($"{_name} :Start Failed ");
-                    return false;
-                }
+                _client.Connect();
+                _timeRead.Elapsed += TimeRead_Elapsed;
+                _timeRead.AutoReset = true;
+                _timeRead.Start();
+                _log.InfoLog($"{_name}: Starting=>Started ");
+                return true;
+
             }
             else
             {
@@ -784,6 +859,7 @@ namespace TaskMgr.Task
         {
             _log.InfoLog($"{_name}: Stop=>Stopping");
             _timeRead.Stop();
+            Thread.Sleep(3000);
             var result = _client.DisConnect();
             if (result)
             {
@@ -847,49 +923,49 @@ namespace TaskMgr.Task
                     switch (tag.Value.DataType)
                     {
                         case DataType.Bool:
-                            var boolPoint = new DevicePoint<bool>(pointName, tag.Value.Length, address, deviceName);
+                            var boolPoint = new DevicePoint<bool>(pointName, tag.Value.Length, address, deviceName) { RW =tag.Value.Operate};
                             boolPoint.WriteEvent += BoolPoint_WriteEvent;
                             _pointMapping.Register(pointName, boolPoint);
                             _devicePoints.BoolPoints.Add(boolPoint);
                             break;
                         case DataType.Byte:
-                            var bytePoint = new DevicePoint<byte>(pointName, tag.Value.Length, address, deviceName);
+                            var bytePoint = new DevicePoint<byte>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             bytePoint.WriteEvent += BytePoint_WriteEvent; ;
                             _pointMapping.Register(pointName, bytePoint);
                             _devicePoints.BytePoints.Add(bytePoint);
                             break;
                         case DataType.Short:
-                            var shortPoint = new DevicePoint<short>(pointName, tag.Value.Length, address, deviceName);
+                            var shortPoint = new DevicePoint<short>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             shortPoint.WriteEvent += ShortPoint_WriteEvent;
                             _pointMapping.Register(pointName, shortPoint);
                             _devicePoints.ShortPoints.Add(shortPoint);
                             break;
                         case DataType.UShort:
-                            var ushortPoint = new DevicePoint<ushort>(pointName, tag.Value.Length, address, deviceName);
+                            var ushortPoint = new DevicePoint<ushort>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             ushortPoint.WriteEvent += UshortPoint_WriteEvent;
                             _pointMapping.Register(pointName, ushortPoint);
                             _devicePoints.UShortPoints.Add(ushortPoint);
                             break;
                         case DataType.Int:
-                            var intPoint = new DevicePoint<int>(pointName, tag.Value.Length, address, deviceName);
+                            var intPoint = new DevicePoint<int>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             intPoint.WriteEvent += IntPoint_WriteEvent;
                             _pointMapping.Register(pointName, intPoint);
                             _devicePoints.IntPoints.Add(intPoint);
                             break;
                         case DataType.UInt:
-                            var uintPoint = new DevicePoint<uint>(pointName, tag.Value.Length, address, deviceName);
+                            var uintPoint = new DevicePoint<uint>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             uintPoint.WriteEvent += UintPoint_WriteEvent;
                             _pointMapping.Register(pointName, uintPoint);
                             _devicePoints.UIntPoints.Add(uintPoint);
                             break;
                         case DataType.Float:
-                            var floatPoint = new DevicePoint<float>(pointName, tag.Value.Length, address, deviceName);
+                            var floatPoint = new DevicePoint<float>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             floatPoint.WriteEvent += FloatPoint_WriteEvent;
                             _pointMapping.Register(pointName, floatPoint);
                             _devicePoints.FloatPoints.Add(floatPoint);
                             break;
                         case DataType.String:
-                            var stringPoint = new DevicePoint<string>(pointName, tag.Value.Length, address, deviceName);
+                            var stringPoint = new DevicePoint<string>(pointName, tag.Value.Length, address, deviceName) { RW = tag.Value.Operate };
                             stringPoint.WriteEvent += StringPoint_WriteEvent;
                             _pointMapping.Register(pointName, stringPoint);
                             _devicePoints.StringPoints.Add(stringPoint);
@@ -949,129 +1025,100 @@ namespace TaskMgr.Task
 
         }
 
-        private void StringPoint_WriteEvent(DevicePoint<string> point, int index)
+        private int StringPoint_WriteEvent(DevicePoint<string> point, int index)
+        {
+            if (index == -1)
+            {
+                return _client.WriteStrings(point.Address, point.GetValues());
+            }
+            else
+            {
+                return _client.WriteString(point.Address, point.GetValue(index), index);
+            }
+        }
+
+        private int FloatPoint_WriteEvent(DevicePoint<float> point, int index)
         {
 
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+            if (index == -1)
             {
-                if (index == -1)
-                {
-                    _client.WriteStrings(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteString(point.Address, point.GetValue(index), index);
-                }
+               return _client.WriteFloats(point.Address, point.GetValues());
+            }
+            else
+            {
+                return _client.WriteFloat(point.Address, point.GetValue(index), index);
+            }
+        }
+
+        private int UintPoint_WriteEvent(DevicePoint<uint> point, int index)
+        {
+            if (index == -1)
+            {
+                return _client.WriteUInts(point.Address, point.GetValues());
+            }
+            else
+            {
+                return _client.WriteUInt(point.Address, point.GetValue(index), index);
+            }
+        }
+
+        private int IntPoint_WriteEvent(DevicePoint<int> point, int index)
+        {
+            if (index == -1)
+            {
+                return _client.WriteInts(point.Address, point.GetValues());
+            }
+            else
+            {
+                return _client.WriteInt(point.Address, point.GetValue(index), index);
+            }
+        }
+
+        private int UshortPoint_WriteEvent(DevicePoint<ushort> point, int index)
+        {
+            if (index == -1)
+            {
+                return _client.WriteUShorts(point.Address, point.GetValues());
+            }
+            else
+            {
+                return _client.WriteUShort(point.Address, point.GetValue(index), index);
             }
 
         }
 
-        private void FloatPoint_WriteEvent(DevicePoint<float> point, int index)
+        private int ShortPoint_WriteEvent(DevicePoint<short> point, int index)
         {
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+            if (index == -1)
             {
-                if (index == -1)
-                {
-                    _client.WriteFloats(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteFloat(point.Address, point.GetValue(index), index);
-                }
+                return _client.WriteShorts(point.Address, point.GetValues());
             }
-
-
-        }
-
-        private void UintPoint_WriteEvent(DevicePoint<uint> point, int index)
-        {
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+            else
             {
-                if (index == -1)
-                {
-                    _client.WriteUInts(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteUInt(point.Address, point.GetValue(index), index);
-                }
+                return _client.WriteShort(point.Address, point.GetValue(index), index);
             }
         }
 
-        private void IntPoint_WriteEvent(DevicePoint<int> point, int index)
+        private int BytePoint_WriteEvent(DevicePoint<byte> point, int index)
         {
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+            if (index == -1)
             {
-                if (index == -1)
-                {
-                    _client.WriteInts(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteInt(point.Address, point.GetValue(index), index);
-                }
+                return _client.WriteBytes(point.Address, point.GetValues());
+            }
+            else
+            {
+                return _client.WriteByte(point.Address, point.GetValue(index), index);
             }
         }
-
-        private void UshortPoint_WriteEvent(DevicePoint<ushort> point, int index)
+        private int BoolPoint_WriteEvent(DevicePoint<bool> point, int index)
         {
-
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+            if (index == -1)
             {
-                if (index == -1)
-                {
-                    _client.WriteUShorts(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteUShort(point.Address, point.GetValue(index), index);
-                }
+               return _client.WriteBools(point.Address, point.GetValues());
             }
-
-        }
-
-        private void ShortPoint_WriteEvent(DevicePoint<short> point, int index)
-        {
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
+            else
             {
-                if (index == -1)
-                {
-                    _client.WriteShorts(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteShort(point.Address, point.GetValue(index), index);
-                }
-            }
-        }
-
-        private void BytePoint_WriteEvent(DevicePoint<byte> point, int index)
-        {
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
-            {
-                if (index == -1)
-                {
-                    _client.WriteBytes(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteByte(point.Address, point.GetValue(index), index);
-                }
-            }
-
-        }
-        private void BoolPoint_WriteEvent(DevicePoint<bool> point, int index)
-        {
-            if (point.RW == ReadWriteWay.ReadAndWrite || point.RW == ReadWriteWay.ReadAndWrite)
-            {
-                if (index == -1)
-                {
-                    _client.WriteBools(point.Address, point.GetValues());
-                }
-                else
-                {
-                    _client.WriteBool(point.Address, point.GetValue(index), index);
-                }
+                return _client.WriteBool(point.Address, point.GetValue(index), index);
             }
         }
     }

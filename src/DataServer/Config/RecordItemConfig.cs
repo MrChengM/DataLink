@@ -44,4 +44,10 @@ namespace DataServer.Config
         }
 
     }
+    public enum RecordWay
+    {
+        OnTime,
+        OnChange,
+        //OnTime_Change
+    }
 }

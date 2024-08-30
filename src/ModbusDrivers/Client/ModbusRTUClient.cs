@@ -11,7 +11,7 @@ namespace ModbusDrivers.Client
     /// ModbusRTU 协议 IPLCDriver:IRead IWrite IDriver IDisposable
     /// </summary>
     [DriverDescription("Modbus RTU",CommunicationType.Serialport)]
-    public sealed class ModbusRTUClient : ModbusClient
+    public sealed class ModbusRTUClient : ModbusClient, IComPortDriver
     {
         // 内部成员定义
 
@@ -231,10 +231,6 @@ namespace ModbusDrivers.Client
                     byte errorFuncCode = (byte)(0x80 + funcCode);
                     lock (_async)
                     {
-                        int times = 0;
-                        while (result == null && times < RetryTimes)
-                        {
-                            times++;
                             byte[] sendBytes = getReadHeader(slaveID, funcCode, startAddress, count);
                             try
                             {
@@ -333,7 +329,6 @@ namespace ModbusDrivers.Client
                             {
                                 Log.ErrorLog(string.Format("{0}: Modbus {1} ",Name, ex.Message));
                             }
-                        }
                     }
                 }
             }

@@ -1,0 +1,3 @@
+2024-05-14 17:57:16,007 ERROR DataLinksLogger Freedom write error: the point name:Channel2.Device1.Group1.Tag2[0] type : Int write error  
+2024-05-14 17:57:22,612 ERROR DataLinksLogger Freedom write error: the point name:Channel2.Device1.Group1.Tag1[0].part1.AL4001[0] type : Bool write error  
+2024-05-14 17:57:47,530 ERROR DataLinksLogger Freedom write error: the point name:Channel2.Device1.Group1.Tag1[0].part1.AL4001[0] type : Bool write error  

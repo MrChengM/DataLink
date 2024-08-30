@@ -19,6 +19,7 @@ using DataServer.Config;
 using ConfigTool.Service;
 using Utillity.File;
 using DataServer;
+using DataServer.Alarm;
 
 namespace ConfigTool.ViewModels
 {

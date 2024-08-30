@@ -1,6 +1,6 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.Service;
-using DataServer;
+using DataServer.Alarm;
 using DataServer.Config;
 using Prism.Events;
 using Prism.Mvvm;
@@ -9,13 +9,15 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utillity.Data;
 
 namespace ConfigTool.ViewModels
 {
-    class AlarmItemGeneral2ViewModel: BindableBase, INavigationAware
+    class AlarmItemGeneral2ViewModel: BindableBase, INavigationAware,IDataErrorInfo
     {
         private IEventAggregator _ea;
         private AlarmItemConfig _config;
@@ -62,6 +64,22 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref alarmDescription, value, "AlarmDescription"); }
         }
 
+        private ConfirmMode currentConfirmMode;
+
+        public ConfirmMode CurrentConfirmMode
+        {
+            get { return currentConfirmMode; }
+            set { SetProperty(ref currentConfirmMode, value, "CurrentConfirmMode"); }
+        }
+
+        private ObservableCollection<ConfirmMode> confirmModes;
+
+        public ObservableCollection<ConfirmMode> ConfirmModes
+        {
+            get { return confirmModes; }
+            set { SetProperty(ref confirmModes, value, "ConfirmModes"); }
+        }
+
         private bool buildMode;
 
         public bool BuildMode
@@ -72,6 +90,70 @@ namespace ConfigTool.ViewModels
 
 
         private bool isFristIn = true;
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "CurrentAlarmType")
+                {
+
+                    if (string.IsNullOrEmpty(CurrentAlarmType))
+                    {
+                        result = "Alarm Type can not null or empty !";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "Level1View")
+                {
+                    if (string.IsNullOrEmpty(Level1View))
+                    {
+                        result = "Level1 View can not null or empty !";
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                else if (columnName == "Level2View")
+                {
+                    if (string.IsNullOrEmpty(Level2View))
+                    {
+                        result = "Level2  View can not null or empty !";
+                    }
+                    errorMsgBuffer[2] = result;
+                }
+                else if (columnName == "AlarmDescription")
+                {
+                    if (string.IsNullOrEmpty(AlarmDescription))
+                    {
+                        result = "Alarm Description can not null or empty !";
+                    }
+                    errorMsgBuffer[3] = result;
+                }
+                judgeHasError();
+                return result;
+            }
+
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
+
         public AlarmItemGeneral2ViewModel(IEventAggregator eventAggregator, IConfigDataServer configDataServer)
         {
             _ea = eventAggregator;
@@ -80,11 +162,9 @@ namespace ConfigTool.ViewModels
             //_configDataServer = configDataServer;
             alarmTypes = new ObservableCollection<string>( Enum.GetNames(typeof(AlarmType)));
             currentAlarmType = alarmTypes[0];
-
+            confirmModes = new ObservableCollection<ConfirmMode>() { ConfirmMode.Normal,ConfirmMode.Auto};
+            currentConfirmMode = confirmModes[0];
         }
-
-
-
         private void setConfig(ButtonResult button)
         {
             if (button == ButtonResult.OK)
@@ -96,6 +176,7 @@ namespace ConfigTool.ViewModels
                 _config.Level1View = Level1View;
                 _config.Level2View = Level2View;
                 _config.AlarmDescription = AlarmDescription;
+                _config.ConfirmMode = CurrentConfirmMode;
             }
         }
         #region INavigationAware
@@ -120,6 +201,7 @@ namespace ConfigTool.ViewModels
                     Level1View = _config.Level1View;
                     Level2View = _config.Level2View;
                     AlarmDescription = _config.AlarmDescription;
+                    CurrentConfirmMode = _config.ConfirmMode;
                 }
                 isFristIn = false;
             }

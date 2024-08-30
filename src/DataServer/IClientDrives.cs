@@ -128,6 +128,14 @@ namespace DataServer
         DeviceAddress GetDeviceAddress(string address);
 
     }
+    public interface IComPortDriver : IPLCDriver
+    {
+        SerialportSetUp PortSetUp { get; set; }
+    }
+    public interface IEthernetPLCDriver: IPLCDriver
+    {
+        EthernetSetUp EthSetUp { get; set; }
+    }
     #endregion
     //[DataContract]
     //[JsonConverter(typeof(StringEnumConverter))]
@@ -367,28 +375,5 @@ namespace DataServer
         Write,
         ReadAndWrite
     }
-    public enum AlarmType
-    {
-        Information = 20,
-        Trivial = 40,
-        Minor = 60,
-        Major = 80,
-
-    }
-
-    public enum ConditionType
-    {
-        Bit,
-        MoreThan,
-        LessThan,
-        Equals,
-        NotEquals
-    }
-
-    public enum RecordWay
-    {
-        OnTime,
-        OnChange,
-        //OnTime_Change
-    }
+   
 }

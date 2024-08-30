@@ -12,10 +12,11 @@ using DataServer;
 using Prism.Services.Dialogs;
 using ConfigTool.Models;
 using Utillity.Data;
+using System.ComponentModel;
 
 namespace ConfigTool.ViewModels
 {
-    public class DeviceGeneralViewModel : BindableBase, INavigationAware
+    public class DeviceGeneralViewModel : BindableBase, INavigationAware, IDataErrorInfo
     {
         private IEventAggregator _ea;
         private ChannelConfig _channelConfig;
@@ -43,7 +44,7 @@ namespace ConfigTool.ViewModels
         }
 
 
-        private string deviceName = "Device1";
+        private string deviceName;
 
         public string DeviceName
         {
@@ -59,7 +60,7 @@ namespace ConfigTool.ViewModels
         }
 
 
-        private string deviceId = "1||255.255.255.2555";
+        private string deviceId;
 
         public string DeviceId
         {
@@ -67,7 +68,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref deviceId, value, "DeviceId"); }
         }
 
-        private int connectTimeOut = 3000;
+        private int connectTimeOut=3000;
 
         public int ConnectTimeOut
         {
@@ -84,7 +85,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref requestTimeOut, value, "RequestTimeOut"); }
         }
 
-        private int timing = 0;
+        private int timing;
 
         public int Timing
         {
@@ -113,6 +114,116 @@ namespace ConfigTool.ViewModels
         {
             get { return byteOrders; }
             set { SetProperty(ref byteOrders, value, "ByteOrders"); }
+        }
+        #endregion
+        #region IDataErrorInfo
+        public string Error => null;
+
+
+        private string[] errorMsgBuffer = new string[7];
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "DeviceName")
+                {
+
+                    if (string.IsNullOrEmpty(DeviceName))
+                    {
+                        result = "Device Name can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(DeviceName.ToString()))
+                    {
+                        result = "Device Name include special character !";
+                    }
+                    else if (_channelConfig.Devices.ContainsKey(DeviceName) && BuildMode)
+                    {
+                        result = "Device Name is Exit! ";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "DeviceId")
+                {
+                    if (string.IsNullOrEmpty(DeviceId))
+                    {
+                        result = "Device ID can not null or empty !";
+                    }
+                    else if (_channelConfig?.DriverInformation.CommType == CommunicationType.Serialport)
+                    {
+                        if (!RegexCheck.IsNumber(DeviceId))
+                        {
+                            result = "DeviceId must be a number !";
+                        }
+                        else if (int.Parse(DeviceId) < 0)
+                        {
+                            result = "Value can not less than 0 !";
+                        }
+                    }
+                    else if (_channelConfig?.DriverInformation.CommType == CommunicationType.Ethernet)
+                    {
+                        if (!RegexCheck.IsIPAddress(DeviceId))
+                        {
+                            result = "DeviceId must be a IP address !";
+                        }
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                else if (columnName == "ConnectTimeOut")
+                {
+                    if (ConnectTimeOut < 0)
+                    {
+                        result = "Value can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[2] = result;
+                }
+                else if (columnName == "RequestTimeOut")
+                {
+                    if (RequestTimeOut < 0)
+                    {
+                        result = "Value can not less than 0 !";
+                    }
+                    errorMsgBuffer[3] = result;
+                }
+                else if (columnName == "Timing")
+                {
+                    if (Timing < 0)
+                    {
+                        result = "Value can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[4] = result;
+                }
+                else if (columnName == "RetryTimes")
+                {
+                    if (RetryTimes < 0)
+                    {
+                        result = "Value can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[5] = result;
+                }
+                judgeHasError();
+                return result;
+            }
+
+        }
+
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
         }
         #endregion
 

@@ -53,7 +53,11 @@ namespace DataServer.Alarm
         /// <param name="endTime"></param>
         /// <returns></returns>
         List<HistoryAlarm> Select( DateTime startTime, DateTime endTime);
-
-
+        /// <summary>
+        /// 查找指定条件下历史报警记录
+        /// </summary>
+        /// <param name="selectCondition"></param>
+        /// <returns></returns>
+        List<HistoryAlarm> Select(HistoryAlarmSelectCondition selectCondition);
     }
 }

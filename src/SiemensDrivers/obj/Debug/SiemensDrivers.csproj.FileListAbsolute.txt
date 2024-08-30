@@ -54,17 +54,11 @@ D:\Projects\DataLinks\src\SiemensDrivers\obj\Debug\SiemensDrivers.dll
 D:\Projects\DataLinks\src\SiemensDrivers\obj\Debug\SiemensDrivers.pdb
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\Newtonsoft.Json.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\Newtonsoft.Json.xml
-D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\log4net.config
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\Utillity.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\log4net.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\NPOI.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\NPOI.OOXML.dll
-D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\ICSharpCode.SharpZipLib.dll
-D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\BouncyCastle.Crypto.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\NPOI.OpenXml4Net.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\NPOI.OpenXmlFormats.dll
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\Utillity.pdb
 D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\log4net.xml
-D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\ICSharpCode.SharpZipLib.pdb
-D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\ICSharpCode.SharpZipLib.xml
-D:\Projects\DataLinks\src\SiemensDrivers\bin\Debug\BouncyCastle.Crypto.xml

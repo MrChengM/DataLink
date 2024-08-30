@@ -22,7 +22,7 @@ namespace ConfigTool.Service
 
         private Dictionary<string, DriverInfo> _driverInfos;
 
-        private ProjectConfig _projectConfig ;
+        private ProjectConfig _projectConfig;
         private IContainerProvider _containerProvider;
         private ISingleLoggerServer _singleLoggerServer;
         private const string CONFIGPATH = "../../../../conf";
@@ -43,11 +43,11 @@ namespace ConfigTool.Service
         private const string DLLPATH = "../../../../dll";
 
 
-        private log4net.ILog _log; 
+        private log4net.ILog _log;
 
         //public string DllPath => DLLPATH;
         public event EventHandler<ConfigEventArgs> ConfigChangeEvent;
-
+        public event EventHandler<bool> OnlineChangeEvent;
         public ConfigDataServer()
         {
             _driverInfos = new Dictionary<string, DriverInfo>();
@@ -61,6 +61,8 @@ namespace ConfigTool.Service
         public Dictionary<string, DriverInfo> DriverInfos => _driverInfos;
 
         public ProjectConfig ProjectConfig => _projectConfig;
+
+        public bool IsConnect { get; private set; }
 
 
 
@@ -400,6 +402,7 @@ namespace ConfigTool.Service
                 var client = GetClient();
                 client.Channels.Remove(channelName);
                 _log.Info($"Remove channel sucessfully: \'{channelName}\'have removed.");
+                UpdataTagBinding($"{channelName}.");
                 raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = client, CurreNodeName= channelName, CurreNodeType = NodeType.Channel, OperateMode = ConfigOperate.RemoveNode });
             }
             else
@@ -415,6 +418,7 @@ namespace ConfigTool.Service
                 var channel = GetChannel(channelName);
                 channel.Devices.Remove(deviceName);
                 _log.Info($"Remove device sucessfully: \'{channelName}.{deviceName}\' have removed.");
+                UpdataTagBinding($"{channelName}.{deviceName}.");
                 raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = channel, CurreNodeName=deviceName, CurreNodeType = NodeType.Device, OperateMode = ConfigOperate.RemoveNode });
             }
             else
@@ -430,6 +434,7 @@ namespace ConfigTool.Service
                 var device = GetDevice(channelName, deviceName);
                 device.TagGroups.Remove(tagGroupName);
                 _log.Info($"Remove TagGroup sucessfully: \'{channelName}.{deviceName}.{tagGroupName}\' have removed.");
+                UpdataTagBinding($"{channelName}.{deviceName}.{tagGroupName}.");
                 raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = device, CurreNodeName = tagGroupName, CurreNodeType = NodeType.TagGroup, OperateMode = ConfigOperate.RemoveNode });
             }
             else
@@ -446,6 +451,8 @@ namespace ConfigTool.Service
                 tagGroup.Tags.Remove(tagName);
 
                 _log.Info($"Remove tag sucessfully: \'{channelName}.{deviceName}.{tagGroupName}.{tagName}\' have removed.");
+
+                UpdataTagBinding($"{channelName}.{deviceName}.{tagGroupName}.{tagName}");
 
                 raiseConfigChangeEvent(this, new ConfigEventArgs() { ParentConfigNode = tagGroup, CurreNodeName = tagName,CurreNodeType = NodeType.Tag, OperateMode = ConfigOperate.RemoveNode });
             }
@@ -550,81 +557,95 @@ namespace ConfigTool.Service
         }
         public bool UpdataConfig()
         {
-
+            bool result;
             string url = basUrl + "/Project";
             try
             {
-                var result = RestAPIOpertor.GetFuncJson<ProjectConfig>(url);
-                if (result != null)
+                var config = RestAPIOpertor.GetFuncJson<ProjectConfig>(url);
+                if (config != null)
                 {
-                    _projectConfig = result;
+                    _projectConfig = config;
                     raiseConfigChangeEvent(this, new ConfigEventArgs() { OperateMode = ConfigOperate.ReloadAll });
                     _log.Info($"Updata Project from Server sucessfully! ");
 
-                    return true;
+                    result= true;
                 }
                 else
                 {
                     _log.Info($"Updata Project from Server failed:the result value is null! ");
-                    return false;
+                    result= false;
                 }
             }
             catch (Exception e)
             {
                 _log.Error($"Updata Project from Server failed:{e.Message}({url})! ");
-                return false;
+                result= false;
             }
+            OnlineChangeEvent?.Invoke(this, result);
+            IsConnect = result;
+            return result;
         }
         public bool UpdataDLL()
         {
+            bool result;
+
 
             string url = basUrl + "/DriverInformation";
             try
             {
-                var result = RestAPIOpertor.GetFuncJson<Dictionary<string,DriverInfo>>(url);
-                if (result != null)
+                var driverInfos = RestAPIOpertor.GetFuncJson<Dictionary<string,DriverInfo>>(url);
+                if (driverInfos != null)
                 {
-                    _driverInfos = result;
+                    _driverInfos = driverInfos;
                     _log.Info($"Updata drivers information from Server sucessfully! ");
 
-                    return true;
+                    result= true;
                 }
                 else
                 {
                     _log.Info($"Updata drivers information from Server failed:the result value is null! ");
-                    return false;
+                    result= false;
                 }
             }
             catch (Exception e)
             {
                 _log.Error($"Updata drivers information from Server failed:{e.Message}({url})! ");
-                return false;
+                result= false;
             }
+            OnlineChangeEvent?.Invoke(this, result);
+            IsConnect = result;
+
+            return result;
         }
         public bool DownLoad()
         {
+            bool result;
+
             string url = basUrl + "/Project";
+
             try
             {
-                var result = RestAPIOpertor.PutFuncJson<ProjectConfig, RestAPIResult>(url, _projectConfig);
-                if (result == RestAPIResult.OK)
+                var rar = RestAPIOpertor.PutFuncJson<ProjectConfig, RestAPIResult>(url, _projectConfig);
+                if (rar == RestAPIResult.OK)
                 {
                     _log.Info($"DownLoad Project to Server sucessfully! ");
-                    return true;
+                    result= true;
                 }
                 else
                 {
                     _log.Info($"DownLoad Project to Server failed! ");
 
-                    return false;
+                    result= false;
                 }
             }
             catch (Exception e)
             {
                 _log.Error($"DownLoad Project to Server error,information:{e.Message}({url})! ");
-                return false;
+                result= false;
             }
-           
+            OnlineChangeEvent?.Invoke(this, result);
+            IsConnect = result;
+            return result;
         }
         //public bool ConnectServer()
         //{
@@ -1012,5 +1033,43 @@ namespace ConfigTool.Service
         #endregion
 
 
+
+        void UpdataTagBinding(string removeName)
+        {
+            
+            var serversConfig = GetServers();
+            foreach (var serverItem in serversConfig.Items)
+            {
+                var stbs = from t in serverItem.Value.TagBindingList
+                          where t.Value.SourceTagName.Contains(removeName)
+                          select t;
+                foreach (var tb in stbs.ToArray())
+                {
+                    serverItem.Value.TagBindingList.Remove(tb.Key);
+                }
+            }
+
+            var alarmConfig = GetAlarms();
+            var atbs = from t in alarmConfig.AlarmGroup
+                       where t.Value.TagName.Contains(removeName)
+                       select t;
+            foreach (var tb in atbs.ToArray())
+            {
+                alarmConfig.AlarmGroup.Remove(tb.Key);
+            }
+
+            var recordsConfig = GetRecords();
+
+            foreach (var recordItem in recordsConfig.RecordGroup)
+            {
+                var rtgs= from t in recordItem.Value.TagNames
+                          where t.Contains(removeName)
+                          select t;
+                foreach (var rtg in rtgs.ToArray())
+                {
+                    recordItem.Value.TagNames.Remove(rtg);
+                }
+            }
+        }
     }
 }

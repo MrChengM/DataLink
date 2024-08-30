@@ -13,26 +13,29 @@
                 <TextBlock Text="ScalingType:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
                 <ComboBox ItemsSource="{Binding ScalingTypes}" SelectedValue="{Binding CurrentScalingType}"  Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" >
-                <TextBlock Text="DataType:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
-                <ComboBox ItemsSource="{Binding DataTypes}" SelectedValue="{Binding CurrentDataType}"  Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0" />
+            <StackPanel Orientation="Vertical" IsEnabled="{Binding IsEnable}">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="DataType:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                    <ComboBox ItemsSource="{Binding DataTypes}" SelectedValue="{Binding CurrentDataType}"  Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Raw Low:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
+                    <TextBox Text="{Binding RawLow}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Raw High:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
+                    <TextBox Text="{Binding RawHigh}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Scaled Low:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
+                    <TextBox Text="{Binding ScaledLow}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Scaled High:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
+                    <TextBox Text="{Binding ScaledHigh}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Raw Low:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
-                <TextBox Text="{Binding RawLow}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Raw High:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
-                <TextBox Text="{Binding RawHigh}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Scaled Low:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
-                <TextBox Text="{Binding ScaledLow}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Scaled High:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>
-                <TextBox Text="{Binding ScaledHigh}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
-            </StackPanel>
+            
         </StackPanel>
     </Grid>
 </UserControl>

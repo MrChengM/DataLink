@@ -12,7 +12,7 @@
         <StackPanel TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
             <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">
                 <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
-                <TextBox Text="{Binding Name}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Name,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" >
                 <TextBlock Text="Option:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
@@ -20,7 +20,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Update Times:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding Times}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Times,ValidatesOnDataErrors= True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

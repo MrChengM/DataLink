@@ -11,10 +11,12 @@ using DataServer;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using Utillity.Data;
 
 namespace ConfigTool.ViewModels
 {
-    public class RecordGeneralViewModel: BindableBase, INavigationAware
+    public class RecordGeneralViewModel: BindableBase, INavigationAware,IDataErrorInfo
     {
         private IEventAggregator _ea;
         private RecordItemConfig _config;
@@ -61,6 +63,63 @@ namespace ConfigTool.ViewModels
    
 
         private bool isFristIn = true;
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "Name")
+                {
+
+                    if (string.IsNullOrEmpty(Name))
+                    {
+                        result = "Record Name can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(Name.ToString()))
+                    {
+                        result = "Record Name include special character !";
+                    }
+                    else if (_configDataServer.IsExit_RecordItem(Name) && BuildMode)
+                    {
+                        result = "Record Name is Exit! ";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "Times")
+                {
+                    if (Times < 0)
+                    {
+                        result = "Updata times can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                judgeHasError();
+                return result;
+            }
+
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
+
         public RecordGeneralViewModel(IEventAggregator eventAggregator, IConfigDataServer configDataServer)
         {
             _ea = eventAggregator;

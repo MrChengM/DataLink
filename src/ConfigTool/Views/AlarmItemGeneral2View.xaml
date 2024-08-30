@@ -16,15 +16,19 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Level1 View:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding Level1View}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Level1View,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Level2 View:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding Level2View}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Level2View,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Alarm Description:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding AlarmDescription}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding AlarmDescription,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Confirm Mode:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                <ComboBox  HorizontalAlignment="Left"  Width="160" Height="30"  SelectedValue="{Binding CurrentConfirmMode}" ItemsSource="{Binding ConfirmModes}"  Margin="0,20,20,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

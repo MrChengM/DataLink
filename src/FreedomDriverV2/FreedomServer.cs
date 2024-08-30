@@ -240,7 +240,7 @@ namespace FreedomDriversV2
             for (int i = 0; i < source.Length; i++)
             {
                 var pointName = source[i];
-                var pointNameGroup = StringHandler.Split(pointName);
+                var pointNameGroup = StringHandler.SplitEndWith(pointName);
                 int.TryParse(pointNameGroup[1], out int index);
                 var pointMeta = _pointMapping.GetPointMetaData(pointNameGroup[0]);
                 if (pointMeta != null)
@@ -279,14 +279,20 @@ namespace FreedomDriversV2
             byte[] result = null;
             List<string> strList = new List<string>();
             List<string> errorInfoList =new List<string>();
+            List<string> pointNames = new List<string>();
             if (source.Length % 2 == 0)
             {
                 for (int i = 0; i < source.Length; i += 2)
                 {
                     var pointName = source[i];
+                    pointNames.Add(pointName);
                     var pointValue = source[i + 1];
-                    var pointNameGroup = StringHandler.Split(pointName);
-                    int.TryParse(pointNameGroup[1], out int index);
+                    var pointNameGroup = StringHandler.SplitEndWith(pointName);
+                    int index = 0;
+                    if (pointNameGroup.Length > 1)
+                    {
+                        int.TryParse(pointNameGroup[1], out index);
+                    }
                     var pointMeta = _pointMapping.GetPointMetaData(pointNameGroup[0]);
 
                     if (pointMeta != null)
@@ -318,12 +324,19 @@ namespace FreedomDriversV2
                 {
                     errorInfo = string.Concat(errorInfo, "<", s, ">");
                 }
+
                 result = encoding.GetBytes(string.Concat(_headStr, funCodeStr, errorInfo, _endStr));
             }
             else
             {
                 string funCodeStr = "<12>";
-                result = encoding.GetBytes(string.Concat(_headStr, funCodeStr, _endStr));
+                string names = "";
+
+                foreach (var n in pointNames)
+                {
+                    names = string.Concat(names, "<", n, ">");
+                }
+                result = encoding.GetBytes(string.Concat(_headStr, funCodeStr, names, _endStr));
             }
             return result;
         }
@@ -338,8 +351,12 @@ namespace FreedomDriversV2
             for (int i = 0; i < source.Length; i++)
             {
                 var pointName = source[i];
-                var pointNameGroup = StringHandler.Split(pointName);
-                int.TryParse(pointNameGroup[1], out int index);
+                var pointNameGroup = StringHandler.SplitEndWith(pointName);
+                int index = 0;
+                if (pointNameGroup.Length > 1)
+                {
+                    int.TryParse(pointNameGroup[1], out index);
+                }
                 var pointMeta = _pointMapping.GetPointMetaData(pointNameGroup[0]);
 
                 if (pointMeta != null)

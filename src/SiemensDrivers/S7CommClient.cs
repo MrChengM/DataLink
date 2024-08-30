@@ -218,15 +218,21 @@ namespace SiemensDriver
       
         public bool DisConnect()
         {
-            if (IsConnect)
+            try
             {
-                _socket.Close();
-
+                _socket?.Shutdown(SocketShutdown.Both);
+                _socket?.Close(3000);
+                _socket = null;
+                 _isConnect = false;
+                return true;
             }
-            _socket?.Dispose();
-            _socket = null;
-            _isConnect = false;
-            return true;
+            catch (Exception ex)
+            {
+                Log.ErrorLog(Name + ":S7Comm DisConnect Error:" + ex.Message);
+                _socket = null;
+                _isConnect = false;
+                return false;
+            }
         }
 
         public void Dispose()
@@ -403,7 +409,7 @@ namespace SiemensDriver
         /// <param name="address"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        private byte[] readyBytes(DeviceAddress address,int length)
+        private byte[] readyBytes(DeviceAddress address, int length)
         {
             byte[] result = null;
             if (IsConnect)
@@ -412,46 +418,44 @@ namespace SiemensDriver
                 {
                     lock (_async)
                     {
-                        int times = 0;
-                        while (result == null && times < RetryTimes)
+                        _handler++;
+                        if (_handler > 65535)
+                            _handler = 0;
+                        byte[] sendBytes = createReadHeader(address, _handler, length);
+                        byte[] receiveBytes = new byte[25 + length];
+                        byte[] dataBytes = new byte[length];
+                        _log.DebugLog($"{Name}:Tx => 0x {NetConvert.GetHexString(sendBytes)}");
+                        try
                         {
-                            _handler++;
-                            if (_handler > 65535)
-                                _handler = 0;
-                            byte[] sendBytes = createReadHeader(address, _handler, length);
-                            byte[] receiveBytes = new byte[25 + length];
-                            byte[] dataBytes = new byte[length];
-                            _log.DebugLog($"{Name}:Tx => 0x {NetConvert.GetHexString(sendBytes)}");
-                            try
+                            _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
+
+                            //Thread.Sleep(10);
+                            int readNumber = 0;
+
+                            _socket.Receive(receiveBytes, 4, SocketFlags.None);
+                            _socket.Receive(receiveBytes, 4, receiveBytes[3] - 4, SocketFlags.None);
+                            readNumber = receiveBytes[3];
+
+                            //报文数据记录
+                            var logBytes = new byte[readNumber];
+                            Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
+                            _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(logBytes)}");
+
+                            if (readNumber == receiveBytes.Length)
                             {
-                                _socket.Send(sendBytes, sendBytes.Length, SocketFlags.None);
-
-                                //Thread.Sleep(10);
-                                int readNumber = 0;
-
-                                _socket.Receive(receiveBytes, 4, SocketFlags.None);
-                                _socket.Receive(receiveBytes, 4, receiveBytes[3] - 4, SocketFlags.None);
-                                readNumber = receiveBytes[3];
-
-                                //报文数据记录
-                                var logBytes = new byte[readNumber];
-                                Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
-                                _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(logBytes)}");
-
-                                if (readNumber == receiveBytes.Length)
-                                {
-                                    Array.Copy(receiveBytes, 25, dataBytes, 0, length);
-                                    result = dataBytes;
-                                }
-                                else
-                                {
-                                    _log.ErrorLog(Name + ": S7Comm read data error:" + Convert.ToString(receiveBytes));
-                                }
+                                Array.Copy(receiveBytes, 25, dataBytes, 0, length);
+                                result = dataBytes;
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Log.ErrorLog(string.Format("{0}: S7Comm {1} ",Name, ex.Message));
+                                _log.ErrorLog(Name + ": S7Comm read data error:" + Convert.ToString(receiveBytes));
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.ErrorLog(string.Format("{0}: S7Comm {1} ", Name, ex.Message));
+                            DisConnect();
+
                         }
                     }
                 }
@@ -583,7 +587,7 @@ namespace SiemensDriver
         }
         /// B[1] ~B[2]: 03 00 固定报文头；
         /// B[22]: FF 标识写入正常；
-        private int writedata(DeviceAddress deviceAddress,byte[] source)
+        private int writedata(DeviceAddress deviceAddress, byte[] source)
         {
             int result = -1;
 
@@ -591,45 +595,42 @@ namespace SiemensDriver
             {
                 if (deviceAddress.FuctionCode == 0x81 || deviceAddress.FuctionCode == 0x82 || deviceAddress.FuctionCode == 0x83 || deviceAddress.FuctionCode == 0x84)
                 {
-                    int times = 0;
-                    while (result != 1 && times < RetryTimes)
+                    try
                     {
-                        try
+                        byte[] receiveBytes = new byte[22];
+                        _log.DebugLog($"{Name}:Tx => 0x {NetConvert.GetHexString(source)}");
+                        _socket.Send(source, source.Length, SocketFlags.None);
+
+                        //Thread.Sleep(10);
+                        int readNumber = 0;
+
+                        _socket.Receive(receiveBytes, 4, SocketFlags.None);
+                        _socket.Receive(receiveBytes, 4, receiveBytes[3] - 4, SocketFlags.None);
+                        readNumber = receiveBytes[3];
+
+                        //报文数据记录
+                        var logBytes = new byte[readNumber];
+                        Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
+                        _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(logBytes)}");
+
+                        if (readNumber == receiveBytes.Length)
                         {
-                            byte[] receiveBytes = new byte[22];
-                            _log.DebugLog($"{Name}:Tx => 0x {NetConvert.GetHexString(source)}");
-                            _socket.Send(source, source.Length, SocketFlags.None);
-
-                            //Thread.Sleep(10);
-                            int readNumber = 0;
-
-                            _socket.Receive(receiveBytes, 4, SocketFlags.None);
-                            _socket.Receive(receiveBytes, 4, receiveBytes[3] - 4, SocketFlags.None);
-                            readNumber = receiveBytes[3];
-
-                            //报文数据记录
-                            var logBytes = new byte[readNumber];
-                            Array.Copy(receiveBytes, 0, logBytes, 0, readNumber);
-                            _log.DebugLog($"{Name}:Re <= 0x {NetConvert.GetHexString(logBytes)}");
-
-                            if (readNumber == receiveBytes.Length)
-                            {
-                                result = receiveBytes[21] == 0xFF ? 1 : -1;
-                            }
-                            else
-                            {
-                                //string byteSteamString = "";
-                                //foreach (byte bt in receiveBytes)
-                                //{
-                                //    byteSteamString += string.Format("{0:x2}", bt) + " ";
-                                //}
-                                _log.ErrorLog(Name + ":S7Comm write data error: receive byte " + NetConvert.GetHexString(receiveBytes));
-                            }
+                            result = receiveBytes[21] == 0xFF ? 1 : -1;
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Log.ErrorLog(Name + string.Format(":S7Comm {0} ", ex.Message));
+                            //string byteSteamString = "";
+                            //foreach (byte bt in receiveBytes)
+                            //{
+                            //    byteSteamString += string.Format("{0:x2}", bt) + " ";
+                            //}
+                            _log.ErrorLog(Name + ":S7Comm write data error: receive byte " + NetConvert.GetHexString(receiveBytes));
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.ErrorLog(Name + string.Format(":S7Comm {0} ", ex.Message));
+                        DisConnect();
                     }
                 }
                 else

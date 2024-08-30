@@ -6,31 +6,43 @@ using System.Threading.Tasks;
 using DataServer;
 using DataServer.Config;
 using DataServer.Points;
+using DataServer.Task;
 using TaskMgr.Factory;
+using Unity;
+
 namespace TaskMgr.Task
 {
     public class ServerTask : AbstractTask
     {
         private IServerDrivers _server;
         private IPointMapping _pointMapping;
-        private ServerItemConfig _serverConfig;
+        private ILog _log;
+        private ServerItemConfig serverConfig;
 
-        public ServerTask(ServerItemConfig serverConfig,IPointMapping pointMapping,ILog log)
+        public ServerItemConfig ServerConfig
         {
-            _taskName = serverConfig.Name;
+            get { return serverConfig; }
+            set { serverConfig = value; }
+        }
+     
+
+        [InjectionConstructor]
+        public ServerTask(IPointMapping pointMapping, ILog log)
+        {
             _initLevel = 4;
-            _serverConfig = serverConfig;
             _pointMapping = pointMapping;
             _log = log;
-            _server = ctreatServer(_serverConfig);
             _timeout = new TimeOut() { TimeOutSet = 1000 };
         }
         public override bool OnInit()
         {
+            _taskName = serverConfig.Name;
             _log.InfoLog($"{_taskName}: Init => Initing ");
+            _server = ctreatServer(serverConfig);
+
             if (_server != null && _server.Init())
             {
-                _server.RegisterMapping(_serverConfig.TagBindingList);
+                _server.RegisterMapping(serverConfig.TagBindingList);
                 _log.InfoLog($"{_taskName}: Initing=>Inited");
                 return true;
             }
@@ -42,7 +54,7 @@ namespace TaskMgr.Task
         }
         private IServerDrivers ctreatServer(ServerItemConfig serverItem)
         {
-            return new ServerFactory(_pointMapping,_log).CreateInstance(serverItem);
+            return new ServerFactory(_pointMapping, _log).CreateInstance(serverItem);
         }
         public override bool OnStart()
         {

@@ -1,6 +1,7 @@
 ﻿using DataServer.Config;
 using DataServer.Points;
 using DataServer.Alarm;
+using DataServer.Task;
 using System;
 using System.Timers;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ using System.Collections.Concurrent;
 using DataServer;
 using DBHandler_EF.Serivces;
 using Utillity.Data;
+using Unity;
+
 namespace TaskMgr.Task
 {
-    public class AlarmTask : AbstractTask
+    public class AlarmTask : AbstractTask,IAlarmTask
     {
         private IPointMapping _pointMapping;
         private AlarmsConfig _alarmsConfig;
@@ -23,38 +26,49 @@ namespace TaskMgr.Task
         private Dictionary<string,AlarmInstance> _alarmInstanceDic;
         private Dictionary<string, IPoint<bool>> _alarmPointDic;
         private List<string> _pointNames;
+        private ILog _log;
+
+        public AlarmsConfig AlarmsConfig { get { return _alarmsConfig; } set { _alarmsConfig = value; } }
 
         private Dictionary<string,AlarmPointCondition> _alarmPointConditionDic;
-
-        public AlarmTask(IPointMapping pointMapping,AlarmsConfig alarmsConfig,ILog log) 
+        public AlarmTask(IPointMapping pointMapping, IHisAlarmRecord hisAlarmRecord, ILog log)
         {
             _pointMapping = pointMapping;
-            _alarmsConfig = alarmsConfig;
+            _hisAlarmRecord = hisAlarmRecord;
             _log = log;
             _taskName = "AlarmServer";
             _initLevel = 4;
         }
+        //public AlarmTask(IPointMapping pointMapping,  ILog log)
+        //{
+        //    _pointMapping = pointMapping;
+        //    //_hisAlarmRecord = hisAlarmRecord;
+        //    _log = log;
+        //    _taskName = "AlarmServer";
+        //    _initLevel = 4;
+        //}
         public override bool OnInit()
         {
 
             bool result = false;
             _log.InfoLog($"{_taskName}: Init => Initing ");
-            try
-            {
-                int timeSpan = 30000;
-                _timeRecord = new Timer(timeSpan);
-                _timeRecord.Elapsed += _timeRecord_Elapsed; ;
-                _timeRecord.AutoReset = true;
-                InitAlarmDictionary();
-                _historyAlarmQueue = new ConcurrentQueue<HistoryAlarm>();
-                _hisAlarmRecord = new LogHistoryAlarmSerivce();
-                _log.InfoLog($"{_taskName}: Initing=>Inited");
-                result = true;
-            }
-            catch (Exception e)
-            {
-                _log.ErrorLog($"{_taskName}: Init error '{e.Message}'");
-            }
+            //try
+            //{
+            int timeSpan = 3000;
+            _timeRecord = new Timer(timeSpan);
+            _timeRecord.Elapsed += _timeRecord_Elapsed; ;
+            _timeRecord.AutoReset = true;
+
+            InitAlarmDictionary();
+            _historyAlarmQueue = new ConcurrentQueue<HistoryAlarm>();
+            //_hisAlarmRecord =new LogHistoryAlarmSerivce();
+            _log.InfoLog($"{_taskName}: Initing=>Inited");
+            result = true;
+            //}
+            //catch (Exception e)
+            //{
+            //    _log.ErrorLog($"{_taskName}: Init error '{e.Message}'");
+            //}
             return result;
         }
 
@@ -63,6 +77,7 @@ namespace TaskMgr.Task
             _alarmInstanceDic = new Dictionary<string, AlarmInstance>();
             _alarmPointDic = new Dictionary<string, IPoint<bool>>();
             _alarmPointConditionDic = new Dictionary<string, AlarmPointCondition>();
+            _pointNames = new List<string>();
             foreach (var alarmItem in _alarmsConfig.AlarmGroup)
             {
                 AlarmInstance alarmInstance = Convert(alarmItem.Value);
@@ -74,7 +89,7 @@ namespace TaskMgr.Task
                 _alarmPointDic.Add(alarmPoint.Name, alarmPoint);
 
 
-                var pointNameGroup = StringHandler.Split(alarmPoint.Name);
+                var pointNameGroup = StringHandler.SplitEndWith(alarmItem.Value.TagName);
                 string pointName;
                 int index;
                 if (pointNameGroup.Length > 1)
@@ -99,23 +114,53 @@ namespace TaskMgr.Task
 
         private void AlarmPoint_UpdataEvent(IPoint<bool> point, int index)
         {
-       
             if (_alarmInstanceDic.TryGetValue(point.Name, out AlarmInstance instance))
             {
                 if (point[0])
                 {
                     instance.IsEnable = true;
+                    instance.IsCheck = false;
+                    instance.Count++;
                     instance.AppearTime = DateTime.Now;
+                    AlarmStatusChangeEvent?.Invoke(instance, AlarmRefresh.Updata);
                 }
                 else
                 {
                     instance.IsEnable = false;
                     instance.EndTime = DateTime.Now;
+                    if (instance.ConfirmMode == ConfirmMode.Auto||instance.IsCheck)
+                    {
+                        instance.Count = 0;
+                        AlarmStatusChangeEvent?.Invoke(instance, AlarmRefresh.Remove);
+                    }
+                    else
+                    {
+                        AlarmStatusChangeEvent?.Invoke(instance, AlarmRefresh.Updata);
+                    }
                     _historyAlarmQueue.Enqueue(Convert(instance));
                 }
 
             }
         }
+        public void AlarmConfrim(string alarmName)
+        {
+            if (_alarmInstanceDic.ContainsKey(alarmName))
+            {
+                var instance = _alarmInstanceDic[alarmName];
+                instance.IsCheck = true;
+                if (instance.IsEnable)
+                {
+                    AlarmStatusChangeEvent?.Invoke(instance, AlarmRefresh.Updata);
+                }
+                else
+                {
+                    AlarmStatusChangeEvent?.Invoke(instance, AlarmRefresh.Remove);
+
+                }
+            }
+
+        }
+        public event Action<AlarmInstance, AlarmRefresh> AlarmStatusChangeEvent;
         HistoryAlarm Convert(AlarmInstance alarmInstance)
         {
             return new HistoryAlarm()
@@ -307,7 +352,6 @@ namespace TaskMgr.Task
                 }
             }
         }
-
         private void IntPoint_UpdataEvent(IPoint<int> point, int index)
         {
             var alarmConditions = from s in _alarmPointConditionDic
@@ -342,7 +386,6 @@ namespace TaskMgr.Task
                 }
             }
         }
-
         private void UshortPoint_UpdataEvent(IPoint<ushort> point, int index)
         {
             var alarmConditions = from s in _alarmPointConditionDic
@@ -377,7 +420,6 @@ namespace TaskMgr.Task
                 }
             }
         }
-
         private void ShortPoint_UpdataEvent(IPoint<short> point, int index)
         {
             var alarmConditions = from s in _alarmPointConditionDic
@@ -412,7 +454,6 @@ namespace TaskMgr.Task
                 }
             }
         }
-
         private void BytePoint_UpdataEvent(IPoint<byte> point, int index)
         {
             var alarmConditions = from s in _alarmPointConditionDic
@@ -447,7 +488,6 @@ namespace TaskMgr.Task
                 }
             }
         }
-
         private void BoolPoint_UpdataEvent(IPoint<bool> point, int index)
         {
             var alarmConditions = from s in _alarmPointConditionDic
@@ -482,7 +522,6 @@ namespace TaskMgr.Task
                 }
             }
         }
-
         private void _timeRecord_Elapsed(object sender, ElapsedEventArgs e)
         {
             var t = sender as Timer;
@@ -496,7 +535,6 @@ namespace TaskMgr.Task
             _hisAlarmRecord.Insert(historyAlarms);
             t.Start();
         }
-
         public override bool OnStart()
         {
             _log.InfoLog($"{_taskName}: Start=>Starting ");
@@ -526,7 +564,6 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Stopping=>Stopped");
             return true;
         }
-
         public override bool Restart()
         {
             _log.InfoLog($"{_taskName}: Restart => Restarting ");
@@ -550,11 +587,21 @@ namespace TaskMgr.Task
                 return false;
             }
         }
+        public List<AlarmInstance> GetExitAlarms()
+        {
+            var result = new List<AlarmInstance>();
+            foreach (var item in _alarmInstanceDic)
+            {
+                if (item.Value.Count > 0)
+                    result.Add(item.Value);
+            }
+            return result;
+        }
 
-
+       
     }
 
-    public class AlarmPointCondition
+    internal class AlarmPointCondition
     {
         public string Name  { get; set; }
 
@@ -566,4 +613,5 @@ namespace TaskMgr.Task
 
         public float ConditionValue { get; set; }
     }
+    
 }

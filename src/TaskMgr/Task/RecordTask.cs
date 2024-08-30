@@ -1,12 +1,15 @@
 ﻿using DataServer.Config;
 using DataServer.Points;
+using DataServer.Task;
 using System;
 using System.Collections.Generic;
-using System.Timers;
+using Timer=System.Timers;
 using DataServer;
 using DBHandler_EF.Serivces;
 using Utillity.Data;
 using System.Collections.Concurrent;
+using System.Threading;
+using Unity;
 
 namespace TaskMgr.Task
 {
@@ -14,9 +17,15 @@ namespace TaskMgr.Task
     {
         private IPointMapping _pointMapping;
         private RecordItemConfig _recordItemConfig;
-        private Timer _timeRecord;
+        private Timer.Timer _timeRecord;
         private ITagRecord _tagRecord;
-
+        private ILog _log;
+        [Dependency]
+        public ILog Log
+        {
+            get { return _log; }
+            set { _log = value; }
+        }
         public RecordTaskOnTime(IPointMapping pointMapping, RecordItemConfig recordItemConfig,ILog log)
         {
             _pointMapping = pointMapping;
@@ -31,7 +40,7 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Init => Initing ");
             try
             {
-                _timeRecord = new Timer(_recordItemConfig.TimeSpan);
+                _timeRecord = new Timer.Timer(_recordItemConfig.TimeSpan);
                 _timeRecord.Elapsed += _timeRecord_Elapsed; ;
                 _timeRecord.AutoReset = true;
                 _tagRecord = new LogTagSerivce();
@@ -50,18 +59,22 @@ namespace TaskMgr.Task
             _log.InfoLog($"{_taskName}: Start=>Starting ");
 
             _timeRecord.Start();
+            //_log.InfoLog($"{_taskName}: Time start: {DateTime.Now} ");
+
             _log.InfoLog($"{_taskName}: Starting=>Started ");
             return true;
         }
 
-        private void _timeRecord_Elapsed(object sender, ElapsedEventArgs e)
+        private void _timeRecord_Elapsed(object sender, Timer.ElapsedEventArgs e)
         {
-            var t = sender as Timer;
+            var t = sender as Timer.Timer;
+            //_log.InfoLog($"{_taskName}: _timeRecord_Elapsed inovke: {DateTime.Now} ");
+
             t.Stop();
             List<ITag> recordTags = new List<ITag>(); 
             foreach (var tagName in _recordItemConfig.TagNames)
             {
-                var pointNameGroup = StringHandler.Split(tagName);
+                var pointNameGroup = StringHandler.SplitEndWith(tagName);
                 if (pointNameGroup.Length > 1)
                 {
                     var pointName = pointNameGroup[0];
@@ -77,6 +90,8 @@ namespace TaskMgr.Task
                 }
             }
             _tagRecord.Insert(recordTags);
+            //_log.InfoLog($"{_taskName}: _timeRecord_Elapsed end: {DateTime.Now} ");
+
             t.Start();
         }
 
@@ -85,6 +100,7 @@ namespace TaskMgr.Task
         {
             _log.InfoLog($"{_taskName}: Stop=>Stopping");
             _timeRecord.Stop();
+            Thread.Sleep(3000);
             _log.InfoLog($"{_taskName}: Stopping=>Stopped");
             return true;
         }
@@ -117,11 +133,18 @@ namespace TaskMgr.Task
     {
         private IPointMapping _pointMapping;
         private RecordItemConfig _recordItemConfig;
-        private Timer _timeRecord;
+        private Timer.Timer _timeRecord;
         private ITagRecord _tagRecord;
         private ConcurrentQueue<ITag> _recoredTagsQueue;
         private List<string> _pointNames;
         private List<PointNameIndex> _pointNamesCollection;
+        private ILog _log;
+        [Dependency]
+        public ILog Log
+        {
+            get { return _log; }
+            set { _log = value; }
+        }
         public RecordTaskOnChange(IPointMapping pointMapping, RecordItemConfig recordItemConfig, ILog log)
         {
             _pointMapping = pointMapping;
@@ -141,7 +164,7 @@ namespace TaskMgr.Task
                 {
                     timeSpan = _recordItemConfig.TimeSpan;
                 }
-                _timeRecord = new Timer(timeSpan);
+                _timeRecord = new Timer.Timer(timeSpan);
                 _timeRecord.Elapsed += _timeRecord_Elapsed; ;
                 _timeRecord.AutoReset = true;
                 _recoredTagsQueue = new ConcurrentQueue<ITag>();
@@ -164,6 +187,8 @@ namespace TaskMgr.Task
             subscribePoint();
             _timeRecord.Start();
             _log.InfoLog($"{_taskName}: Starting=>Started ");
+            //_log.InfoLog($"{_taskName}: Time start: {DateTime.Now} ");
+
             return true;
         }
 
@@ -171,7 +196,7 @@ namespace TaskMgr.Task
         {
             foreach (var tagName in _recordItemConfig.TagNames)
             {
-                var pointNameGroup = StringHandler.Split(tagName);
+                var pointNameGroup = StringHandler.SplitEndWith(tagName);
                 string pointName;
                 int index;
                 if (pointNameGroup.Length > 1)
@@ -426,9 +451,11 @@ namespace TaskMgr.Task
             }
         }
 
-        private void _timeRecord_Elapsed(object sender, ElapsedEventArgs e)
+        private void _timeRecord_Elapsed(object sender, Timer.ElapsedEventArgs e)
         {
-            var t = sender as Timer;
+            _log.InfoLog($"{_taskName}: _timeRecord_Elapsed inovke : {DateTime.Now} ");
+
+            var t = sender as Timer.Timer;
             t.Stop();
             List<ITag> recordTags = new List<ITag>();
             while (!_recoredTagsQueue.IsEmpty)
@@ -437,6 +464,8 @@ namespace TaskMgr.Task
                 recordTags.Add(tag);
             }
             _tagRecord.Insert(recordTags);
+            _log.InfoLog($"{_taskName}: _timeRecord_Elapsed  end: {DateTime.Now} ");
+
             t.Start();
         }
 

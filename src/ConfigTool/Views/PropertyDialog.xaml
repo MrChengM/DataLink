@@ -17,8 +17,8 @@
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="550*"/>
         </Grid.ColumnDefinitions>
-                <GroupBox Header="Property Options" Grid.Row="0" Grid.Column="0">
-                    <ListBox x:Name="OptionLiBox"  FontSize="18" FontFamily="宋体" FontWeight="Bold" BorderThickness="0" ItemsSource="{Binding OptionItems}"  SelectionMode="Single"  SelectedIndex="0">
+                <GroupBox Header="Property Options" Grid.Row="0" Grid.Column="0" >
+            <ListBox x:Name="OptionLiBox"  FontSize="18" FontFamily="宋体" FontWeight="Bold" BorderThickness="0" ItemsSource="{Binding OptionItems}"  SelectionMode="Single"  SelectedIndex="0"  IsEnabled="{Binding IsEnable}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Padding="0" Margin="0" Text="{Binding Content}" Width="{Binding ElementName=OptionLiBox, Path=Width}">
@@ -37,7 +37,7 @@
         </Border>
         <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" TextBlock.FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                <Button Content="OK" Margin="10,0,10,0" Width="100" Command="{Binding CloseDialogCommand}" CommandParameter="OK"/>
+                <Button Content="OK" Margin="10,0,10,0" Width="100" Command="{Binding CloseDialogCommand}" CommandParameter="OK" IsEnabled="{Binding IsEnable}"/>
                 <Button Content="Cancel" Margin="10,0,10,0" Width="100" Command="{Binding CloseDialogCommand}" CommandParameter="Cancel"/>
             </StackPanel>
         </Border>

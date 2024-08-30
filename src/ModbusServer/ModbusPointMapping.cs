@@ -137,39 +137,42 @@ namespace ModbusServer
                  if (pointMeta.ValueType == DataType.Short)
                 {
 
-                    IPoint<short> shortPoint = _pointMapping.GetShortPoint(key);
+                    IPoint<short> shortPoint = _pointMapping.GetShortPoint(pointMeta.Name);
                     result = pointIndex.Index > -1
-                        ? UnsafeNetConvert.ShortToBytes( shortPoint[pointIndex.Index],ByteOrder.BigEndian)
-                        : UnsafeNetConvert.ShortsToBytes(shortPoint.GetValues(), ByteOrder.BigEndian);
+                        ? UnsafeNetConvert.ShortToBytes( shortPoint[pointIndex.Index],ByteOrder.None)
+                        : UnsafeNetConvert.ShortsToBytes(shortPoint.GetValues(), ByteOrder.None);
                 }
                 else if (pointMeta.ValueType == DataType.UShort)
                 {
-                    IPoint<ushort> ushortPoint = _pointMapping.GetUShortPoint(key);
+                    IPoint<ushort> ushortPoint = _pointMapping.GetUShortPoint(pointMeta.Name);
                     result = pointIndex.Index > -1
-                        ? UnsafeNetConvert.UShortToBytes(ushortPoint[pointIndex.Index], ByteOrder.BigEndian)
-                        : UnsafeNetConvert.UShortsToBytes(ushortPoint.GetValues(), ByteOrder.BigEndian);
+                        ? UnsafeNetConvert.UShortToBytes(ushortPoint[pointIndex.Index], ByteOrder.None)
+                        : UnsafeNetConvert.UShortsToBytes(ushortPoint.GetValues(), ByteOrder.None);
                 }
                 else if (pointMeta.ValueType == DataType.Int)
                 {
 
-                    IPoint<int> intPoint = _pointMapping.GetIntPoint(key);
+                    IPoint<int> intPoint = _pointMapping.GetIntPoint(pointMeta.Name);
                     result = pointIndex.Index > -1
-                        ? UnsafeNetConvert.IntToBytes(intPoint[pointIndex.Index], ByteOrder.BigEndian)
-                        : UnsafeNetConvert.IntsToBytes(intPoint.GetValues(), ByteOrder.BigEndian);
+                        ? UnsafeNetConvert.IntToBytes(intPoint[pointIndex.Index], ByteOrder.None)
+                        : UnsafeNetConvert.IntsToBytes(intPoint.GetValues(), ByteOrder.None);
+                    result = UnsafeNetConvert.BytesPerversion(result);
                 }
                 else if (pointMeta.ValueType == DataType.UInt)
                 {
-                    IPoint<uint> uintPoint = _pointMapping.GetUIntPoint(key);
+                    IPoint<uint> uintPoint = _pointMapping.GetUIntPoint(pointMeta.Name);
                     result = pointIndex.Index > -1
-                        ? UnsafeNetConvert.UIntToBytes(uintPoint[pointIndex.Index], ByteOrder.BigEndian)
-                        : UnsafeNetConvert.UIntsToBytes(uintPoint.GetValues(), ByteOrder.BigEndian);
+                        ? UnsafeNetConvert.UIntToBytes(uintPoint[pointIndex.Index], ByteOrder.None)
+                        : UnsafeNetConvert.UIntsToBytes(uintPoint.GetValues(), ByteOrder.None);
+                    result = UnsafeNetConvert.BytesPerversion(result);
                 }
                 else if (pointMeta.ValueType == DataType.Float)
                 {
-                    IPoint<float> floatPoint = _pointMapping.GetFloatPoint(key);
+                    IPoint<float> floatPoint = _pointMapping.GetFloatPoint(pointMeta.Name);
                     result = pointIndex.Index > -1
-                        ? UnsafeNetConvert.FloatToBytes(floatPoint[pointIndex.Index], ByteOrder.BigEndian)
-                        : UnsafeNetConvert.FloatsToBytes(floatPoint.GetValues(), ByteOrder.BigEndian);
+                        ? UnsafeNetConvert.FloatToBytes(floatPoint[pointIndex.Index], ByteOrder.None)
+                        : UnsafeNetConvert.FloatsToBytes(floatPoint.GetValues(), ByteOrder.None);
+                    result = UnsafeNetConvert.BytesPerversion(result);
                 }
                 else
                 {

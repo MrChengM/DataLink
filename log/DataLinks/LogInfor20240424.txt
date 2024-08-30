@@ -1,0 +1,84 @@
+2024-04-24 16:45:56,409 INFO  DataLinksLogger Channel1: Init => Initing   
+2024-04-24 16:45:56,429 INFO  DataLinksLogger Channel1: Initing=>Inited  
+2024-04-24 16:45:56,430 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-24 16:45:56,434 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-24 16:45:56,484 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-04-24 16:45:56,487 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-04-24 16:45:56,488 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-24 16:45:56,488 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-24 16:45:56,489 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-24 16:45:56,513 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-24 16:45:56,513 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-24 16:45:56,514 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-24 16:45:56,514 INFO  DataLinksLogger Channel1: Start=>Starting   
+2024-04-24 16:45:56,551 INFO  DataLinksLogger Channel1: Start Failed   
+2024-04-24 16:48:39,404 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-24 16:48:39,434 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-24 16:48:39,446 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-04-24 16:48:39,451 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-04-24 16:48:39,452 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-24 16:48:39,452 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-24 16:48:39,452 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-24 16:48:39,478 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-24 16:48:39,478 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-24 16:48:39,479 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-24 16:48:39,480 INFO  DataLinksLogger Channel2: Start => Starting   
+2024-04-24 16:48:39,481 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2024-04-24 16:48:41,538 INFO  DataLinksLogger Channel2.Device1 :Start Failed   
+2024-04-24 16:48:41,539 INFO  DataLinksLogger Channel2: Start Failed  
+2024-04-24 16:52:27,293 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-24 16:52:27,318 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-24 16:52:27,328 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-04-24 16:52:27,333 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-04-24 16:52:27,334 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-24 16:52:27,334 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-24 16:52:27,334 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-24 16:52:27,356 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-24 16:52:27,356 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-24 16:52:27,357 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-24 16:52:27,358 INFO  DataLinksLogger Channel2: Start => Starting   
+2024-04-24 16:52:27,358 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2024-04-24 16:52:27,361 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2024-04-24 16:52:27,361 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2024-04-24 16:52:27,362 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2024-04-24 16:52:27,362 INFO  DataLinksLogger Record01: Start=>Starting   
+2024-04-24 16:52:27,363 INFO  DataLinksLogger Record01: Starting=>Started   
+2024-04-24 16:52:27,363 INFO  DataLinksLogger Server01: Start=>Starting   
+2024-04-24 16:52:27,364 INFO  DataLinksLogger Server01: Starting=>Started   
+2024-04-24 16:52:27,364 INFO  DataLinksLogger Server02: Start=>Starting   
+2024-04-24 16:52:27,364 INFO  DataLinksLogger Server02: Starting=>Started   
+2024-04-24 16:52:27,664 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:61011  
+2024-04-24 16:52:34,246 INFO  DataLinksLogger Server02 Disconnect information,ID:0 , IPAdderss:127.0.0.1:61011  
+2024-04-24 16:52:55,486 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:1 , IPAdderss:127.0.0.1:61023  
+2024-04-24 16:52:59,267 INFO  DataLinksLogger Server02 Disconnect information,ID:1 , IPAdderss:127.0.0.1:61023  
+2024-04-24 16:53:34,698 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:2 , IPAdderss:127.0.0.1:61043  
+2024-04-24 16:53:38,482 INFO  DataLinksLogger Server02 Disconnect information,ID:2 , IPAdderss:127.0.0.1:61043  
+2024-04-24 16:54:06,276 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:3 , IPAdderss:127.0.0.1:61064  
+2024-04-24 16:54:09,815 INFO  DataLinksLogger Server02 Disconnect information,ID:3 , IPAdderss:127.0.0.1:61064  
+2024-04-24 16:54:25,034 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:4 , IPAdderss:127.0.0.1:61070  
+2024-04-24 16:54:28,510 INFO  DataLinksLogger Server02 Disconnect information,ID:4 , IPAdderss:127.0.0.1:61070  
+2024-04-24 16:54:33,941 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:5 , IPAdderss:127.0.0.1:61079  
+2024-04-24 16:54:37,429 INFO  DataLinksLogger Server02 Disconnect information,ID:5 , IPAdderss:127.0.0.1:61079  
+2024-04-24 16:57:10,866 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-04-24 16:57:10,902 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-04-24 16:57:10,917 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-04-24 16:57:10,922 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-04-24 16:57:10,922 INFO  DataLinksLogger Record01: Init => Initing   
+2024-04-24 16:57:10,922 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-04-24 16:57:10,923 INFO  DataLinksLogger Server01: Init => Initing   
+2024-04-24 16:57:10,953 INFO  DataLinksLogger Server01: Initing=>Inited  
+2024-04-24 16:57:10,953 INFO  DataLinksLogger Server02: Init => Initing   
+2024-04-24 16:57:10,954 INFO  DataLinksLogger Server02: Initing=>Inited  
+2024-04-24 16:57:10,955 INFO  DataLinksLogger Channel2: Start => Starting   
+2024-04-24 16:57:10,955 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2024-04-24 16:57:10,960 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2024-04-24 16:57:10,960 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2024-04-24 16:57:10,963 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2024-04-24 16:57:10,964 INFO  DataLinksLogger Record01: Start=>Starting   
+2024-04-24 16:57:10,964 INFO  DataLinksLogger Record01: Starting=>Started   
+2024-04-24 16:57:10,964 INFO  DataLinksLogger Server01: Start=>Starting   
+2024-04-24 16:57:10,966 INFO  DataLinksLogger Server01: Starting=>Started   
+2024-04-24 16:57:10,966 INFO  DataLinksLogger Server02: Start=>Starting   
+2024-04-24 16:57:10,967 INFO  DataLinksLogger Server02: Starting=>Started   
+2024-04-24 16:57:17,662 INFO  DataLinksLogger Server02 connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:61162  
+2024-04-24 16:57:21,340 INFO  DataLinksLogger Server02 Disconnect information,ID:0 , IPAdderss:127.0.0.1:61162  

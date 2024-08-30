@@ -17,6 +17,12 @@
     </UserControl.Resources>
     <Grid>
         <TreeView Name="MainTreeView" HorizontalAlignment="Left" VerticalAlignment="Top"  ItemsSource="{Binding Items}" Margin="0" BorderThickness="0" >
+            <TreeView.Resources>
+                <Style TargetType="TreeViewItem" BasedOn="{StaticResource MaterialDesignTreeViewItem}">
+                    <Setter Property="materialDesign:TreeViewAssist.ExpanderSize" Value="18" />
+                    <Setter Property="materialDesign:TreeViewAssist.ShowSelection" Value="False" />
+                </Style>
+            </TreeView.Resources>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}">
                     <StackPanel x:Name="ItemStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" TextElement.FontSize="16" >
@@ -33,7 +39,7 @@
                             </I:EventTrigger>
                         </I:Interaction.Triggers>
                         <StackPanel.ContextMenu >
-                            <ContextMenu DataContext="{Binding Data,Source={StaticResource TreeBindingProxy}}" Style="{StaticResource MaterialDesignMenu}" materialDesign:MenuAssist.TopLevelMenuItemHeight="10" Background="{StaticResource PrimaryHueLightBrush}">
+                            <ContextMenu DataContext="{Binding Data,Source={StaticResource TreeBindingProxy}}" Style="{StaticResource MaterialDesignContextMenu}" materialDesign:MenuAssist.TopLevelMenuItemHeight="10" Background="{DynamicResource MaterialDesignPaper }">
                                 <MenuItem Name="NewNodeMeItem" Header="{Binding NewNodeName }"  Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext.MenuNewNodeVbt}" Command="{Binding AddNodeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.DataContext}" >
                                 <MenuItem.Icon>
                                         <Path Data="{Binding NewNodeIcon }" Stroke="Black" StrokeThickness="1" Stretch="Uniform" Width="18" Height="18" ></Path>

@@ -12,16 +12,19 @@ using DataServer.Config;
 using System.Collections.ObjectModel;
 using ConfigTool.Models;
 using ConfigTool.Service;
+using Utillity.Data;
+using System.ComponentModel;
 
 namespace ConfigTool.ViewModels
 {
-    public class ChannelGeneralViewModel : BindableBase, INavigationAware
+    public class ChannelGeneralViewModel : BindableBase, INavigationAware, IDataErrorInfo
     {
         private IEventAggregator _ea;
         private ChannelConfig _config;
         private IConfigDataServer _configDataServer;
 
-        private string name = "Channel1";
+        private string name;
+        
 
         public string Name
         {
@@ -70,13 +73,79 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref scanTime, value, "ScanTime"); }
         }
 
-        private bool buildMode;
+        private bool buildMode ;
 
         public bool BuildMode
         {
             get { return buildMode; }
             set { SetProperty(ref buildMode, value, "BuildMode"); }
         }
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "Name")
+                {
+
+                    if (string.IsNullOrEmpty(Name))
+                    {
+                        result = "Channel Name can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(Name.ToString()))
+                    {
+                        result = "Channel Name include special character !";
+                    }
+                    else if (_configDataServer.IsExit_Channel(Name) && BuildMode)
+                    {
+                        result = "Channel Name is Exit! ";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "DriverInfo")
+                {
+                    if (string.IsNullOrEmpty(DriverInfo))
+                    {
+                        result = "DriverInfo can not null or empty !";
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                else if (columnName == "ScanTime")
+                {
+                    if (ScanTime < 0)
+                    {
+                        result = "ScanTime can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[2] = result;
+                }
+                judgeHasError();
+                return result;
+            }
+        
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
+
+
         private bool isFristIn = true;
         public ChannelGeneralViewModel(IEventAggregator eventAggregator,IConfigDataServer configDataServer)
         {
@@ -97,6 +166,7 @@ namespace ConfigTool.ViewModels
             {
                 if (BuildMode)
                 {
+
                     _config.Name = Name;
                     _config.DriverInformation = _configDataServer.GetDriverInfo(driverInfo);
                 }

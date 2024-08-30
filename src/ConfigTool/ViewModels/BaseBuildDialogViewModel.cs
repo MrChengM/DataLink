@@ -25,14 +25,14 @@ namespace ConfigTool.ViewModels
         //private DeviceConfig _deviceConfig;
         //private TagGroupConfig _tagGroupConfig;
         private IBuildViewDespatcher _viewDespatcher;
-
+        
         private IEventAggregator _ea;
         //private IConfigDataServer _configDataServer;
 
         NavigationParameters _np;
         private const int PAGENUMBERMAX = 2;
 
-
+        private bool _hasError = false;
         private int pageNumber=1;
         public int PageNumber
         {
@@ -40,30 +40,41 @@ namespace ConfigTool.ViewModels
             set 
             {
                 SetProperty(ref pageNumber, value,
-                    ()=> 
-                    {
-                        if (pageNumber == 1)
-                        {
-                            PreviousEnable = false;
-                            NextEnable = true;
-                            ConfirmEnable = false;
-                        }
-                        else if (pageNumber == _viewDespatcher.MaxPageNumber)
-                        {
-                            PreviousEnable = true;
-                            NextEnable = false;
-                            ConfirmEnable = true;
-                        }
-                        else
-                        {
-                            PreviousEnable = true;
-                            NextEnable = true;
-                            ConfirmEnable = false;
-                        }
-                    });
+                    updataButtonEnable);
             }
         }
 
+        void updataButtonEnable()
+        {
+            if (_viewDespatcher.MaxPageNumber > 1)
+            {
+                if (pageNumber == 1)
+                {
+                    PreviousEnable = false && !_hasError;
+                    NextEnable = true && !_hasError;
+                    ConfirmEnable = false && !_hasError;
+                }
+                else if (pageNumber == _viewDespatcher.MaxPageNumber)
+                {
+                    PreviousEnable = true && !_hasError;
+                    NextEnable = false && !_hasError;
+                    ConfirmEnable = true && !_hasError;
+                }
+                else
+                {
+                    PreviousEnable = true && !_hasError;
+                    NextEnable = true && !_hasError;
+                    ConfirmEnable = false && !_hasError;
+                }
+            }
+            else
+            {
+                PreviousEnable = false && !_hasError;
+                NextEnable = false && !_hasError;
+                ConfirmEnable = true && !_hasError;
+            }
+            
+        }
 
         #region Property
         private string _title = "Add Channel Wizard";
@@ -138,11 +149,17 @@ namespace ConfigTool.ViewModels
         public BaseBuildDialogViewModel(IEventAggregator eventAggregator)
         {
             _ea = eventAggregator;
-
+            _ea.GetEvent<PubSubEvent<bool>>().Subscribe(getHasError);
             closeDialogCommand = new DelegateCommand<string>(closeDialog);
             navigatePageCommand = new DelegateCommand<string>(navigatePage);
             _np = new NavigationParameters();
 
+        }
+
+        private void getHasError(bool hasError)
+        {
+            _hasError = hasError;
+            updataButtonEnable();
         }
 
         private void navigatePage(string param)
@@ -166,7 +183,7 @@ namespace ConfigTool.ViewModels
             }
             else if (param.ToLower() == "next")
             {
-                if (PageNumber < PAGENUMBERMAX)
+                if (PageNumber < _viewDespatcher.MaxPageNumber)
                 {
                     PageNumber++;
                     if (!_viewDespatcher.Navigate(PageNumber,out content))
@@ -191,9 +208,9 @@ namespace ConfigTool.ViewModels
                 _ea.GetEvent<ButtonConfrimEvent>().Publish(result);
                 if (!_viewDespatcher.AddConfig())
                 {
-                    MessageBox.Show("添加配置节点失败，请检查名称参数是否重复！");
+                    MessageBox.Show("Add Config error");
                     return;
-                }
+                };
             }
             else if (parameter?.ToLower() == "cancel")
             {
@@ -214,6 +231,8 @@ namespace ConfigTool.ViewModels
         public void OnDialogClosed()
         {
             _ea.GetEvent<ButtonConfrimEvent>().Clear();
+            _ea.GetEvent<PubSubEvent<bool>>().Unsubscribe(getHasError);
+
             //RequestClose?.Invoke(default(IDialogResult));
         }
         public void OnDialogOpened(IDialogParameters parameters)
@@ -227,12 +246,8 @@ namespace ConfigTool.ViewModels
                     PageNumber = number;
                     GroupBoxHeader = content;
                 }
-                if (_viewDespatcher.MaxPageNumber <= 1)
-                {
-                    PreviousEnable = false;
-                    NextEnable = false;
-                    ConfirmEnable = true;
-                }
+                updataButtonEnable();
+
             }
         }
         #endregion

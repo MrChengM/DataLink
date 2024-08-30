@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataServer;
 using DataServer.Alarm;
-using DBM= DBHandler_EF.Modules;
+using DBHandler_EF.Modules;
 
 namespace DBHandler_EF.Serivces
 {
@@ -14,7 +14,7 @@ namespace DBHandler_EF.Serivces
         public int Delete(string alarmName)
         {
             int result;
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 var hisAlarms= from a in hisContent.HistoryAlarms
                                        where a.AlarmName == alarmName
@@ -28,7 +28,7 @@ namespace DBHandler_EF.Serivces
         public int Delete(string alarmName, DateTime startTime, DateTime endTime)
         {
             int result;
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 var hisAlarms = from a in hisContent.HistoryAlarms
                                 where a.AlarmName == alarmName && a.AppearTime > startTime && a.EndTime < endTime
@@ -42,7 +42,7 @@ namespace DBHandler_EF.Serivces
         public int Insert(HistoryAlarm historyAlarm)
         {
             int result;
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 hisContent.HistoryAlarms.Add(Convert(historyAlarm));
                 result = hisContent.SaveChanges();
@@ -53,7 +53,7 @@ namespace DBHandler_EF.Serivces
         public int Insert(List<HistoryAlarm> historyAlarms)
         {
             int result;
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 foreach (var historyAlarm in historyAlarms)
                 {
@@ -67,7 +67,7 @@ namespace DBHandler_EF.Serivces
         public List<HistoryAlarm> Select(string alarmName)
         {
             List<HistoryAlarm> result =new List<HistoryAlarm>();
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 var hisAlarms = from a in hisContent.HistoryAlarms
                                 where a.AlarmName == alarmName 
@@ -83,7 +83,7 @@ namespace DBHandler_EF.Serivces
         public List<HistoryAlarm> Select(string alarmName, DateTime startTime, DateTime endTime)
         {
             List<HistoryAlarm> result = new List<HistoryAlarm>();
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 var hisAlarms = from a in hisContent.HistoryAlarms
                                 where a.AlarmName == alarmName && a.AppearTime > startTime && a.EndTime < endTime
@@ -99,7 +99,7 @@ namespace DBHandler_EF.Serivces
         public List<HistoryAlarm> Select(DateTime startTime, DateTime endTime)
         {
             List<HistoryAlarm> result = new List<HistoryAlarm>();
-            using (var hisContent = new DBM.DataLinkContent())
+            using (var hisContent = new LogContent())
             {
                 var hisAlarms = from a in hisContent.HistoryAlarms
                                 where a.AppearTime > startTime && a.EndTime < endTime
@@ -111,8 +111,27 @@ namespace DBHandler_EF.Serivces
             }
             return result;
         }
-
-        public HistoryAlarm Convert(DBM.HistoryAlarm dhistoryAlarm)
+        public List<HistoryAlarm> Select(HistoryAlarmSelectCondition selectCondition)
+        {
+            List<HistoryAlarm> result = new List<HistoryAlarm>();
+            using (var hisContent = new LogContent())
+            {
+                var hisAlarms = from a in hisContent.HistoryAlarms
+                                where (selectCondition.AlarmName == null || a.AlarmName == selectCondition.AlarmName) &&
+                                (selectCondition.AlarmGroup == null || a.AlarmGroup == selectCondition.AlarmGroup) &&
+                                (selectCondition.AlarmLevel == "All" || ((AlarmType)a.AlarmLevel).ToString() == selectCondition.AlarmLevel) &&
+                                (selectCondition.L1View == null || a.L1View == selectCondition.L1View) &&
+                                (selectCondition.L2View == null || a.L2View == selectCondition.L2View) &&
+                                a.AppearTime > selectCondition.StartDate && a.EndTime < selectCondition.EndDate
+                                select a;
+                foreach (var hisAlarm in hisAlarms)
+                {
+                    result.Add(Convert(hisAlarm));
+                }
+            }
+            return result;
+        }
+        public HistoryAlarm Convert(LogHistoryAlarm dhistoryAlarm)
         {
             return new HistoryAlarm()
             {
@@ -129,9 +148,9 @@ namespace DBHandler_EF.Serivces
 
             };
         }
-        public DBM.HistoryAlarm Convert(HistoryAlarm historyAlarm)
+        public LogHistoryAlarm Convert(HistoryAlarm historyAlarm)
         {
-            return new DBM.HistoryAlarm()
+            return new LogHistoryAlarm()
             {
                 AlarmName = historyAlarm.Name,
                 PartName = historyAlarm.PartName,
@@ -146,5 +165,7 @@ namespace DBHandler_EF.Serivces
 
             };
         }
+
+    
     }
 }

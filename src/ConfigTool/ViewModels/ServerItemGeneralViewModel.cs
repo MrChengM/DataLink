@@ -13,23 +13,24 @@ using System.Collections.ObjectModel;
 using ConfigTool.Models;
 using ConfigTool.Service;
 using DataServer;
+using System.ComponentModel;
+using Utillity.Data;
+
 namespace ConfigTool.ViewModels
 {
-    class ServerItemGeneralViewModel : BindableBase, INavigationAware
+    class ServerItemGeneralViewModel : BindableBase, INavigationAware,IDataErrorInfo
     {
         private IEventAggregator _ea;
         private ServerItemConfig _config;
         private IConfigDataServer _configDataServer;
 
-        private string name="Server01";
+        private string name;
 
         public string Name
         {
             get { return name; }
             set { SetProperty(ref name, value, "Name"); }
         }
-
-
         private int id = 1;
 
         public int ID
@@ -38,7 +39,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref id, value, "ID"); }
         }
 
-        private int timeOut;
+        private int timeOut = 1000;
 
         public int TimeOut
         {
@@ -46,7 +47,7 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref timeOut, value, "TimeOut"); }
         }
 
-        private int maxConnect;
+        private int maxConnect = 100;
 
         public int MaxConnect
         {
@@ -87,6 +88,71 @@ namespace ConfigTool.ViewModels
         }
 
         private bool isFristIn = true;
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "Name")
+                {
+
+                    if (string.IsNullOrEmpty(Name))
+                    {
+                        result = "Server Name can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(Name.ToString()))
+                    {
+                        result = "Server Name include special character !";
+                    }
+                    else if (_configDataServer.IsExit_ServerItem(Name) && BuildMode)
+                    {
+                        result = "Server Name is Exit! ";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "TimeOut")
+                {
+                    if (TimeOut < 0)
+                    {
+                        result = "Value can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                else if (columnName == "MaxConnect")
+                {
+                    if (MaxConnect < 1)
+                    {
+                        result = "Value can not less than 0 !";
+
+                    }
+                    errorMsgBuffer[2] = result;
+                }
+                judgeHasError();
+                return result;
+            }
+
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
 
         public ServerItemGeneralViewModel(IEventAggregator eventAggregator, IConfigDataServer configDataServer)
         {

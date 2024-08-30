@@ -27,7 +27,15 @@ namespace ConfigTool.ViewModels
         public string CurrentScalingType
         {
             get { return currentScalingType; }
-            set { SetProperty(ref currentScalingType, value, "CurrentScalingType"); }
+            set { SetProperty(ref currentScalingType, value,
+                () =>
+                {
+                    if (value == "None")
+                        IsEnable = false;
+                    else
+                        IsEnable = true;
+                }
+            , "CurrentScalingType"); }
         }
 
         private List<string> scalingTypes;
@@ -36,6 +44,14 @@ namespace ConfigTool.ViewModels
         {
             get { return scalingTypes; }
             set { SetProperty(ref scalingTypes, value, "ScalingTypes"); }
+        }
+
+        private bool isEnable;
+
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set { SetProperty(ref isEnable, value, "IsEnable"); }
         }
 
         private bool buildMode;

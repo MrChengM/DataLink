@@ -14,7 +14,7 @@ namespace DBHandler_EF.Serivces
         public int Delete(ITag tag)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 var ltag = tagContext.LogTags.FirstOrDefault(s => s.PointName == tag.Name && s.TimeStamp == tag.TimeStamp && s.Value == tag.Value);
                 tagContext.LogTags.Remove(ltag);
@@ -26,7 +26,7 @@ namespace DBHandler_EF.Serivces
         public int Delete(List<ITag> tags)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 foreach (var tag in tags)
                 {
@@ -40,7 +40,7 @@ namespace DBHandler_EF.Serivces
         public int Delete(string pointName)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
 
                 var ltags = from t in tagContext.LogTags
@@ -55,7 +55,7 @@ namespace DBHandler_EF.Serivces
         public int Delete(string pointName, DateTime stratTime, DateTime endTime)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
 
                 var ltags = from t in tagContext.LogTags
@@ -70,7 +70,7 @@ namespace DBHandler_EF.Serivces
         public int Insert(ITag tag)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 var ltag = Convert(tag);
                 tagContext.LogTags.Add(ltag);
@@ -83,7 +83,7 @@ namespace DBHandler_EF.Serivces
         {
 
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 List<LogTag> ltags = new List<LogTag>();
                 foreach (var tag in tags)
@@ -100,7 +100,7 @@ namespace DBHandler_EF.Serivces
         public List<ITag> Select(string pointName)
         {
             List<ITag> result = new List<ITag>();
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 var ltags = from t in tagContext.LogTags
                             where t.PointName == pointName
@@ -116,7 +116,7 @@ namespace DBHandler_EF.Serivces
         public List<ITag> Select(string pointName, DateTime startTime, DateTime endTime)
         {
             List<ITag> result = new List<ITag>();
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 var ltags = from t in tagContext.LogTags
                             where t.PointName == pointName && t.TimeStamp > startTime && t.TimeStamp < endTime
@@ -131,7 +131,7 @@ namespace DBHandler_EF.Serivces
         public int Updata(ITag tag)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 var ltag = tagContext.LogTags.FirstOrDefault(s => s.PointName == tag.Name);
                 ltag.Value = tag.Value;
@@ -147,7 +147,7 @@ namespace DBHandler_EF.Serivces
         public int Updata(List<ITag> tags)
         {
             int result;
-            using (var tagContext = new DataLinkContent())
+            using (var tagContext = new LogContent())
             {
                 foreach (var tag in tags)
                 {

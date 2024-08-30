@@ -1,0 +1,13 @@
+2024-07-17 10:21:37,496 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 10:22:18,044 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 10:47:42,404 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 10:57:45,954 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 11:01:12,553 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 11:02:14,280 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 11:04:01,281 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 11:05:00,155 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 11:18:29,791 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 16:43:02,830 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 17:01:05,749 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 17:12:18,074 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  
+2024-07-17 17:14:41,158 INFO  GuiBaseLogger AlarmService: connect to http://localhost:8080 succefully!  

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,8 @@ namespace DriverLibrary
     {
         static void Main(string[] args)
         {
-            TaskMagr.Main(args);
+            
+            TaskMagr.Main(args, "DataLinksLogger");
             Console.ReadLine();
         }
     }

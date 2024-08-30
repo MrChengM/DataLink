@@ -1,14 +1,22 @@
-﻿using DataServer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskMgr.Task;
+using TaskMgr.Factory;
+using DataServer;
 using DataServer.Config;
 using DataServer.Points;
-using TaskMgr.Factory;
+using DataServer.Permission;
+using DataServer.Task;
+using DataServer.Alarm;
+using Unity;
+using SignalRSelfHost;
+using DBHandler_EF.Serivces;
 using WCFRestFullAPI.Service;
+
+
 
 namespace TaskMgr
 {
@@ -18,15 +26,17 @@ namespace TaskMgr
         private List<AbstractTask> _tasks;
         private ILog _log;
         private ProjectConfig _projectConfig;
-        private IPointMapping _pointMapping;
         private static TaskMagr _intance;
         private Dictionary<string, Type> _driverTypes;
+
+        private static UnityContainer _container;
         private void creatTask()
         {
             _tasks = new List<AbstractTask>();
 
             var client = _projectConfig.Client;
-            var ctFactory = new ChannelTaskFactory(_pointMapping, _driverTypes, _log);
+            var ctFactory = _container.Resolve<ChannelTaskFactory>();
+            ctFactory.DriverTypes= _driverTypes;
             foreach (var item in client.Channels)
             {
                 var channelTask = ctFactory.CreatChannelTask(item.Value);
@@ -38,12 +48,13 @@ namespace TaskMgr
 
             foreach (var item in servers.Items)
             {
-                var serverTask = new ServerTask(item.Value, _pointMapping,_log);
+                var serverTask = _container.Resolve<ServerTask>();
+                serverTask.ServerConfig = item.Value;
                 _tasks.Add(serverTask);
             }
 
             var records = _projectConfig.Records;
-            var recordFactory = new RecordTagTaskFactory(_pointMapping, _log);
+            var recordFactory =_container.Resolve<RecordTagTaskFactory>();
             foreach (var item in records.RecordGroup)
             {
                 var recordTask = recordFactory.CreatRecordTask(item.Value);
@@ -58,8 +69,9 @@ namespace TaskMgr
 
             var alarms = _projectConfig.Alarms;
 
-            var alarmTask = new AlarmTask(_pointMapping, alarms, _log);
-            _tasks.Add(alarmTask);
+            var alarmTask =_container.Resolve<IAlarmTask>();
+            alarmTask.AlarmsConfig = alarms;
+            _tasks.Add((AbstractTask)alarmTask);
 
         }
         private bool init()
@@ -100,16 +112,12 @@ namespace TaskMgr
         {
             foreach (var t in _tasks)
             {
-                if (t.OnStart())
-                {
-                    continue;
-                }
-                else
+                if (!t.OnStart())
                 {
                     _log.ErrorLog(string.Format("Task<{0}> Start failed!", t.TaskName));
-                    return false;
                 }
             }
+            openSignalRServer();
             return true;
         }
 
@@ -140,9 +148,14 @@ namespace TaskMgr
             configRestServerHost.RestService.ProConfRefreshEvent += RestService_ProConfRefreshEvent;
         }
 
+        private void openSignalRServer() 
+        {
+            var signalR = _container.Resolve<SignalRServer>();
+            signalR.StartServer("http://localhost:3051",_container);
+        }
         private void RestService_ProConfRefreshEvent(ProjectConfig config)
         {
-            if (stop()&&init())
+            if (stop() && init())
             {
                 run();
             }
@@ -158,17 +171,27 @@ namespace TaskMgr
         //}
         private TaskMagr()
         {
-            _log = new Log4netWrapper();
-            _log.LogNotifyEvent += t => { Console.WriteLine(t); };
-            _pointMapping = new PointMapping();
-            openConfigRestApiServer();
-            creatTask();
-
 
         }
-        public static void Main(string[] args)
+
+        public static void Main(string[] args,string loggerName)
         {
+
             _intance = new TaskMagr();
+            _container = new UnityContainer();
+            _container.RegisterSingleton<IPointMapping, PointMapping>();
+            _container.RegisterSingleton<ILog, Log4netWrapper>();
+            _container.RegisterSingleton<IAlarmTask, AlarmTask>();
+            _container.RegisterSingleton<IHisAlarmRecord, LogHistoryAlarmSerivce>();
+            _container.RegisterSingleton<IPermissionManager, PermissionSerivce>();
+
+            _intance._log = _container.Resolve<ILog>();
+            _intance._log.Init(loggerName);
+            _intance._log.LogNotifyEvent += (l, m) => { if (l != LogLevel.Debug) Console.WriteLine($"{DateTime.Now} {l} {m}"); };
+
+            
+            _intance.openConfigRestApiServer();
+            _intance.creatTask();
             if (_intance.init())
                 _intance.run();
         }

@@ -51,6 +51,15 @@ namespace ConfigTool.ViewModels
         //    set { optionSelectCommand = value; }
         //}
 
+        private bool isEnable =true;
+
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set { SetProperty(ref isEnable, value, "IsEnable"); }
+        }
+
+
         private ICommand closeDialogCommand;
 
         public event Action<IDialogResult> RequestClose;
@@ -66,7 +75,13 @@ namespace ConfigTool.ViewModels
         public PropertyDialogViewModel(IEventAggregator eventAggregator)
         {
             _ea = eventAggregator;
+            _ea.GetEvent<PubSubEvent<bool>>().Subscribe(getHasError);
             closeDialogCommand = new DelegateCommand<string>(closeDialog);
+        }
+
+        private void getHasError(bool hasError)
+        {
+            IsEnable = !hasError;
         }
         #region ICommand
         void closeDialog(string parameter)
@@ -76,7 +91,7 @@ namespace ConfigTool.ViewModels
             if (parameter?.ToLower() == "ok")
             {
                 result = ButtonResult.OK;
-                _ea.GetEvent<ButtonConfrimEvent> ().Publish(result);
+                _ea.GetEvent<ButtonConfrimEvent>().Publish(result);
             }
             else if (parameter?.ToLower() == "cancel")
                 result = ButtonResult.Cancel;
@@ -91,6 +106,7 @@ namespace ConfigTool.ViewModels
         public void OnDialogClosed()
         {
             _ea.GetEvent<ButtonConfrimEvent>().Clear();
+            _ea.GetEvent<PubSubEvent<bool>>().Unsubscribe(getHasError);
         }
 
         public void OnDialogOpened(IDialogParameters parameters)

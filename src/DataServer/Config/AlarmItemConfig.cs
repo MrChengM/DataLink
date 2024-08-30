@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using DataServer.Alarm;
 
 namespace DataServer.Config
 {
@@ -80,6 +81,7 @@ namespace DataServer.Config
             set { conditionType = value; }
         }
 
+        
         private float conditionValue;
         [DataMember]
         public float ConditionValue
@@ -95,5 +97,14 @@ namespace DataServer.Config
             get { return alarmGroup; }
             set { alarmGroup = value; }
         }
+
+        private ConfirmMode confirmMode;
+
+        public ConfirmMode ConfirmMode
+        {
+            get { return confirmMode; }
+            set { confirmMode = value; }
+        }
+
     }
 }

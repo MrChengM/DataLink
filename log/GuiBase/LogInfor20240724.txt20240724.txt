@@ -1,0 +1,8 @@
+2024-07-24 14:51:58,666 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:8080/  
+2024-07-24 14:52:02,977 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:8080/ failed  
+2024-07-24 14:52:27,661 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:8080/  
+2024-07-24 14:52:32,000 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:8080/ failed  
+2024-07-24 15:01:22,591 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:8080/  
+2024-07-24 15:01:23,464 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:8080/ succefully  
+2024-07-24 16:00:35,339 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:8080/  
+2024-07-24 16:00:35,912 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:8080/ succefully  

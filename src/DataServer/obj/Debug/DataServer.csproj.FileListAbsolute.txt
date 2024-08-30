@@ -40,17 +40,11 @@ D:\Projects\DataLinks\src\DataServer\obj\Debug\DataServer.csproj.AssemblyReferen
 D:\Projects\DataLinks\src\DataServer\bin\Debug\Utillity.dll
 D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.dll
 D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.OOXML.dll
-D:\Projects\DataLinks\src\DataServer\bin\Debug\ICSharpCode.SharpZipLib.dll
-D:\Projects\DataLinks\src\DataServer\bin\Debug\BouncyCastle.Crypto.dll
 D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.OpenXml4Net.dll
 D:\Projects\DataLinks\src\DataServer\bin\Debug\NPOI.OpenXmlFormats.dll
 D:\Projects\DataLinks\src\DataServer\bin\Debug\Utillity.pdb
-D:\Projects\DataLinks\src\DataServer\bin\Debug\ICSharpCode.SharpZipLib.pdb
-D:\Projects\DataLinks\src\DataServer\bin\Debug\ICSharpCode.SharpZipLib.xml
-D:\Projects\DataLinks\src\DataServer\bin\Debug\BouncyCastle.Crypto.xml
 D:\Projects\DataLinks\src\DataServer\bin\Debug\log4net.dll
 D:\Projects\DataLinks\src\DataServer\bin\Debug\log4net.xml
-D:\Projects\DataLinks\src\DataServer\bin\Debug\log4net.config
 D:\Projects\DriverLibrary\src\DataServer\bin\Debug\log4net.config
 D:\Projects\DriverLibrary\src\DataServer\bin\Debug\log4net.dll
 D:\Projects\DriverLibrary\src\DataServer\bin\Debug\Newtonsoft.Json.dll
@@ -63,3 +57,9 @@ D:\Projects\DriverLibrary\src\DataServer\bin\Debug\Utillity.pdb
 D:\Projects\DriverLibrary\src\DataServer\bin\Debug\log4net.xml
 D:\Projects\DriverLibrary\src\DataServer\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\DriverLibrary\src\DataServer\obj\Debug\DataServer.csproj.CopyComplete
+D:\Projects\DataLinks\src\DataServer\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\Unity.Abstractions.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\Unity.Container.dll
+D:\Projects\DataLinks\src\DataServer\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Projects\DataLinks\src\DataServer\bin\Debug\Unity.Abstractions.pdb
+D:\Projects\DataLinks\src\DataServer\bin\Debug\Unity.Container.pdb

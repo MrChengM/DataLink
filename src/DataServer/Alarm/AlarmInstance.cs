@@ -20,5 +20,35 @@ namespace DataServer.Alarm
         public string AlarmGroup { get; set; }
         public DateTime AppearTime { get; set; }
         public DateTime EndTime { get; set; }
+        public ConfirmMode ConfirmMode { get; set; }
+        public int Count { get; set; }
+    }
+    public enum AlarmType
+    {
+        Information = 25,
+        Trivial = 50,
+        Minor = 75,
+        Major = 100,
+
+    }
+    public enum ConfirmMode
+    {
+        Normal,
+        Auto,
+    }
+    public enum ConditionType
+    {
+        Bit,
+        MoreThan,
+        LessThan,
+        Equals,
+        NotEquals
+    }
+
+    public enum AlarmRefresh
+    {
+        Add,
+        Updata,
+        Remove
     }
 }

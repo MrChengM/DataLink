@@ -12,6 +12,8 @@ namespace DataServer
 {
     public interface ILog
     {
+
+        void Init(string format, params object[] parameters);
         /// <summary>Logs a debug log
         /// </summary>
         /// <param name="format">Log string (Example:This is the log {0},{1})</param>
@@ -43,7 +45,7 @@ namespace DataServer
         ///  <param name="format">Log string (Example:This is the log {0},{1})</param>
         ///  <param name="parameters">Parameters for the log string and/or Exception</param>
         void WarningLog(string format, params object[] parameters);
-        event Action<string> LogNotifyEvent;
+        event Action<LogLevel,string> LogNotifyEvent;
 
     }
     public enum LogLevel
@@ -59,11 +61,7 @@ namespace DataServer
     {
         private log4net.ILog log;
 
-        public event Action<string> LogNotifyEvent;
-        public Log4netWrapper()
-        {
-            log = LogManager.GetLogger("DataLinksLogger");
-        }
+        public event Action<LogLevel,string> LogNotifyEvent;
         public void DebugLog(string format, params object[] parameters)
         {
             var message = string.Format(format, parameters);
@@ -103,7 +101,14 @@ namespace DataServer
 
         private void rasieLogNotifyEvent(LogLevel level,string message)
         {
-            LogNotifyEvent?.Invoke($"{DateTime.Now} {level} {message}");
+            LogNotifyEvent?.Invoke(level ,message);
+        }
+
+        public void Init(string format, params object[] parameters)
+        {
+            var param = string.Format(format, parameters);
+            log = LogManager.GetLogger(param);
+
         }
     }
     [Flags]
@@ -222,14 +227,13 @@ namespace DataServer
 
         private static readonly object locker = new object();
 
-        public event Action<string> LogNotifyEvent;
+        public event Action<LogLevel, string> LogNotifyEvent;
 
         private void writeLog(string sFilePath, string fileName, string sLogMessage)
         {
             lock (locker)
             {
                 DateTime dt = DateTime.Now;
-                int i = 0;
                 string sDataNow = dt.Year.ToString() + dt.Month.ToString() + dt.Day.ToString();
                 fileName = string.Format("{0}{1}_log{2}.txt", fileName, sDataNow, "00");
                 string sfilePath = @sFilePath + fileName;
@@ -273,6 +277,11 @@ namespace DataServer
         }
 
         public void FatalLog(string format, params object[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Init(string format, params object[] parameters)
         {
             throw new NotImplementedException();
         }

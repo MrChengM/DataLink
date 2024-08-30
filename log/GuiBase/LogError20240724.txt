@@ -1,0 +1,14 @@
+2024-07-24 11:07:35,185 ERROR GuiBaseLogger AlarmService: connect to http://127.0.0.1:8080 fail,发生一个或多个错误。!  
+2024-07-24 11:08:37,886 ERROR GuiBaseLogger AlarmService: connect to http://127.0.0.1:8080 fail,发生一个或多个错误。!  
+2024-07-24 11:11:00,339 ERROR GuiBaseLogger AlarmService: Connect http://localhost:8080/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-07-24 11:11:08,697 ERROR GuiBaseLogger AlarmService: Connect http://localhost:8080/ error'无法连接到远程服务器'!  
+2024-07-24 11:12:16,206 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:13:15,069 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:16:29,302 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:17:31,697 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:26:26,477 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:29:28,401 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:33:48,713 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 11:47:57,342 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  
+2024-07-24 14:35:00,212 ERROR GuiBaseLogger AlarmService: connect to http://localhost:8080/ fail,发生一个或多个错误。!  
+2024-07-24 16:51:47,621 ERROR GuiBaseLogger AlarmService: connect to http://localhost:8080/ fail,发生一个或多个错误。!  

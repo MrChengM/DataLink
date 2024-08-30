@@ -20,28 +20,28 @@
             <StackPanel IsEnabled="{Binding DeviceIsEnable}">
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="Device Name:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                    <TextBox Text="{Binding DeviceName}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                    <TextBox Text="{Binding DeviceName, ValidatesOnDataErrors=True}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
                 </StackPanel >
             </StackPanel>
             <StackPanel Orientation="Horizontal" >
                 <TextBlock Text="Device ID:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding DeviceId}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding DeviceId,ValidatesOnDataErrors=True}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel >
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Connect TimeOut:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding ConnectTimeOut}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding ConnectTimeOut,ValidatesOnDataErrors=True}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Request TimeOut:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding RequestTimeOut}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding RequestTimeOut, ValidatesOnDataErrors=True}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Retry Times:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
-                <TextBox Text="{Binding RetryTimes}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
+                <TextBox Text="{Binding RetryTimes,ValidatesOnDataErrors=True}"  Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Timing:"  Width="150" Height="30" HorizontalAlignment="Left"   Margin="20,10"/>
-                <TextBox Text="{Binding Timing}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="20,10"/>
+                <TextBox Text="{Binding Timing, ValidatesOnDataErrors=True}"  Width="150" Height="30"  HorizontalAlignment="Left"  Margin="20,10"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Byte Order:" Width="150" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10"/>

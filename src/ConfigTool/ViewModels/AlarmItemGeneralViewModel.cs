@@ -1,6 +1,6 @@
 ﻿using ConfigTool.Models;
 using ConfigTool.Service;
-using DataServer;
+using DataServer.Alarm;
 using DataServer.Config;
 using Prism.Commands;
 using Prism.Events;
@@ -10,14 +10,17 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Utillity.Data;
+
 
 namespace ConfigTool.ViewModels
 {
-    class AlarmItemGeneralViewModel: BindableBase, INavigationAware
+    class AlarmItemGeneralViewModel: BindableBase, INavigationAware,IDataErrorInfo
     {
         private IEventAggregator _ea;
         private AlarmItemConfig _config;
@@ -71,9 +74,9 @@ namespace ConfigTool.ViewModels
             set { SetProperty(ref conditionTypes, value, "ConditionTypes"); }
         }
 
-        private int conditionValue;
+        private float conditionValue;
 
-        public int ConditionValue
+        public float ConditionValue
         {
             get { return conditionValue; }
             set { SetProperty(ref conditionValue, value, "ConditionValue"); }
@@ -116,6 +119,86 @@ namespace ConfigTool.ViewModels
             set { openTagsDailogCommand = value; }
         }
         private bool isFristIn = true;
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "TagName")
+                {
+
+                    if (string.IsNullOrEmpty(TagName))
+                    {
+                        result = "TagName Name can not null or empty !";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "PartName")
+                {
+                    if (string.IsNullOrEmpty(PartName))
+                    {
+                        result = "PartName can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(PartName))
+                    {
+                        result = "PartName include special character !";
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                else if (columnName == "ALNumber")
+                {
+                    if (string.IsNullOrEmpty(ALNumber))
+                    {
+                        result = "ALNumber can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(ALNumber))
+                    {
+                        result = "ALNumber include special character !";
+                    }
+                    errorMsgBuffer[2] = result;
+                }
+                else if (columnName == "CurrentConditionType")
+                {
+                    if (string.IsNullOrEmpty(CurrentConditionType))
+                    {
+                        result = "Condition Type can not null or empty !";
+                    }
+                    errorMsgBuffer[3] = result;
+                }
+                else if (columnName == "AlarmGroup")
+                {
+                    if (string.IsNullOrEmpty(AlarmGroup))
+                    {
+                        result = "AlarmGroup can not null or empty !";
+                    }
+                    errorMsgBuffer[4] = result;
+                }
+                judgeHasError();
+                return result;
+            }
+
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
+
         public AlarmItemGeneralViewModel(IEventAggregator eventAggregator, IConfigDataServer configDataServer,IDialogService dialogService)
         {
             _ea = eventAggregator;

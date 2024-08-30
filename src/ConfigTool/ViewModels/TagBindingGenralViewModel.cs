@@ -12,26 +12,28 @@ using Prism.Services.Dialogs;
 using System.Windows.Input;
 using Prism.Commands;
 using ConfigTool.Service;
+using System.ComponentModel;
+using Utillity.Data;
 
 namespace ConfigTool.ViewModels
 {
-    public class TagBindingGenralViewModel : BindableBase, INavigationAware
+    public class TagBindingGenralViewModel : BindableBase, INavigationAware,IDataErrorInfo
     {
-        private bool isFristIn=true;
+        private bool isFristIn = true;
 
         private bool buildMode;
         private TagBindingConfig _config;
         private IEventAggregator _ea;
         private IDialogService _dialogService;
         private IConfigDataServer _configDataServer;
-
+        private ServerItemConfig _serverItemConfig;
         public bool BuildMode
         {
             get { return buildMode; }
             set { SetProperty(ref buildMode, value, "BuildMode"); }
         }
 
-        private string name= "40001";
+        private string name;
 
         public string Name
         {
@@ -55,6 +57,63 @@ namespace ConfigTool.ViewModels
             get { return openTagsDailogCommand; }
             set { openTagsDailogCommand = value; }
         }
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "Name")
+                {
+
+                    if (string.IsNullOrEmpty(Name))
+                    {
+                        result = "Name can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(Name.ToString()))
+                    {
+                        result = " Name include special character !";
+                    }
+                    else if ( BuildMode && _serverItemConfig.TagBindingList.ContainsKey(Name))
+                    {
+                        result = "Name Name is Exit! ";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "SourceTag")
+                {
+                    if (string.IsNullOrEmpty(SourceTag))
+                    {
+                        result = "SourceTag can not null or empty !";
+                    }
+
+                    errorMsgBuffer[1] = result;
+                }
+               
+                judgeHasError();
+                return result;
+            }
+
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
 
         public TagBindingGenralViewModel(IEventAggregator ea,IDialogService dialogService,IConfigDataServer configDataServer)
         {
@@ -112,6 +171,7 @@ namespace ConfigTool.ViewModels
         {
             if (isFristIn)
             {
+                _serverItemConfig = navigationContext.Parameters.GetValue<ServerItemConfig>("ServerItemConfig");
                 _config = navigationContext.Parameters.GetValue<TagBindingConfig>("TagBindingConfig");
                 BuildMode = navigationContext.Parameters.GetValue<bool>("isBuild");
                 if (!BuildMode)

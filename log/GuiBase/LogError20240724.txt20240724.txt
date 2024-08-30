@@ -1,0 +1,2 @@
+2024-07-24 14:52:02,982 ERROR GuiBaseLogger AlarmService: connect to http://localhost:8080/ fail,发生一个或多个错误。!  
+2024-07-24 14:52:32,006 ERROR GuiBaseLogger AlarmService: connect to http://localhost:8080/ fail,发生一个或多个错误。!  

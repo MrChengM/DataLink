@@ -19,9 +19,12 @@ namespace ConfigTool.Service
         bool Updata();
         bool DownLoad();
         //Dictionary<string, DriverInfo> ResigterDLL(string path);
+        event EventHandler<bool> OnlineChangeEvent;
+        bool IsConnect { get; }
+
 
     }
-   //public delegate void ConfigChangeHandler();
+    //public delegate void ConfigChangeHandler();
 
     public interface IClientConfigOpertor
     {

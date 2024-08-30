@@ -17,5 +17,27 @@ namespace Utillity.Data
             }
             return arraryString;
         }
+        public static string[] SplitEndWith(string source, string splitStr = "[", string endStr = "]")
+        {
+            if (source.EndsWith(endStr))
+            {
+
+                var index = source.LastIndexOf(splitStr);
+                var startStr = source.Substring(0, index);
+                var lastStr = source.Substring(index+1).Replace(endStr,"");
+                var arraryString = new string[]{startStr,lastStr};
+                //for (int i = 0; i < arraryString.Length; i++)
+                //{
+                //    arraryString[i] = arraryString[i].Replace(endStr, "");
+                //}
+                return arraryString;
+            }
+            else
+            {
+                return new string[] { source };
+            } 
+           
+        }
+       
     }
 }

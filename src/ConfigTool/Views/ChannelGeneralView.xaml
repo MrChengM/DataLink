@@ -6,17 +6,19 @@
              xmlns:local="clr-namespace:ConfigTool.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="400" Width="380">
+             Height="400" Width="380"
+             xmlns:helper="clr-namespace:ConfigTool.Helper">
+
     <Grid TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right" >
         <StackPanel Margin="0,0,0,0"  >
             <StackPanel Margin="0,0,0,0" IsEnabled="{Binding BuildMode}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
-                    <TextBox Text="{Binding Name}"  Width="160" Height="30" HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                    <TextBox  Text="{Binding Path= Name ,ValidatesOnDataErrors=True}" Width="160" Height="30" HorizontalAlignment="Left"  Margin="0,20,20,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Driver Info:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                    <ComboBox  ItemsSource="{Binding DriverInfos}" SelectedValue="{Binding DriverInfo}"   Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
+                    <ComboBox  ItemsSource="{Binding DriverInfos}" SelectedValue="{Binding DriverInfo,ValidatesOnDataErrors=True}"   Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
                 </StackPanel>
             </StackPanel>
             <!--<StackPanel Orientation="Horizontal">
@@ -25,7 +27,7 @@
             </StackPanel>-->
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Scan TimeOut"  Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0"/>
-                <TextBox Text="{Binding ScanTime}"  Width="160" Height="30"   HorizontalAlignment="Left" Margin="0,20,20,0"/>
+                <TextBox Text="{Binding ScanTime,ValidatesOnDataErrors=True}"  Width="160" Height="30"   HorizontalAlignment="Left" Margin="0,20,20,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

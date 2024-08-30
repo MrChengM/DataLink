@@ -1,0 +1,17 @@
+2024-07-23 09:33:28,456 INFO  GuiBaseLogger AlarmService: connect to http://127.0.0.1:3051 succefully!  
+2024-07-23 10:03:41,724 INFO  GuiBaseLogger AlarmService: connect to http://127.0.0.1:3052 succefully!  
+2024-07-23 13:44:30,661 INFO  GuiBaseLogger AlarmService: Start to connect http://127.0.0.1:3052 succefully!  
+2024-07-23 13:57:16,289 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3052  
+2024-07-23 13:57:19,018 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3052 failed  
+2024-07-23 13:58:52,177 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3052  
+2024-07-23 13:58:54,766 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3052 failed  
+2024-07-23 14:03:32,271 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3051  
+2024-07-23 14:03:34,762 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3051 failed  
+2024-07-23 14:20:47,124 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3051  
+2024-07-23 14:20:49,801 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3051 failed  
+2024-07-23 14:38:12,209 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3051  
+2024-07-23 14:38:15,191 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3051 failed  
+2024-07-23 15:53:51,800 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3051/signalr  
+2024-07-23 15:53:54,339 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3051/signalr failed  
+2024-07-23 16:48:37,530 INFO  GuiBaseLogger AlarmService: Start to connecting http://127.0.0.1:3051  
+2024-07-23 16:48:40,115 INFO  GuiBaseLogger AlarmService: Connect to http://127.0.0.1:3051 failed  

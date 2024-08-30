@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:control="clr-namespace:GuiBase.Control">
+    <Style x:Key="BaseGirdViewColumHeader" TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}" >
+                    <DockPanel x:Name="dp">
+                        <!--<control:GridViewColumnThumb x:Name="PART_HeaderGripper" Margin="0,0,-8,0" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignGridViewColumnHeaderGripper}" Background="LightBlue" Width="1"/>-->
+                        <control:GridViewColumnThumb x:Name="PART_HeaderGripper" Margin="0,0,-8,0" DockPanel.Dock="Right" Background="LightBlue" Width="1"/>
+                        <Border Name="HeaderBorder" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Name="HeaderContent" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter  Property="Foreground" Value="{DynamicResource MaterialDesignPaper}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="dp" Property="Background" Value="{DynamicResource PrimaryHueLightBrush}">
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

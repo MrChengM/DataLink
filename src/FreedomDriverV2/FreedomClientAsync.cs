@@ -408,10 +408,10 @@ namespace FreedomDriversV2
                     errorinfo = "Freedom read error: ";
                     goto lable10;
                 case "12":
-                    AsyncWriteEvent?.Invoke(true);
+                    AsyncWriteEvent?.Invoke(true, datas);
                     return;
                 case "22":
-                    AsyncWriteEvent?.Invoke(false);
+                    AsyncWriteEvent?.Invoke(false, datas);
                     errorinfo = "Freedom write error: ";
                     goto lable10;
                 case "15":
@@ -467,7 +467,7 @@ namespace FreedomDriversV2
         }
         public event Action<List<ITag>> AsyncReadOrSubsEvent;
         public event Action<List<PointMetadata>> AsyncReadMetaData;
-        public event Action<bool> AsyncWriteEvent;
+        public event Action<bool, string[]> AsyncWriteEvent;
         public event Action<bool> AsyncCancelSubEvent;
         public event Action<FreedomClientAsync> DisconnectEvent;
 

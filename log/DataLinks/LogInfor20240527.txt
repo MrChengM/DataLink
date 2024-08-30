@@ -1,0 +1,24 @@
+2024-05-27 14:15:37,176 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-05-27 14:15:37,193 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-05-27 14:15:37,204 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-05-27 14:15:37,207 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-05-27 14:15:37,207 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2024-05-27 14:15:37,224 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2024-05-27 14:15:37,224 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2024-05-27 14:15:37,226 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2024-05-27 14:15:37,227 INFO  DataLinksLogger Record01: Init => Initing   
+2024-05-27 14:15:37,227 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-05-27 14:15:37,227 INFO  DataLinksLogger Channel2: Start => Starting   
+2024-05-27 14:15:37,228 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2024-05-27 14:15:39,285 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2024-05-27 14:15:39,285 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2024-05-27 14:15:39,286 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2024-05-27 14:15:39,286 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2024-05-27 14:15:39,287 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2024-05-27 14:15:39,287 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2024-05-27 14:15:39,288 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2024-05-27 14:15:39,288 INFO  DataLinksLogger Record01: Start=>Starting   
+2024-05-27 14:15:39,288 INFO  DataLinksLogger Record01: Starting=>Started   
+2024-05-27 14:15:41,838 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:50958  
+2024-05-27 14:15:41,841 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:1 , IPAdderss:127.0.0.1:50957  
+2024-05-27 14:15:41,849 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:2 , IPAdderss:127.0.0.1:50959  

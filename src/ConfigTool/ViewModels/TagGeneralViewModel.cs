@@ -13,16 +13,19 @@ using System.Collections.ObjectModel;
 using ConfigTool.Models;
 using ConfigTool.Service;
 using DataServer;
+using System.ComponentModel;
+using Utillity.Data;
 
 namespace ConfigTool.ViewModels
 {
-    public class TagGeneralViewModel:BindableBase, INavigationAware
+    public class TagGeneralViewModel:BindableBase, INavigationAware,IDataErrorInfo
     {
         private IEventAggregator _ea;
+        private TagGroupConfig _tagGroupConfig;
         private TagConfig _config;
         private IConfigDataServer _configDataServer;
 
-        private string name = "Tag1";
+        private string name;
 
         public string Name
         {
@@ -88,6 +91,71 @@ namespace ConfigTool.ViewModels
         }
 
         private bool isFristIn = true;
+        #region IDataErrorInfo
+        public string Error => null;
+        private string[] errorMsgBuffer = new string[7];
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (columnName == "Name")
+                {
+
+                    if (string.IsNullOrEmpty(Name))
+                    {
+                        result = "Tag Name can not null or empty !";
+                    }
+                    else if (!RegexCheck.IsString(Name.ToString()))
+                    {
+                        result = "Tag Name include special character !";
+                    }
+                    else if (_tagGroupConfig.Tags.ContainsKey(Name) && BuildMode)
+                    {
+                        result = "Tag Name is Exit! ";
+                    }
+                    errorMsgBuffer[0] = result;
+                }
+                else if (columnName == "Address")
+                {
+                    if (string.IsNullOrEmpty(Address))
+                    {
+                        result = "Address Name can not null or empty !";
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+                else if (columnName == "Length")
+                {
+                    if (Length <1)
+                    {
+                        result = "Value cannot less than 1 !";
+                    }
+                    errorMsgBuffer[1] = result;
+                }
+
+                judgeHasError();
+                return result;
+            }
+
+        }
+        void judgeHasError()
+        {
+            bool hasError = false;
+            foreach (var errorMsg in errorMsgBuffer)
+            {
+                if (errorMsg != string.Empty && errorMsg != null)
+                {
+                    hasError = true;
+                    break;
+                }
+            }
+            _ea.GetEvent<PubSubEvent<bool>>().Publish(hasError);
+
+        }
+        #endregion
+
         public TagGeneralViewModel(IEventAggregator eventAggregator, IConfigDataServer configDataServer)
         {
             _ea = eventAggregator;
@@ -140,6 +208,7 @@ namespace ConfigTool.ViewModels
         {
             if (isFristIn)
             {
+                _tagGroupConfig = navigationContext.Parameters.GetValue<TagGroupConfig>("TagGroupConfig");
                 _config = navigationContext.Parameters.GetValue<TagConfig>("TagConfig");
                 BuildMode = navigationContext.Parameters.GetValue<bool>("isBuild");
                 if (!BuildMode)

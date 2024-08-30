@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\RestAPIClient.cs" />
+    <Compile Include="Communication\SocketHelper.cs" />
+    <Compile Include="Data\RegexCheck.cs" />
     <Compile Include="Data\StringHandler.cs" />
     <Compile Include="File\FileCopy.cs" />
     <Compile Include="File\FileDialog.cs" />

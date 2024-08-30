@@ -1,0 +1,22 @@
+2024-08-06 23:07:40,157 INFO  DataLinksLogger Channel2: Init => Initing   
+2024-08-06 23:07:40,195 INFO  DataLinksLogger Channel2: Initing => Inited   
+2024-08-06 23:07:40,196 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2024-08-06 23:07:40,595 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2024-08-06 23:07:40,595 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2024-08-06 23:07:40,598 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2024-08-06 23:07:40,725 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2024-08-06 23:07:40,728 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2024-08-06 23:07:40,729 INFO  DataLinksLogger Record01: Init => Initing   
+2024-08-06 23:07:40,740 INFO  DataLinksLogger Record01: Initing=>Inited  
+2024-08-06 23:07:40,741 INFO  DataLinksLogger Channel2: Start => Starting   
+2024-08-06 23:07:40,741 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2024-08-06 23:07:40,758 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2024-08-06 23:07:40,758 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2024-08-06 23:07:40,760 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2024-08-06 23:07:40,760 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2024-08-06 23:07:40,761 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2024-08-06 23:07:40,761 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2024-08-06 23:07:40,763 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2024-08-06 23:07:40,763 INFO  DataLinksLogger Record01: Start=>Starting   
+2024-08-06 23:07:40,764 INFO  DataLinksLogger Record01: Starting=>Started   
+2024-08-06 23:07:42,334 INFO  DataLinksLogger Server running on http://localhost:3051  

@@ -73,7 +73,7 @@ namespace ConfigTool.Models
         public int RequestTimeOut
         {
             get { return requsetTimeOut; }
-            set { SetProperty(ref requsetTimeOut, value, "InitLevel"); }
+            set { SetProperty(ref requsetTimeOut, value, "RequestTimeOut"); }
         }
 
         private int retryTimes;

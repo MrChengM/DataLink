@@ -11,15 +11,15 @@
         <StackPanel TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
             <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">
                 <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
-                <TextBox Text="{Binding Name}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Name,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Address:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding Address}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Address,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Length:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding Length}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Length,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Data Type:" Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0"/>

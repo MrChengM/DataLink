@@ -11,7 +11,7 @@
         <StackPanel TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
             <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">
                 <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
-                <TextBox Text="{Binding Name}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Name,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">
                 <TextBlock Text="Server Option:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
@@ -19,15 +19,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="ID:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding ID}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding ID,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="TimeOut:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding TimeOut}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding TimeOut,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="MaxConnect:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
-                <TextBox Text="{Binding MaxConnect}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+                <TextBox Text="{Binding MaxConnect,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>
