@@ -13,16 +13,33 @@ namespace GuiBase.Services
     {
         private readonly string ServerUrl = "http://localhost:3051/api/Permission";
         string _taskName;
+        private List<string> resourceNames;
+        public User CurrentUser
+        {
+            get { return currentUser; }
+            set
+            {
+                if (currentUser != value)
+                {
+                    currentUser = value;
+                    UserChangeEvent?.Invoke(currentUser);
+                }
+            }
+        }
         User currentUser;
         ILog _log;
         public SecurityService(ILog log)
         {
             _taskName = nameof(SecurityService);
             _log = log;
+            resourceNames = new List<string>();
         }
+
+        public event Action<User> UserChangeEvent;
+
         public void CancelLogin()
         {
-            currentUser = null;
+            CurrentUser = null;
         }
 
         public bool ChangePassword(string userName, string oldPassword, string newPassword)
@@ -30,7 +47,7 @@ namespace GuiBase.Services
             bool result = false;
             var url = $"{ServerUrl}/User";
             var aut= RestAPIClient.UserNameToBase64Str(userName, oldPassword);
-            currentUser.Password = newPassword;
+            CurrentUser.Password = newPassword;
             try
             {
                 result = RestAPIClient.PutFuncJson<User,bool>(url,currentUser,aut);
@@ -47,7 +64,7 @@ namespace GuiBase.Services
         {
 
             bool result = false;
-            var url = $"{ServerUrl}/User";
+            var url = $"{ServerUrl}/Resource";
             var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
             try
             {
@@ -55,7 +72,6 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -64,7 +80,7 @@ namespace GuiBase.Services
         public bool DeleteRole(Role role)
         {
             bool result = false;
-            var url = $"{ServerUrl}/User";
+            var url = $"{ServerUrl}/Role";
             var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
             try
             {
@@ -72,7 +88,6 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -89,7 +104,6 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -98,7 +112,7 @@ namespace GuiBase.Services
         public List<Resource> GetAllResources()
         {
             List<Resource> result = new List<Resource>();
-            var url = $"{ServerUrl}/AllUsers";
+            var url = $"{ServerUrl}/AllResources";
             var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
             try
             {
@@ -106,7 +120,6 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -115,7 +128,7 @@ namespace GuiBase.Services
         public List<Role> GetAllRoles()
         {
             List<Role> result = new List<Role>();
-            var url = $"{ServerUrl}/AllUsers";
+            var url = $"{ServerUrl}/AllRoles";
             var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
             try
             {
@@ -123,7 +136,6 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -140,7 +152,6 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -148,29 +159,23 @@ namespace GuiBase.Services
 
         public User GetCurrentUser()
         {
-            return currentUser;
+            return CurrentUser;
         }
-
-        public bool IsPermission(ResourceType resourceName)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool IsValidLogin(string userName, string password)
         {
             bool result = false;
-            var url = $"{ServerUrl}/ValidateUser?account={userName}&pwd={password}";
+            var url = $"{ServerUrl}/User?account={userName}&pwd={password}";
             try
             {
-                currentUser = RestAPIClient.GetFuncJson<User>(url);
-                if (currentUser != null)
+                var user = RestAPIClient.GetFuncJson<User>(url);
+                if (user != null)
                 {
+                    CurrentUser = user;
                     result = true;
                 }
             }
             catch (Exception e)
             {
-                currentUser = null;
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
             }
             return result;
@@ -181,7 +186,7 @@ namespace GuiBase.Services
             bool result = false;
             try
             {
-                var url = $"{ServerUrl}/User";
+                var url = $"{ServerUrl}/Resource";
                 var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
                 result = RestAPIClient.PutFuncJson<Resource, bool>(url, resource, aut);
             }
@@ -197,7 +202,7 @@ namespace GuiBase.Services
             bool result = false;
             try
             {
-                var url = $"{ServerUrl}/User";
+                var url = $"{ServerUrl}/Role";
                 var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
                 result = RestAPIClient.PutFuncJson<Role, bool>(url, role, aut);
             }
@@ -224,6 +229,95 @@ namespace GuiBase.Services
                 _log.ErrorLog($"{_taskName}: { ServerUrl} Update User  error':{e.Message}'!");
             }
             return result;
+        }
+
+        public bool CreateUser(User user)
+        {
+            bool result = false;
+            try
+            {
+                var url = $"{ServerUrl}/User";
+                var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
+                result = RestAPIClient.PostFuncJson<User, bool>(url, user, aut);
+
+            }
+            catch (Exception e)
+            {
+                _log.ErrorLog($"{_taskName}: { ServerUrl} Create User  error':{e.Message}'!");
+            }
+            return result;
+        }
+
+        public bool CreateRole(Role role)
+        {
+            bool result = false;
+            try
+            {
+                var url = $"{ServerUrl}/Role";
+                var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
+                result = RestAPIClient.PostFuncJson<Role, bool>(url, role, aut);
+            }
+            catch (Exception e)
+            {
+                _log.ErrorLog($"{_taskName}: { ServerUrl} Create role  error':{e.Message}'!");
+            }
+            return result;
+        }
+
+        public bool CreateResource(Resource resource)
+        {
+            bool result = false;
+            try
+            {
+                var url = $"{ServerUrl}/Resource";
+                var aut = RestAPIClient.UserNameToBase64Str(currentUser.Account, currentUser.Password);
+                result = RestAPIClient.PostFuncJson<Resource, bool>(url, resource, aut);
+            }
+            catch (Exception e)
+            {
+                _log.ErrorLog($"{_taskName}: { ServerUrl} Create resource  error':{e.Message}'!");
+            }
+            return result;
+        }
+
+        public bool IsPermission(string name, ResourceType type)
+        {
+            string resourceName = $"{type}_{name}";
+
+            if (CurrentUser != null)
+            {
+                foreach (var role in CurrentUser.Roles)
+                {
+                    foreach (var resource in role.Resources)
+                    {
+                        if (resource.Name == resourceName)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool ResgisterResourceName(string name, ResourceType type)
+        {
+            string resourceName = $"{type}_{name}";
+
+            if (!resourceNames.Contains(resourceName))
+            {
+                resourceNames.Add(resourceName);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<string> GetResourceNames()
+        {
+            return resourceNames;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace GuiBase.ViewModels
 
         private void load()
         {
-            Thread.Sleep(200);
+            //Thread.Sleep(200);
             _log = _container.Resolve<ILog>();
             _log.Init("GuiBaseLogger");
             if (!loadAlarmService())

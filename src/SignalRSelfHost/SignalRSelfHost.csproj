@@ -122,7 +122,6 @@
     <Compile Include="WebApi\HistoryAlarmsController.cs" />
     <Compile Include="WebApi\HttpBasicAuthenticationFilter .cs" />
     <Compile Include="WebApi\PermissionController.cs" />
-    <Compile Include="WebApi\ValuesController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

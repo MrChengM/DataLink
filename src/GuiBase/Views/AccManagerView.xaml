@@ -3,10 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GuiBase.Views"
+             xmlns:models="clr-namespace:GuiBase.Models"
+             xmlns:control="clr-namespace:GuiBase.Control"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:GuiBase.Views" xmlns:I="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Height="900" Width="1700">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250*"/>
+            <ColumnDefinition Width="1450*"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1"  Width="2"  HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Gray"/>
+        <Expander Grid.Column="0" HorizontalAlignment="Stretch" Header="System Manager" Background="{DynamicResource MaterialDesignBackground }">
+            <ListBox VerticalAlignment="Top" ItemsSource="{Binding NavigationViews}" SelectedValue="{Binding SelectedItem}">
+                <I:Interaction.Triggers>
+                    <I:EventTrigger EventName="MouseLeftButtonUp">
+                        <prism:InvokeCommandAction Command="{Binding NavigationToViewCommand}"/>
+                    </I:EventTrigger>
+                </I:Interaction.Triggers>
+                <ListBox.Resources>
+                    <DataTemplate DataType="{x:Type models:NavigationItem}">
+                        <TextBlock Text="{Binding Title}" />
+                    </DataTemplate>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationDrawerPrimaryListBoxItem}">
+                        <Setter Property="Margin" Value="0,2,0,2"/>
+                        <Setter Property="Width" Value="230"/>
+                        <Setter Property="Height" Value="46"/>
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="materialDesign:NavigationDrawerAssist.CornerRadius" Value="5"/>
+                        <Setter Property="materialDesign:NavigationDrawerAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
+                        <Setter Property="materialDesign:NavigationDrawerAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Expander>
+        <ContentControl prism:RegionManager.RegionName="ManagerViewRegion" Grid.Column="1" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"/>
+
     </Grid>
 </UserControl>

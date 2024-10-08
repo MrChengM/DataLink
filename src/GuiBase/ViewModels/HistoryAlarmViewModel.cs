@@ -94,11 +94,14 @@ namespace GuiBase.ViewModels
                     IsWaiting = true;
                     Thread.Sleep(3000);
                     HistoryAlarms = _historyAlarmService.Select(SelectCondition);
-                    Counts = HistoryAlarms.Count;
+                    if (HistoryAlarms != null)
+                    {
+                        Counts = HistoryAlarms.Count;
+                    }
                     IsWaiting = false;
                     TopDrawerEnable = false;
                 });
-               
+
                 //App.Current.Dispatcher.Invoke(() =>
                 //{
 

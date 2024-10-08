@@ -1,0 +1,38 @@
+2024-09-24 14:57:18,948 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 14:57:19,068 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 14:57:20,290 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 14:57:21,987 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 14:57:25,390 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 14:57:32,540 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 14:57:32,661 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 15:24:53,411 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:25:01,738 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:25:45,271 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:30:55,855 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create resource  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:31:13,753 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create resource  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:32:34,893 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create resource  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:42:50,512 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create resource  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:48:53,765 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create resource  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 15:52:40,673 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:00:11,275 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:00:15,066 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:00:20,969 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:00:25,952 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:00:31,837 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:01:12,340 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:01:12,592 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:02:32,374 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-24 16:11:28,611 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:17:48,674 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:19:00,862 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:21:23,366 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':操作超时'!  
+2024-09-24 16:21:23,426 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/24 8:19:20 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-24 16:21:23,426 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/24 8:19:20 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-24 16:21:23,513 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/24 8:19:20 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-24 16:21:41,597 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:22:05,751 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:22:24,934 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:23:16,205 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:24:49,996 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:36:08,146 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-24 16:36:38,462 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  

@@ -68,14 +68,14 @@
                             <TextBox  Text="{ Binding Filter.AlarmGroup}" Margin="10,0"  MinWidth="100" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                                <TextBlock  Text="L1 View:" Margin="10,0"     />
+                            <TextBlock  Text="L1 View:" Margin="10,0"     />
                             <TextBox  Text="{Binding Filter.L1View}" Margin="10,0"  MinWidth="100" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                                <TextBlock  Text="L2 View:" Margin="10,0"    />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
+                            <TextBlock  Text="L2 View:" Margin="10,0"    />
                             <TextBox  Text="{Binding Filter.L2View}" Margin="10,0"    MinWidth="100" />
-                            </StackPanel>
-                            <!--<StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
+                        </StackPanel>
+                        <!--<StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
                                 <TextBlock  Text="IsConfrim:" Margin="10,0"    />
                                 <ComboBox  materialDesign:ComboBoxAssist.ShowSelectedItem="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="100" Text="{Binding Filter.IsConfrim}">
                                     <ComboBoxItem  Content="All" IsSelected="True" />

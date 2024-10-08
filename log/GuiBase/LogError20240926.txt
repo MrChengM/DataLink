@@ -1,0 +1,9 @@
+2024-09-26 10:40:19,564 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-09-26 10:40:24,180 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'无法连接到远程服务器'!  
+2024-09-26 10:40:30,709 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'无法连接到远程服务器'!  
+2024-09-26 16:28:49,984 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/26 8:26:38 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-26 17:19:38,670 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/26 9:18:15 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-26 17:19:38,671 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/26 9:18:15 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-26 17:42:20,844 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/26 9:41:03 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-26 17:42:20,847 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/26 9:41:03 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-26 18:00:17,989 ERROR GuiBaseLogger AlarmService: connect to http://localhost:3051/ fail,发生一个或多个错误。!  

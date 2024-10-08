@@ -1,0 +1,21 @@
+2024-09-07 14:31:07,850 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-07 14:59:38,295 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-07 15:00:52,965 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 6:59:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:00:52,968 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 6:59:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:01:52,308 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-07 15:07:21,372 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-07 15:07:35,749 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-07 15:09:53,976 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-07 15:12:15,529 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (405) 不允许的方法。'!  
+2024-09-07 15:12:27,766 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (405) 不允许的方法。'!  
+2024-09-07 15:13:36,062 ERROR GuiBaseLogger HistoryAlarmService: Post http://localhost:3051/api/HistoryAlarms error':远程服务器返回错误: (405) 不允许的方法。'!  
+2024-09-07 15:30:01,158 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 7:28:46 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:30:01,158 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 7:28:46 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:30:01,364 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 7:28:46 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:38:39,069 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 7:37:04 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:38:39,146 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 7:37:04 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 15:54:08,225 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/7 7:53:06 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-07 17:35:31,317 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create User  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-07 17:36:44,648 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create User  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-07 17:45:24,281 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create User  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-07 17:45:48,769 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Create User  error':远程服务器返回错误: (500) 内部服务器错误。'!  

@@ -20,10 +20,22 @@ namespace GuiBase.Views
     /// </summary>
     public partial class StartUpWindow : Window
     {
-        IRegionManager _regionManager;
-        public StartUpWindow()
+        //IRegionManager _regionManager;
+        public StartUpWindow(IRegionManager regionManager, string viewName)
         {
             InitializeComponent();
+
+            //if (viewName=="LoadView")
+            //{
+                regionManager.RegisterViewWithRegion("LoadRegion", viewName);
+
+            //}
+            //else
+            //{
+            //    regionManager.RequestNavigate("LoadRegion", viewName);
+
+            //}
+
         }
     }
 }

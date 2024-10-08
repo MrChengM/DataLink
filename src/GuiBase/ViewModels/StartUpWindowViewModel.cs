@@ -31,7 +31,7 @@ namespace GuiBase.ViewModels
         {
             _container = container;
             _regionManager = regionManager;
-            _regionManager.RegisterViewWithRegion("LoadRegion", "LoadView");
+            //_regionManager.RegisterViewWithRegion("LoadRegion", "LoadView");
             _ea = ea;
             _ea.GetEvent<PubSubEvent<AccoutLogOnResult>>().Subscribe(logResultCallBack);
             _ea.GetEvent<PubSubEvent<LoadResult>>().Subscribe(loadResultCallBack);
@@ -51,7 +51,7 @@ namespace GuiBase.ViewModels
 
         private void logResultCallBack(AccoutLogOnResult result)
         {
-            if (result==AccoutLogOnResult.Success)
+            if (result == AccoutLogOnResult.Success)
             {
                 //App.Current.
                 var mainWindow = _container.Resolve<MainWindow>();
@@ -59,13 +59,24 @@ namespace GuiBase.ViewModels
                 RegionManager.SetRegionManager(mainWindow, regionManager);
                 RegionManager.UpdateRegions();
                 mainWindow.Show();
-                App.Current.MainWindow.Close();
+                var windows = App.Current.Windows;
+                foreach (var window in windows)
+                {
+                    if (window is StartUpWindow)
+                    {
+                        StartUpWindow sw = window as StartUpWindow;
+                        sw.Close();
+                        regionManager.Regions.Remove("LoadRegion");
+                    }
+                }
+
                 _ea.GetEvent<PubSubEvent<AccoutLogOnResult>>().Unsubscribe(logResultCallBack);
+                _ea.GetEvent<PubSubEvent<LoadResult>>().Unsubscribe(loadResultCallBack);
 
             }
             else
             {
-               Application.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
     }

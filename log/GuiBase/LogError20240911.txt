@@ -1,0 +1,8 @@
+2024-09-11 15:27:47,025 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-11 15:27:51,948 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-11 15:28:00,954 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-09-11 15:37:56,515 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-11 15:39:06,437 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-11 17:45:13,760 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-11 17:45:13,928 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-11 17:45:30,810 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (401) 未经授权。'!  

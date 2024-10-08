@@ -94,6 +94,7 @@
     <Compile Include="Permission\Resource.cs" />
     <Compile Include="Permission\ResourceType.cs" />
     <Compile Include="Permission\Role.cs" />
+    <Compile Include="Permission\SSex.cs" />
     <Compile Include="Permission\User.cs" />
     <Compile Include="Permission\UserResult.cs" />
     <Compile Include="Points\ITagRecord.cs" />

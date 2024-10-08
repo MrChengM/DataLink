@@ -29,11 +29,14 @@ namespace DBHandler_EF.Serivces
                 result = perContent.SaveChanges();
                 if (result > 0)
                 {
-                    perContent.User_Role.AddRange(GetUser_Roles(user));
-                    result = perContent.SaveChanges();
+                    if (user.Roles.Count > 0)
+                    {
+                        perContent.User_Role.AddRange(GetUser_Roles(user));
+                        result = perContent.SaveChanges();
+                    }
                 }
             }
-            return result > 0 ;
+            return result > 0;
 
         }
         public bool CreateRole(Role role)
@@ -45,8 +48,11 @@ namespace DBHandler_EF.Serivces
                 result = perContent.SaveChanges();
                 if (result > 0)
                 {
-                    perContent.Role_Resource.AddRange(GetRole_Resources(role));
-                    result = perContent.SaveChanges();
+                    if (role.Resources.Count>0)
+                    {
+                        perContent.Role_Resource.AddRange(GetRole_Resources(role));
+                        result = perContent.SaveChanges();
+                    }
                 }
             }
             return result > 0;
@@ -63,34 +69,53 @@ namespace DBHandler_EF.Serivces
                 perContent.Role.Attach(newRole);
                 perContent.Entry(newRole).State = System.Data.Entity.EntityState.Modified;
                 result = perContent.SaveChanges();
-
-                if (result>0)
+                if (result > 0)
                 {
                     var newRole_ResL = GetRole_Resources(role);
                     var oldRole_ResL = from a in perContent.Role_Resource
                                        where a.RoleId == role.Id
                                        select a;
-                    foreach (var role_res in newRole_ResL)
+                    int updataCount = 0;
+                    if (oldRole_ResL.Count() > 0 && newRole_ResL.Count > 0)
                     {
-                        var oldOne = oldRole_ResL.First(s => s.ResourceId == role_res.ResourceId);
-                        if (oldOne == null)
+                        foreach (var role_res in newRole_ResL)
                         {
-                            perContent.Role_Resource.Add(role_res);
+
+                            var oldOne = oldRole_ResL.FirstOrDefault(s => s.ResourceId == role_res.ResourceId);
+                            if (oldOne == null)
+                            {
+                                updataCount++;
+                                perContent.Role_Resource.Add(role_res);
+                            }
+                        }
+                        foreach (var role_res in oldRole_ResL)
+                        {
+                            var newOne = newRole_ResL.FirstOrDefault(s => s.ResourceId == role_res.ResourceId);
+                            if (newOne == null)
+                            {
+                                updataCount++;
+                                perContent.Role_Resource.Remove(role_res);
+                            }
+                        }
+                        if (updataCount > 0)
+                        {
+                            result = perContent.SaveChanges();
                         }
                     }
-                    foreach (var role_res in oldRole_ResL)
+                    else if (newRole_ResL.Count > 0 && oldRole_ResL.Count() == 0)
                     {
-                        var newOne = newRole_ResL.First(s => s.ResourceId == role_res.ResourceId);
-                        if (newOne == null)
-                        {
-                            perContent.Role_Resource.Remove(role_res);
-                        }
+                        perContent.Role_Resource.AddRange(newRole_ResL);
+                        result = perContent.SaveChanges();
+
                     }
-                    result = perContent.SaveChanges();
+                    else if (newRole_ResL.Count == 0 && oldRole_ResL.Count() >0)
+                    {
+                        perContent.Role_Resource.RemoveRange(oldRole_ResL);
+                        result = perContent.SaveChanges();
+                    }
                 }
-               
+                return result > 0;
             }
-            return result > 0;
         }
 
         public bool DeleteRole(Role role)
@@ -98,8 +123,9 @@ namespace DBHandler_EF.Serivces
             int result;
             using (var perContent = new dbm.PermissionContent())
             {
-                var newRole = Convert(role);
-                perContent.Role.Remove(newRole);
+
+                var oldRole = perContent.Role.FirstOrDefault(s => s.Id == role.Id);
+                perContent.Role.Remove(oldRole);
                 result = perContent.SaveChanges();
                 if (result > 0)
                 {
@@ -109,9 +135,16 @@ namespace DBHandler_EF.Serivces
                     var oldUser_Roles = from a in perContent.User_Role
                                         where a.RoleId == role.Id
                                         select a;
-                    perContent.Role_Resource.RemoveRange(oldRole_Ress);
-                    perContent.User_Role.RemoveRange(oldUser_Roles);
-                    result = perContent.SaveChanges();
+                    if (oldRole_Ress.Count() > 0)
+                    {
+                        perContent.Role_Resource.RemoveRange(oldRole_Ress);
+                        result = perContent.SaveChanges();
+                    }
+                    if (oldUser_Roles.Count() > 0)
+                    {
+                        perContent.User_Role.RemoveRange(oldUser_Roles);
+                        result = perContent.SaveChanges();
+                    }
                 }
 
             }
@@ -140,16 +173,19 @@ namespace DBHandler_EF.Serivces
                 var res = perContent.Resource.FirstOrDefault(s => s.Id == resource.Id);
                 perContent.Resource.Remove(res);
                 result = perContent.SaveChanges();
-                if (result>0)
+                if (result > 0)
                 {
                     var role_Res = from a in perContent.Role_Resource
                                    where a.ResourceId == resource.Id
                                    select a;
-                    perContent.Role_Resource.RemoveRange(role_Res);
-                    result = perContent.SaveChanges();
+                    if (role_Res.Count() > 0)
+                    {
+                        perContent.Role_Resource.RemoveRange(role_Res);
+                        result = perContent.SaveChanges();
+                    }
                 }
             }
-            return result > 0 ;
+            return result > 0;
         }
         public bool UpdateUser(User user)
         {
@@ -161,29 +197,49 @@ namespace DBHandler_EF.Serivces
                 perContent.User.Attach(newUser);
                 perContent.Entry(newUser).State = System.Data.Entity.EntityState.Modified;
                 result = perContent.SaveChanges();
-                if (result>0)
+                if (result > 0)
                 {
+
                     var newUser_RoleL = GetUser_Roles(user);
                     var oldUser_RoleL = from a in perContent.User_Role
                                         where a.UserId == user.Id
                                         select a;
-                    foreach (var user_Role in newUser_RoleL)
+                    int updateCount = 0;
+                    if (newUser_RoleL.Count > 0 && oldUser_RoleL.Count() > 0)
                     {
-                        var oldOne = oldUser_RoleL.First(s => s.RoleId == user_Role.RoleId);
-                        if (oldOne == null)
+                        foreach (var user_Role in newUser_RoleL)
                         {
-                            perContent.User_Role.Add(user_Role);
+                            var oldOne = oldUser_RoleL.FirstOrDefault(s => s.RoleId == user_Role.RoleId);
+                            if (oldOne == null)
+                            {
+                                updateCount++;
+                                perContent.User_Role.Add(user_Role);
+                            }
+                        }
+                        foreach (var user_Role in oldUser_RoleL)
+                        {
+                            var newOne = newUser_RoleL.FirstOrDefault(s => s.RoleId == user_Role.RoleId);
+                            if (newOne == null)
+                            {
+                                updateCount++;
+                                perContent.User_Role.Remove(user_Role);
+                            }
+                        }
+                        if (updateCount > 0)
+                        {
+                            result = perContent.SaveChanges();
                         }
                     }
-                    foreach (var user_Role in oldUser_RoleL)
+                    else if (newUser_RoleL.Count > 0 && oldUser_RoleL.Count() == 0)
                     {
-                        var newOne = newUser_RoleL.First(s => s.RoleId == user_Role.RoleId);
-                        if (newOne == null)
-                        {
-                            perContent.User_Role.Remove(user_Role);
-                        }
+                        perContent.User_Role.AddRange(newUser_RoleL);
+                        result = perContent.SaveChanges();
                     }
-                    result = perContent.SaveChanges();
+                    else if (newUser_RoleL.Count == 0 && oldUser_RoleL.Count() > 0)
+                    {
+                        perContent.User_Role.RemoveRange(oldUser_RoleL);
+                        result = perContent.SaveChanges();
+                    }
                 }
             }
             return result > 0;
@@ -193,16 +249,19 @@ namespace DBHandler_EF.Serivces
             int result;
             using (var perContent = new dbm.PermissionContent())
             {
-                var newUser = Convert(user);
-                perContent.User.Remove(newUser);
+                var oldUser = perContent.User.FirstOrDefault(s => s.Id == user.Id);
+                perContent.User.Remove(oldUser);
                 result = perContent.SaveChanges();
                 if (result > 0)
                 {
                     var oldUser_Roles = from a in perContent.User_Role
                                         where a.UserId == user.Id
                                         select a;
-                    perContent.User_Role.RemoveRange(oldUser_Roles);
-                    result = perContent.SaveChanges();
+                    if (oldUser_Roles.Count() > 0)
+                    {
+                        perContent.User_Role.RemoveRange(oldUser_Roles);
+                        result = perContent.SaveChanges();
+                    }
                 }
             }
             return result > 0;
@@ -212,7 +271,7 @@ namespace DBHandler_EF.Serivces
             Resource result;
             using (var perContent = new dbm.PermissionContent())
             {
-                result = Convert(perContent.Resource.First(s => s.Id == id));
+                result = Convert(perContent.Resource.FirstOrDefault(s => s.Id == id));
             }
             return result;
         }
@@ -223,7 +282,7 @@ namespace DBHandler_EF.Serivces
             Resource result;
             using (var perContent = new dbm.PermissionContent())
             {
-                result = Convert(perContent.Resource.First(s => s.Name == name));
+                result = Convert(perContent.Resource.FirstOrDefault(s => s.Name == name));
             }
             return result;
         }
@@ -266,7 +325,7 @@ namespace DBHandler_EF.Serivces
             using (var perContent = new dbm.PermissionContent())
             {
 
-                var newRole = Convert(perContent.Role.First(s => s.Id == id));
+                var newRole = Convert(perContent.Role.FirstOrDefault(s => s.Id == id));
                 if (newRole!=null)
                 {
                     newRole.Resources = new List<Resource>();
@@ -295,7 +354,7 @@ namespace DBHandler_EF.Serivces
             using (var perContent = new dbm.PermissionContent())
             {
 
-                var newRole = Convert(perContent.Role.First(s => s.Name == roleName));
+                var newRole = Convert(perContent.Role.FirstOrDefault(s => s.Name == roleName));
                 if (newRole!=null)
                 {
                     newRole.Resources = new List<Resource>();
@@ -342,7 +401,7 @@ namespace DBHandler_EF.Serivces
             
             using (var perContent = new dbm.PermissionContent())
             {
-                var newUser = perContent.User.First(s => s.Account == account);
+                var newUser = perContent.User.FirstOrDefault(s => s.Account == account);
                 if (newUser != null)
                 {
                     if (newUser.Password == pwd)
@@ -367,7 +426,7 @@ namespace DBHandler_EF.Serivces
             User result;
             using (var perContent = new dbm.PermissionContent())
             {
-                var newUser = Convert(perContent.User.First(s => s.Account == account));
+                var newUser = Convert(perContent.User.FirstOrDefault(s => s.Account == account));
                 if (newUser != null)
                 {
                     if (newUser.Password == pwd)

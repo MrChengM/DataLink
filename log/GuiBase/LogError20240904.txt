@@ -1,0 +1,16 @@
+2024-09-04 14:29:49,740 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':Error converting value False to type 'DataServer.Permission.User'. Path '', line 1, position 5.'!  
+2024-09-04 14:29:53,575 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':Error converting value False to type 'DataServer.Permission.User'. Path '', line 1, position 5.'!  
+2024-09-04 14:30:12,303 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':Error converting value False to type 'DataServer.Permission.User'. Path '', line 1, position 5.'!  
+2024-09-04 14:30:15,072 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':Error converting value False to type 'DataServer.Permission.User'. Path '', line 1, position 5.'!  
+2024-09-04 14:30:16,171 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':Error converting value False to type 'DataServer.Permission.User'. Path '', line 1, position 5.'!  
+2024-09-04 14:41:20,484 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/4 6:40:11 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-04 14:41:20,484 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/4 6:40:11 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-04 14:51:17,455 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 14:51:17,630 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 15:24:45,146 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 15:24:46,361 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 15:24:51,329 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 15:24:55,450 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 17:31:21,515 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 21:04:09,197 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-04 21:06:05,983 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  

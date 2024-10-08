@@ -38,14 +38,14 @@ namespace SignalRSelfHost.WebApi
         [BasicAuthenticationFilter]
         [ActionName("User")]
         [HttpPut]
-        public bool PutUser([FromBody]User user)
+        public bool UpdateUser([FromBody]User user)
         {
             return _permissionManager.UpdateUser(user);
         }
         [AdminBasicAuthenticationFilter]
         [ActionName("User")]
         [HttpPost]
-        public bool PostUser([FromBody] User user)
+        public bool CreateUser([FromBody] User user)
         {
             return _permissionManager.CreateUser(user);
         }
@@ -80,7 +80,7 @@ namespace SignalRSelfHost.WebApi
         [ActionName("Role")]
         [HttpPost]
         [AdminBasicAuthenticationFilter]
-        public bool CreaetRole([FromBody] Role role)
+        public bool CreateRole([FromBody] Role role)
         {
             return _permissionManager.CreateRole(role);
         }
@@ -115,7 +115,7 @@ namespace SignalRSelfHost.WebApi
         [ActionName("Resource")]
         [HttpPost]
         [AdminBasicAuthenticationFilter]
-        public bool CreaetResource([FromBody] Resource resource)
+        public bool CreateResource([FromBody] Resource resource)
         {
             return _permissionManager.CreateResource(resource);
         }

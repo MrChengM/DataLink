@@ -1,0 +1,7 @@
+2024-09-12 15:56:28,629 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-12 16:02:06,975 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-12 16:02:57,599 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-09-12 16:38:20,803 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-12 16:41:10,973 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-12 16:50:57,883 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (404) 未找到。'!  
+2024-09-12 16:54:44,301 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (404) 未找到。'!  

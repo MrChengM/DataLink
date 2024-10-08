@@ -13,16 +13,27 @@ namespace GuiBase.Services
         bool IsValidLogin(string userName, string password);
         void CancelLogin();
         bool ChangePassword(string userName, string oldPassword, string newPassword);
-        bool IsPermission(ResourceType resourceName);
         User GetCurrentUser();
         List<User> GetAllUsers();
+        bool CreateUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);
         List<Role> GetAllRoles();
+        bool CreateRole(Role role);
+
         bool UpdateRole(Role role);
         bool DeleteRole(Role role);
         List<Resource> GetAllResources();
+
+        bool IsPermission(string name,ResourceType type);
+        bool ResgisterResourceName(string name, ResourceType type);
+        List<string> GetResourceNames();
+
+        bool CreateResource(Resource resource);
+
         bool UpdateResource(Resource resource);
         bool DeleteResource(Resource resource);
+
+        event Action<User> UserChangeEvent;
     }
 }

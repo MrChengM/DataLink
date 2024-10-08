@@ -22,8 +22,9 @@ namespace GuiBase.Services
         {
             try
             {
+                var url = ServerUrl + "/Put";
                 var result = new List<HistoryAlarmWrapper>();
-                var hisAlarms = RestAPIClient.PutFuncJson<HistoryAlarmSelectConditionWrapper, List<HistoryAlarm>>(ServerUrl, conditionWrapper);
+                var hisAlarms = RestAPIClient.PutFuncJson<HistoryAlarmSelectConditionWrapper, List<HistoryAlarm>>(url, conditionWrapper);
                 foreach (var hisAlarm in hisAlarms)
                 {
                     result.Add(HistoryAlarmWrapper.Convert(hisAlarm));
@@ -37,7 +38,7 @@ namespace GuiBase.Services
 
                 return null;
             }
-           
+
 
         }
     }

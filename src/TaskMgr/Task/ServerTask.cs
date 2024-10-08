@@ -59,7 +59,7 @@ namespace TaskMgr.Task
         public override bool OnStart()
         {
             _log.InfoLog($"{_taskName}: Start=>Starting ");
-            if (_server != null &&_server.Start())
+            if (_server != null && _server.Start())
             {
                 _log.InfoLog($"{_taskName}: Starting=>Started ");
                 return true;

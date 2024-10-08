@@ -58,5 +58,6 @@
             <Button Margin="50,0" x:Name="LogOnButton" Width="80" Height="35"  Content="LogOn" Command="{Binding LogOnCommand}" CommandParameter="{Binding ElementName=PasswordBox}"  Style="{StaticResource MaterialDesignRaisedButton}"  ToolTip="log in system" />
             <Button Margin="50,0" x:Name="ExitButton" Width="80" Height="35"   Content="Exit"  Command="{Binding ExitCommand}" Style="{StaticResource MaterialDesignRaisedButton}"  ToolTip="close" />
         </StackPanel>
+        <TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" x:Name="MessagesTextBox"  Foreground="Red"  Text="{Binding Messages}" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

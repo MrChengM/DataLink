@@ -23,10 +23,21 @@ namespace GuiBase.Helper
         {
             _containerExtension = containerExtension;
         }
-
+        public new void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback)
+        {
+            ShowDialogInternal(name, parameters, callback, false);
+        }
+        public new void Show(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
+        {
+            ShowDialogInternal(name, parameters, callback, false, windowName);
+        }
         public new void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback)
         {
             ShowDialogInternal(name, parameters, callback, true);
+        }
+        public new void ShowDialog(string name, IDialogParameters parameters, Action<IDialogResult> callback, string windowName)
+        {
+            ShowDialogInternal(name, parameters, callback, true, windowName);
         }
         void ShowDialogInternal(string name, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
         {

@@ -33,6 +33,13 @@ namespace GuiBase.ViewModels
             set { SetProperty(ref title, value, "Title"); }
         }
 
+        private string messages;
+
+        public string Messages
+        {
+            get { return messages; }
+            set { SetProperty(ref messages, value, "Messages"); }
+        }
 
         //private string password;
 
@@ -55,15 +62,20 @@ namespace GuiBase.ViewModels
             ExitCommand = new DelegateCommand(exit);
         }
 
-       
+
         private void logOn(object obj)
         {
             var passwordBox = obj as PasswordBox;
 
-            if (_ss.IsValidLogin(Name,passwordBox.Password))
+            if (_ss.IsValidLogin(Name, passwordBox.Password))
             {
                 _ea.GetEvent<PubSubEvent<AccoutLogOnResult>>().Publish(AccoutLogOnResult.Success);
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+
+            }
+            else
+            {
+                Messages = "Log On fail!Check Name && Password !";
 
             }
 

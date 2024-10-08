@@ -14,8 +14,8 @@
         <StackPanel Orientation="Horizontal">
             <Image Margin="0" Source="/Assets/Image/sflogo1.png" Width="220" />
             <StackPanel Orientation="Vertical" Margin="20,10,0,0" VerticalAlignment="Center">
-                <TextBlock FontSize="20" Margin="0,2" Text="Admin"/>
-                <TextBlock FontSize="20" Margin="0,2" Text="1988/04/04 00:00:00"/>
+                <Button FontSize="20" Margin="0,2" Content="{Binding UserName}" BorderThickness="0"  Foreground="Black" FontWeight="Black" Background="{x:Null}"  Command="{Binding UserClickCommand}" IsEnabled="{Binding UserBtnEnable}"/>
+                <TextBlock FontSize="20" Margin="0,2" Text="{Binding CurrentTime}"/>
             </StackPanel>
         </StackPanel>
         <ListBox Height="80" ItemsSource="{Binding DialogList}" SelectedValue="{Binding SelectedItem}"  Style="{StaticResource MaterialDesign3.NavigationBarPrimaryListBox}"  HorizontalAlignment="Right"  Margin="0" >

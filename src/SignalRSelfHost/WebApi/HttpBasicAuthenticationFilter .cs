@@ -159,7 +159,7 @@ namespace SignalRSelfHost.WebApi
             {
                 foreach (var role in user.Roles)
                 {
-                    if (role.Resources.Find(s => s.Name == ResourceType.Sys_Admin.ToString()) != null)
+                    if (role.Resources.Find(s => s.Name == "System_Admin"|| s.Name == "Sys_Admin") != null)
                     {
                         return true;
                     }

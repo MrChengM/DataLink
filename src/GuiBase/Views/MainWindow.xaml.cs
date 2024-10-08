@@ -27,11 +27,7 @@ namespace GuiBase.Views
         {
             InitializeComponent();
             //regionManager.RegisterViewWithRegion("MenuListRegion", typeof(MenuList));
-            regionManager.RegisterViewWithRegion("MenuListRegion", typeof(Menu));
-            regionManager.RegisterViewWithRegion("NavigtionRegion", typeof(NavigationList));
-            regionManager.RegisterViewWithRegion("HeaderRegion", typeof(Header));
-            regionManager.RegisterViewWithRegion("AlarmViewRegion", typeof(AlarmLiteView));
-            regionManager.RegisterViewWithRegion("baseviewregion", typeof(ViewA));
+           
         }
     }
 }

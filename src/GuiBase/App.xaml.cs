@@ -12,6 +12,7 @@ using Prism.Services.Dialogs;
 using GuiBase.Helper;
 using GuiBase.Services;
 using DataServer;
+using DataServer.Permission;
 
 namespace GuiBase
 {
@@ -22,9 +23,39 @@ namespace GuiBase
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<StartUpWindow>();
+            var securityService = Container.Resolve<ISecurityService>();
+            RegisterResourceNames(securityService);
+            return Container.Resolve<StartUpWindow>((typeof(string), "LoadView"));
         }
 
+        protected void RegisterResourceNames(ISecurityService securityService)
+        {
+            securityService.ResgisterResourceName("Admin", ResourceType.System);//管理员
+
+            securityService.ResgisterResourceName("Header", ResourceType.Menu);//TOP菜单
+            securityService.ResgisterResourceName("NavigationList", ResourceType.Menu);//导航菜单
+            securityService.ResgisterResourceName("Menu_Bottom", ResourceType.Menu);//底部菜单
+
+            securityService.ResgisterResourceName("OverView", ResourceType.ViewGourp);//OverView画面组
+            securityService.ResgisterResourceName("L1View", ResourceType.ViewGourp);
+            securityService.ResgisterResourceName("L2View", ResourceType.ViewGourp);
+            securityService.ResgisterResourceName("Command", ResourceType.ViewGourp);
+            securityService.ResgisterResourceName("Other", ResourceType.ViewGourp);
+
+            securityService.ResgisterResourceName("AccManagerView", ResourceType.View);//用户管理画面
+            securityService.ResgisterResourceName("AlarmView", ResourceType.View);//实时报警画面
+            securityService.ResgisterResourceName("DeviceConfig", ResourceType.View);//设备配置画面
+            securityService.ResgisterResourceName("HistoryAlarmView", ResourceType.View);//历史报警画面
+            securityService.ResgisterResourceName("OperRecordView", ResourceType.View);//操作报警画面
+            securityService.ResgisterResourceName("SignalMonitor", ResourceType.View);//信号监控画面
+
+            securityService.ResgisterResourceName("L1ViewA", ResourceType.View);
+            securityService.ResgisterResourceName("ViewA", ResourceType.View);
+            securityService.ResgisterResourceName("ViewB", ResourceType.View);
+            securityService.ResgisterResourceName("ViewC", ResourceType.View);
+
+
+        }
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<LogOnView>();
@@ -34,6 +65,13 @@ namespace GuiBase
             containerRegistry.RegisterDialog<HistoryAlarmView>();
             containerRegistry.RegisterDialog<SignalMonitorView>();
             containerRegistry.RegisterDialog<DeviceConfigView>();
+            containerRegistry.RegisterDialog<UserDetailedView>();
+            containerRegistry.RegisterDialog<UserEditView>();
+            containerRegistry.RegisterDialog<RoleEditView>();
+            containerRegistry.RegisterDialog<ResourceAssignView>();
+            containerRegistry.RegisterDialog<ResourceEditView>();
+            containerRegistry.RegisterDialog<ResourceListView>();
+            containerRegistry.RegisterDialog<ResourceNameListView>();
 
             containerRegistry.RegisterForNavigation<ViewA>();
             containerRegistry.RegisterForNavigation<ViewB>();
@@ -43,6 +81,11 @@ namespace GuiBase
 
             containerRegistry.RegisterForNavigation<LoadView>();
             containerRegistry.RegisterForNavigation<LogOnView>();
+
+            containerRegistry.RegisterForNavigation<UserManagerView>();
+            containerRegistry.RegisterForNavigation<RoleManagerView>();
+            containerRegistry.RegisterForNavigation<ResourceManagerView>();
+
 
         }
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)

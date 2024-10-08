@@ -39,11 +39,11 @@ namespace GuiBase.ViewModels
             MenuIsChecked = false;
             if (viewName=="LogOnView")
             {
-                _dialogService.ShowDialog(viewName);
+                _dialogService.ShowDialog(viewName,new DialogParameters(),null);
             }
             else
             {
-                _dialogService.Show(viewName);
+                _dialogService.Show(viewName,new DialogParameters(),null);
 
             }
         }
