@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataServer.Config;
 using DataServer.Points;
+using DataServer.Log;
 
 namespace DataServer
 {

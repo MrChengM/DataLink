@@ -1,0 +1,14 @@
+2024-11-21 09:34:26,003 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 09:34:28,070 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-11-21 09:39:36,406 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 09:39:38,455 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-11-21 09:43:51,169 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 09:43:53,239 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-11-21 09:52:58,636 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 09:53:00,694 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-11-21 10:06:01,159 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 10:06:03,206 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-11-21 10:50:50,348 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 10:50:52,412 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-11-21 15:23:02,506 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-11-21 15:23:04,561 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   

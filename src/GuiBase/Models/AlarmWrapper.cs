@@ -7,8 +7,10 @@ using System.Windows;
 using System.Windows.Media;
 using Prism.Mvvm;
 using Prism.Commands;
+using Prism.Ioc;
 using System.Collections.ObjectModel;
 using DataServer.Alarm;
+using GuiBase.Services;
 
 namespace GuiBase.Models
 {
@@ -22,6 +24,10 @@ namespace GuiBase.Models
         private readonly SolidColorBrush ALARM100COLOR = (SolidColorBrush)Application.Current.FindResource("Alarm100");
         private readonly SolidColorBrush ALARMDISUNCHECK = (SolidColorBrush)Application.Current.FindResource("AlarmDisapperWithUncheck");
         private readonly SolidColorBrush ALARENABLECHECKED = (SolidColorBrush)Application.Current.FindResource("AlarmEnableWithChecked");
+
+        public ILocalizationService Localization { get; }
+        public IOperateRecordService RecordService { get; }
+
         #endregion
         public event Action<string> AlarmConfrimEvent;
         #region Property
@@ -31,7 +37,25 @@ namespace GuiBase.Models
         public AlarmType AlarmLevel { get; set; }
 
         public string AlarmGroup { get; set; }
-        public string AlarmDescrible { get; set; }
+
+        public  string AlarmNumber{ get; private set; }
+
+        private string alarmDescrible;
+
+        public string AlarmDescrible
+        {
+            get { return alarmDescrible; }
+            set { SetProperty(ref alarmDescrible, value, "AlarmDescrible"); }
+        }
+
+        private string localizationDescrible;
+
+        public string LocalizationDescrible
+        {
+            get { return localizationDescrible; }
+            set { SetProperty(ref localizationDescrible, value, "LocalizationDescrible"); }
+        }
+
 
         public string L1View { get; set; }
         public string L2View { get; set; }
@@ -77,6 +101,15 @@ namespace GuiBase.Models
         public AlarmWrapper()
         {
             ConfirmCommand = new DelegateCommand(Confrim);
+            Localization = ContainerLocator.Container?.Resolve<ILocalizationService>();
+                Localization.LanguageChanged += onLanguageChanged;
+            RecordService = ContainerLocator.Container?.Resolve<IOperateRecordService>();
+
+        }
+
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+                LocalizationDescrible = Localization[AlarmNumber];
         }
 
         public void Confrim()
@@ -84,6 +117,9 @@ namespace GuiBase.Models
             if (ConfirmEnable)
             {
                 AlarmConfrimEvent?.Invoke(AlarmName);
+                var trancode = $"idm={TranslateCommonId.AlarmConfirmOperDescId}||ntr={AlarmName}||ids={AlarmNumber}";
+                var mes = $"Alarm is confirmed,alarm point:{AlarmName},alarm des:{AlarmDescrible}";
+                RecordService.Insert(trancode, mes);
             }
         }
 
@@ -130,9 +166,10 @@ namespace GuiBase.Models
             result.L2View = alarmInstance.L2View;
             result.AppearTime = alarmInstance.AppearTime;
             result.Counts = alarmInstance.Count;
+            result.AlarmNumber = alarmInstance.AlarmNumber;
+            result.LocalizationDescrible = result.Localization[result.AlarmNumber];
 
-
-            if (alarmInstance.ConfirmMode== ConfirmMode.Normal )
+            if (alarmInstance.ConfirmMode == ConfirmMode.Normal)
             {
                 result.ConfirmEnable = true;
             }
@@ -177,8 +214,10 @@ namespace GuiBase.Models
         {
             AlarmName = alarm.AlarmName;
             AlarmLevel = alarm.AlarmLevel;
+            AlarmNumber = alarm.AlarmNumber;
             AlarmGroup = alarm.AlarmGroup;
             AlarmDescrible = alarm.AlarmDescrible;
+            LocalizationDescrible = alarm.LocalizationDescrible;
             PartName = alarm.PartName;
             L1View = alarm.L1View;
             L2View = alarm.L2View;
@@ -188,6 +227,12 @@ namespace GuiBase.Models
             RowColor = alarm.rowColor;
             ConfirmEnable = alarm.confirmEnable;
 
+        }
+
+        public void Clear()
+        {
+
+            Localization.LanguageChanged -= onLanguageChanged;
         }
     }
 

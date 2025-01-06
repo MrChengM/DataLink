@@ -62,3 +62,5 @@ D:\Projects\DataLinks\example\ModbusServer\bin\Debug\DataServer.pdb
 D:\Projects\DataLinks\example\ModbusServer\bin\Debug\ModbusDrivers.pdb
 D:\Projects\DataLinks\example\ModbusServer\bin\Debug\SocketServers.pdb
 D:\Projects\DataLinks\example\ModbusServer\obj\Debug\ModbusServer.csproj.CopyComplete
+D:\Projects\DataLink\example\ModbusServer\obj\Debug\ModbusServer.csproj.AssemblyReference.cache
+D:\Projects\DataLink\example\ModbusServer\obj\Debug\ModbusServer.csproj.CoreCompileInputs.cache

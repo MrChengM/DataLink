@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FreedomDriversV2;
 using DataServer;
+using DataServer.Log;
 using System.Timers;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
@@ -105,7 +106,8 @@ namespace SignalMonitor
         {
             //_currentWindow = currentWindow;
             _setUp = new EthernetSetUp("127.0.0.1", 9527);
-            _log = new Log4netWrapper("SignalMonitorLogger");
+            _log = new Log4netWrapper();
+            _log.Init("SignalMonitorLogger");
             _timeOut = new TimeOut();
             _client = new FreedomClientAsync("SignalMonitor",_setUp, _timeOut, _log) ;
             //断线重连事件

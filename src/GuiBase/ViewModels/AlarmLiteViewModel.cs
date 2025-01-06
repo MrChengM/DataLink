@@ -22,6 +22,8 @@ namespace GuiBase.ViewModels
         private IAlarmService _alarmService;
         private IEventAggregator _ea;
 
+        private ILocalizationService _localizationService;
+
         private ViewInfor currentBaseViewInfor;
         #endregion
         private ObservableCollection<AlarmWrapper> alarms;
@@ -31,14 +33,53 @@ namespace GuiBase.ViewModels
             get { return alarms; }
             set { SetProperty(ref alarms, value, "Alarms"); }
         }
-        public AlarmLiteViewModel(IAlarmService alarmService, IEventAggregator ea)
+
+        private AlarmCaptions columns;
+
+        public AlarmCaptions Columns
         {
-            _alarmService = alarmService;
-            _alarmService.AlarmRefreshEvent += _alarmService_AlarmStatusChangeEvent;
-            _ea = ea;
-            _ea.GetEvent<PubSubEvent<ViewInfor>>().Subscribe(getAlarms);
+            get { return columns; }
+            set { SetProperty(ref columns, value, "Columns"); }
         }
 
+
+        public AlarmLiteViewModel(IAlarmService alarmService, IEventAggregator ea, ILocalizationService localizationService)
+        {
+            _alarmService = alarmService;
+
+            _alarmService.AlarmRefreshEvent += _alarmService_AlarmStatusChangeEvent;
+            _alarmService.ConnectStatusChangeEvent += onConnectStatusChanged;
+            _ea = ea;
+            _ea.GetEvent<PubSubEvent<ViewInfor>>().Subscribe(getAlarms);
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Columns = new AlarmCaptions(_localizationService);
+            translate();
+        }
+
+        private void onConnectStatusChanged(bool isConnected)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                if (isConnected)
+                {
+                    getAlarms();
+                }
+                else
+                {
+                    Alarms?.Clear();
+                }
+            });
+        }
+
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Columns.GetContent();
+        }
         private void _alarmService_AlarmStatusChangeEvent(AlarmWrapper newAlarm, AlarmRefresh status)
         {
             App.Current.Dispatcher.Invoke(() =>
@@ -76,12 +117,12 @@ namespace GuiBase.ViewModels
 
         private bool matchView(AlarmWrapper newAlarm)
         {
-            if (currentBaseViewInfor==null)
+            if (currentBaseViewInfor == null)
             {
                 return false;
 
             }
-            if (currentBaseViewInfor.ViewType==ViewType.L1View)
+            if (currentBaseViewInfor.ViewType == ViewType.Base_L1View)
             {
                 if (newAlarm.L1View == currentBaseViewInfor.ViewName)
                 {
@@ -92,7 +133,7 @@ namespace GuiBase.ViewModels
                     return false;
                 }
             }
-            else if(currentBaseViewInfor.ViewType == ViewType.L2View)
+            else if (currentBaseViewInfor.ViewType == ViewType.Base_L2View)
             {
                 if (newAlarm.L2View == currentBaseViewInfor.ViewName)
                 {
@@ -114,11 +155,18 @@ namespace GuiBase.ViewModels
             if (currentBaseViewInfor == null || currentBaseViewInfor.ViewName != viewInfor.ViewName)
             {
                 currentBaseViewInfor = viewInfor;
-                if (currentBaseViewInfor.ViewType== ViewType.L1View)
+                getAlarms();
+            }
+        }
+        private void getAlarms()
+        {
+            if (currentBaseViewInfor!=null)
+            {
+                if (currentBaseViewInfor.ViewType == ViewType.Base_L1View)
                 {
                     Alarms = new ObservableCollection<AlarmWrapper>(filterByL1View(_alarmService.AllExitAlarms));
                 }
-                if (currentBaseViewInfor.ViewType == ViewType.L2View)
+                if (currentBaseViewInfor.ViewType == ViewType.Base_L2View)
                 {
                     Alarms = new ObservableCollection<AlarmWrapper>(filterByL2View(_alarmService.AllExitAlarms));
                 }
@@ -136,6 +184,14 @@ namespace GuiBase.ViewModels
             return from s in alarms
                    where s.L2View == currentBaseViewInfor.ViewName
                    select s;
+        }
+        public void Clear()
+        {
+            Alarms.Clear();
+            _alarmService.AlarmRefreshEvent -= _alarmService_AlarmStatusChangeEvent;
+            _alarmService.ConnectStatusChangeEvent -= onConnectStatusChanged;
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            _ea.GetEvent<PubSubEvent<ViewInfor>>().Unsubscribe(getAlarms);
         }
     }
 }

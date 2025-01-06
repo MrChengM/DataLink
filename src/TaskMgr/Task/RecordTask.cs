@@ -5,7 +5,8 @@ using System;
 using System.Collections.Generic;
 using Timer=System.Timers;
 using DataServer;
-using DBHandler_EF.Serivces;
+using DataServer.Log;
+using DBHandler_EF.Services;
 using Utillity.Data;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -18,7 +19,7 @@ namespace TaskMgr.Task
         private IPointMapping _pointMapping;
         private RecordItemConfig _recordItemConfig;
         private Timer.Timer _timeRecord;
-        private ITagRecord _tagRecord;
+        private ITagRecordCRUD _tagRecord;
         private ILog _log;
         [Dependency]
         public ILog Log
@@ -134,7 +135,7 @@ namespace TaskMgr.Task
         private IPointMapping _pointMapping;
         private RecordItemConfig _recordItemConfig;
         private Timer.Timer _timeRecord;
-        private ITagRecord _tagRecord;
+        private ITagRecordCRUD _tagRecord;
         private ConcurrentQueue<ITag> _recoredTagsQueue;
         private List<string> _pointNames;
         private List<PointNameIndex> _pointNamesCollection;

@@ -113,12 +113,18 @@
   <ItemGroup>
     <Compile Include="Connections\RawConnection.cs" />
     <Compile Include="Hubs\AlarmHub.cs" />
+    <Compile Include="Hubs\AlarmHubProxy.cs" />
     <Compile Include="Hubs\DemoHub.cs" />
+    <Compile Include="Hubs\IAlarmHubProxy.cs" />
+    <Compile Include="Hubs\SignalsHub.cs" />
+    <Compile Include="Hubs\ISignalsHubProxy.cs" />
+    <Compile Include="Hubs\SignalsHubProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SignalRServer.cs" />
     <Compile Include="SignalRServeDemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="WebApi\OperateRecordController.cs" />
     <Compile Include="WebApi\HistoryAlarmsController.cs" />
     <Compile Include="WebApi\HttpBasicAuthenticationFilter .cs" />
     <Compile Include="WebApi\PermissionController.cs" />
@@ -131,6 +137,10 @@
     <ProjectReference Include="..\DataServer\DataServer.csproj">
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utillity\Utillity\Utillity.csproj">
+      <Project>{01177e8d-1a3d-4e01-a32f-42b62e989dfb}</Project>
+      <Name>Utillity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

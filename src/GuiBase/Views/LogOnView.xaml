@@ -27,7 +27,7 @@
             </Style.Setters>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="100" />
@@ -43,7 +43,7 @@
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <materialDesign:PackIcon Kind="Account" Grid.Row="1" Grid.Column="1" />
-        <TextBox Grid.Row="1" Grid.Column="2" x:Name="NameTextBox"  materialDesign:HintAssist.HelperText="Helper text longer than error"  materialDesign:HintAssist.Hint="Name">
+        <TextBox Grid.Row="1" Grid.Column="2" x:Name="NameTextBox"  materialDesign:HintAssist.Hint="Name" Background="{StaticResource COLOR_BRUSH_TextMainBackground}">
             <TextBox.Text>
                 <Binding Path="Name"  UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -53,10 +53,10 @@
             </TextBox.Text>
         </TextBox>
         <materialDesign:PackIcon Kind="Key" Grid.Row="2" Grid.Column="1" />
-        <PasswordBox  x:Name="PasswordBox"  Grid.Row="2" Grid.Column="2"  materialDesign:HintAssist.HelperText="At least 8 characters"  materialDesign:HintAssist.Hint="Password"  materialDesign:TextFieldAssist.HasClearButton="True"  />
+        <PasswordBox  x:Name="PasswordBox"  Grid.Row="2" Grid.Column="2"  materialDesign:HintAssist.HelperText="{Binding PasswordHelper}"  materialDesign:HintAssist.Hint="Password"  materialDesign:TextFieldAssist.HasClearButton="True" Background="{StaticResource COLOR_BRUSH_TextMainBackground}" />
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
-            <Button Margin="50,0" x:Name="LogOnButton" Width="80" Height="35"  Content="LogOn" Command="{Binding LogOnCommand}" CommandParameter="{Binding ElementName=PasswordBox}"  Style="{StaticResource MaterialDesignRaisedButton}"  ToolTip="log in system" />
-            <Button Margin="50,0" x:Name="ExitButton" Width="80" Height="35"   Content="Exit"  Command="{Binding ExitCommand}" Style="{StaticResource MaterialDesignRaisedButton}"  ToolTip="close" />
+            <Button Margin="50,0" x:Name="LogOnButton" Width="80" Height="35"  Content="{Binding ButtonLogon}" Command="{Binding LogOnCommand}" CommandParameter="{Binding ElementName=PasswordBox}"  Style="{StaticResource MaterialDesignRaisedButton}"  ToolTip="log in system" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+            <Button Margin="50,0" x:Name="ExitButton" Width="80" Height="35"   Content="{Binding ButtonExit}"  Command="{Binding ExitCommand}" Style="{StaticResource MaterialDesignRaisedButton}"  ToolTip="close" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
         </StackPanel>
         <TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" x:Name="MessagesTextBox"  Foreground="Red"  Text="{Binding Messages}" HorizontalAlignment="Center"/>
     </Grid>

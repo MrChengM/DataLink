@@ -8,7 +8,11 @@ namespace DataServer.Points
 {
     public interface IWrite<T>
     {
-        event Func<DevicePoint<T>, int,int> WriteEvent;
+        WriteResult Write(int index, T value);
+        WriteResult Writes(T[] values);
+
+        event Func<DevicePoint<T>, int, T , WriteResult> WriteEvent;
+        event Func<DevicePoint<T>, T[], WriteResult> WritesEvent;
 
     }
     public interface IUpdate<T>
@@ -143,7 +147,6 @@ namespace DataServer.Points
 
         }
 
-
         public QUALITIES GetQuality()
         {
             return _value[0].Quality;
@@ -176,18 +179,13 @@ namespace DataServer.Points
             return value;
         }
 
-        public bool SetValue( T value, int index)
+        public bool SetValue(T value, int index)
         {
-            if (RW ==ReadWriteWay.Read)
-            {
-                return false;
-            }
             if (index < _length)
             {
                 if (!_value[index].Vaule.Equals(value))
                 {
                     _value[index].Vaule = value;
-                    RaisWriteEvent(this, index);
                 }
                 return true;
             }
@@ -198,10 +196,7 @@ namespace DataServer.Points
         }
         public bool SetValue(T[] value)
         {
-            if (RW == ReadWriteWay.Read)
-            {
-                return false;
-            }
+            
             if (value.Length <= _value.Length)
             {
                 for (int i = 0; i < value.Length; i++)
@@ -211,38 +206,81 @@ namespace DataServer.Points
                         _value[i].Vaule = value[i];
                     }
                 }
-                if (RaisWriteEvent(this, -1)==-1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        int RaisWriteEvent(DevicePoint<T> point, int index)
-        {
-            if (WriteEvent != null)
-            {
-                return WriteEvent.Invoke(point, index);
+                return true;
             }
             else
             {
-                return -1;
+                return false;
+
+            }
+        }
+        WriteResult RaisWriteEvent( int index,T value)
+        {
+            if (RW == ReadWriteWay.Read)
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',Index:'{index }',not have write Permissions !"
+                };
+            }
+            if (WriteEvent != null)
+            {
+                return WriteEvent.Invoke(this, index,value);
+            }
+            else
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',Index:'{index }',Not find writting channel!"
+                };
+            }
+        }
+        WriteResult RaisWriteEvent(T[] value)
+        {
+            if (RW == ReadWriteWay.Read)
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',not have write Permissions !"
+                };
+            }
+            if (WriteEvent != null)
+            {
+                return WritesEvent.Invoke(this, value);
+            }
+            else
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',Not find writting channel!"
+                };
             }
         }
         public void SetQuality(QUALITIES qualitity, int index)
         {
-            if (index<Length)
+            if (index < Length)
             {
                 Value[index].Quality = qualitity;
             }
         }
 
+        public WriteResult Write(int index,T value)
+        {
+            return RaisWriteEvent( index, value);
+        }
+
+        public WriteResult Writes(T[] values)
+        {
+            return RaisWriteEvent(values);
+        }
+
         public event Action<IPoint<T>, int> UpdataEvent;
-        public event Func<DevicePoint<T>, int,int> WriteEvent;
+        public event Func<DevicePoint<T>, int, T,WriteResult> WriteEvent;
+        public event Func<DevicePoint<T>, T[], WriteResult> WritesEvent;
     }
     public class VirtulPoint<T>: IPoint<T>
     {
@@ -346,7 +384,6 @@ namespace DataServer.Points
                 return false;
             }
         }
-
         public void SetQuality(QUALITIES qualitity, int index)
         {
             _qualitiy = qualitity;

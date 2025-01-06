@@ -1,4 +1,5 @@
 ﻿using DataServer;
+using DataServer.Log;
 using DataServer.Alarm;
 using GuiBase.Models;
 using Microsoft.AspNet.SignalR.Client;
@@ -8,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GuiBase.Services
@@ -34,6 +36,9 @@ namespace GuiBase.Services
         private void initConnection()
         {
             connection = new HubConnection(ServerUrl);
+            ///SignalR消息日志开启
+            connection.TraceLevel = TraceLevels.All;
+            connection.TraceWriter = Console.Out;
             hubProxy = connection.CreateHubProxy("Alarm");
             hubProxy.On<AlarmInstance, AlarmRefresh>("receiveAlarmMessage", receiveAlarmMessage);
             ServicePointManager.DefaultConnectionLimit = 10;
@@ -53,6 +58,7 @@ namespace GuiBase.Services
             }
             else if (state.OldState == ConnectionState.Connecting && state.NewState == ConnectionState.Connected)
             {
+                reconnectTimes = 0;
                 getAllExitAlarmsAsync();
                 IsConnect = true;
                 ConnectStatusChangeEvent?.Invoke(true);
@@ -66,17 +72,35 @@ namespace GuiBase.Services
                 _log.InfoLog($"{_taskName}: Connect to { ServerUrl} failed");
 
             }
-            else if (state.OldState == ConnectionState.Connected && state.NewState == ConnectionState.Disconnected)
-            {
-                IsConnect = false;
-                ConnectStatusChangeEvent?.Invoke(false);
-                _log.InfoLog($"{_taskName}: Disconnect to { ServerUrl} succefully");
-            }
+            //else if (state.OldState == ConnectionState.Connected && state.NewState == ConnectionState.Reconnecting)
+            //{
+            //    IsConnect = false;
+            //    ConnectStatusChangeEvent?.Invoke(false);
+            //    _log.InfoLog($"{_taskName}: Start to Reconnecting { ServerUrl}");
+            //}
+            //else if (state.OldState == ConnectionState.Reconnecting && state.NewState == ConnectionState.Connected)
+            //{
+            //    IsConnect = true;
+            //    ConnectStatusChangeEvent?.Invoke(true);
+            //    _log.InfoLog($"{_taskName}:Reconnect to { ServerUrl} succefully");
+            //}
+            //else if (state.OldState == ConnectionState.Reconnecting && state.NewState == ConnectionState.Disconnected)
+            //{
+            //    IsConnect = false;
+            //    ConnectStatusChangeEvent?.Invoke(false);
+            //    _log.InfoLog($"{_taskName}:Reconnect to { ServerUrl} failed");
+            //}
+            //else if (state.OldState == ConnectionState.Connected && state.NewState == ConnectionState.Disconnected)
+            //{
+            //    IsConnect = false;
+            //    ConnectStatusChangeEvent?.Invoke(false);
+            //    _log.InfoLog($"{_taskName}: Disconnect to { ServerUrl} succefully");
+            //}
         }
 
         private void Connection_Error(Exception e)
         {
-            _log.ErrorLog($"{_taskName}: Connect { ServerUrl} error'{e.Message}'!");
+            _log.ErrorLog($"{_taskName}: Connect to { ServerUrl} error,'{e.Message}'!");
             IsConnect = false;
             ConnectStatusChangeEvent?.Invoke(false);
         }
@@ -91,7 +115,7 @@ namespace GuiBase.Services
             }
             catch (Exception e)
             {
-                _log.ErrorLog($"{_taskName}: connect to { ServerUrl} fail,{e.Message}!");
+                _log.ErrorLog($"{_taskName}: Stop connecting to { ServerUrl} error,'{e.Message}'!");
                 IsConnect = false;
                 ConnectStatusChangeEvent?.Invoke(false);
                 result = false;
@@ -103,8 +127,9 @@ namespace GuiBase.Services
             bool result;
             try
             {
+                stopFlag = true;
                 connection.Stop();
-                _log.InfoLog($"{_taskName}: Start to disconnect { ServerUrl}");
+                _log.InfoLog($"{_taskName}: Start to disconnect { ServerUrl}!");
                 result = true;
             }
             catch (Exception e)
@@ -116,10 +141,12 @@ namespace GuiBase.Services
             }
             return result;
         }
+        private bool stopFlag = false;
         private void Connection_Reconnected()
         {
             IsConnect = true;
             ConnectStatusChangeEvent?.Invoke(true);
+            _log.InfoLog($"{_taskName}: Reconnect to { ServerUrl} succefully !");
             getAllExitAlarmsAsync();
         }
 
@@ -127,8 +154,30 @@ namespace GuiBase.Services
         {
             IsConnect = false;
             ConnectStatusChangeEvent?.Invoke(false);
+            _log.InfoLog($"{_taskName}: Connection have closed,Url '{ ServerUrl}' !");
+            riseReconnect();
         }
+        int reconnectTimes = 0;
+        /// <summary>
+        /// 触发断线重连,10S重连一次
+        /// </summary>
+        private void riseReconnect()
+        {
+            if (!stopFlag)
+            {
+                var task = Task.Factory.StartNew
+                (() =>
+                {
 
+                    reconnectTimes++;
+                    Thread.Sleep(10000);
+                    _log.InfoLog($"{_taskName}:Reconnect to '{ServerUrl}' by manual,times:{reconnectTimes}");
+                    Start();
+
+                }
+                );
+            }
+        }
         private void receiveAlarmMessage(AlarmInstance instance, AlarmRefresh status)
         {
             ///更新
@@ -139,12 +188,12 @@ namespace GuiBase.Services
 
         private void updateAlarms(AlarmWrapper newAlarm, AlarmRefresh status)
         {
-            var oldaAlarm = AllExitAlarms.Find(s => s.AlarmName == newAlarm.AlarmName);
+            var oldAlarm = AllExitAlarms.Find(s => s.AlarmName == newAlarm.AlarmName);
             if (status == AlarmRefresh.Updata)
             {
-                if (oldaAlarm != null)
+                if (oldAlarm != null)
                 {
-                    oldaAlarm.CopyFrom(newAlarm);
+                    oldAlarm.CopyFrom(newAlarm);
                     AlarmRefreshEvent?.Invoke(newAlarm, AlarmRefresh.Updata);
                 }
                 else
@@ -152,15 +201,15 @@ namespace GuiBase.Services
                     AllExitAlarms.Add(newAlarm);
                     newAlarm.AlarmConfrimEvent += AlarmConfrimEvent;
                     AlarmRefreshEvent?.Invoke(newAlarm, AlarmRefresh.Add);
-
                 }
             }
             else
             {
-                if (oldaAlarm != null)
+                if (oldAlarm != null)
                 {
-                    AllExitAlarms.Remove(oldaAlarm);
-                    oldaAlarm.AlarmConfrimEvent -= AlarmConfrimEvent;
+                    AllExitAlarms.Remove(oldAlarm);
+                    oldAlarm.AlarmConfrimEvent -= AlarmConfrimEvent;
+                    oldAlarm.Clear();
                     AlarmRefreshEvent?.Invoke(newAlarm, AlarmRefresh.Remove);
 
                 }
@@ -173,6 +222,7 @@ namespace GuiBase.Services
             foreach (var alarm in AllExitAlarms)
             {
                 alarm.AlarmConfrimEvent -= AlarmConfrimEvent;
+                alarm.Clear();
             }
             AllExitAlarms.Clear();
             foreach (var instance in alarmInstances)
@@ -188,9 +238,9 @@ namespace GuiBase.Services
             SendConfrim(name);
         }
 
-        public async void SendConfrim(string name)
+        public void SendConfrim(string name)
         {
-           await hubProxy.Invoke("AlarmConfrim",name);
+            hubProxy.Invoke("AlarmConfrim", name);
         }
 
     }

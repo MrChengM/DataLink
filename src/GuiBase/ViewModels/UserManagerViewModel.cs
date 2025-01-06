@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using Prism.Events;
 using GuiBase.Services;
 using System.Collections.ObjectModel;
 using GuiBase.Models;
@@ -20,6 +21,8 @@ namespace GuiBase.ViewModels
 
         private ISecurityService _securityService;
         private IDialogService _dialogService;
+        private IEventAggregator _ea;
+        private ILocalizationService _localizationService;
 
         private ObservableCollection<UserWrapper> userWrappers;
 
@@ -28,6 +31,16 @@ namespace GuiBase.ViewModels
             get { return userWrappers; }
             set { SetProperty(ref userWrappers, value, "UserWrappers"); }
         }
+
+        private UserCaptions captions;
+
+        public UserCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
+
+
 
         private List<User> users;
         public UserFilterCondition UserFilter { get; set; }
@@ -40,10 +53,18 @@ namespace GuiBase.ViewModels
         public DelegateCommand ImportUsersCommand { get; set; }
         public DelegateCommand<UserWrapper> EnableOpertCommand { get; set; }
 
-        public UserManagerViewModel(ISecurityService securityService, IDialogService dialogService)
+        public UserManagerViewModel(ISecurityService securityService, IDialogService dialogService,ILocalizationService localizationService,IEventAggregator ea)
         {
             _securityService = securityService;
             _dialogService = dialogService;
+            _ea = ea;
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Subscribe(onDialogClosed);
+
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Captions = new UserCaptions(_localizationService);
+            translate();
+
             UserFilter = new UserFilterCondition();
             EditUserCommand = new DelegateCommand<UserWrapper>(editUser);
             DeleteUserCommand = new DelegateCommand<UserWrapper>(deleteUser);
@@ -55,12 +76,31 @@ namespace GuiBase.ViewModels
             UserWrappers = new ObservableCollection<UserWrapper>();
             searchUsers();
         }
-
+        private void onDialogClosed(DialogClosedResult result)
+        {
+            if (result.ViewName == "AccManagerView")
+            {
+                Clear();
+            }
+        }
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Captions.GetContent();
+            
+        }
         private void enableOpert(UserWrapper wrapper)
         {
+            var caption = _localizationService.Translate(TranslateCommonId.WaringId);
+            var message = _localizationService.Translate(TranslateCommonId.DisableUserWarningId);
+            var message1 = _localizationService.Translate(TranslateCommonId.DisableUserFailId);
+            var message2 = _localizationService.Translate(TranslateCommonId.EnableUserFailId);
             if (!wrapper.Status)
             {
-                var btnResult = MessageBox.Show("确定要禁用该账户吗？", "提示", MessageBoxButton.OKCancel);
+                var btnResult = MessageBox.Show(message, caption, MessageBoxButton.OKCancel);
                 if (btnResult == MessageBoxResult.OK)
                 {
                     var roles = _securityService.GetAllRoles();
@@ -70,7 +110,7 @@ namespace GuiBase.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("禁用账号失败，请检查与服务器连接", "提示");
+                        MessageBox.Show(message1, caption);
                         wrapper.Status = true;
 
                     }
@@ -89,7 +129,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("启用账号失败！", "提示");
+                    MessageBox.Show(message2, caption);
                     wrapper.Status = false;
 
                 }
@@ -170,7 +210,10 @@ namespace GuiBase.ViewModels
 
         private void deleteUser(UserWrapper wrapper)
         {
-            var btnResult = MessageBox.Show("确定要删除该账户吗？", "提示", MessageBoxButton.OKCancel);
+            var caption = _localizationService.Translate(TranslateCommonId.WaringId);
+            var meassage = _localizationService.Translate(TranslateCommonId.DeleteUserWarningId);
+            var meassage1 = _localizationService.Translate(TranslateCommonId.DeleteUserFailId);
+            var btnResult = MessageBox.Show(meassage, caption, MessageBoxButton.OKCancel);
             if (btnResult == MessageBoxResult.OK)
             {
                 var roles = _securityService.GetAllRoles();
@@ -180,7 +223,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("删除账号失败！", "提示");
+                    MessageBox.Show(meassage1, caption);
                 }
             }
 
@@ -214,6 +257,11 @@ namespace GuiBase.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
-      
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Unsubscribe(onDialogClosed);
+
+        }
     }
 }

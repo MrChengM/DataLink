@@ -18,6 +18,7 @@ namespace GuiBase.ViewModels
     public class ResourceNameListViewModel : BindableBase,IDialogAware
     {
         public ISecurityService _securityService;
+        public ILocalizationService _localizationService;
 
         public ObservableCollection<string> ResourceNames { get; set; }
 
@@ -31,17 +32,44 @@ namespace GuiBase.ViewModels
             set { SetProperty(ref selectName, value, "SelectName"); }
         }
 
-        public string Title => "Resource Name List";
+        private ResourceCaptions captions;
 
+        public ResourceCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
+
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
         public event Action<IDialogResult> RequestClose;
 
-        public ResourceNameListViewModel(ISecurityService securityService)
+        public ResourceNameListViewModel(ISecurityService securityService,ILocalizationService localizationService)
         {
             _securityService = securityService;
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Captions = new ResourceCaptions(_localizationService);
+            translate();
             ConfrimBtnCommand = new DelegateCommand<string>(confrimBtn);
             initList();
         }
 
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Title = _localizationService.Translate(TranslateCommonId.ResourceNameListId);
+            Captions.GetContent();
+
+        }
         void initList()
         {
             ResourceNames = new ObservableCollection<string>();
@@ -64,6 +92,7 @@ namespace GuiBase.ViewModels
 
         private void confrimBtn(string param)
         {
+            var message = _localizationService.Translate(TranslateCommonId.ResourceNameSetErrorId);
             var dialogParam = new DialogParameters();
             var btnResult = new ButtonResult();
             if (param == "OK")
@@ -75,7 +104,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("请选择资源名称！");
+                    MessageBox.Show(message);
                 }
             }
             else if (param == "Cancel")
@@ -91,11 +120,15 @@ namespace GuiBase.ViewModels
 
         public void OnDialogClosed()
         {
-
+            Clear();
         }
-
         public void OnDialogOpened(IDialogParameters parameters)
         {
+        }
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            ResourceNames.Clear();
         }
     }
 }

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Prism.Ioc;
+using GuiBase.Services;
+using GuiBase.Models;
 
 namespace GuiBase.Helper
 {
@@ -12,8 +15,9 @@ namespace GuiBase.Helper
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
+          var ls=  ContainerLocator.Container.Resolve<ILocalizationService>();
             return string.IsNullOrWhiteSpace((value ?? "").ToString())
-                ? new ValidationResult(false, "Field is required.")
+                ? new ValidationResult(false, ls[TranslateCommonId.EmptyValueId])
                 : ValidationResult.ValidResult;
         }
     }

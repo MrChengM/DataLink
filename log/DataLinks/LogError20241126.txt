@@ -1,0 +1,2 @@
+2024-11-26 10:12:12,456 ERROR DataLinksLogger Channel2.Device1: Modbus 远程主机强迫关闭了一个现有的连接。   
+2024-11-26 10:36:52,994 ERROR DataLinksLogger Channel2.Device1: Modbus 远程主机强迫关闭了一个现有的连接。   

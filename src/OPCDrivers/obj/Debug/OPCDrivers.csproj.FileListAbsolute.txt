@@ -33,3 +33,8 @@ D:\Projects\DataLinks\src\OPCDrivers\obj\Debug\OPCDrivers.csproj.CoreCompileInpu
 D:\Projects\DataLinks\src\OPCDrivers\obj\Debug\OPCDrivers.dll
 D:\Projects\DataLinks\src\OPCDrivers\obj\Debug\OPCDrivers.pdb
 D:\Projects\DataLinks\src\OPCDrivers\obj\Debug\OPCDrivers.csproj.AssemblyReference.cache
+D:\Projects\DataLink\src\OPCDrivers\bin\Debug\OPCDrivers.dll
+D:\Projects\DataLink\src\OPCDrivers\bin\Debug\OPCDrivers.pdb
+D:\Projects\DataLink\src\OPCDrivers\obj\Debug\OPCDrivers.csproj.CoreCompileInputs.cache
+D:\Projects\DataLink\src\OPCDrivers\obj\Debug\OPCDrivers.dll
+D:\Projects\DataLink\src\OPCDrivers\obj\Debug\OPCDrivers.pdb

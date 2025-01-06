@@ -1,0 +1,93 @@
+<ResourceDictionary
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+	xmlns:ec="http://schemas.microsoft.com/expression/2010/controls"
+    mc:Ignorable="d"
+    xmlns:control="clr-namespace:GuiBase.Controls">
+    <Style x:Key="BG_Conveyor_Straight_L2" TargetType="control:BaseElement">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:BaseElement">
+                    <Grid x:Name="Root" d:DesignWidth="30" d:DesignHeight="20" Cursor="{TemplateBinding Cursor}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="ControlStates"/>
+                            <VisualStateGroup x:Name="RunningDirection">
+                                <VisualState x:Name="Forward"/>
+                                <VisualState x:Name="Reverse">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="-1" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="DirectionChevrons" d:IsOptimized="True"/>
+                                        <DoubleAnimation Duration="0" To="-45" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" Storyboard.TargetName="DirectionChevrons" d:IsOptimized="True"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DisplayRunningDirection">
+                                <VisualState x:Name="ShowTransportDirection">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="TravelDirectionGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="HideTransportDirection">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="TravelDirectionGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Default"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="Spacer" IsHitTestVisible="False" Width="30" Height="20"/>
+                        <Grid x:Name="LEVEL2VIEW">
+                            <Rectangle x:Name="FrameDefault" StrokeThickness="0.5" Fill="{StaticResource COLOR_BRUSH_FrameDefault}"/>
+                            <Rectangle x:Name="FrameOverride" StrokeThickness="0.5" Fill="{TemplateBinding Background}" Stroke="Black"/>
+                            <Rectangle x:Name="BeltEdge" Margin="0,3" StrokeThickness="0" UseLayoutRounding="False" Fill="Black"/>
+                            <Rectangle x:Name="Signal" Margin="0,3.5" StrokeThickness="0" Fill="{StaticResource BaseNoConColor_BRUSH}" UseLayoutRounding="False"/>
+                            <Rectangle x:Name="BeltStart" HorizontalAlignment="Left" Margin="0,3" StrokeThickness="0" Width="2" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <RotateTransform Angle="180"/>
+                                </Rectangle.RenderTransform>
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0,0.453" StartPoint="1.001,0.454">
+                                        <GradientStop Color="#CC000000" Offset="0"/>
+                                        <GradientStop Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Rectangle x:Name="BeltEnd" Margin="0,3" StrokeThickness="0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="2">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0,0.453" StartPoint="1.001,0.454">
+                                        <GradientStop Color="#CC000000" Offset="0"/>
+                                        <GradientStop Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Grid>
+                        <Grid x:Name="TravelDirectionGrid" Visibility="Collapsed">
+                            <Path x:Name="DirectionChevrons" Data="M7.2193017,8.2404814 L6.6805463,16.422308 L4.7484951,10.807862 L-0.93587273,9.0922756 z M11.980838,3.6356244 L11.285397,11.805624 L9.4612875,6.1551862 L3.8108385,4.3309879 z M16.552338,-0.93580186 L15.856894,7.2341986 L14.032786,1.58376 L8.3823376,-0.24043797 z" Fill="{Binding Fill,ElementName=Signal}" HorizontalAlignment="Center" Height="15.028" RenderTransformOrigin="0.587,0.415" Stretch="Fill" Stroke="{Binding Fill, ElementName=Signal}" StrokeThickness="0.2" StrokeLineJoin="Round" UseLayoutRounding="False" VerticalAlignment="Center" Width="15.134" Margin="-3,0">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="180" />
+                                        <ScaleTransform ScaleX="-1.6"  ScaleY="1.3"/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,2 @@
+2024-10-23 15:53:01,030 INFO  ConfigToolLogger Load DriverInfos form defult path,Path:'../../../../conf/DriverInformation.Json'  
+2024-10-23 15:53:01,057 INFO  ConfigToolLogger Load ProjectConfig form defult path,Path:'../../../../conf/ProjectConfig.Json'  

@@ -8,9 +8,9 @@ using GuiBase.Models;
 using GuiBase.Services;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using DataServer;
 using System.Threading;
 using System.Threading.Tasks;
+using DataServer.Log;
 
 namespace GuiBase.ViewModels
 {
@@ -18,8 +18,14 @@ namespace GuiBase.ViewModels
     {
         private ILog _log;
         private IHistoryAlarmService _historyAlarmService;
-        public string Title => "HistoryAlarm";
+        private ILocalizationService _localizationService;
+        private string title;
 
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
         public event Action<IDialogResult> RequestClose;
 
 
@@ -55,30 +61,77 @@ namespace GuiBase.ViewModels
             get { return isWaiting; }
             set { SetProperty(ref isWaiting, value, "IsWaiting"); }
         }
+        private string filterCondition;
+
+        public string FilterCondition
+        {
+            get { return filterCondition; }
+            set { SetProperty(ref filterCondition, value, "FilterCondition"); }
+        }
+        private AlarmCaptions columns;
+
+        public AlarmCaptions Columns
+        {
+            get { return columns; }
+            set { SetProperty(ref columns, value, "Columns"); }
+        }
+
+        private string buttonOK;
+
+        public string ButtonOK
+        {
+            get { return buttonOK; }
+            set { SetProperty(ref buttonOK, value, "ButtonOK"); }
+        }
+
+        private string buttonCancel;
+
+        public string ButtonCancel
+        {
+            get { return buttonCancel; }
+            set { SetProperty(ref buttonCancel, value, "ButtonCancel"); }
+        }
+
+        private string textTotal;
+
+        public string TextTotal
+        {
+            get { return textTotal; }
+            set { SetProperty(ref textTotal, value, "TextTotal"); }
+        }
 
         public DelegateCommand<string> TopDrawerOperationCommand { get; set; }
         //public DelegateCommand DrawerCloseCommand { get; set; }
 
-        public HistoryAlarmViewModel(IHistoryAlarmService historyAlarmService,ILog log)
+        public HistoryAlarmViewModel(IHistoryAlarmService historyAlarmService,ILog log,ILocalizationService localizationService)
         {
             _historyAlarmService = historyAlarmService;
             _log = log;
             TopDrawerOperationCommand = new DelegateCommand<string>(topDrawerOperation);
             //DrawerCloseCommand = new DelegateCommand(drawerClose);
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Columns = new AlarmCaptions(localizationService);
+            translate();
         }
 
-        //private void drawerClose()
-        //{
-
-        //    App.Current.Dispatcher.Invoke(() =>
-        //    {
-        //        IsWaiting = true;
-        //        HistoryAlarms = _historyAlarmService.Select(SelectCondition);
-        //        Counts = HistoryAlarms.Count;
-        //        IsWaiting = false;
-
-        //    });
-        //}
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Title = _localizationService.Translate(TranslateCommonId.AlarmId);
+            FilterCondition = _localizationService.Translate(TranslateCommonId.FilterConditionId);
+            ButtonOK = _localizationService.Translate(TranslateCommonId.OKId);
+            ButtonCancel = _localizationService.Translate(TranslateCommonId.CancelId);
+            TextTotal = _localizationService.Translate(TranslateCommonId.TotalId);
+            foreach (var hisAlarm in HistoryAlarms)
+            {
+                hisAlarm.LocalizationDescrible= _localizationService.Translate(hisAlarm.AlarmNumber);
+            }
+            Columns.GetContent();
+        }
 
         private void topDrawerOperation(string topDrawerParam)
         {
@@ -92,7 +145,7 @@ namespace GuiBase.ViewModels
                 Task.Run(() =>
                 {
                     IsWaiting = true;
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                     HistoryAlarms = _historyAlarmService.Select(SelectCondition);
                     if (HistoryAlarms != null)
                     {
@@ -117,10 +170,18 @@ namespace GuiBase.ViewModels
 
         public void OnDialogClosed()
         {
+            Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+        }
+
+        public void Clear()
+        {
+            HistoryAlarms.Clear();
+            _localizationService.LanguageChanged -= onLanguageChanged;
+
         }
     }
 }

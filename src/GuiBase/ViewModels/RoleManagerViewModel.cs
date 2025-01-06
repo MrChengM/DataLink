@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using Prism.Events;
 using GuiBase.Services;
 using System.Collections.ObjectModel;
 using GuiBase.Models;
@@ -18,6 +19,8 @@ namespace GuiBase.ViewModels
     {
         private ISecurityService _securityService;
         private IDialogService _dialogService;
+        private ILocalizationService _localizationService;
+        private IEventAggregator _ea;
 
         private string filterName;
 
@@ -34,6 +37,13 @@ namespace GuiBase.ViewModels
             get { return roleWrappers; }
             set { SetProperty(ref roleWrappers, value, "RoleWrappers"); }
         }
+        private RoleCaptions captions;
+
+        public RoleCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
         public DelegateCommand SearchRolesCommand { get; set; }
 
         public DelegateCommand AddRoleCommand { get; set; }
@@ -46,10 +56,17 @@ namespace GuiBase.ViewModels
         public DelegateCommand<RoleWrapper> AssignResourceCommand { get; set; }
 
 
-        public RoleManagerViewModel(ISecurityService securityService,IDialogService dialogService)
+        public RoleManagerViewModel(ISecurityService securityService,IDialogService dialogService,ILocalizationService localizationService, IEventAggregator ea )
         {
             _securityService = securityService;
             _dialogService = dialogService;
+            _localizationService = localizationService;
+            _ea = ea;
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Subscribe(onDialogClosed);
+
+            Captions = new RoleCaptions(_localizationService);
+            _localizationService.LanguageChanged += onLanguageChanged;
+            translate();
             searchRoles();
             SearchRolesCommand = new DelegateCommand(searchRoles);
             AddRoleCommand = new DelegateCommand(addRole);
@@ -59,8 +76,22 @@ namespace GuiBase.ViewModels
             EditRoleCommand = new DelegateCommand<RoleWrapper>(editRole);
             DeleteRoleCommand = new DelegateCommand<RoleWrapper>(deleteRole);
             AssignResourceCommand = new DelegateCommand<RoleWrapper>(assignResource);
-    }
-
+        }
+        private void onDialogClosed(DialogClosedResult result)
+        {
+            if (result.ViewName == "AccManagerView")
+            {
+                Clear();
+            }
+        }
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Captions.GetContent();
+        }
         private void assignResource(RoleWrapper wrapper)
         {
             var dParam = new DialogParameters();
@@ -70,7 +101,11 @@ namespace GuiBase.ViewModels
 
         private void deleteRole(RoleWrapper wrapper)
         {
-            var btnResult = MessageBox.Show("确定要删除该角色吗？", "提示", MessageBoxButton.OKCancel);
+            var message = _localizationService.Translate(TranslateCommonId.DeleteRoleWarningId);
+            var caption = _localizationService.Translate(TranslateCommonId.WaringId);
+            var message1 = _localizationService.Translate(TranslateCommonId.DeleteRoleFailId);
+
+            var btnResult = MessageBox.Show(message, caption, MessageBoxButton.OKCancel);
             if (btnResult == MessageBoxResult.OK)
             {
                 var resources = _securityService.GetAllResources();
@@ -80,7 +115,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("删除角色失败！", "提示");
+                    MessageBox.Show(message1, caption);
                 }
             }
         }
@@ -102,10 +137,15 @@ namespace GuiBase.ViewModels
 
         private void enableOpert(RoleWrapper wrapper)
         {
+            var meassage = _localizationService.Translate(TranslateCommonId.DisableResourceWarningId);
+            var caption = _localizationService.Translate(TranslateCommonId.WaringId);
+            var meassage1 = _localizationService.Translate(TranslateCommonId.DisableRoleFailId);
+            var meassage2 = _localizationService.Translate(TranslateCommonId.EnableRoleFailId);
+
             var resources = _securityService.GetAllResources();
             if (!wrapper.Status)
             {
-                var btnResult = MessageBox.Show("确定要禁用该角色吗？", "提示", MessageBoxButton.OKCancel);
+                var btnResult = MessageBox.Show(meassage, caption, MessageBoxButton.OKCancel);
 
                 if (btnResult == MessageBoxResult.OK)
                 {
@@ -115,7 +155,7 @@ namespace GuiBase.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("禁用角色失败!", "提示");
+                        MessageBox.Show(meassage1, caption);
                         wrapper.Status = true;
 
                     }
@@ -133,7 +173,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("启用角色失败！", "提示");
+                    MessageBox.Show(meassage2, caption);
                     wrapper.Status = false;
 
                 }
@@ -197,6 +237,12 @@ namespace GuiBase.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+        }
+
+        public void Clear()
+        {
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Unsubscribe(onDialogClosed);
+            _localizationService.LanguageChanged -= onLanguageChanged;
         }
     }
 }

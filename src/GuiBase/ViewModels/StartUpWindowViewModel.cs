@@ -18,6 +18,7 @@ namespace GuiBase.ViewModels
         private IEventAggregator _ea;
         private IContainerExtension _container;
         private IRegionManager _regionManager;
+
         private string _title = "StartUp";
         public string Title
         {

@@ -38,3 +38,8 @@ D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.csproj.CoreCompile
 D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.dll
 D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.pdb
 D:\Projects\DataLinks\src\OmronDrivers\obj\Debug\OmronDrivers.csproj.AssemblyReference.cache
+D:\Projects\DataLink\src\OmronDrivers\bin\Debug\OmronDrivers.dll
+D:\Projects\DataLink\src\OmronDrivers\bin\Debug\OmronDrivers.pdb
+D:\Projects\DataLink\src\OmronDrivers\obj\Debug\OmronDrivers.csproj.CoreCompileInputs.cache
+D:\Projects\DataLink\src\OmronDrivers\obj\Debug\OmronDrivers.dll
+D:\Projects\DataLink\src\OmronDrivers\obj\Debug\OmronDrivers.pdb

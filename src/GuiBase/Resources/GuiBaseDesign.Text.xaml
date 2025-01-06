@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"	
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <System:String x:Key="TEXT_STRING_AL4001">主控门打开</System:String>
+    <System:String x:Key="TEXT_STRING_AL4002">空开跳闸</System:String>
+    <System:String x:Key="TEXT_STRING_AL4003">主电源故障</System:String>
+    <System:String x:Key="TEXT_STRING_AL4004">急停</System:String>
+    <System:String x:Key="TEXT_STRING_Unkown">未知状态</System:String>
+
+</ResourceDictionary>

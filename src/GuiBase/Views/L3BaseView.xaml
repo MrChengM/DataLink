@@ -1,0 +1,147 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             x:Class="GuiBase.Views.L3BaseView"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GuiBase.Views"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:Custom="http://www.codeplex.com/prism" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="800" Width="800">
+    <Grid >
+        <TabControl>
+            <TabItem Header="{Binding TableMain}" BorderBrush="Black" BorderThickness="1" Margin="0" FontSize="14" >
+                    <StackPanel Orientation="Vertical">
+                    <ContentControl Height="600" prism:RegionManager.RegionName="ElementShowRegion" Margin="4" />
+                    <ListView ItemsSource="{Binding Alarms}" Style="{StaticResource MaterialDesignListView}" Height="150" Margin="4" >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                                <Setter Property="Background" Value="{Binding RowColor}"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
+                                <GridViewColumn DisplayMemberBinding="{Binding PartName}" Header="{Binding Columns.PartName}" Width="100" />
+                                <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="{Binding Columns.AlarmLevel}" Width="100" />
+                                <GridViewColumn DisplayMemberBinding="{Binding LocalizationDescrible}" Header="{Binding Columns.Description}" Width="280"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="{Binding Columns.AppearTime}" Width="150"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Counts}" Header="{Binding Columns.Counts}" Width="70" />
+                                <GridViewColumn Header="{Binding Columns.Confirm}" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button  Content="{materialDesign:PackIcon Check}" Command="{Binding ConfirmCommand}" Height="25" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding ConfirmEnable}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{Binding TableHistoryAlarm}" BorderBrush="Black" BorderThickness="1" FontSize="14">
+                <StackPanel Orientation="Vertical" >
+                    <Border Height="100" BorderThickness="1" BorderBrush="Black" Margin="4">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,20,20,20" >
+                                <TextBlock  Text="{Binding Columns.AppearTime}" Margin="10,0"   Height="20" />
+                                <materialDesign:DialogHost  DialogClosing="StartCombinedDialogClosingEventHandler" DialogOpened="StartCombinedDialogOpenedEventHandler" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" >
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <Grid  Margin="-1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                <Calendar x:Name="StartCombinedCalendar" Margin="-1,-4,-1,0" />
+                                                <materialDesign:Clock  x:Name="StartCombinedClock"  DisplayAutomation="CycleWithSeconds" Is24Hours="True" />
+                                            </StackPanel>
+                                            <StackPanel  Grid.Row="1"  Margin="8"  HorizontalAlignment="Right"  Orientation="Horizontal">
+                                                <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="0"
+                                            Content="{Binding ButtonCancel}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                                <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="1"
+                                            Content="{Binding ButtonOK}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </materialDesign:DialogHost.DialogContent>
+                                    <StackPanel  Orientation="Horizontal">
+                                        <TextBox VerticalAlignment="Center"  Text="{Binding SelectCondition.StartDate, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"  MinWidth="150"/>
+                                        <Button Margin="8,0,0,0" IsEnabled="True" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="..." Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                    </StackPanel>
+                                </materialDesign:DialogHost>
+                                <TextBlock  Text="---" Margin="10,0"   Height="16"  />
+                                <materialDesign:DialogHost  DialogClosing="EndCombinedDialogClosingEventHandler" DialogOpened="EndCombinedDialogOpenedEventHandler" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}">
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <Grid  Margin="-1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                <Calendar x:Name="EndCombinedCalendar" Margin="-1,-4,-1,0" />
+                                                <materialDesign:Clock  x:Name="EndCombinedClock"  DisplayAutomation="CycleWithSeconds" Is24Hours="True" />
+                                            </StackPanel>
+                                            <StackPanel  Grid.Row="1"  Margin="8"  HorizontalAlignment="Right"  Orientation="Horizontal">
+                                                <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="0"
+                                            Content="{Binding ButtonCancel}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                                <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="1"
+                                            Content="{Binding ButtonOK}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </materialDesign:DialogHost.DialogContent>
+                                    <StackPanel  Orientation="Horizontal">
+                                        <TextBox VerticalAlignment="Center"  Text="{Binding SelectCondition.EndDate, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"  MinWidth="150"/>
+                                        <Button Margin="8,0,0,0" IsEnabled="True" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="..." Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                    </StackPanel>
+                                </materialDesign:DialogHost>
+                            </StackPanel>
+                            <Button  Margin="0" Height="30" Width="100"   Command="{Binding QueryDataCommand}"    Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Width="23" Height="23" Kind="DatabaseSearchOutline" Margin="0,0,2,0"/>
+                                    <TextBlock  Text="{Binding ButtonQuery}" />
+                                </StackPanel>
+                            </Button>
+                        </DockPanel>
+                    </Border>
+                    <ListView Grid.Row="0" ItemsSource="{Binding HistoryAlarms}"  Margin="4" Height="600" >
+                        <ListView.Style >
+                            <Style  TargetType="ListView">
+                                <Setter Property="BorderBrush" Value="Gray"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"/>
+                            </Style>
+                        </ListView.Style>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                                <Setter Property="Background" Value="{Binding RowColor}"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
+                                <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="{Binding Columns.AlarmLevel}" Width="100" />
+                                <GridViewColumn DisplayMemberBinding="{Binding LocalizationDescrible}" Header="{Binding Columns.Description}" Width="280"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="{Binding Columns.AppearTime}" Width="160"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding EndTime}" Header="{Binding Columns.EndTime}" Width="160"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Duration}" Header="{Binding Columns.Duration}" Width="100"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -10,7 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using DataServer;
-using DBHandler_EF.Serivces;
+using DataServer.Log;
+using DBHandler_EF.Services;
 using Utillity.Data;
 using Unity;
 
@@ -21,7 +22,7 @@ namespace TaskMgr.Task
         private IPointMapping _pointMapping;
         private AlarmsConfig _alarmsConfig;
         private Timer _timeRecord;
-        private IHisAlarmRecord _hisAlarmRecord;
+        private IHisAlarmRecordCRUD _hisAlarmRecord;
         private ConcurrentQueue<HistoryAlarm> _historyAlarmQueue;
         private Dictionary<string,AlarmInstance> _alarmInstanceDic;
         private Dictionary<string, IPoint<bool>> _alarmPointDic;
@@ -31,7 +32,7 @@ namespace TaskMgr.Task
         public AlarmsConfig AlarmsConfig { get { return _alarmsConfig; } set { _alarmsConfig = value; } }
 
         private Dictionary<string,AlarmPointCondition> _alarmPointConditionDic;
-        public AlarmTask(IPointMapping pointMapping, IHisAlarmRecord hisAlarmRecord, ILog log)
+        public AlarmTask(IPointMapping pointMapping, IHisAlarmRecordCRUD hisAlarmRecord, ILog log)
         {
             _pointMapping = pointMapping;
             _hisAlarmRecord = hisAlarmRecord;
@@ -297,7 +298,7 @@ namespace TaskMgr.Task
                     switch (a.Condition)
                     {
                         case ConditionType.Bit:
-                            alarmPoint.SetValue(NetConvert.IntToBool(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)),0);
+                            alarmPoint.SetValue(NetConvert.GetBit(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)),0);
                             break;
                         case ConditionType.MoreThan:
                             alarmPoint.SetValue(data > a.ConditionValue, 0);
@@ -332,7 +333,7 @@ namespace TaskMgr.Task
                     switch (a.Condition)
                     {
                         case ConditionType.Bit:
-                            alarmPoint.SetValue(NetConvert.IntToBool(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
+                            alarmPoint.SetValue(NetConvert.GetBit(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
                             break;
                         case ConditionType.MoreThan:
                             alarmPoint.SetValue(data > a.ConditionValue, 0);
@@ -366,7 +367,7 @@ namespace TaskMgr.Task
                     switch (a.Condition)
                     {
                         case ConditionType.Bit:
-                            alarmPoint.SetValue(NetConvert.IntToBool(data, System.Convert.ToInt32(a.ConditionValue)), 0);
+                            alarmPoint.SetValue(NetConvert.GetBit(data, System.Convert.ToInt32(a.ConditionValue)), 0);
                             break;
                         case ConditionType.MoreThan:
                             alarmPoint.SetValue(data > a.ConditionValue, 0);
@@ -400,7 +401,7 @@ namespace TaskMgr.Task
                     switch (a.Condition)
                     {
                         case ConditionType.Bit:
-                            alarmPoint.SetValue(NetConvert.IntToBool(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
+                            alarmPoint.SetValue(NetConvert.GetBit(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
                             break;
                         case ConditionType.MoreThan:
                             alarmPoint.SetValue(data > a.ConditionValue, 0);
@@ -434,7 +435,7 @@ namespace TaskMgr.Task
                     switch (a.Condition)
                     {
                         case ConditionType.Bit:
-                            alarmPoint.SetValue(NetConvert.IntToBool(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
+                            alarmPoint.SetValue(NetConvert.GetBit(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
                             break;
                         case ConditionType.MoreThan:
                             alarmPoint.SetValue(data > a.ConditionValue, 0);
@@ -468,7 +469,7 @@ namespace TaskMgr.Task
                     switch (a.Condition)
                     {
                         case ConditionType.Bit:
-                            alarmPoint.SetValue(NetConvert.IntToBool(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
+                            alarmPoint.SetValue(NetConvert.GetBit(System.Convert.ToInt32(data), System.Convert.ToInt32(a.ConditionValue)), 0);
                             break;
                         case ConditionType.MoreThan:
                             alarmPoint.SetValue(data > a.ConditionValue, 0);

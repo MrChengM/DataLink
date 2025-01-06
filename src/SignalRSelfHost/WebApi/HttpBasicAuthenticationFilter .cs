@@ -79,7 +79,7 @@ namespace SignalRSelfHost.WebApi
 
         protected virtual bool ValidateUser(string userName, string password)
         {
-            var _permissionManager = SignalRServer.Container.Resolve<IPermissionManager>();
+            var _permissionManager = SignalRServer.Container.Resolve<IPermissionsCRUD>();
             if (_permissionManager.ValidateUser(userName, password)) //判断用户名及密码，实际可从数据库查询验证,可重写
             {
                 return true;
@@ -153,7 +153,7 @@ namespace SignalRSelfHost.WebApi
 
         protected virtual bool ValidateUser(string userName, string password)
         {
-            var _permissionManager = SignalRServer.Container.Resolve<IPermissionManager>();
+            var _permissionManager = SignalRServer.Container.Resolve<IPermissionsCRUD>();
             var user = _permissionManager.GetUser(userName, password);
             if (user != null) //判断用户名及密码，实际可从数据库查询验证,可重写
             {

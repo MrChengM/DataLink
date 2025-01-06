@@ -1,0 +1,10 @@
+2024-12-18 09:30:35,363 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-12-18 09:30:37,422 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-12-18 09:34:50,620 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-12-18 09:34:52,684 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-12-18 14:51:24,467 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-12-18 14:51:26,525 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-12-18 16:25:22,650 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-12-18 16:25:24,717 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2024-12-18 16:50:02,426 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2024-12-18 16:50:04,496 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   

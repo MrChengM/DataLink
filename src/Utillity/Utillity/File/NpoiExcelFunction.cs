@@ -111,7 +111,7 @@ namespace Utillity.File
                 if (workbook!=null)
                 {
                     ISheet sheet = workbook.GetSheet(sheetName);
-                    for(int i = 0; i < sheet.LastRowNum; i++)
+                    for(int i = 0; i <= sheet.LastRowNum; i++)
                     {
                         IRow row = sheet.GetRow(i);
 
@@ -121,8 +121,7 @@ namespace Utillity.File
                             var s = cellToString(cell);
                             ls.Add(s);
                         }
-                        T t = new T();
-                        cellParse(t,ls);
+                        T t= cellParse(ls);
                         result.Add(t);
                     }
                 }
@@ -134,14 +133,13 @@ namespace Utillity.File
             workbook?.Close();
             return result;
         }
-
         /// <summary>
         /// 单元处理委托函数
         /// </summary>
         /// <typeparam name="T">可实例化的泛型类型</typeparam>
         /// <param name="obj">具体的实例化</param>
         /// <param name="soures">表类型数据源</param>
-        public delegate void CellParse<T>(T obj, List<string> soures) where T : new();
+        public delegate T CellParse<T>( List<string> soures) where T : new();
         private static string cellToString(ICell cell)
         {
             string result = "";

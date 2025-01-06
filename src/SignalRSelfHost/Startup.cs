@@ -29,13 +29,13 @@ namespace SignalRSelfHost
     //() => new AlarmHub(container.Resolve<IAlarmTask>()));
             app.UseErrorPage();
 
-            app.Map("/raw-connection", map =>
-            {
-                // Turns cors support on allowing everything
-                // In real applications, the origins should be locked down
-                map.UseCors(CorsOptions.AllowAll)
-               .RunSignalR<RawConnection>();
-            });
+            //app.Map("/raw-connection", map =>
+            //{
+            //    // Turns cors support on allowing everything
+            //    // In real applications, the origins should be locked down
+            //    map.UseCors(CorsOptions.AllowAll)
+            //   .RunSignalR<RawConnection>();
+            //});
             //app.Map("/signalr", map =>
             //{
             //    var config = new HubConfiguration
@@ -54,7 +54,11 @@ namespace SignalRSelfHost
 
             //for SignalR config
             var hubconfig = new HubConfiguration();
+            //传送详细错误信息给客户端
+            hubconfig.EnableDetailedErrors = true;
             hubconfig.Resolver = new UnitySignalRDependencyResolver(container);
+            //采用IOC容器，GlobalHost DependencyResolver 必须绑定，否则全局调用Content会失效;
+            GlobalHost.DependencyResolver = hubconfig.Resolver;
             app.UseCors(CorsOptions.AllowAll);
             app.MapSignalR(hubconfig);
 
@@ -69,6 +73,9 @@ namespace SignalRSelfHost
             app.UseWebApi(httpConfig);
         }
      
+        /// <summary>
+        /// SignalR Hub IOC
+        /// </summary>
         internal class UnitySignalRDependencyResolver : DefaultDependencyResolver
         {
             private readonly UnityContainer _container;
@@ -95,6 +102,9 @@ namespace SignalRSelfHost
                 return _container.ResolveAll(serviceType).Concat(base.GetServices(serviceType));
             }
         }
+        /// <summary>
+        /// Web API IOC
+        /// </summary>
         internal class UnityHttpResolver : Web.IDependencyResolver
         {
             protected IUnityContainer container;

@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GuiBase.Views" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:control="clr-namespace:GuiBase.Control"
+             xmlns:control="clr-namespace:GuiBase.Controls"
              xmlns:convert="clr-namespace:GuiBase.Convert"
              Height="300" Width="400">
-    <Grid control:GridAssist.ShowBorder="False">
+    <Grid control:GridAssist.ShowBorder="False" Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
         <Grid.Resources>
             <ResourceDictionary>
                 <convert:BoolToVisibilityConvert x:Key="BoolConvertToVisibility" />
@@ -27,21 +27,21 @@
             <ColumnDefinition Width="150*"/>
             <ColumnDefinition Width="150*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Account:" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Name:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Sex:" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Create Time:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-            <TextBlock Text="{Binding Account}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
-            <TextBlock Text="{Binding Name}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
-            <TextBlock Text="{Binding Sex}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
-            <TextBlock Text="{Binding CreatTime}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
+        <TextBlock Text="{Binding Captions.Account}" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.Name}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.Sex}" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.CreateTime}" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Account}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
+        <TextBlock Text="{Binding Name}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
+        <TextBlock Text="{Binding Sex}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
+        <TextBlock Text="{Binding CreatTime}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0"/>
         <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" IsEnabled="{Binding BtnEnable}">
-            <Button Content="修改密码"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0" Command="{Binding OpenDrawerCommand}"   />
-            <Button Content="取消登录"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" Command="{Binding CancelLogOnCommand}" />
+            <Button Content="{Binding Captions.ChangePassword}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0" Command="{Binding OpenDrawerCommand}"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
+            <Button Content="{Binding Captions.Logout}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" Command="{Binding CancelLogOnCommand}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
         </StackPanel>
-        <materialDesign:DrawerHost x:Name="DrawerHost"  BottomDrawerBackground="{DynamicResource MaterialDesignBackground}"   BottomDrawerCornerRadius="0"  IsTopDrawerOpen="{Binding TopDrawerEnable}" Grid.ColumnSpan="2" Grid.RowSpan="6">
+        <materialDesign:DrawerHost x:Name="DrawerHost"  BottomDrawerBackground="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"   BottomDrawerCornerRadius="0"  IsTopDrawerOpen="{Binding TopDrawerEnable}" Grid.ColumnSpan="2" Grid.RowSpan="6" >
             <materialDesign:DrawerHost.TopDrawerContent >
-                <GroupBox Header="密码修改" Style="{StaticResource MaterialDesignCardGroupBox}" MinHeight="200" FontSize="14" TextBlock.FontFamily="宋体" Width="400" >
+                <GroupBox Header="{Binding Captions.ChangePassword}" Style="{StaticResource MaterialDesignCardGroupBox}" MinHeight="200" FontSize="14" TextBlock.FontFamily="宋体" Width="400"  materialDesign:ColorZoneAssist.Background="{StaticResource COLOR_BRUSH_HeaderBackground }">
                     <Grid>
                         <Grid IsEnabled="{Binding IsWaiting,Converter={StaticResource InvertBoolConvert}}">
                             <Grid.ColumnDefinitions>
@@ -55,14 +55,14 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBlock  Text="Old Password:" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10"     />
+                            <TextBlock  Text="{Binding Captions.OldPassword}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10"     />
                             <TextBox  Grid.Column="1" Text="{Binding OldPassword}" Margin="10,10"  MinWidth="100" />
-                            <TextBlock  Grid.Row="1"  Text="New Password:" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10"     />
+                            <TextBlock  Grid.Row="1"  Text="{Binding Captions.NewPassword}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10"     />
                             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NewPassword}" Margin="10,10"  MinWidth="100" />
-                            <TextBlock  Grid.Row="2"  Text="Confirm Password:" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10"     />
+                            <TextBlock  Grid.Row="2"  Text="{Binding Captions.ConfirmPassword}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10"     />
                             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ConfirmPassword}" Margin="10,10"  MinWidth="100" />
-                            <Button  Grid.Row="3" Margin="0" Height="30" Width="80" Content="OK"  Command="{Binding ConfirmCommand}"  CommandParameter="OK" />
-                            <Button Grid.Row="3" Grid.Column="1"  Margin="0" Height="30" Width="80" Content="Cancel"  Command="{Binding ConfirmCommand}"  CommandParameter="Cancel" />
+                            <Button  Grid.Row="3" Margin="0" Height="30" Width="80" Content="{Binding Captions.Confirm}"  Command="{Binding ConfirmCommand}"  CommandParameter="OK" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                            <Button Grid.Row="3" Grid.Column="1"  Margin="0" Height="30" Width="80" Content="{Binding Captions.Cancel}"  Command="{Binding ConfirmCommand}"  CommandParameter="Cancel" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
                             <TextBlock  Grid.Row="4" Grid.ColumnSpan="2" Text="{Binding Messages}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" />
                         </Grid>
                         <ProgressBar  IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="45" Height="20"  Width="20"   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Visibility="{Binding IsWaiting,Converter={StaticResource BoolConvertToVisibility} }"/>

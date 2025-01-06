@@ -57,5 +57,20 @@ namespace Utillity.Reflection
         {
           return  Assembly.ReflectionOnlyLoad(args.Name);
         }
+
+        public static object CreateInstance(string typeName)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                Type type = assembly.GetType(typeName);
+                if (type != null)
+                {
+                    return Activator.CreateInstance(type);
+
+                }
+            }
+            return null;
+        }
     }
 }

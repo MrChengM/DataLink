@@ -17,26 +17,75 @@ namespace GuiBase.ViewModels
 {
     public class ResourceAssignViewModel : BindableBase,IDialogAware
     {
-        public ISecurityService _securityService;
+        private ISecurityService _securityService;
+        private ILocalizationService _localizationService;
 
-        public RoleWrapper roleWrapper;
+        private RoleWrapper roleWrapper;
         public ObservableCollection<ResourceWrapperEx> ResourceExs { get; set; }
 
         public DelegateCommand<ResourceWrapperEx> CheckBtnCommand { get; set; }
         public DelegateCommand<string> ConfrimBtnCommand { get; set; }
-        public string Title => "Resource Assign";
+
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
+
+
 
         public event Action<IDialogResult> RequestClose;
 
-        public ResourceAssignViewModel(ISecurityService securityService)
+        private ResourceCaptions columns;
+
+        public ResourceCaptions Columns
+        {
+            get { return columns; }
+            set { SetProperty(ref columns, value, "Columns"); }
+        }
+
+        private string confirmText;
+
+        public string ConfirmText
+        {
+            get { return confirmText; }
+            set { SetProperty(ref confirmText, value, "ConfirmText"); }
+        }
+
+        private string cancelText;
+
+        public string  CancelText
+        {
+            get { return cancelText; }
+            set { SetProperty(ref cancelText, value, "CancelText"); }
+        }
+
+        public ResourceAssignViewModel(ISecurityService securityService,ILocalizationService localizationService)
         {
             _securityService = securityService;
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Columns = new ResourceCaptions(_localizationService);
+            translate();
             CheckBtnCommand = new DelegateCommand<ResourceWrapperEx>(checkBtn);
             ConfrimBtnCommand = new DelegateCommand<string>(confrimBtn);
             ResourceExs = new ObservableCollection<ResourceWrapperEx>();
          
         }
 
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Columns.GetContent();
+            Title = _localizationService.Translate(TranslateCommonId.ResourceAssignId);
+            ConfirmText = _localizationService.Translate(TranslateCommonId.ConfirmId);
+            CancelText = _localizationService.Translate(TranslateCommonId.CancelId);
+        }
         private void initResourExList()
         {
             var resources = _securityService.GetAllResources();
@@ -104,13 +153,20 @@ namespace GuiBase.ViewModels
 
         public void OnDialogClosed()
         {
-            
+            Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
             roleWrapper = parameters.GetValue<RoleWrapper>("roleInfo");
             initResourExList();
+        }
+
+        public void Clear()
+        {
+            ResourceExs.Clear();
+            _localizationService.LanguageChanged -= onLanguageChanged;
+
         }
     }
 }

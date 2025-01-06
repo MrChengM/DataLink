@@ -18,7 +18,31 @@ namespace GuiBase.ViewModels
     {
 
         private IAlarmService _alarmService;
-        public string Title => "Alarm";
+        private ILocalizationService _localizationService;
+
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
+
+        private AlarmCaptions columns;
+
+        public AlarmCaptions Columns
+        {
+            get { return columns; }
+            set { SetProperty(ref columns, value, "Columns"); }
+        }
+        private string filterCondition;
+
+        public string FilterCondition
+        {
+            get { return filterCondition; }
+            set { SetProperty(ref filterCondition, value, "FilterCondition"); }
+        }
+
 
         public event Action<IDialogResult> RequestClose;
 
@@ -60,19 +84,51 @@ namespace GuiBase.ViewModels
 
         public DelegateCommand ConfirmAllCommand { get; set; }
 
-        public AlarmViewModel(IAlarmService alarmService)
+        public AlarmViewModel(IAlarmService alarmService,ILocalizationService localizationService)
         {
             _alarmService = alarmService;
             _alarmService.AlarmRefreshEvent += _alarmService_AlarmStatusChangeEvent;
+            _alarmService.ConnectStatusChangeEvent += onConnectStatusChanged;
             Filter = new AlarmFilterCondition();
             TopDrawerOperationCommand = new DelegateCommand<string>(topDrawerOperation);
             ConfirmAllCommand = new DelegateCommand(confirmAll);
             DrawerCloseCommand = new DelegateCommand(drawerClose);
+
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Columns = new AlarmCaptions(_localizationService);
+
+            translate();
             filterAllCondition();
             //Alarms = alarmService.AllEnableAlarms;
            
         }
 
+        private void onConnectStatusChanged(bool isConnected)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                if (isConnected)
+                {
+                    filterAllCondition();
+                }
+                else
+                {
+                    Alarms.Clear();
+                }
+            });
+        }
+
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Title = _localizationService.Translate(TranslateCommonId.AlarmId);
+            FilterCondition = _localizationService.Translate(TranslateCommonId.FilterConditionId);
+            Columns.GetContent();
+        }
         private void drawerClose()
         {
             filterAllCondition();
@@ -263,13 +319,19 @@ namespace GuiBase.ViewModels
 
         public void OnDialogClosed()
         {
-            _alarmService.AlarmRefreshEvent -= _alarmService_AlarmStatusChangeEvent;
+            Clear();
 
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
         }
-
+        public void Clear()
+        {
+            Alarms.Clear();
+            _alarmService.AlarmRefreshEvent -= _alarmService_AlarmStatusChangeEvent;
+            _alarmService.ConnectStatusChangeEvent -= onConnectStatusChanged;
+            _localizationService.LanguageChanged -= onLanguageChanged;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Log;
 using DataServer.Config;
 using DataServer.Points;
 using DataServer.Task;

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataServer</RootNamespace>
     <AssemblyName>DataServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,7 +66,7 @@
     <Compile Include="Alarm\AlarmInstance.cs" />
     <Compile Include="Alarm\HistoryAlarm.cs" />
     <Compile Include="Alarm\HistoryAlarmSelectCondition.cs" />
-    <Compile Include="Alarm\IHisAlarmRecord.cs" />
+    <Compile Include="Log\IHisAlarmRecordCRUD.cs" />
     <Compile Include="Config\AlarmsConfig.cs" />
     <Compile Include="Config\AlarmItemConfig.cs" />
     <Compile Include="Config\ChannelConfig.cs" />
@@ -85,19 +86,20 @@
     <Compile Include="Config\TagGroupConfig.cs" />
     <Compile Include="CustomerAttribute.cs" />
     <Compile Include="IClientDrives.cs" />
-    <Compile Include="ILog.cs" />
+    <Compile Include="Log\ILog.cs" />
     <Compile Include="IServerDrives.cs" />
-    <Compile Include="Permission\IPermissionManager.cs" />
-    <Compile Include="Permission\IResourceManager.cs" />
-    <Compile Include="Permission\IRoleManager.cs" />
-    <Compile Include="Permission\IUserManager.cs" />
+    <Compile Include="Log\IOperateRecordCRUD.cs" />
+    <Compile Include="Permission\IPermissionsCRUD.cs" />
+    <Compile Include="Permission\IResourcesCRUD.cs" />
+    <Compile Include="Permission\IRolesCRUD.cs" />
+    <Compile Include="Permission\IUsersCRUD.cs" />
     <Compile Include="Permission\Resource.cs" />
     <Compile Include="Permission\ResourceType.cs" />
     <Compile Include="Permission\Role.cs" />
     <Compile Include="Permission\SSex.cs" />
     <Compile Include="Permission\User.cs" />
     <Compile Include="Permission\UserResult.cs" />
-    <Compile Include="Points\ITagRecord.cs" />
+    <Compile Include="Log\ITagRecordCRUD.cs" />
     <Compile Include="Points\Point.cs" />
     <Compile Include="Points\PointMapping.cs" />
     <Compile Include="Points\Tag.cs" />

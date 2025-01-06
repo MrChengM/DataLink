@@ -155,41 +155,77 @@ namespace Utillity.Data
         /// <param name="sourceByte">源数据字节,</param>
         /// <param name="positon">定位,小于等于8</param>
         /// <returns></returns>
-        public static bool ByteToBool(byte source, int positon)
+        public static bool GetBit(byte source, int positon)
         {
-            if (positon > 8)
+            if (positon > 7 || positon <0)
                 throw new NotImplementedException();
             byte a = 1;
             return (source >> positon & a) != 0;
         }
 
-        public static bool shortToBool(short source, int positon)
+        public static bool GetBit(short source, int positon)
         {
-            if (positon > 16)
+            if (positon > 15 || positon < 0)
                 throw new NotImplementedException();
             byte a = 1;
             return (source >> positon & a) != 0;
         }
-        public static bool ushortToBool(ushort source, int positon)
+        public static bool GetBit(ushort source, int positon)
         {
-            if (positon > 16)
+            if (positon > 15 || positon < 0)
                 throw new NotImplementedException();
             byte a = 1;
             return (source >> positon & a) != 0;
         }
-        public static bool IntToBool(int source, int positon)
+        public static bool GetBit(int source, int positon)
         {
-            if (positon > 32)
+            if (positon > 31 || positon < 0)
                 throw new NotImplementedException();
             byte a = 1;
             return (source >> positon & a) != 0;
         }
-        public static bool uintToBool(uint source, int positon)
+        public static bool GetBit(uint source, int positon)
         {
-            if (positon > 32)
+            if (positon > 31 || positon < 0)
                 throw new NotImplementedException();
             byte a = 1;
             return (source >> positon & a) != 0;
+        }
+        public static byte SetBit(byte source, int positon, bool flag)
+        {
+            if (positon > 7 || positon < 0)
+                throw new NotImplementedException();
+            int a = 1 << positon;
+            return flag ? (byte)(source | a) : (byte)(source & ~a);
+        }
+
+        public static short SetBit(short source, int positon,bool flag)
+        {
+            if (positon > 15 || positon < 0)
+                throw new NotImplementedException();
+            int a = 1 << positon;
+            return flag ? (short)(source | a) : (short)(source & ~a);
+        }
+        public static ushort SetBit(ushort source, int positon, bool flag)
+        {
+            if (positon > 15 || positon < 0)
+                throw new NotImplementedException();
+            int a = 1 << positon;
+            return flag ? (ushort)(source | a) : (ushort)(source & ~a);
+        }
+        public static int SetBit(int source, int positon,bool flag)
+        {
+            if (positon > 31|| positon < 0)
+                throw new NotImplementedException();
+            int a = 1 << positon;
+            return flag ? (source | a) :(source & ~a);
+        }
+        public static uint GetBit(uint source, int positon,bool flag)
+        {
+            if (positon > 31 || positon < 0)
+                throw new NotImplementedException();
+            int a = 1 << positon;
+            return flag ? (uint)(source | a) : (uint)(source & ~a);
         }
         public static byte BooltoByte(bool source, int positon)
         {
@@ -244,7 +280,7 @@ namespace Utillity.Data
                     index2 = index1 + j;
                     if (index2 >= length)
                         return result;
-                    result[index2] = ByteToBool(sourceBytes[i], j);
+                    result[index2] = GetBit(sourceBytes[i], j);
                 }
             }
             return result;
@@ -271,7 +307,7 @@ namespace Utillity.Data
                     {
                         if (index2 >= length)
                             return result;
-                        result[index2] = ByteToBool(sourceBytes[i], j);
+                        result[index2] = GetBit(sourceBytes[i], j);
                     }
                 }
             }

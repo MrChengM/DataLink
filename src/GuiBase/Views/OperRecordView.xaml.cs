@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GuiBase.ViewModels;
+using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,41 @@ namespace GuiBase.Views
         public OperRecordView()
         {
             InitializeComponent();
+        }
+        private void StartCombinedDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
+        {
+            StartCombinedCalendar.SelectedDate = ((OperRecordViewModel)DataContext).SelectCondition.StartTime;
+            StartCombinedClock.Time = ((OperRecordViewModel)DataContext).SelectCondition.StartTime;
+
+        }
+
+        private void StartCombinedDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (Equals(eventArgs.Parameter, "1") &&
+               StartCombinedCalendar.SelectedDate is DateTime selectedDate)
+            {
+                var combined = selectedDate.Date.AddSeconds(StartCombinedClock.Time.TimeOfDay.TotalSeconds);
+                ((OperRecordViewModel)DataContext).SelectCondition.StartTime = combined;
+            }
+        }
+
+        private void EndCombinedDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (Equals(eventArgs.Parameter, "1") &&
+               EndCombinedCalendar.SelectedDate is DateTime selectedDate)
+            {
+                var combined = selectedDate.Date.AddSeconds(EndCombinedClock.Time.TimeOfDay.TotalSeconds);
+                ((OperRecordViewModel)DataContext).SelectCondition.EndTime = combined;
+            }
+        }
+
+        private void EndCombinedDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
+        {
+
+
+            EndCombinedCalendar.SelectedDate = ((OperRecordViewModel)DataContext).SelectCondition.EndTime;
+            EndCombinedClock.Time = ((OperRecordViewModel)DataContext).SelectCondition.EndTime;
+
         }
     }
 }

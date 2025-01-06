@@ -25,8 +25,8 @@ namespace GuiBase.Services
         bool DeleteRole(Role role);
         List<Resource> GetAllResources();
 
-        bool IsPermission(string name,ResourceType type);
-        bool ResgisterResourceName(string name, ResourceType type);
+        bool HasPermission(string name,ResourceType type);
+        bool ResgisterResource(string name, ResourceType type);
         List<string> GetResourceNames();
 
         bool CreateResource(Resource resource);

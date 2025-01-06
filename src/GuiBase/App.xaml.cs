@@ -7,12 +7,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using Prism.Ioc;
 using Prism.Unity;
-using GuiBase.Views;
 using Prism.Services.Dialogs;
+using GuiBase.Views;
+using GuiBase.Common;
 using GuiBase.Helper;
 using GuiBase.Services;
 using DataServer;
+using DataServer.Log;
 using DataServer.Permission;
+using GuiBase.Views.L2View;
+using GuiBase.Views.L1View;
+using GuiBase.Views.L3View;
+using GuiBase.ViewModels;
 
 namespace GuiBase
 {
@@ -30,29 +36,30 @@ namespace GuiBase
 
         protected void RegisterResourceNames(ISecurityService securityService)
         {
-            securityService.ResgisterResourceName("Admin", ResourceType.System);//管理员
+            securityService.ResgisterResource("Admin", ResourceType.System);//管理员
 
-            securityService.ResgisterResourceName("Header", ResourceType.Menu);//TOP菜单
-            securityService.ResgisterResourceName("NavigationList", ResourceType.Menu);//导航菜单
-            securityService.ResgisterResourceName("Menu_Bottom", ResourceType.Menu);//底部菜单
+            securityService.ResgisterResource("Header", ResourceType.Menu);//TOP菜单
+            securityService.ResgisterResource("NavigationList", ResourceType.Menu);//导航菜单
+            securityService.ResgisterResource("Menu_Bottom", ResourceType.Menu);//底部菜单
 
-            securityService.ResgisterResourceName("OverView", ResourceType.ViewGourp);//OverView画面组
-            securityService.ResgisterResourceName("L1View", ResourceType.ViewGourp);
-            securityService.ResgisterResourceName("L2View", ResourceType.ViewGourp);
-            securityService.ResgisterResourceName("Command", ResourceType.ViewGourp);
-            securityService.ResgisterResourceName("Other", ResourceType.ViewGourp);
+            securityService.ResgisterResource("OverView", ResourceType.ViewGourp);//OverView画面组
+            securityService.ResgisterResource("L1View", ResourceType.ViewGourp);
+            securityService.ResgisterResource("L2View", ResourceType.ViewGourp);
+            securityService.ResgisterResource("Command", ResourceType.ViewGourp);
+            securityService.ResgisterResource("Other", ResourceType.ViewGourp);
 
-            securityService.ResgisterResourceName("AccManagerView", ResourceType.View);//用户管理画面
-            securityService.ResgisterResourceName("AlarmView", ResourceType.View);//实时报警画面
-            securityService.ResgisterResourceName("DeviceConfig", ResourceType.View);//设备配置画面
-            securityService.ResgisterResourceName("HistoryAlarmView", ResourceType.View);//历史报警画面
-            securityService.ResgisterResourceName("OperRecordView", ResourceType.View);//操作报警画面
-            securityService.ResgisterResourceName("SignalMonitor", ResourceType.View);//信号监控画面
+            securityService.ResgisterResource("AccManagerView", ResourceType.View);//用户管理画面
+            securityService.ResgisterResource("AlarmView", ResourceType.View);//实时报警画面
+            securityService.ResgisterResource("DeviceConfig", ResourceType.View);//设备配置画面
+            securityService.ResgisterResource("HistoryAlarmView", ResourceType.View);//历史报警画面
+            securityService.ResgisterResource("OperRecordView", ResourceType.View);//操作报警画面
+            securityService.ResgisterResource("SignalMonitor", ResourceType.View);//信号监控画面
 
-            securityService.ResgisterResourceName("L1ViewA", ResourceType.View);
-            securityService.ResgisterResourceName("ViewA", ResourceType.View);
-            securityService.ResgisterResourceName("ViewB", ResourceType.View);
-            securityService.ResgisterResourceName("ViewC", ResourceType.View);
+            securityService.ResgisterResource("L1ViewA", ResourceType.View);
+            securityService.ResgisterResource("ViewA", ResourceType.View);
+            securityService.ResgisterResource("ViewB", ResourceType.View);
+            securityService.ResgisterResource("ViewC", ResourceType.View);
+            securityService.ResgisterResource("ViewD", ResourceType.View);
 
 
         }
@@ -72,12 +79,15 @@ namespace GuiBase
             containerRegistry.RegisterDialog<ResourceEditView>();
             containerRegistry.RegisterDialog<ResourceListView>();
             containerRegistry.RegisterDialog<ResourceNameListView>();
+            containerRegistry.RegisterDialog<L3BaseView>();
 
             containerRegistry.RegisterForNavigation<ViewA>();
             containerRegistry.RegisterForNavigation<ViewB>();
             containerRegistry.RegisterForNavigation<ViewC>();
             containerRegistry.RegisterForNavigation<ViewD>();
             containerRegistry.RegisterForNavigation<L1ViewA>();
+            containerRegistry.RegisterForNavigation <PowerBox001,DefaultElementL3ViewModel>();
+            
 
             containerRegistry.RegisterForNavigation<LoadView>();
             containerRegistry.RegisterForNavigation<LogOnView>();
@@ -98,6 +108,14 @@ namespace GuiBase
             containerRegistry.RegisterSingleton<ISecurityService, SecurityService>();
             containerRegistry.RegisterSingleton<IAlarmService, AlarmService>();
             containerRegistry.RegisterSingleton<IHistoryAlarmService, HistoryAlarmService>();
+            containerRegistry.RegisterSingleton<ISignalService, SignalService>();
+            containerRegistry.RegisterSingleton<ILocalizationService, LocalizationService>();
+            containerRegistry.RegisterSingleton<IOperateRecordService, OperateRecordService>();
+
+            containerRegistry.RegisterSingleton<ISignalMangement, SignalMangement>();
+            containerRegistry.RegisterSingleton<IGeneralCommandBuilder, GeneralCommandBuilder>();
+            containerRegistry.RegisterSingleton<IGCommandSet, GCommandSet>();
+
         }
     }
 }

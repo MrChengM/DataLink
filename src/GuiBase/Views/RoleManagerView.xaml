@@ -6,27 +6,28 @@
              xmlns:local="clr-namespace:GuiBase.Views" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              Height="900" Width="1450" >
-    <Grid>
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
         <Grid>
-            <StackPanel Orientation="Vertical" >
+            <StackPanel Orientation="Vertical" Margin="0,10,0,0">
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock  Text="Role Name:" Margin="10,0"    VerticalAlignment="Center" />
+                    <TextBlock  Text="{Binding Captions.Name}" Margin="10,0"    VerticalAlignment="Center" />
+                    <TextBlock  Text=":"    VerticalAlignment="Center" />
                     <TextBox  Text="{ Binding FilterName}"   Margin="10,0"  MinWidth="100" />
-                    <Button  Margin="40,0" MinHeight="25" MinWidth="60" Command="{Binding SearchRolesCommand}"  Style="{StaticResource MaterialDesignRaisedLightButton}"  >
+                    <Button  Margin="40,0" MinHeight="25" MinWidth="60" Command="{Binding SearchRolesCommand}"  Style="{StaticResource MaterialDesignRaisedLightButton}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" >
                         <materialDesign:PackIcon Width="20" Height="20"  Kind="Search" />
                     </Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="20,10,20,10">
-                    <Button  Margin="10,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding AddRoleCommand}"   Content="Add" />
-                    <Button  Margin="5,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding ImportRolesCommand}"    Content="Import" Visibility="Hidden" />
-                    <Button  Margin="5,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding ExportRolesCommand}"    Content="Export" Visibility="Hidden" />
+                    <Button  Margin="10,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding AddRoleCommand}"   Content="{Binding Captions.Add}"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
+                    <Button  Margin="5,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding ImportRolesCommand}"    Content="Import" Visibility="Hidden" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                    <Button  Margin="5,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding ExportRolesCommand}"    Content="Export" Visibility="Hidden" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
                 </StackPanel>
                 <ListView Grid.Row="0" ItemsSource="{Binding RoleWrappers}" Width="1405">
                     <ListView.Style >
                         <Style  TargetType="ListView">
-                            <Setter Property="BorderBrush" Value="LightGray"/>
+                            <Setter Property="BorderBrush" Value="Gray"/>
                             <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+                            <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"/>
                         </Style>
                     </ListView.Style>
                     <ListView.ItemContainerStyle>
@@ -37,24 +38,24 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
-                            <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"  Width="340" />
-                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="100" />
-                            <GridViewColumn  Header="Status" Width="150">
+                            <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="{Binding Captions.Id}"  Width="340" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="{Binding Captions.Name}" Width="100" />
+                            <GridViewColumn  Header="{Binding Captions.Status}" Width="150">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ToggleButton  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.EnableOpertCommand}" CommandParameter="{Binding }" MinHeight="25" IsChecked="{Binding Status}"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <ToggleButton  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.EnableOpertCommand}" CommandParameter="{Binding }" MinHeight="25" IsChecked="{Binding Status}"  HorizontalAlignment="Center" VerticalAlignment="Center"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding CreateTime}" Header="CreateTime" Width="150"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding CreateId}" Header="CreateId" Width="340"/>
-                            <GridViewColumn  Header="Operate" Width="300">
+                            <GridViewColumn DisplayMemberBinding="{Binding CreateTime}" Header="{Binding Captions.CreateTime}" Width="150"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding CreateId}" Header="{Binding Captions.CreateId}" Width="340"/>
+                            <GridViewColumn  Header="{Binding Captions.Operate}" Width="300">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button  Content="Edit" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.EditRoleCommand}"  CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                            <Button  Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.DeleteRoleCommand}" CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                            <Button  Content="Assign" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.AssignResourceCommand}" CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Button  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.Captions.Edit}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.EditRoleCommand}"  CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                            <Button  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}, Path=DataContext.Captions.Delete}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.DeleteRoleCommand}" CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                            <Button  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}, Path=DataContext.Captions.Assign}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.AssignResourceCommand}" CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

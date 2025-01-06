@@ -18,7 +18,7 @@ namespace GuiBase.ViewModels
     public class ResourceListViewModel : BindableBase,IDialogAware
     {
         public ISecurityService _securityService;
-
+        public ILocalizationService _localizationService;
         public ObservableCollection<Resource> Resources { get; set; }
 
         public DelegateCommand<string> ConfrimBtnCommand { get; set; }
@@ -30,21 +30,46 @@ namespace GuiBase.ViewModels
             get { return selectResource; }
             set { SetProperty(ref selectResource, value, "SelectResource"); }
         }
+        private ResourceCaptions captions;
 
-        public string Title => "Resource List";
+        public ResourceCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
+
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
+
 
         public event Action<IDialogResult> RequestClose;
 
-        public ResourceListViewModel(ISecurityService securityService)
+        public ResourceListViewModel(ISecurityService securityService,ILocalizationService localizationService)
         {
             _securityService = securityService;
             ConfrimBtnCommand = new DelegateCommand<string>(confrimBtn);
             Resources = new ObservableCollection<Resource>();
-
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Captions = new ResourceCaptions(_localizationService);
+            translate();
             Resources.AddRange(_securityService.GetAllResources());
         }
 
-
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Captions.GetContent();
+            Title = _localizationService.Translate(TranslateCommonId.ResourceListId);
+        }
         private void confrimBtn(string param)
         {
             var dialogParam = new DialogParameters();
@@ -74,11 +99,17 @@ namespace GuiBase.ViewModels
 
         public void OnDialogClosed()
         {
-
+            Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+        }
+
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            Resources.Clear();
         }
     }
 }

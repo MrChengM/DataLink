@@ -4,6 +4,7 @@ using Microsoft.Owin.Hosting;
 using Owin;
 using System;
 using DataServer;
+using DataServer.Log;
 using DataServer.Task;
 using System.Collections.Generic;
 using DataServer.Alarm;

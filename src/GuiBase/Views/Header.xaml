@@ -10,13 +10,18 @@
              xmlns:prism="http://prismlibrary.com/" x:Class="GuiBase.Views.Header"
              mc:Ignorable="d" 
              d:DesignHeight="80" d:DesignWidth="1920">
-    <Grid Background="{StaticResource MaterialDesignLightBackground}" >
+    <Grid Background="{StaticResource COLOR_BRUSH_HeaderBackground}" >
         <StackPanel Orientation="Horizontal">
-            <Image Margin="0" Source="/Assets/Image/sflogo1.png" Width="220" />
+            <Image Margin="10" Source="/Assets/Image/Ming_logo.png" Width="200" Opacity="0.7" />
             <StackPanel Orientation="Vertical" Margin="20,10,0,0" VerticalAlignment="Center">
                 <Button FontSize="20" Margin="0,2" Content="{Binding UserName}" BorderThickness="0"  Foreground="Black" FontWeight="Black" Background="{x:Null}"  Command="{Binding UserClickCommand}" IsEnabled="{Binding UserBtnEnable}"/>
                 <TextBlock FontSize="20" Margin="0,2" Text="{Binding CurrentTime}"/>
             </StackPanel>
+            <TextBlock FontSize="16" Margin="10,0" Text="{Binding LanguageSelect}" VerticalAlignment="Center" />
+            <ComboBox  materialDesign:ComboBoxAssist.ShowSelectedItem="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="120" Height="30" Text="{Binding Language}" Margin="4,0,0,0" FontSize="14">
+                <ComboBoxItem  Content="中文简体" IsSelected="True" />
+                <ComboBoxItem  Content="English" />
+            </ComboBox>
         </StackPanel>
         <ListBox Height="80" ItemsSource="{Binding DialogList}" SelectedValue="{Binding SelectedItem}"  Style="{StaticResource MaterialDesign3.NavigationBarPrimaryListBox}"  HorizontalAlignment="Right"  Margin="0" >
             <I:Interaction.Triggers>

@@ -1,0 +1,2 @@
+2024-10-08 13:41:57,015 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/10/8 3:43:05 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-10-08 13:41:57,016 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/10/8 3:43:05 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  

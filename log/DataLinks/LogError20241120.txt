@@ -1,0 +1,17 @@
+2024-11-20 16:58:18,588 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 16:58:20,781 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 16:58:27,827 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 16:58:34,882 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:06,904 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:09,056 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:16,111 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:23,160 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:30,208 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:37,265 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:04:44,309 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 17:24:02,681 ERROR DataLinksLogger Channel2.Device1: Modbus 你的主机中的软件中止了一个已建立的连接。   
+2024-11-20 20:40:53,357 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 20:40:55,508 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 20:41:02,574 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 20:41:09,627 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-11-20 20:41:16,696 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  

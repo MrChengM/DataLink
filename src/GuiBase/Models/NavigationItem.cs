@@ -11,7 +11,17 @@ namespace GuiBase.Models
 {
     public class NavigationItem : BindableBase
     {
-        public string Title { get; set; }
+
+        private string titel;
+
+        public string Title
+        {
+            get { return titel; }
+            set { SetProperty(ref titel, value, "Title"); }
+        }
+
+        public string TitelId { get; set; }
+
         public PackIconKind SelectedIcon { get; set; }
         public PackIconKind UnselectedIcon { get; set; }
         public string ViewName { get; set; }

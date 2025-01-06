@@ -8,12 +8,15 @@ using GuiBase.Services;
 using Prism.Commands;
 using DataServer.Permission;
 using Prism.Services.Dialogs;
+using GuiBase.Models;
 
 namespace GuiBase.ViewModels
 {
-    public class UserDetailedViewModel:BindableBase, IDialogAware
+    public class UserDetailedViewModel : BindableBase, IDialogAware
     {
         private ISecurityService _securityService;
+        private ILocalizationService _localizationService;
+
         private string account;
 
         public string Account
@@ -37,9 +40,9 @@ namespace GuiBase.ViewModels
             get { return sex; }
             set { SetProperty(ref sex, value, "Sex"); }
         }
-        private string  creatTime;
+        private string creatTime;
 
-        public string  CreatTime
+        public string CreatTime
         {
             get { return creatTime; }
             set { SetProperty(ref creatTime, value, "CreatTime"); }
@@ -101,9 +104,23 @@ namespace GuiBase.ViewModels
         public DelegateCommand OpenDrawerCommand { get; set; }
         public DelegateCommand CancelLogOnCommand { get; set; }
 
-        public string Title => "用户详情";
+        private UserCaptions captions;
 
-        public UserDetailedViewModel(ISecurityService securityService)
+        public UserCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
+
+
+        public UserDetailedViewModel(ISecurityService securityService, ILocalizationService localizationService)
         {
             _securityService = securityService;
             ConfirmCommand = new DelegateCommand<string>(confirm);
@@ -117,6 +134,11 @@ namespace GuiBase.ViewModels
                 CreatTime = null;
                 BtnEnable = false;
             });
+
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Captions = new UserCaptions(_localizationService);
+            translate();
             var user = _securityService.GetCurrentUser();
             Account = user.Account;
             Name = user.Name;
@@ -125,8 +147,18 @@ namespace GuiBase.ViewModels
             BtnEnable = true;
         }
 
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Captions.GetContent();
+            Title = _localizationService.Translate(TranslateCommonId.UserDetailedId);
+        }
         private void confirm(string param)
         {
+
             if (param == "OK")
             {
                 IsWaiting = true;
@@ -136,19 +168,19 @@ namespace GuiBase.ViewModels
                     {
                         TopDrawerEnable = false;
                         OldPassword = null;
-                        NewPassword = null; 
+                        NewPassword = null;
                         ConfirmPassword = null;
                         Messages = null;
                     }
                     else
                     {
-                        Messages = "请验证正确的密码！";
+                        Messages = _localizationService.Translate(TranslateCommonId.ChangePasswordErrorId);
 
                     }
                 }
                 else
                 {
-                    Messages = "请确认新密码两次输入一致！";
+                    Messages = _localizationService.Translate(TranslateCommonId.ChangePasswordError1Id);
                 }
                 IsWaiting = false;
             }
@@ -160,16 +192,20 @@ namespace GuiBase.ViewModels
 
         public bool CanCloseDialog()
         {
-           return true;
+            return true;
         }
 
         public void OnDialogClosed()
         {
-            
+            Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+        }
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
         }
     }
 }

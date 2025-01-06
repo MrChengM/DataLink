@@ -3,10 +3,147 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GuiBase.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             xmlns:local="clr-namespace:GuiBase.Views"            
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:I="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:convert="clr-namespace:GuiBase.Convert"
+             MinHeight="900"  MinWidth="1680">
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <convert:BoolToVisibilityConvert x:Key="BoolConvertToVisibility" />
+                <convert:InvertBoolConvert x:Key="InvertBoolConvert" />
+            </ResourceDictionary>
+        </Grid.Resources>
+        <ListView Grid.Row="0" ItemsSource="{Binding OperateRecords}"  Margin="20,60,20,50">
+            <ListView.Style >
+                <Style  TargetType="ListView">
+                    <Setter Property="BorderBrush" Value="Gray"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"/>
+                </Style>
+            </ListView.Style>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
+                    <GridViewColumn DisplayMemberBinding="{Binding UserName}" Header="{Binding Caption.UserName}"  Width="150" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="{Binding Caption.Id}" Width="350"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="{Binding Caption.Time}" Width="150" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ComputerInfor}" Header="{Binding Caption.ComputerInfor}" Width="350"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Message}" Header="{Binding Caption.Message}" Width="600"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="SearchOpenBtn" Grid.Row="0" Width="56" Height="56"
+                Command="{Binding TopDrawerOperationCommand}"  
+                CommandParameter="Open" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top"  
+                Foreground="{StaticResource MaterialDesignBody}"
+                Style="{StaticResource MaterialDesignIconForegroundButton}">
+            <materialDesign:PackIcon Width="36" Height="36"  Kind="ChevronDoubleDown" />
+        </Button>
+        <materialDesign:DrawerHost x:Name="DrawerHost"  BottomDrawerBackground="{DynamicResource COLOR_BRUSH_ScadaBodyBackground}"   BottomDrawerCornerRadius="0"  IsTopDrawerOpen="{Binding TopDrawerEnable}">
+            <!--<I:Interaction.Triggers>
+                <I:EventTrigger EventName="DrawerClosing">
+                    <prism:InvokeCommandAction Command="{Binding DrawerCloseCommand}" />
+                </I:EventTrigger>
+            </I:Interaction.Triggers>-->
+            <materialDesign:DrawerHost.TopDrawerContent >
+                <GroupBox  Margin="16" Header="{Binding FilterCondition}" Style="{StaticResource MaterialDesignCardGroupBox}" 
+                           MinHeight="200" FontSize="16" TextBlock.FontFamily="宋体" 
+                           materialDesign:ColorZoneAssist.Mode="Custom"
+                           materialDesign:ColorZoneAssist.Foreground="Black"
+                           materialDesign:ColorZoneAssist.Background="{StaticResource COLOR_BRUSH_HeaderBackground}">
+                    <Grid>
+                        <DockPanel IsEnabled="{Binding IsWaiting,Converter={StaticResource InvertBoolConvert}}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,20,20,20">
+                                    <TextBlock  Text="{Binding Caption.UserName}" Margin="10,0"     />
+                                    <TextBlock  Text=":"  />
+                                    <TextBox  Text="{Binding SelectCondition.UserName}" Margin="10,0"  MinWidth="150" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,20,20,20" >
+                                    <TextBlock  Text="{Binding Caption.AppearTime}" Margin="10,0"   Height="20"  />
+                                    <TextBlock  Text=":"  />
+                                    <materialDesign:DialogHost  DialogClosing="StartCombinedDialogClosingEventHandler" DialogOpened="StartCombinedDialogOpenedEventHandler" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" >
+                                        <materialDesign:DialogHost.DialogContent>
+                                            <Grid  Margin="-1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                    <Calendar x:Name="StartCombinedCalendar" Margin="-1,-4,-1,0" />
+                                                    <materialDesign:Clock  x:Name="StartCombinedClock"  DisplayAutomation="CycleWithSeconds" Is24Hours="True" />
+                                                </StackPanel>
+                                                <StackPanel  Grid.Row="1"  Margin="8"  HorizontalAlignment="Right"  Orientation="Horizontal">
+                                                    <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="0"
+                                            Content="{Binding Caption.Cancel}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                                    <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="1"
+                                            Content="{Binding Caption.Confirm}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </materialDesign:DialogHost.DialogContent>
+                                        <StackPanel  Orientation="Horizontal">
+                                            <TextBox VerticalAlignment="Center"  Text="{Binding SelectCondition.StartTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"  MinWidth="150"/>
+                                            <Button Margin="8,0,0,0" IsEnabled="True" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="..." Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                        </StackPanel>
+                                    </materialDesign:DialogHost>
+                                    <TextBlock  Text="---" Margin="10,0"   Height="20"  />
+                                    <materialDesign:DialogHost  DialogClosing="EndCombinedDialogClosingEventHandler" DialogOpened="EndCombinedDialogOpenedEventHandler" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}">
+                                        <materialDesign:DialogHost.DialogContent>
+                                            <Grid  Margin="-1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                    <Calendar x:Name="EndCombinedCalendar" Margin="-1,-4,-1,0" />
+                                                    <materialDesign:Clock  x:Name="EndCombinedClock"  DisplayAutomation="CycleWithSeconds" Is24Hours="True" />
+                                                </StackPanel>
+                                                <StackPanel  Grid.Row="1"  Margin="8"  HorizontalAlignment="Right"  Orientation="Horizontal">
+                                                    <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="0"
+                                            Content="{Binding  Caption.Cancel}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                                    <Button
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                            CommandParameter="1"
+                                            Content="{Binding Caption.Confirm}"
+                                            Style="{StaticResource MaterialDesignFlatButton}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </materialDesign:DialogHost.DialogContent>
+                                        <StackPanel  Orientation="Horizontal">
+                                            <TextBox VerticalAlignment="Center"  Text="{Binding SelectCondition.EndTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"  MinWidth="150"/>
+                                            <Button Margin="8,0,0,0" IsEnabled="True" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="..." Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                        </StackPanel>
+                                    </materialDesign:DialogHost>
+                                </StackPanel>
+                            </StackPanel>
+                            <Button  Margin="0" Height="30" Width="80"   Command="{Binding TopDrawerOperationCommand}"  CommandParameter="Close" Style="{StaticResource MaterialDesignRaisedLightButton}"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" >
+                                <materialDesign:PackIcon Width="23" Height="23" Kind="DatabaseSearchOutline"/>
+                            </Button>
+                        </DockPanel>
+                        <ProgressBar  IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="45" Height="20"  Width="20"   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Visibility="{Binding IsWaiting,Converter={StaticResource BoolConvertToVisibility} }"/>
+                    </Grid>
+                </GroupBox>
+            </materialDesign:DrawerHost.TopDrawerContent>
+        </materialDesign:DrawerHost>
+
     </Grid>
 </UserControl>

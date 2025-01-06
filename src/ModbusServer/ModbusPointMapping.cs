@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ds = DataServer;
 using DataServer;
+using DataServer.Log;
 using DataServer.Points;
 using Utillity.Data;
 namespace ModbusServer

@@ -1,0 +1,20 @@
+2024-11-13 09:37:14,996 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-11-13 09:37:19,862 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-11-13 09:37:19,866 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-11-13 09:37:20,322 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2024-11-13 10:36:03,300 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-11-13 10:36:04,093 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-11-13 10:36:04,097 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-11-13 10:36:04,514 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2024-11-13 10:44:20,099 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-11-13 10:44:20,937 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-11-13 10:44:20,940 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-11-13 10:44:21,357 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2024-11-13 13:40:08,063 INFO  GuiBaseLogger AlarmService: Connection have closed,Url 'http://localhost:3051/' !  
+2024-11-13 13:40:08,063 INFO  GuiBaseLogger SignalService: Connection have closed ,Url 'http://localhost:3051/'!  
+2024-11-13 13:40:18,073 INFO  GuiBaseLogger SignalService:Reconnect to 'http://localhost:3051/' by manual,times:1  
+2024-11-13 13:40:18,073 INFO  GuiBaseLogger AlarmService:Reconnect to 'http://localhost:3051/' by manual,times:1  
+2024-11-13 13:40:18,073 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-11-13 13:40:18,073 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-11-13 13:40:18,990 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-11-13 13:40:18,990 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  

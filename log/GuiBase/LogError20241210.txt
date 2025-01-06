@@ -1,0 +1,15 @@
+2024-12-10 09:13:25,324 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 09:50:04,366 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/10 1:33:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-10 09:50:04,372 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/10 1:33:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-10 09:50:05,840 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2024/12/10 1:33:38 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-10 11:23:26,761 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 15:28:12,999 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 15:28:57,828 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 15:29:46,570 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-10 15:29:46,570 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-10 16:52:29,957 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 16:57:11,952 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 17:02:44,070 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-10 17:02:44,072 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-10 17:39:50,279 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-10 17:58:55,739 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  

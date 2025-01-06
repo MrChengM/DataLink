@@ -16,17 +16,17 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmName}" Header="AlarmName"  Width="300" />
-                    <GridViewColumn DisplayMemberBinding="{Binding PartName}" Header="PartName" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="AlarmLevel" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmDescrible}" Header="Description" Width="500"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmGroup}" Header="Group" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="AppearTime" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Counts}" Header="Counts" Width="100"/>
-                    <GridViewColumn Header="Confrim" Width="100">
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmName}" Header="{ Binding Columns.AlarmName}"  Width="300"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PartName}" Header="{Binding Columns.PartName}" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="{Binding Columns.AlarmLevel}" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding LocalizationDescrible}" Header="{Binding Columns.Description}" Width="500"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmGroup}" Header="{Binding Columns.Group}" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="{Binding Columns.AppearTime}" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Counts}" Header="{Binding Columns.Counts}" Width="100" />
+                    <GridViewColumn Header="{Binding Columns.Confirm}" Width="175">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Content="{materialDesign:PackIcon Check}" Command="{Binding ConfirmCommand}" Height="25" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding ConfirmEnable}" />
+                                <Button  Content="{materialDesign:PackIcon Check}" Command="{Binding ConfirmCommand}" Height="25" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding ConfirmEnable}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -1,4 +1,6 @@
-﻿using DataServer.Alarm;
+﻿using DataServer;
+using DataServer.Log;
+using DataServer.Alarm;
 using DataServer.Task;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -14,17 +16,29 @@ namespace SignalRSelfHost.Hubs
     public class AlarmHub : Hub
     {
         private IAlarmTask _alarmTask;
-
-        public AlarmHub(IAlarmTask alarmTask)
+        private ILog _log;
+        private IAlarmHubProxy _hubProxy;
+        public AlarmHub(IAlarmHubProxy hubProxy, ILog log)
         {
-            _alarmTask = alarmTask;
-            _alarmTask.AlarmStatusChangeEvent += _alarmTask_AlarmStatusChangeEvent;
+            _hubProxy = hubProxy;
+            _alarmTask = _hubProxy.AlarmTask;
+            _log = log;
         }
-        private void _alarmTask_AlarmStatusChangeEvent(AlarmInstance instance, AlarmRefresh status)
+        public override Task OnConnected()
         {
-            Clients.Caller.receiveAlarmMessage(instance, status);
+            _log.InfoLog("SignalServer: Client have Connected ,ConnectId '{0}',HubName 'Alarm'", Context.ConnectionId);
+            return base.OnConnected();
         }
-
+        public override Task OnReconnected()
+        {
+            _log.InfoLog("SignalServer: Client have Reconnected ,connectId '{0}',HubName 'Alarm'", Context.ConnectionId);
+            return base.OnReconnected();
+        }
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            _log.InfoLog("SignalServer: Client have Disconnected ,connectId '{0}',HubName 'Alarm'", Context.ConnectionId);
+            return base.OnDisconnected(stopCalled);
+        }
         public List<AlarmInstance> GetExitAlarms()
         {
             return _alarmTask.GetExitAlarms();

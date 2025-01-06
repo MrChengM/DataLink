@@ -4,6 +4,7 @@ using Microsoft.Owin.Hosting;
 using Owin;
 using System;
 using DataServer;
+using DataServer.Log;
 using DataServer.Task;
 using System.Collections.Generic;
 using DataServer.Alarm;
@@ -28,7 +29,7 @@ namespace SignalRSelfHost
         public void StartServer(string url, UnityContainer container)
         {
             disposable = WebApp.Start(url, app => new Startup().Configuration(app, container));
-            _log.InfoLog("Server running on {0}", url);
+            _log.InfoLog("SignalServer: Server running on {0}", url);
             Container = container;
         }
         public void Stop()

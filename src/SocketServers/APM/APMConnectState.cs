@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Log;
 namespace SocketServers
 {
      public class APMConnectState:IConnectState

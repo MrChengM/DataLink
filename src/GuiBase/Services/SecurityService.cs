@@ -1,4 +1,5 @@
 ﻿using DataServer;
+using DataServer.Log;
 using DataServer.Permission;
 using System;
 using System.Collections.Generic;
@@ -280,7 +281,7 @@ namespace GuiBase.Services
             return result;
         }
 
-        public bool IsPermission(string name, ResourceType type)
+        public bool HasPermission(string name, ResourceType type)
         {
             string resourceName = $"{type}_{name}";
 
@@ -300,7 +301,7 @@ namespace GuiBase.Services
             return false;
         }
 
-        public bool ResgisterResourceName(string name, ResourceType type)
+        public bool ResgisterResource(string name, ResourceType type)
         {
             string resourceName = $"{type}_{name}";
 

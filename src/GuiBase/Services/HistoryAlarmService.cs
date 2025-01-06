@@ -1,4 +1,5 @@
 ﻿using DataServer;
+using DataServer.Log;
 using DataServer.Alarm;
 using GuiBase.Models;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utillity.Communication;
+
 namespace GuiBase.Services
 {
     public class HistoryAlarmService : IHistoryAlarmService

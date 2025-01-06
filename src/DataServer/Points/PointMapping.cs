@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,20 +47,27 @@ namespace DataServer.Points
         ITag GetTag(PointNameIndex pointNameIndex);
         ITag[] GetTags(string pointName);
 
+        WriteResult WritePoint(PointMetadata pointMeta,int index,string value);
+        WriteResult WritePoint(string pointName, int index, string value);
+
         Dictionary<string, PointMetadata> GetPointMetadatas();
+
+        event Action<Tag> PointChangeEvent;
     }
     public class PointMapping : IPointMapping
     {
-        private Dictionary<string, IPoint<bool>> _boolPointMapping = new Dictionary<string, IPoint<bool>>();
-        private Dictionary<string, IPoint<byte>> _bytePointMapping = new Dictionary<string, IPoint<byte>>();
-        private Dictionary<string, IPoint<short>> _shortPointMapping = new Dictionary<string, IPoint<short>>();
-        private Dictionary<string, IPoint<ushort>> _ushortPointMapping = new Dictionary<string, IPoint<ushort>>();
-        private Dictionary<string, IPoint<int>> _intPointMapping = new Dictionary<string, IPoint<int>>();
-        private Dictionary<string, IPoint<uint>> _uintPointMapping = new Dictionary<string, IPoint<uint>>();
-        private Dictionary<string, IPoint<float>> _floatPointMapping = new Dictionary<string, IPoint<float>>();
+        private ConcurrentDictionary<string, IPoint<bool>> _boolPointMapping = new ConcurrentDictionary<string, IPoint<bool>>();
+        private ConcurrentDictionary<string, IPoint<byte>> _bytePointMapping = new ConcurrentDictionary<string, IPoint<byte>>();
+        private ConcurrentDictionary<string, IPoint<short>> _shortPointMapping = new ConcurrentDictionary<string, IPoint<short>>();
+        private ConcurrentDictionary<string, IPoint<ushort>> _ushortPointMapping = new ConcurrentDictionary<string, IPoint<ushort>>();
+        private ConcurrentDictionary<string, IPoint<int>> _intPointMapping = new ConcurrentDictionary<string, IPoint<int>>();
+        private ConcurrentDictionary<string, IPoint<uint>> _uintPointMapping = new ConcurrentDictionary<string, IPoint<uint>>();
+        private ConcurrentDictionary<string, IPoint<float>> _floatPointMapping = new ConcurrentDictionary<string, IPoint<float>>();
         //private Dictionary<string, IPoint<double>> _doublePointMapping = new Dictionary<string, IPoint<double>>();
-        private Dictionary<string, IPoint<string>> _stringPointMapping = new Dictionary<string, IPoint<string>>();
+        private ConcurrentDictionary<string, IPoint<string>> _stringPointMapping = new ConcurrentDictionary<string, IPoint<string>>();
         private Dictionary<string, PointMetadata> _pointMetaMapping = new Dictionary<string, PointMetadata>();
+
+        public event Action<Tag> PointChangeEvent;
 
         public bool Find(string key)
         {
@@ -319,9 +327,20 @@ namespace DataServer.Points
         {
             if (!Find(key))
             {
-                _boolPointMapping.Add(key, point);
+                _boolPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Bool, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnBoolPointUpdataEvent;
             }
+        }
+
+        private void OnBoolPointUpdataEvent(IPoint<bool> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.Bool, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
+
         }
 
         public void Register(string key, IPoint<byte> point)
@@ -329,62 +348,117 @@ namespace DataServer.Points
 
             if (!Find(key))
             {
-                _bytePointMapping.Add(key, point);
+                _bytePointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Byte, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnBytePointUpdataEvent;
+
             }
         }
+        private void OnBytePointUpdataEvent(IPoint<byte> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.Byte, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
 
+        }
         public void Register(string key, IPoint<short> point)
         {
 
             if (!Find(key))
             {
-                _shortPointMapping.Add(key, point);
+                _shortPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Short, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnShortPointUpdataEvent;
 
             }
         }
+        private void OnShortPointUpdataEvent(IPoint<short> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.Short, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
 
+        }
         public void Register(string key, IPoint<ushort> point)
         {
             if (!Find(key))
             {
-                _ushortPointMapping.Add(key, point);
+                _ushortPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.UShort, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnUShortPointUpdataEvent;
 
             }
         }
+        private void OnUShortPointUpdataEvent(IPoint<ushort> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.UShort, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
 
+        }
         public void Register(string key, IPoint<int> point)
         {
             if (!Find(key))
             {
-                _intPointMapping.Add(key, point);
+                _intPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Int, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnIntPointUpdataEvent;
 
             }
         }
+        private void OnIntPointUpdataEvent(IPoint<int> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.Int, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
 
+        }
         public void Register(string key, IPoint<uint> point)
         {
             if (!Find(key))
             {
-                _uintPointMapping.Add(key, point);
+                _uintPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.UInt, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnUIntPointUpdataEvent;
 
             }
         }
+        private void OnUIntPointUpdataEvent(IPoint<uint> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.UInt, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
 
+        }
         public void Register(string key, IPoint<float> point)
         {
             if (!Find(key))
             {
-                _floatPointMapping.Add(key, point);
+                _floatPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.Float, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnFloatPointUpdataEvent;
 
             }
         }
+        private void OnFloatPointUpdataEvent(IPoint<float> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.Float, Value = point[index].ToString() };
+                RaisePointChange(tag);
+            }
 
+        }
         //public void Register(string key, IPoint<double> point)
         //{
         //    if (!Find(key))
@@ -399,11 +473,21 @@ namespace DataServer.Points
         {
             if (!Find(key))
             {
-                _stringPointMapping.Add(key, point);
+                _stringPointMapping.TryAdd(key, point);
                 _pointMetaMapping.Add(key, new PointMetadata(key, DataType.String, point.Length, point.IsVirtual()));
+                point.UpdataEvent += OnStringPointUpdataEvent;
+
             }
         }
+        private void OnStringPointUpdataEvent(IPoint<string> point, int index)
+        {
+            if (index > -1 && index < point.Length)
+            {
+                var tag = new Tag { Name = point.Name + $"[{index}]", Quality = point.GetQuality(), TimeStamp = DateTime.Now, Type = DataType.String, Value = point[index] };
+                RaisePointChange(tag);
+            }
 
+        }
         public void Remove(string key)
         {
             var meteData = GetPointMetaData(key);
@@ -412,36 +496,280 @@ namespace DataServer.Points
                 switch (meteData.ValueType)
                 {
                     case DataType.Bool:
-                        _boolPointMapping.Remove(key);
+                        _boolPointMapping[key].UpdataEvent -= OnBoolPointUpdataEvent;
+                        _boolPointMapping.TryRemove(key,out _);
                         break;
                     case DataType.Byte:
-                        _bytePointMapping.Remove(key);
+                        _bytePointMapping[key].UpdataEvent -= OnBytePointUpdataEvent;
+                        _bytePointMapping.TryRemove(key, out _);
                         break;
                     case DataType.Short:
-                        _shortPointMapping.Remove(key);
+                        _shortPointMapping[key].UpdataEvent -= OnShortPointUpdataEvent;
+                        _shortPointMapping.TryRemove(key, out _);
                         break;
                     case DataType.UShort:
-                        _ushortPointMapping.Remove(key);
+                        _ushortPointMapping[key].UpdataEvent -= OnUShortPointUpdataEvent;
+                        _ushortPointMapping.TryRemove(key, out _);
                         break;
                     case DataType.Int:
-                        _intPointMapping.Remove(key);
+                        _intPointMapping[key].UpdataEvent -= OnIntPointUpdataEvent;
+                        _intPointMapping.TryRemove(key,out _);
                         break;
                     case DataType.UInt:
-                        _uintPointMapping.Remove(key);
+                        _uintPointMapping[key].UpdataEvent -= OnUIntPointUpdataEvent;
+                        _uintPointMapping.TryRemove(key,out _);
                         break;
                     case DataType.Float:
-                        _floatPointMapping.Remove(key);
+                        _floatPointMapping[key].UpdataEvent -= OnFloatPointUpdataEvent;
+                        _floatPointMapping.TryRemove(key,out _);
                         break;
                     //case DataType.Double:
                     //    _doublePointMapping.Remove(key);
                     //    break;
                     case DataType.String:
-                        _stringPointMapping.Remove(key);
+                        _stringPointMapping[key].UpdataEvent -= OnStringPointUpdataEvent;
+                        _stringPointMapping.TryRemove(key,out _);
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        void RaisePointChange(Tag tag)
+        {
+            PointChangeEvent?.Invoke(tag);
+        }
+        public WriteResult WritePoint(string pointName, int index, string value) 
+        {
+            var pointMeta = GetPointMetaData(pointName);
+            return WritePoint(pointMeta, index, value);
+        }
+
+        public WriteResult WritePoint(PointMetadata pointMeta, int index, string value)
+        {
+
+            string pointName = pointMeta.Name;
+            var type = pointMeta.ValueType;
+            WriteResult result = new WriteResult();
+            string msgheader=string.Concat("the point name:", pointName, " type : ", type," information: ");
+
+            if (type == DataType.Bool)
+            {
+                bool temp;
+                if (bool.TryParse(value, out temp))
+                {
+                    var point = GetBoolPoint(pointName);
+                    if (point is DevicePoint<bool> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match bool");
+
+                }
+
+
+            }
+            else if (type == DataType.Byte)
+            {
+                byte temp;
+                if (byte.TryParse(value, out temp))
+                {
+                    var point = GetBytePoint(pointName);
+                    if (point is DevicePoint<byte> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match byte");
+                }
+            }
+            else if (type == DataType.UShort)
+            {
+                ushort temp;
+                if (ushort.TryParse(value, out temp))
+                {
+                    var point = GetUShortPoint(pointName);
+                    if (point is DevicePoint<ushort> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match ushort");
+                }
+            }
+            else if (type == DataType.Short)
+            {
+                short temp;
+                if (short.TryParse(value, out temp))
+                {
+                    var point = GetShortPoint(pointName);
+                    if (point is DevicePoint<short> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match short");
+                }
+            }
+            else if (type == DataType.UInt)
+            {
+                uint temp;
+                if (uint.TryParse(value, out temp))
+                {
+                    var point = GetUIntPoint(pointName);
+                    if (point is DevicePoint<uint> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match uint");
+                }
+            }
+            else if (type == DataType.Int)
+            {
+                int temp;
+                if (int.TryParse(value, out temp))
+                {
+                    var point = GetIntPoint(pointName);
+                    if (point is DevicePoint<int> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match int");
+                }
+            }
+            else if (type == DataType.Float)
+            {
+                float temp;
+                if (float.TryParse(value, out temp))
+                {
+                    var point = GetFloatPoint(pointName);
+                    if (point is DevicePoint<float> dp)
+                    {
+                        result = dp.Write(index, temp);
+                    }
+                    else
+                    {
+                        if (point.SetValue(temp, index))
+                        {
+                            result.Result = OperateResult.OK;
+                        }
+                        else
+                        {
+                            result.Result = OperateResult.NG;
+                            result.Messages = string.Concat(msgheader, "set value error");
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Result = OperateResult.NG;
+                    result.Messages = string.Concat(msgheader, "value type not match uint");
+                }
+            }
+            return result;
         }
     }
     public class PointMetadata

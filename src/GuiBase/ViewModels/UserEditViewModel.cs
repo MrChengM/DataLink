@@ -14,9 +14,11 @@ using System.Windows;
 
 namespace GuiBase.ViewModels
 {
-    public class UserEditViewModel:BindableBase,IDialogAware
+    public class UserEditViewModel : BindableBase, IDialogAware
     {
         private ISecurityService _securityService;
+        private ILocalizationService _localizationService;
+
         private UserWrapper userW;
 
 
@@ -44,15 +46,47 @@ namespace GuiBase.ViewModels
         
 
         public DelegateCommand<string> ConfrimBtnCommand { get; set; }
-        public string Title => "User Edit";
 
-        public UserEditViewModel (ISecurityService securityService)
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
+
+        private UserCaptions captions;
+
+        public UserCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
+
+
+
+
+        public UserEditViewModel (ISecurityService securityService,ILocalizationService localizationService)
         {
             _securityService = securityService;
             ConfrimBtnCommand = new DelegateCommand<string>(confrimBtn);
             SsexS =new List<string>( Enum.GetNames(typeof(SSex)));
+
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+            Captions = new UserCaptions(_localizationService);
+            translate();
         }
 
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Title = _localizationService.Translate(TranslateCommonId.UserEditId);
+            Captions.GetContent();
+        }
         private void confrimBtn(string param)
         {
             var btnResult = new ButtonResult();
@@ -95,6 +129,7 @@ namespace GuiBase.ViewModels
         }
         public void OnDialogClosed()
         {
+            Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
@@ -121,7 +156,11 @@ namespace GuiBase.ViewModels
         }
 
         public event Action<IDialogResult> RequestClose;
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
 
-      
+        }
+
     }
 }

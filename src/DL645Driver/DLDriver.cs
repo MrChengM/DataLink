@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
-using DataServer.Utillity;
+using DataServer.Log;
+using Utillity.Data;
 using System.Threading;
 
 namespace DL645Driver
 {
-    public abstract class DLDriver : IPLCDriver
+    public abstract class DLDriver : IComPortDriver
     {
         private CommunicationType _driverType;
         private TimeOut _timeOut;
@@ -93,6 +94,14 @@ namespace DL645Driver
             }
         }
 
+        public ByteOrder Order { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int ConnectTimeOut { get; set; }
+        public int RequestTimeOut { get; set; }
+        public int RetryTimes { get; set; }
+        public SerialportSetUp PortSetUp { get => _setUp; set => _setUp = value; }
+
         public bool Connect()
         {
             try
@@ -145,186 +154,6 @@ namespace DL645Driver
             TimeOut = null;
             Log = null;
         }
-
-        public string GetAddress(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DeviceAddress GetDeviceAddress(string address)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<bool> ReadBool(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<TResult> ReadData<TResult>(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<TResult>[] ReadDatas<TResult>(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<float> Readfloat(DeviceAddress deviceAddress)
-        {
-
-            throw new NotImplementedException();
-        }
-        public virtual Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<int> ReadInt(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<short> ReadShort(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<string> ReadString(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual  Item<string>[] ReadStrings(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<uint> ReadUInt(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<ushort> ReadUShort(DeviceAddress deviceAddress)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteBool(DeviceAddress deviceAddress, bool datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteBools(DeviceAddress deviceAddress, bool[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteByte(DeviceAddress deviceAddress, byte datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteBytes(DeviceAddress deviceAddress, byte[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteData<T>(DeviceAddress deviceAddress, T datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteDatas<T>(DeviceAddress deviceAddress, T[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteFloat(DeviceAddress deviceAddress, float datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteFloats(DeviceAddress deviceAddress, float[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteInt(DeviceAddress deviceAddress, int datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteInts(DeviceAddress deviceAddress, int[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteShort(DeviceAddress deviceAddress, short datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteShorts(DeviceAddress deviceAddress, short[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteString(DeviceAddress deviceAddress, string datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteStrings(DeviceAddress deviceAddress, string[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteUInt(DeviceAddress deviceAddress, uint datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteUInts(DeviceAddress deviceAddress, uint[] datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteUShort(DeviceAddress deviceAddress, ushort datas)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual int WriteUShorts(DeviceAddress deviceAddress, ushort[] datas)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// 读电表数据 
         /// 功能码 fuction = 11H
@@ -356,7 +185,7 @@ namespace DL645Driver
             }
             byte[] CSdata = new byte[length-6];
             Array.Copy(data, 4, CSdata, 0, CSdata.Length);
-            data[length-2] = Utility.CSCheck(CSdata);         //CS校验
+            data[length-2] = ByteCheck.CSCheck(CSdata);         //CS校验
             data[length-1] = 0x16;                            //结束字符
             return data;
 
@@ -529,7 +358,7 @@ namespace DL645Driver
         /// </summary>
         /// <param name="data">源数据字节数组</param>
         /// <returns></returns>
-        protected Item<float>[] getItemsTime(byte[] data)
+        protected virtual Item<float>[] getItemsTime(byte[] data)
         {
             Item<float>[] values = null;
             var value = Item<float>.CreateDefault();
@@ -538,12 +367,165 @@ namespace DL645Driver
             return values;
         }
 
-        public Item<byte> ReadByte(DeviceAddress deviceAddress)
+        public virtual Item<byte> ReadByte(DeviceAddress deviceAddress)
         {
             throw new NotImplementedException();
         }
 
-        public Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length)
+        public virtual Item<byte>[] ReadBytes(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteBool(DeviceAddress deviceAddress, bool datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteByte(DeviceAddress deviceAddress, byte datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteShort(DeviceAddress deviceAddress, short datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteUShort(DeviceAddress deviceAddress, ushort datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteInt(DeviceAddress deviceAddress, int datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteUInt(DeviceAddress deviceAddress, uint datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteFloat(DeviceAddress deviceAddress, float datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int WriteString(DeviceAddress deviceAddress, string datas, int offset = 0)
+        {
+            throw new NotImplementedException();
+        }
+       
+        public virtual DeviceAddress GetDeviceAddress(string address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<bool> ReadBool(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<float> Readfloat(DeviceAddress deviceAddress)
+        {
+
+            throw new NotImplementedException();
+        }
+        public virtual Item<float>[] Readfloats(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<int> ReadInt(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<int>[] ReadInts(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<short> ReadShort(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<short>[] ReadShorts(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<string> ReadString(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<string>[] ReadStrings(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<uint> ReadUInt(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<uint>[] ReadUInts(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<ushort> ReadUShort(DeviceAddress deviceAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Item<ushort>[] ReadUShorts(DeviceAddress deviceAddress, ushort length)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public virtual int WriteBools(DeviceAddress deviceAddress, bool[] datas)
+        {
+            throw new NotImplementedException();
+        }
+
+    
+
+        public virtual int WriteBytes(DeviceAddress deviceAddress, byte[] datas)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual int WriteFloats(DeviceAddress deviceAddress, float[] datas)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual int WriteInts(DeviceAddress deviceAddress, int[] datas)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual int WriteShorts(DeviceAddress deviceAddress, short[] datas)
+        {
+            throw new NotImplementedException();
+        }
+     
+        public virtual int WriteStrings(DeviceAddress deviceAddress, string[] datas)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual int WriteUInts(DeviceAddress deviceAddress, uint[] datas)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual int WriteUShorts(DeviceAddress deviceAddress, ushort[] datas)
         {
             throw new NotImplementedException();
         }

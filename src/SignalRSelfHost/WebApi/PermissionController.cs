@@ -10,9 +10,9 @@ namespace SignalRSelfHost.WebApi
 {
     public class PermissionController : ApiController
     {
-        private  IPermissionManager _permissionManager;
+        private  IPermissionsCRUD _permissionManager;
 
-        public PermissionController(IPermissionManager permissionManager)
+        public PermissionController(IPermissionsCRUD permissionManager)
         {
             _permissionManager = permissionManager;
         }

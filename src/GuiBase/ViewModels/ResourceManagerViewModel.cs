@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using Prism.Events;
 using GuiBase.Services;
 using System.Collections.ObjectModel;
 using GuiBase.Models;
@@ -18,7 +19,8 @@ namespace GuiBase.ViewModels
     {
         private ISecurityService _securityService;
         private IDialogService _dialogService;
-
+        private ILocalizationService _localizationService;
+        private IEventAggregator _ea;
         private string filterName;
 
         public string FilterName
@@ -34,6 +36,40 @@ namespace GuiBase.ViewModels
             get { return resourceWrappers; }
             set { SetProperty(ref resourceWrappers, value, "ResourceWrappers"); }
         }
+        private ResourceCaptions captions;
+
+        public ResourceCaptions Captions
+        {
+            get { return captions; }
+            set { SetProperty(ref captions, value, "Captions"); }
+        }
+
+        private string addText;
+
+        public string AddText
+        {
+            get { return addText; }
+            set { SetProperty(ref addText, value, "AddText"); }
+        }
+
+        private string editText;
+
+        public string EditText
+        {
+            get { return editText; }
+            set { SetProperty(ref editText, value, "EditText"); }
+        }
+
+        private string deleteText;
+
+        public string DeleteText
+        {
+            get { return deleteText; }
+            set { SetProperty(ref deleteText, value, "DeleteText"); }
+        }
+
+
+
         public DelegateCommand SearchResourcesCommand { get; set; }
 
         public DelegateCommand AddResourceCommand { get; set; }
@@ -45,11 +81,18 @@ namespace GuiBase.ViewModels
         public DelegateCommand<ResourceWrapper> DeleteResourceCommand { get; set; }
 
 
-        public ResourceManagerViewModel(ISecurityService securityService,IDialogService dialogService)
+        public ResourceManagerViewModel(ISecurityService securityService,IDialogService dialogService,ILocalizationService localizationService, IEventAggregator ea)
         {
             _securityService = securityService;
             _dialogService = dialogService;
+            _ea = ea;
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Subscribe(onDialogClosed);
             searchResources();
+
+            _localizationService = localizationService;
+            Captions = new ResourceCaptions(_localizationService);
+            _localizationService.LanguageChanged += onLanguageChanged;
+            translate();
             SearchResourcesCommand = new DelegateCommand(searchResources);
             AddResourceCommand = new DelegateCommand(addResource);
             ImportResourcesCommand = new DelegateCommand(importRoles);
@@ -59,11 +102,32 @@ namespace GuiBase.ViewModels
             DeleteResourceCommand = new DelegateCommand<ResourceWrapper>(deleteResource);
     }
 
-     
+        private void onDialogClosed(DialogClosedResult result)
+        {
+            if (result.ViewName == "AccManagerView")
+            {
+                Clear();
+            }
+        }
 
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+        private void translate()
+        {
+            Captions.GetContent();
+            AddText = _localizationService.Translate(TranslateCommonId.AddId);
+            EditText = _localizationService.Translate(TranslateCommonId.EditId);
+            DeleteText = _localizationService.Translate(TranslateCommonId.DeleteId);
+        }
         private void deleteResource(ResourceWrapper wrapper)
         {
-            var btnResult = MessageBox.Show("确定要删除该资源吗？", "提示", MessageBoxButton.OKCancel);
+            string caption = _localizationService.Translate(TranslateCommonId.WaringId);
+            string message = _localizationService.Translate(TranslateCommonId.DeleteResourceWarningId);
+            string errorMessage = _localizationService.Translate(TranslateCommonId.DeleteResourceFailId);
+
+            var btnResult = MessageBox.Show(message, caption, MessageBoxButton.OKCancel);
             if (btnResult == MessageBoxResult.OK)
             {
                 if (_securityService.DeleteResource(ResourceWrapper.Convert(wrapper)))
@@ -72,7 +136,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("删除资源失败！", "提示");
+                    MessageBox.Show(errorMessage, caption);
                 }
             }
         }
@@ -94,9 +158,13 @@ namespace GuiBase.ViewModels
 
         private void enableOpert(ResourceWrapper wrapper)
         {
+            string caption = _localizationService.Translate(TranslateCommonId.WaringId);
+            string message = _localizationService.Translate(TranslateCommonId.DisableResourceWarningId);
+            string errorMessage1 = _localizationService.Translate(TranslateCommonId.DisableResourceFailId);
+            string errorMessage2 = _localizationService.Translate(TranslateCommonId.EnableResourceFailId);
             if (wrapper.Disable)
             {
-                var btnResult = MessageBox.Show("确定要禁用该资源吗？", "提示", MessageBoxButton.OKCancel);
+                var btnResult = MessageBox.Show(message, caption, MessageBoxButton.OKCancel);
 
                 if (btnResult == MessageBoxResult.OK)
                 {
@@ -106,7 +174,7 @@ namespace GuiBase.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("禁用资源失败!", "提示");
+                        MessageBox.Show(errorMessage1, caption);
                         wrapper.Disable = false;
 
                     }
@@ -124,7 +192,7 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("启用资源失败！", "提示");
+                    MessageBox.Show(errorMessage2, caption);
                     wrapper.Disable = true;
 
                 }
@@ -188,6 +256,12 @@ namespace GuiBase.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+        }
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Unsubscribe(onDialogClosed);
+
         }
     }
 }

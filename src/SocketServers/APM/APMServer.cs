@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using DataServer;
+using DataServer.Log;
 
 namespace SocketServers
 {

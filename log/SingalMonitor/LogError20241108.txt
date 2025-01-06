@@ -1,0 +1,5 @@
+2024-11-08 09:34:50,989 ERROR SignalMonitorLogger SignalMonitor: FreedomServer Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:9527  
+2024-11-08 10:24:35,034 ERROR SignalMonitorLogger SignalMonitor: socket anyc read error:ConnectionReset  
+2024-11-08 10:26:49,513 ERROR SignalMonitorLogger SignalMonitor: socket anyc read error:ConnectionReset  
+2024-11-08 10:43:07,561 ERROR SignalMonitorLogger SignalMonitor: socket anyc read error:ConnectionReset  
+2024-11-08 10:46:53,375 ERROR SignalMonitorLogger SignalMonitor: socket anyc read error:ConnectionReset  

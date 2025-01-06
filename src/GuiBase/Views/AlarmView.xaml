@@ -4,15 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:GuiBase.Views" xmlns:I="http://schemas.microsoft.com/xaml/behaviors" xmlns:prism="http://prismlibrary.com/"
+             xmlns:local="clr-namespace:GuiBase.Views" 
+             xmlns:I="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:prism="http://prismlibrary.com/"
              MinHeight="900"  MinWidth="1680">
-    <Grid>
-        <ListView Grid.Row="0" ItemsSource="{Binding Alarms}"  Margin="20,60,20,50">
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
+        <ListView Grid.Row="0" ItemsSource="{Binding Alarms}"  Margin="20,60,20,50" >
             <ListView.Style >
                 <Style  TargetType="ListView">
-                    <Setter Property="BorderBrush" Value="LightGray"/>
+                    <Setter Property="BorderBrush" Value="Gray"/>
                     <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="Background" Value="{StaticResource MaterialDesignPaper}"/>
+                    <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"/>
+
                 </Style>
             </ListView.Style>
             <ListView.ItemContainerStyle>
@@ -20,21 +23,21 @@
                     <Setter Property="Background" Value="{Binding RowColor}"/>
                 </Style>
             </ListView.ItemContainerStyle>
-            <ListView.View>
+            <ListView.View >
                 <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmName}" Header="AlarmName"  Width="300" />
-                    <GridViewColumn DisplayMemberBinding="{Binding PartName}" Header="PartName" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="AlarmLevel" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmDescrible}" Header="Description" Width="400"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="AppearTime" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Counts}" Header="Counts" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding AlarmGroup}" Header="Group" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding L1View}" Header="L1View" Width="150"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding L2View}" Header="L2View" Width="150"/>
-                    <GridViewColumn Header="Confrim" Width="100">
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmName}" Header="{Binding Columns.AlarmName}"  Width="300" />
+                    <GridViewColumn DisplayMemberBinding="{Binding PartName}" Header="{Binding Columns.PartName}" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="{Binding Columns.AlarmLevel}" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding LocalizationDescrible}" Header="{Binding Columns.Description}" Width="400"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="{Binding Columns.AppearTime}" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Counts}" Header="{Binding Columns.Counts}" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmGroup}" Header="{Binding Columns.Group}" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding L1View}" Header="{Binding Columns.L1View}" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding L2View}" Header="{Binding Columns.L2View}" Width="150"/>
+                    <GridViewColumn Header="{Binding Columns.Confirm}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Content="{materialDesign:PackIcon Check}" Command="{Binding ConfirmCommand}" Height="25" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding ConfirmEnable}"/>
+                                <Button  Content="{materialDesign:PackIcon Check}" Command="{Binding ConfirmCommand}" Height="25" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding ConfirmEnable}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -44,35 +47,43 @@
         <Button x:Name="FilterOpenBtn" Grid.Row="0" Width="56" Height="56"  Command="{Binding TopDrawerOperationCommand}"  CommandParameter="Open" HorizontalAlignment="Center" VerticalAlignment="Top"  Foreground="{StaticResource MaterialDesignBody}" Style="{StaticResource MaterialDesignIconForegroundButton}">
             <materialDesign:PackIcon Width="36" Height="36"  Kind="ChevronDoubleDown" />
         </Button>
-        <materialDesign:DrawerHost x:Name="DrawerHost"  BottomDrawerBackground="{DynamicResource MaterialDesignBackground}"   BottomDrawerCornerRadius="0" IsTopDrawerOpen="{Binding TopDrawerEnable}" >
+        <materialDesign:DrawerHost x:Name="DrawerHost"  BottomDrawerBackground="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"   BottomDrawerCornerRadius="0" IsTopDrawerOpen="{Binding TopDrawerEnable}" >
             <I:Interaction.Triggers>
                 <I:EventTrigger EventName="DrawerClosing">
                     <prism:InvokeCommandAction Command="{Binding DrawerCloseCommand}" />
                 </I:EventTrigger>
             </I:Interaction.Triggers>
             <materialDesign:DrawerHost.TopDrawerContent >
-                <GroupBox  Margin="16" Header="Filter Condition" Style="{StaticResource MaterialDesignCardGroupBox}" MinHeight="200" FontSize="16" TextBlock.FontFamily="宋体"  >
+                <GroupBox  Margin="16" Header="{Binding FilterCondition}" Style="{StaticResource MaterialDesignCardGroupBox}"
+                           materialDesign:ColorZoneAssist.Mode="Custom"
+                           materialDesign:ColorZoneAssist.Foreground="Black"
+                           materialDesign:ColorZoneAssist.Background="{StaticResource COLOR_BRUSH_HeaderBackground}"
+                           MinHeight="200" FontSize="16" TextBlock.FontFamily="宋体" >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                                <TextBlock  Text="ALarm Level:" Margin="10,0" />
-                            <ComboBox  materialDesign:ComboBoxAssist.ShowSelectedItem="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="100" Text="{Binding Filter.AlarmLevel}">
-                                    <ComboBoxItem  Content="All" IsSelected="True" />
-                                    <ComboBoxItem  Content="Information" />
-                                    <ComboBoxItem  Content="Trivial" />
-                                    <ComboBoxItem  Content="Minor" />
-                                    <ComboBoxItem  Content="Major" />
-                                </ComboBox>
-                            </StackPanel>
                         <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                            <TextBlock  Text="Alarm Group:" Margin="10,0"     />
+                            <TextBlock  Text="{Binding Columns.AlarmLevel}" Margin="10,0" />
+                            <TextBlock  Text=":" />
+                            <ComboBox  materialDesign:ComboBoxAssist.ShowSelectedItem="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="100" Text="{Binding Filter.AlarmLevel}">
+                                <ComboBoxItem  Content="All" IsSelected="True" />
+                                <ComboBoxItem  Content="Information" />
+                                <ComboBoxItem  Content="Trivial" />
+                                <ComboBoxItem  Content="Minor" />
+                                <ComboBoxItem  Content="Major" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
+                            <TextBlock  Text="{Binding Columns.Group}" Margin="10,0"/>
+                            <TextBlock  Text=":" />
                             <TextBox  Text="{ Binding Filter.AlarmGroup}" Margin="10,0"  MinWidth="100" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                            <TextBlock  Text="L1 View:" Margin="10,0"     />
+                            <TextBlock  Text="{Binding Columns.L1View}" Margin="10,0"     />
+                            <TextBlock  Text=":" />
                             <TextBox  Text="{Binding Filter.L1View}" Margin="10,0"  MinWidth="100" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                            <TextBlock  Text="L2 View:" Margin="10,0"    />
+                            <TextBlock  Text="{Binding Columns.L2View}" Margin="10,0" />
+                            <TextBlock  Text=":" />
                             <TextBox  Text="{Binding Filter.L2View}" Margin="10,0"    MinWidth="100" />
                         </StackPanel>
                         <!--<StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
@@ -83,7 +94,7 @@
                                     <ComboBoxItem  Content="No" />
                                 </ComboBox>
                             </StackPanel>-->
-                        <Button  Margin="40,0" Height="30" Width="80" Command="{Binding TopDrawerOperationCommand}"  CommandParameter="Close" Style="{StaticResource MaterialDesignRaisedLightButton}"  >
+                        <Button  Margin="40,0" Height="30" Width="80" Command="{Binding TopDrawerOperationCommand}"  CommandParameter="Close" Style="{StaticResource MaterialDesignRaisedLightButton}"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}">
                             <materialDesign:PackIcon Width="20" Height="20"  Kind="FilterCogOutline" />
                         </Button>
                     </StackPanel>
@@ -94,8 +105,8 @@
             <TextBlock Text="{Binding Counts}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10"/>
             <TextBlock Text="/" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <TextBlock Text="{Binding TotalCounts}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10"/>
-            <Button  Content="{materialDesign:PackIcon CheckAll}" Command="{Binding ConfirmAllCommand}" Height="25"  Width="50" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
-            <ToggleButton  materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=VolumeHigh}"  Content="{materialDesign:PackIcon Kind=VolumeOff}"  Style="{StaticResource MaterialDesignActionLightToggleButton}"  ToolTip="MaterialDesignActionLightToggleButton" Margin="10,0"/>
+            <Button  Content="{materialDesign:PackIcon CheckAll}" Command="{Binding ConfirmAllCommand}" Height="25"  Width="50" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+            <ToggleButton  materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=VolumeHigh}"  Content="{materialDesign:PackIcon Kind=VolumeOff}"  Style="{StaticResource MaterialDesignActionLightToggleButton}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" ToolTip="MaterialDesignActionLightToggleButton" Margin="10,0"/>
         </StackPanel>
         <!--<GridSplitter Grid.Row="1"  Height="2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="LightBlue"/>-->
     </Grid>

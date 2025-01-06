@@ -11,23 +11,22 @@
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="1080" Width="1920">
-    <Grid>
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="80*" />
-            <RowDefinition Height="850*"/>
+            <RowDefinition Height="800*"/>
             <RowDefinition Height="200*"/>
-
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="105*"/>
+            <ColumnDefinition Width="240*"/>
+            <ColumnDefinition Width="1680*"/>
         </Grid.ColumnDefinitions>
             <ContentControl prism:RegionManager.RegionName="HeaderRegion" Grid.ColumnSpan="2" />
-        <GridSplitter Grid.Row="0" Grid.ColumnSpan="2" Height="2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="LightBlue"/>
-            <ContentControl prism:RegionManager.RegionName="NavigtionRegion" Grid.Row="1"/>
-        <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Width="2"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Background="LightBlue"/>
-            <ContentControl prism:RegionManager.RegionName="BaseViewRegion" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"/>
-        <GridSplitter Grid.Column="1" Grid.Row="1"  Height="2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="LightBlue"/>
+        <GridSplitter Grid.Row="0" Grid.ColumnSpan="2" Height="2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Gray"/>
+        <ContentControl prism:RegionManager.RegionName="NavigtionRegion" Grid.Row="1" />
+        <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Width="2"  HorizontalAlignment="Right" VerticalAlignment="Stretch" Background="Gray"/>
+        <ContentControl prism:RegionManager.RegionName="BaseViewRegion" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1"  Height="2"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Gray"/>
         <ContentControl prism:RegionManager.RegionName="AlarmViewRegion" HorizontalAlignment="Stretch"  Grid.Row="2" Grid.Column="2" VerticalAlignment="Stretch" />
         <ContentControl Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="2" prism:RegionManager.RegionName="MenuListRegion" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
     </Grid>

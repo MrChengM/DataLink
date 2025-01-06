@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:GuiBase.Views"
              xmlns:models="clr-namespace:GuiBase.Models"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:control="clr-namespace:GuiBase.Control"
+             xmlns:control="clr-namespace:GuiBase.Controls"
              xmlns:convert="clr-namespace:GuiBase.Convert"
              Height="300" Width="400">
-    <Grid>
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
@@ -22,15 +22,15 @@
             <ColumnDefinition Width="150*"/>
             <ColumnDefinition Width="150*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Account:" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Name:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Sex:" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Roles:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBlock Text="Password:" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
-        <TextBox Text="{Binding UserW.Account}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100"/>
-        <TextBox Text="{Binding UserW.Name}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100"/>
-        <ComboBox SelectedValue="{Binding UserW.SSex}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" ItemsSource="{Binding SsexS}"/>
-        <ComboBox Text="{Binding UserW.RoleNames}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" IsEditable="True" ItemsSource="{Binding UserW.RoleNameExs}">
+        <TextBlock Text="{Binding Captions.Account}" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.Name}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.Sex}" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.Roles}" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBlock Text="{Binding Captions.Password}" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0"/>
+        <TextBox Text="{Binding UserW.Account}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
+        <TextBox Text="{Binding UserW.Name}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
+        <ComboBox SelectedValue="{Binding UserW.SSex}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" ItemsSource="{Binding SsexS}" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
+        <ComboBox Text="{Binding UserW.RoleNames}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" IsEditable="True" ItemsSource="{Binding UserW.RoleNameExs}" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:RoleNameEx}">
                     <StackPanel Orientation="Horizontal">
@@ -40,10 +40,10 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBox Text="{Binding UserW.Password}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100"/>
+        <TextBox Text="{Binding UserW.Password}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" >
-            <Button Content="确认" MinWidth="60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0" Command="{Binding ConfrimBtnCommand}"   CommandParameter="OK" />
-            <Button Content="取消" MinWidth="60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" Command="{Binding ConfrimBtnCommand}" CommandParameter="Cancel"/>
+            <Button Content="{Binding Captions.Confirm}" MinWidth="60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0" Command="{Binding ConfrimBtnCommand}"   CommandParameter="OK" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+            <Button Content="{Binding Captions.Cancel}" MinWidth="60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" Command="{Binding ConfrimBtnCommand}" CommandParameter="Cancel" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
         </StackPanel>
     </Grid>
 </UserControl>

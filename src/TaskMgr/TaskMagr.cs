@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TaskMgr.Task;
 using TaskMgr.Factory;
 using DataServer;
+using DataServer.Log;
 using DataServer.Config;
 using DataServer.Points;
 using DataServer.Permission;
@@ -13,10 +14,9 @@ using DataServer.Task;
 using DataServer.Alarm;
 using Unity;
 using SignalRSelfHost;
-using DBHandler_EF.Serivces;
+using DBHandler_EF.Services;
 using WCFRestFullAPI.Service;
-
-
+using SignalRSelfHost.Hubs;
 
 namespace TaskMgr
 {
@@ -182,8 +182,12 @@ namespace TaskMgr
             _container.RegisterSingleton<IPointMapping, PointMapping>();
             _container.RegisterSingleton<ILog, Log4netWrapper>();
             _container.RegisterSingleton<IAlarmTask, AlarmTask>();
-            _container.RegisterSingleton<IHisAlarmRecord, LogHistoryAlarmSerivce>();
-            _container.RegisterSingleton<IPermissionManager, PermissionSerivce>();
+            _container.RegisterSingleton<IHisAlarmRecordCRUD, LogHistoryAlarmSerivce>();
+            _container.RegisterSingleton<IPermissionsCRUD, PermissionSerivce>();
+            _container.RegisterSingleton<IOperateRecordCRUD, OperateRecoredSerivce>();
+
+            _container.RegisterSingleton<ISignalsHubProxy, SignalsHubProxy>();
+            _container.RegisterSingleton<IAlarmHubProxy, AlarmHubProxy>();
 
             _intance._log = _container.Resolve<ILog>();
             _intance._log.Init(loggerName);

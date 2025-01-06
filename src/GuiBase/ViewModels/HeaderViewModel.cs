@@ -14,6 +14,8 @@ using Prism.Ioc;
 using GuiBase.Views;
 using Prism.Events;
 using Prism.Regions;
+using System.Collections.ObjectModel;
+using DataServer.Permission;
 
 namespace GuiBase.ViewModels
 {
@@ -23,7 +25,8 @@ namespace GuiBase.ViewModels
         private IDialogService _dialogService;
         private ISecurityService _securityService;
         private IContainerProvider _container;
-        public List<NavigationItem> DialogList { get; set; }
+        private ILocalizationService _localizationService;
+        public ObservableCollection<NavigationItem> DialogList { get; set; }
 
         private NavigationItem selectedItem;
 
@@ -69,12 +72,46 @@ namespace GuiBase.ViewModels
             set { SetProperty(ref userBtnEnable, value, "UserBtnEnable"); }
         }
 
-        public HeaderViewModel(IContainerProvider container ,IDialogService dialogService,ISecurityService securityService,IEventAggregator ea)
+        private string languageSelect;
+
+        public string LanguageSelect
+        {
+            get { return languageSelect; }
+            set { SetProperty(ref languageSelect, value, "LanguageSelect"); }
+        }
+
+        private string language;
+
+        public string Language
+        {
+            get { return language; }
+            set { SetProperty(ref language, value, onLanguageNameChanged, "Language"); }
+        }
+
+        private void onLanguageNameChanged()
+        {
+            if (Language=="中文简体")
+            {
+                _localizationService.Language = "zh";
+            }
+            else if(Language == "English")
+            {
+                _localizationService.Language = "en";
+            }
+        }
+
+        
+        public HeaderViewModel(IContainerProvider container ,IDialogService dialogService,ISecurityService securityService,IEventAggregator ea, ILocalizationService localizationService)
         {
             _container = container;
             _dialogService = dialogService;
             _securityService = securityService;
             _ea = ea;
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += onLanguageChanged;
+
+            Language = "中文简体";
+            DialogList = new ObservableCollection<NavigationItem>();
             _securityService.UserChangeEvent += _securityService_UserChangeEvent;
             initNavigationItems();
             DialogClickCommand = new DelegateCommand(DialogClick);
@@ -85,14 +122,28 @@ namespace GuiBase.ViewModels
                 UserName = securityService.GetCurrentUser().Account;
                 UserBtnEnable = true;
             }
+            translate();
         }
 
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
+
+        private void translate()
+        {
+            LanguageSelect = _localizationService.Translate(TranslateCommonId.LanguageSelectId);
+            foreach (var nm in DialogList)
+            {
+                nm.Title = _localizationService.Translate(nm.TitelId);
+            }
+        }
         private void UserClick()
         {
             _dialogService.ShowDialog("UserDetailedView");
         }
 
-        private void _securityService_UserChangeEvent(DataServer.Permission.User user)
+        private void _securityService_UserChangeEvent(User user)
         {
             if (user!=null)
             {
@@ -104,6 +155,8 @@ namespace GuiBase.ViewModels
                 UserName = null;
                 UserBtnEnable = false;
             }
+            initNavigationItems();
+            translate();
         }
 
         private void refresh()
@@ -116,37 +169,41 @@ namespace GuiBase.ViewModels
 
         private void DialogClick()
         {
-            if (SelectedItem!=null)
+            if (SelectedItem != null)
             {
-                if (SelectedItem.Title == "Eixt")
+                if (SelectedItem.TitelId == TranslateCommonId.ExitId)
                 {
+                    var alarmService = _container.Resolve<IAlarmService>();
+                    alarmService.Stop();
+                    var signalServer = _container.Resolve<ISignalService>();
+                    signalServer.Stop();
+
                     App.Current.Shutdown();
 
                 }
-                
-                else if (SelectedItem.Title == "LogOff")
+                else if (SelectedItem.TitelId ==TranslateCommonId.LogonId)
                 {
-                    var startWindow = _container.Resolve<StartUpWindow>((typeof(string),"LogOnView"));
-                    var regionManager = _container.Resolve<IRegionManager>();
-                    RegionManager.SetRegionManager(startWindow, regionManager);
-                    RegionManager.UpdateRegions();
-                    startWindow.Show();
-                    var windows = App.Current.Windows;
-                    foreach (var window in windows)
-                    {
-                        if (window is MainWindow)
-                        {
-                            MainWindow mw = window as MainWindow;
-                            mw.Close();
-                            regionManager.Regions.Remove("MenuListRegion");
-                            regionManager.Regions.Remove("NavigtionRegion");
-                            regionManager.Regions.Remove("HeaderRegion");
-                            regionManager.Regions.Remove("AlarmViewRegion");
-                            regionManager.Regions.Remove("BaseViewRegion");
+                    //var startWindow = _container.Resolve<StartUpWindow>((typeof(string),"LogOnView"));
+                    //var regionManager = _container.Resolve<IRegionManager>();
+                    //RegionManager.SetRegionManager(startWindow, regionManager);
+                    //RegionManager.UpdateRegions();
+                    //startWindow.Show();
+                    //var windows = App.Current.Windows;
+                    //foreach (var window in windows)
+                    //{
+                    //    if (window is MainWindow)
+                    //    {
+                    //        MainWindow mw = window as MainWindow;
+                    //        mw.Close();
+                    //        regionManager.Regions.Remove("MenuListRegion");
+                    //        regionManager.Regions.Remove("NavigtionRegion");
+                    //        regionManager.Regions.Remove("HeaderRegion");
+                    //        regionManager.Regions.Remove("AlarmViewRegion");
+                    //        regionManager.Regions.Remove("BaseViewRegion");
 
-                        }
-                    }
-                    //_dialogService.ShowDialog(selectedItem.ViewName, s => SelectedItem = null);
+                    //    }
+                    //}
+                    _dialogService.ShowDialog(selectedItem.ViewName, s => SelectedItem = null);
 
                 }
                 else
@@ -159,56 +216,63 @@ namespace GuiBase.ViewModels
 
         void initNavigationItems()
         {
-            DialogList = new List<NavigationItem>();
+            DialogList.Clear();
             DialogList.Add(new NavigationItem()
             {
-                Title = "LogOff",
-                SelectedIcon = PackIconKind.AccountOff,
-                UnselectedIcon = PackIconKind.AccountOffOutline,
+                TitelId = TranslateCommonId.LogonId,
+                SelectedIcon = PackIconKind.Account,
+                UnselectedIcon = PackIconKind.AccountOutline,
                 ViewName = "LogOnView",
+            }); ;
+            if (_securityService.HasPermission("AlarmView",ResourceType.View))
+            {
+                DialogList.Add(new NavigationItem()
+                {
+                    TitelId = TranslateCommonId.AlarmId,
+                    SelectedIcon = PackIconKind.AlarmLight,
+                    UnselectedIcon = PackIconKind.AlarmLightOutline,
+                    ViewName = "AlarmView",
 
-            });
+                });
+            }
+            if (_securityService.HasPermission("HistoryAlarmView", ResourceType.View))
+            {
+                DialogList.Add(new NavigationItem()
+                {
+                    TitelId = TranslateCommonId.HistoryAlarmId,
+                    SelectedIcon = PackIconKind.AlarmPanel,
+                    UnselectedIcon = PackIconKind.AlarmPanelOutline,
+                    ViewName = "HistoryAlarmView",
+
+                });
+            }
+            if (_securityService.HasPermission("OperRecordView", ResourceType.View))
+            {
+                DialogList.Add(new NavigationItem()
+                {
+                    TitelId = TranslateCommonId.OperRecordId,
+                    SelectedIcon = PackIconKind.BookOpen,
+                    UnselectedIcon = PackIconKind.BookOpenOutline,
+                    ViewName = "OperRecordView",
+
+                });
+            }
             DialogList.Add(new NavigationItem()
             {
-                Title = "Alarm",
-                SelectedIcon = PackIconKind.AlarmLight,
-                UnselectedIcon = PackIconKind.AlarmLightOutline,
-                ViewName = "AlarmView",
-
-            });
-            DialogList.Add(new NavigationItem()
-            {
-                Title = "HistoryAlarm",
-                SelectedIcon = PackIconKind.AlarmPanel,
-                UnselectedIcon = PackIconKind.AlarmPanelOutline,
-                ViewName = "HistoryAlarmView",
-
-            });
-            DialogList.Add(new NavigationItem()
-            {
-                Title = "OperRecord",
-                SelectedIcon = PackIconKind.BookOpen,
-                UnselectedIcon = PackIconKind.BookOpenOutline,
-                ViewName = "OperRecordView",
-
-            });
-            //NavigationList.Add(new NavigationItem()
-            //{
-            //    Title = "Legend",
-            //    SelectedIcon = PackIconKind.Motion,
-            //    UnselectedIcon = PackIconKind.MotionOutline,
-            //    NavigtionViewName = "",
-
-            //});
-            DialogList.Add(new NavigationItem()
-            {
-                Title = "Eixt",
+                TitelId = TranslateCommonId.ExitId,
                 SelectedIcon = PackIconKind.Power,
                 UnselectedIcon = PackIconKind.Power,
                 ViewName = "",
 
             });
            
+        }
+        public void Clear()
+        {
+            DialogList.Clear();
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            _securityService.UserChangeEvent -= _securityService_UserChangeEvent;
+
         }
     }
 }

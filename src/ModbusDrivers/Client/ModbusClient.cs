@@ -1,4 +1,5 @@
 ﻿using DataServer;
+using DataServer.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -178,7 +179,7 @@ namespace ModbusDrivers.Client
 
             var datas = readBool(deviceAddress, 1);
             return datas == null ? Item<bool>.CreateDefault() :
-                new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<bool>() { Vaule = NetConvert.GetBit(datas[0], 0), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)

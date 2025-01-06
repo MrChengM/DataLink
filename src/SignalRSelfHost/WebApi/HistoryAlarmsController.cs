@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DataServer.Alarm;
-
+using DataServer.Log;
 namespace SignalRSelfHost.WebApi
 {
     public class HistoryAlarmsController : ApiController
     {
 
-        private IHisAlarmRecord _hisAlarmRecord;
+        private IHisAlarmRecordCRUD _hisAlarmRecord;
 
-        public HistoryAlarmsController(IHisAlarmRecord hisAlarmRecord)
+        public HistoryAlarmsController(IHisAlarmRecordCRUD hisAlarmRecord)
         {
             _hisAlarmRecord = hisAlarmRecord;
         }

@@ -7,6 +7,7 @@ using System.IO.Ports;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using Utillity.Data;
+using DataServer.Log;
 
 namespace DataServer
 {
@@ -276,7 +277,7 @@ namespace DataServer
         /// </summary>
         public DateTime AppearTime { get; set; }
         public QUALITIES Quality { get; set; }
-        public static Item<T> CreateDefault() => new Item<T> { Vaule = default(T), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_BAD,AppearTime=new DateTime(1990,01,01,00,00,00) };
+        public static Item<T> CreateDefault() => new Item<T> { Vaule = default(T), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_BAD, AppearTime = new DateTime(1990, 01, 01, 00, 00, 00) };
         // override object.Equals
         public bool Equals(Item<T> soure)
         {
@@ -375,5 +376,16 @@ namespace DataServer
         Write,
         ReadAndWrite
     }
-   
+    public class WriteResult
+    {
+        public OperateResult Result { get; set; }
+        public string Messages { get; set; }
+    }
+    public enum OperateResult
+    {
+        OK,
+        NG,
+        Unknown
+    }
+
 }

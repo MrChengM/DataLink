@@ -1,5 +1,6 @@
 ﻿using System;
 using DataServer;
+using DataServer.Log;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
@@ -475,7 +476,7 @@ namespace SiemensDriver
         {
             var datas = readyBytes(deviceAddress, 1);
             return datas == null ? Item<bool>.CreateDefault() :
-                new Item<bool>() { Vaule = NetConvert.ByteToBool(datas[0], deviceAddress.BitAddress), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
+                new Item<bool>() { Vaule = NetConvert.GetBit(datas[0], deviceAddress.BitAddress), UpdateTime = DateTime.Now, Quality = QUALITIES.QUALITY_GOOD };
         }
 
         public Item<bool>[] ReadBools(DeviceAddress deviceAddress, ushort length)

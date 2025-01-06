@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Log;
 using SocketServers;
 using SocketServers.SAEA;
 using System.Globalization;
@@ -298,9 +299,10 @@ namespace FreedomDriversV2
                     if (pointMeta != null)
                     {
                         PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameGroup[0], Index = index, Type = pointMeta.ValueType };
-                        if (writeMapping(nameGroup, pointValue) == -1)
+                        var writeResult = writeMapping(nameGroup, pointValue);
+                        if (writeResult.Result == OperateResult.NG)
                         {
-                            errorInfoList.Add(string.Concat("the point name:", pointName, " type : ", pointMeta.ValueType, " write error"));
+                            errorInfoList.Add(string.Concat("the point name:", pointName, " type : ", pointMeta.ValueType,  writeResult.Messages));
                         }
 
                     }
@@ -620,106 +622,11 @@ namespace FreedomDriversV2
             }
             return result;
         }
-        private int writeMapping(PointNameGroup nameGroup,string value)
+        private WriteResult writeMapping(PointNameGroup nameGroup,string value)
         {
             string pointName = nameGroup.PointName;
             int index = nameGroup.Index;
-            var type = nameGroup.Type;
-            List<string> result = new List<string>();
-            if (type == DataType.Bool)
-            {
-                bool temp;
-                if(bool.TryParse(value,out temp))
-                {
-                    var point =_pointMapping.GetBoolPoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-
-
-            }
-            else if (type == DataType.Byte)
-            {
-                byte temp;
-                if (byte.TryParse(value, out temp))
-                {
-                    var point = _pointMapping.GetBytePoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else if (type == DataType.UShort)
-            {
-                ushort temp;
-                if (ushort.TryParse(value, out temp))
-                {
-                    var point = _pointMapping.GetUShortPoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else if (type == DataType.Short)
-            {
-                short temp;
-                if (short.TryParse(value, out temp))
-                {
-                    var point = _pointMapping.GetShortPoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else if (type == DataType.UInt)
-            {
-                uint temp;
-                if (uint.TryParse(value, out temp))
-                {
-                    var point = _pointMapping.GetUIntPoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else if (type ==DataType.Int)
-            {
-                int temp;
-                if (int.TryParse(value, out temp))
-                {
-                    var point = _pointMapping.GetIntPoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else if (type == DataType.Float)
-            {
-                float temp;
-                if (float.TryParse(value, out temp))
-                {
-                    var point = _pointMapping.GetFloatPoint(pointName);
-                    return point.SetValue(temp, index) ? 1 : -1;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            return -1;
+            return _pointMapping.WritePoint(pointName, index, value);
         }
         public bool Start()
         {

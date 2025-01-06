@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
-using ModbusDrivers.Server;
 using ModbusDrivers.Client;
 
 namespace ModbusServerSubscriber

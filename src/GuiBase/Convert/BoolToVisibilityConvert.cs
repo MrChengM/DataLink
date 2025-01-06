@@ -26,13 +26,13 @@ namespace GuiBase.Convert
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             
-            if ((Visibility)value==Visibility.Collapsed)
+            if ((Visibility)value==Visibility.Collapsed || (Visibility)value == Visibility.Hidden)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
     }

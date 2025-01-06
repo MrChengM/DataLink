@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,10 @@ namespace Utillity.File
 {
    public class FileDialog
     {
+        public static string[] GetFilePaths(string folderPath)
+        {
+            return Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
+        }
         /// <summary>
         /// 输入文件
         /// </summary>

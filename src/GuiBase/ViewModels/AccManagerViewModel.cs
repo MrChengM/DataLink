@@ -15,7 +15,17 @@ namespace GuiBase.ViewModels
     public class AccManagerViewModel : BindableBase, IDialogAware
     {
         private IRegionManager _regionManager;
-        public string Title => "System Managerment";
+        private ILocalizationService _localizationService;
+        private IEventAggregator _ea;
+
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value, "Title"); }
+        }
+
 
         public event Action<IDialogResult> RequestClose;
         private DelegateCommand _navigationToViewCommand;
@@ -29,6 +39,16 @@ namespace GuiBase.ViewModels
                 _navigationToViewCommand = value;
             }
         }
+
+        private string systemMangagementText;
+
+        public string SystemMangagementText
+        {
+            get { return systemMangagementText; }
+            set { SetProperty(ref systemMangagementText, value, "SystemMangagementText"); }
+        }
+
+
         private NavigationItem selectedItem;
 
         public NavigationItem SelectedItem
@@ -36,27 +56,43 @@ namespace GuiBase.ViewModels
             get { return selectedItem; }
             set { SetProperty(ref selectedItem, value, "SelectedItem"); }
         }
-        public AccManagerViewModel(IRegionManager regionManager)
+        public AccManagerViewModel(IRegionManager regionManager,ILocalizationService localizationService, IEventAggregator ea)
         {
             _regionManager = regionManager;
+            _localizationService = localizationService;
+            _ea = ea;
+
+            _localizationService.LanguageChanged += onLanguageChanged;
             initNavigationViews();
+            translate();
             _navigationToViewCommand = new DelegateCommand(navigationToView);
         }
+        private void onLanguageChanged(LanguageChangedEvent e)
+        {
+            translate();
+        }
 
+        private void translate()
+        {
+            Title = _localizationService.Translate(TranslateCommonId.AccManagerId);
+            SystemMangagementText = _localizationService.Translate(TranslateCommonId.SystemManagementId);
+            foreach (var nm in NavigationViews)
+            {
+                nm.Title = _localizationService.Translate(nm.TitelId);
+            }
+        }
         private void navigationToView()
         {
             var viewName = SelectedItem.ViewName;
             _regionManager.RequestNavigate("ManagerViewRegion", viewName);
 
-
         }
-
         void initNavigationViews()
         {
             NavigationViews = new List<NavigationItem>();
             NavigationViews.Add(new NavigationItem()
             {
-                Title = "User Manager",
+                TitelId = TranslateCommonId.UserManagementId,
                 SelectedIcon = PackIconKind.Account,
                 UnselectedIcon = PackIconKind.AccountOutline,
                 ViewName = "UserManagerView",
@@ -64,7 +100,7 @@ namespace GuiBase.ViewModels
             });
             NavigationViews.Add(new NavigationItem()
             {
-                Title = "Role Manager",
+                TitelId = TranslateCommonId.RoleManagementId,
                 SelectedIcon = PackIconKind.AccountMultiple,
                 UnselectedIcon = PackIconKind.AccountMultipleOutline,
                 ViewName = "RoleManagerView",
@@ -72,7 +108,7 @@ namespace GuiBase.ViewModels
             });
             NavigationViews.Add(new NavigationItem()
             {
-                Title = "Resource Manager",
+                TitelId = TranslateCommonId.ResourceManagementId,
                 SelectedIcon = PackIconKind.Ballot,
                 UnselectedIcon = PackIconKind.BallotOutline,
                 ViewName = "ResourceManagerView",
@@ -86,10 +122,18 @@ namespace GuiBase.ViewModels
 
         public void OnDialogClosed()
         {
+            _ea.GetEvent<PubSubEvent<DialogClosedResult>>().Publish(new DialogClosedResult() { ViewName = "AccManagerView", IsClosed = true });
+            Clear();
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+        }
+
+        public void Clear()
+        {
+            _localizationService.LanguageChanged -= onLanguageChanged;
+            NavigationViews.Clear();
         }
     }
 }

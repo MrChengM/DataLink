@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CB4E4522-1C2A-46FC-8EBF-6765CD74D3B4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>GuiBase</RootNamespace>
     <AssemblyName>GuiBase</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -16,6 +16,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.17.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.17\lib\net45\log4net.dll</HintPath>
@@ -50,7 +68,7 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.135\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -101,36 +119,78 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Control\GridAssist.cs" />
-    <Compile Include="Control\GridViewColumnThumb.cs" />
-    <Compile Include="Control\NavigationALarmCountsAssist.cs" />
+    <Compile Include="Behaviors\BaseElementDefaultBahavior.cs" />
+    <Compile Include="Behaviors\Conveyor_Straight_Behavior.cs" />
+    <Compile Include="Behaviors\PowerBox_Test_Behavior.cs" />
+    <Compile Include="Common\GeneralCommandBuilder.cs" />
+    <Compile Include="Common\BitGCommand.cs" />
+    <Compile Include="Common\GCommandSet.cs" />
+    <Compile Include="Common\IGCommand.cs" />
+    <Compile Include="Common\IGCommandSet.cs" />
+    <Compile Include="Common\IGeneralCommandBuilder.cs" />
+    <Compile Include="Common\KeepAliveTag.cs" />
+    <Compile Include="Controls\BaseElement.cs" />
+    <Compile Include="Controls\BitCommandsL3.cs" />
+    <Compile Include="Controls\BitCommands.cs" />
+    <Compile Include="Controls\BitStatusDisplay.cs" />
+    <Compile Include="Controls\GridAssist.cs" />
+    <Compile Include="Controls\GridViewColumnThumb.cs" />
+    <Compile Include="Controls\NavigationALarmCountsAssist.cs" />
+    <Compile Include="Controls\PopupMenu.cs" />
     <Compile Include="Convert\BoolToVisibilityConvert.cs" />
     <Compile Include="Convert\InvertBoolConvert.cs" />
     <Compile Include="Helper\ButtonConfrimEvent.cs" />
     <Compile Include="Helper\DialogServiceWithRegionManager.cs" />
     <Compile Include="Helper\DialogServiceWithRegionExtension.cs" />
+    <Compile Include="Common\ISignalChanged.cs" />
+    <Compile Include="Helper\GSignalChangedEventArgs.cs" />
+    <Compile Include="Helper\IToolTiProvider.cs" />
     <Compile Include="Helper\NotEmptyValidationRule.cs" />
-    <Compile Include="Models\EventPayLoad.cs" />
+    <Compile Include="Helper\SignalMangementHelper.cs" />
+    <Compile Include="Helper\ViewOperateHelper.cs" />
+    <Compile Include="Models\OperateRecordWrapper.cs" />
+    <Compile Include="Models\OperateRecordCaption.cs" />
+    <Compile Include="Models\OperateRecordSelectConditionWrapper.cs" />
+    <Compile Include="Models\UserCaptions.cs" />
+    <Compile Include="Models\AlarmCaptions.cs" />
+    <Compile Include="Models\EventResult.cs" />
+    <Compile Include="Common\GTag.cs" />
+    <Compile Include="Common\GSignalSet.cs" />
+    <Compile Include="Common\ISignalMangement.cs" />
     <Compile Include="Models\LoadResult.cs" />
     <Compile Include="Models\AlarmFilterCondition.cs" />
     <Compile Include="Models\AlarmWrapper.cs" />
     <Compile Include="Models\HistoryAlarmSelectConditionWrapper.cs" />
     <Compile Include="Models\HistoryAlarmWrapper.cs" />
     <Compile Include="Models\NavigationItem.cs" />
+    <Compile Include="Models\ResourceCaptions.cs" />
     <Compile Include="Models\ResourceWrapperEx.cs" />
     <Compile Include="Models\ResourceWrapper.cs" />
+    <Compile Include="Models\RoleCaptions.cs" />
     <Compile Include="Models\RoleNameEx.cs" />
     <Compile Include="Models\RoleWrapper.cs" />
+    <Compile Include="Common\GSignal.cs" />
+    <Compile Include="Common\SignalMangement.cs" />
+    <Compile Include="Models\TranslateCommonId.cs" />
     <Compile Include="Models\UserFilterCondition.cs" />
     <Compile Include="Models\UserWrapper.cs" />
+    <Compile Include="Models\ViewInfor.cs" />
     <Compile Include="Services\AlarmService.cs" />
     <Compile Include="Services\HistoryAlarmService.cs" />
     <Compile Include="Services\IAlarmService.cs" />
     <Compile Include="Services\IHistoryAlarmService.cs" />
+    <Compile Include="Services\ILocalizationService.cs" />
+    <Compile Include="Services\IOperateRecordService.cs" />
     <Compile Include="Services\ISecurityService.cs" />
+    <Compile Include="Services\ISignalService.cs" />
+    <Compile Include="Services\LocalizationService.cs" />
+    <Compile Include="Services\OperateRecordService.cs" />
     <Compile Include="Services\SecurityService.cs" />
+    <Compile Include="Services\SignalService.cs" />
     <Compile Include="ViewModels\AlarmLiteViewModel.cs" />
+    <Compile Include="ViewModels\DefaultElementL3ViewModel.cs" />
     <Compile Include="ViewModels\DeviceConfigViewModel.cs" />
+    <Compile Include="ViewModels\L3BaseViewModel.cs" />
     <Compile Include="ViewModels\LoadViewModel.cs" />
     <Compile Include="ViewModels\ResourceNameListViewModel.cs" />
     <Compile Include="ViewModels\ResourceListViewModel.cs" />
@@ -167,6 +227,12 @@
     </Compile>
     <Compile Include="Views\HistoryAlarmView.xaml.cs">
       <DependentUpon>HistoryAlarmView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\L3BaseView.xaml.cs">
+      <DependentUpon>L3BaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\L3View\PowerBox001.xaml.cs">
+      <DependentUpon>PowerBox001.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoadView.xaml.cs">
       <DependentUpon>LoadView.xaml</DependentUpon>
@@ -210,7 +276,7 @@
     <Compile Include="Views\StartUpWindow.xaml.cs">
       <DependentUpon>StartUpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\L1ViewA.xaml.cs">
+    <Compile Include="Views\L1View\L1ViewA.xaml.cs">
       <DependentUpon>L1ViewA.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserDetailedView.xaml.cs">
@@ -222,27 +288,43 @@
     <Compile Include="Views\UserManagerView.xaml.cs">
       <DependentUpon>UserManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewA.xaml.cs">
+    <Compile Include="Views\L2View\ViewA.xaml.cs">
       <DependentUpon>ViewA.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewB.xaml.cs">
+    <Compile Include="Views\L2View\ViewB.xaml.cs">
       <DependentUpon>ViewB.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewC.xaml.cs">
+    <Compile Include="Views\L2View\ViewC.xaml.cs">
       <DependentUpon>ViewC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewD.xaml.cs">
+    <Compile Include="Views\L2View\ViewD.xaml.cs">
       <DependentUpon>ViewD.xaml</DependentUpon>
     </Compile>
-    <Page Include="Themes\GuiBaseDesign.AlarmColors.xaml">
+    <Page Include="Resources\GuiBaseDesign.StatusDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\GuiBaseDesign.ControlBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\GuiBaseDesign.ListView.xaml">
+    <Page Include="Resources\GuiBaseDesign.Commands.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\GuiBaseDesign.Conveyor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\GuiBaseDesign.Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\GuiBaseDesign.ListBox.xaml">
+    <Page Include="Resources\GuiBaseDesign.Base.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\GuiBaseDesign.Text.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,6 +349,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HistoryAlarmView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\L3BaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\L3View\PowerBox001.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -341,7 +431,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\L1ViewA.xaml">
+    <Page Include="Views\L1View\L1ViewA.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -357,19 +447,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ViewA.xaml">
+    <Page Include="Views\L2View\ViewA.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ViewB.xaml">
+    <Page Include="Views\L2View\ViewB.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ViewC.xaml">
+    <Page Include="Views\L2View\ViewC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ViewD.xaml">
+    <Page Include="Views\L2View\ViewD.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -481,6 +571,31 @@
     <Resource Include="Assets\Image\LoadImage03.jpg" />
     <Resource Include="Assets\Image\LoadImage04.jpg" />
     <Resource Include="Assets\Image\LoadImage05.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Command\" />
+    <Folder Include="Views\Other\" />
+    <Folder Include="Views\Overview\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Image\L3Image\PowerBox001.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Image\Ming_logo.png" />
+    <Resource Include="Assets\Image\Ming_logo1.png" />
+    <Resource Include="Assets\Image\Ming_logo2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

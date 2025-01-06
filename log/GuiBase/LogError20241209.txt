@@ -1,0 +1,17 @@
+2024-12-09 15:06:05,320 ERROR GuiBaseLogger Localization Service:Load language file error 'can not find Id column' !  
+2024-12-09 15:06:44,545 ERROR GuiBaseLogger Localization Service:Load language file error 'can not find Id column' !  
+2024-12-09 15:08:19,889 ERROR GuiBaseLogger Localization Service:Load language file error 'can not find Id column' !  
+2024-12-09 15:08:49,293 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-09 15:09:31,412 ERROR GuiBaseLogger Localization Service:Load language file error 'can not find Id column' !  
+2024-12-09 15:09:37,273 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-09 15:09:37,275 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-12-09 15:18:14,441 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-09 15:19:00,721 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-09 15:20:04,796 ERROR GuiBaseLogger Localization Service:Load language file error'已添加了具有相同键的项。'!  
+2024-12-09 17:59:10,644 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-09 18:09:34,440 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2024/12/9 10:08:23 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-09 18:09:34,440 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2024/12/9 10:08:23 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-09 18:09:34,440 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2024/12/9 10:08:23 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-09 18:09:34,440 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/9 10:08:23 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-09 18:09:34,440 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/9 10:08:23 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-09 18:09:34,441 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/9 10:08:23 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  

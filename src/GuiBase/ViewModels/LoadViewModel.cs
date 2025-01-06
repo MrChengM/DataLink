@@ -9,6 +9,7 @@ using Prism.Ioc;
 using Prism.Commands;
 using GuiBase.Services;
 using DataServer;
+using DataServer.Log;
 using System.Threading;
 using Prism.Events;
 using GuiBase.Models;
@@ -47,22 +48,58 @@ namespace GuiBase.ViewModels
             //Thread.Sleep(200);
             _log = _container.Resolve<ILog>();
             _log.Init("GuiBaseLogger");
+            if (!loadLocalizationService())
+            {
+                Message = "Localization Service:Loading failed";
+                _ea.GetEvent<PubSubEvent<LoadResult>>().Publish(LoadResult.Fail);
+                return;
+            }
             if (!loadAlarmService())
             {
-                Message = "Alarm Service Loading failed";
+                Message = "Alarm Service:Loading failed";
+                _ea.GetEvent<PubSubEvent<LoadResult>>().Publish(LoadResult.Fail);
+                return;
+            }
+            if (!loadSignalService())
+            {
+                Message = "Signal Service:Loading failed";
                 _ea.GetEvent<PubSubEvent<LoadResult>>().Publish(LoadResult.Fail);
                 return;
             }
             _ea.GetEvent<PubSubEvent<LoadResult>>().Publish(LoadResult.Success);
         }
+        private bool loadLocalizationService()
+        {
+            Message = "Localization Service: Loading...";
+            bool result;
 
+            var localizationService = _container.Resolve<ILocalizationService>();
+            result = localizationService.Init();
+            Message = "Localization Service: Finished...";
+
+            return result;
+            //return true;
+        }
         private bool loadAlarmService()
         {
-            Message = "Alarm Service Loading...";
+            Message = "Alarm Service: Loading...";
             bool result;
-            
-            var alarmService= _container.Resolve<IAlarmService>();
+
+            var alarmService = _container.Resolve<IAlarmService>();
             result = alarmService.Start();
+            Message = "Alarm Service: Finished...";
+
+            return result;
+            //return true;
+        }
+        private bool loadSignalService()
+        {
+            Message = "Signal Service: Loading...";
+            bool result;
+
+            var signalService = _container.Resolve<ISignalService>();
+            result = signalService.Start();
+            Message = "Signal Service: Finished...";
             return result;
         }
     }

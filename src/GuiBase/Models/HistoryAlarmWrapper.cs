@@ -7,10 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Prism.Mvvm;
+using GuiBase.Services;
+using Prism.Ioc;
 
 namespace GuiBase.Models
 {
-    public class HistoryAlarmWrapper
+    public class HistoryAlarmWrapper:BindableBase
     {
         private static readonly SolidColorBrush ALARM25COLOR = (SolidColorBrush)Application.Current.FindResource("Alarm25");
         private static readonly SolidColorBrush ALARM50COLOR = (SolidColorBrush)Application.Current.FindResource("Alarm50");
@@ -21,7 +24,7 @@ namespace GuiBase.Models
 
         public string AlarmDescrible { get; set; }
         public AlarmType AlarmLevel { get; set; }
-
+       
         public string AlarmNumber { get; set; }
         public string L1View { get; set; }
         public string L2View { get; set; }
@@ -32,6 +35,15 @@ namespace GuiBase.Models
         public TimeSpan Duration => EndTime - AppearTime;
 
         public SolidColorBrush RowColor { get; set; }
+
+        private string localizationDescrible;
+
+        public string LocalizationDescrible
+        {
+            get { return localizationDescrible; }
+            set { SetProperty(ref localizationDescrible, value, "LocalizationDescrible"); }
+        }
+
 
         public static HistoryAlarmWrapper Convert(HistoryAlarm histroyAlarm)
         {
@@ -64,6 +76,11 @@ namespace GuiBase.Models
                     break;
                 default:
                     break;
+            }
+            var ls = ContainerLocator.Container?.Resolve<ILocalizationService>();
+            if (ls != null && histroyAlarmWrapper.AlarmNumber != null)
+            {
+                histroyAlarmWrapper.LocalizationDescrible = ls[histroyAlarmWrapper.AlarmNumber];
             }
             return histroyAlarmWrapper;
         }
