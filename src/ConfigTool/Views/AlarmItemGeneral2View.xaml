@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="ConfigTool.Views.AlarmItemGeneral2View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:local="clr-namespace:ConfigTool.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="400" Width="380">
+    <Grid>
+        <StackPanel TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Alarm Type:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                <ComboBox  HorizontalAlignment="Left"  Width="160" Height="30"  SelectedValue="{Binding CurrentAlarmType}" ItemsSource="{Binding AlarmTypes}"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Level1 View:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Level1View,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Level2 View:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Level2View,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Alarm Description:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
+                <TextBox Text="{Binding AlarmDescription,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Confirm Mode:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                <ComboBox  HorizontalAlignment="Left"  Width="160" Height="30"  SelectedValue="{Binding CurrentConfirmMode}" ItemsSource="{Binding ConfirmModes}"  Margin="0,20,20,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

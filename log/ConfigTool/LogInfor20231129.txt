@@ -1,0 +1,1 @@
+2023-11-29 21:21:15,568 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   

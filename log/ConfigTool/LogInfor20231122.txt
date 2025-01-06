@@ -1,0 +1,7 @@
+2023-11-22 10:36:33,707 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-22 10:36:33,713 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-22 10:38:08,109 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-22 10:38:08,148 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-22 10:44:40,855 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-22 10:44:40,876 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-22 10:45:24,522 INFO  ConfigToolLogger Add Device sucessfully: 'Channel1.Device2' .  

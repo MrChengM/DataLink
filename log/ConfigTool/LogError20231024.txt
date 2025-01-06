@@ -1,0 +1,6 @@
+2023-10-24 11:18:51,784 ERROR ConfigToolLogger Dll Register error£¬information:'Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.'  
+2023-10-24 11:20:36,719 ERROR ConfigToolLogger Dll Register error£¬information:'Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.'  
+2023-10-24 11:21:18,371 ERROR ConfigToolLogger Dll Register error£¬information:'Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.'  
+2023-10-24 11:23:06,580 ERROR ConfigToolLogger Dll Register error£¬information:'Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.'  
+2023-10-24 11:25:36,490 ERROR ConfigToolLogger Dll Register error£¬information:'Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.'  
+2023-10-24 11:41:57,732 ERROR ConfigToolLogger Dll Register error£¬information:'Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.'  

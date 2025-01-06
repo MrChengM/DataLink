@@ -1,0 +1,7 @@
+2024-12-13 14:50:05,910 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-13 15:06:19,469 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-13 15:30:13,773 ERROR GuiBaseLogger Localization Service:Load language file error'Excel Read error:文件“D:\Projects\DataLink\conf\translationfiles\translation_commom.xlsx”正由另一进程使用，因此该进程无法访问此文件。!'!  
+2024-12-13 18:02:03,928 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2024/12/13 8:37:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-13 18:02:03,928 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/13 8:37:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-13 18:02:03,929 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2024/12/13 8:37:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-12-13 18:02:03,931 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2024/12/13 8:37:37 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  

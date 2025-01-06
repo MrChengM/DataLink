@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ModbusDrivers</RootNamespace>
     <AssemblyName>ModbusDrivers</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,17 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
-    <Compile Include="Client\ModbusClientConfig.cs" />
-    <Compile Include="Client\ModbusRTUMaster.cs" />
-    <Compile Include="Client\ModbusMaster.cs" />
+    <Compile Include="Client\ModbusRTUClient.cs" />
+    <Compile Include="Client\ModbusClient.cs" />
     <Compile Include="Client\ModbusTCPClient.cs" />
-    <Compile Include="Client\ModbusTCPClientHanderTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\ModbusPointMapping.cs" />
-    <Compile Include="Server\ModbusServerConfig.cs" />
-    <Compile Include="Server\ModbusServerHanderTask.cs" />
-    <Compile Include="Server\ModbusTCPServer.cs" />
-    <Compile Include="Server\ModbusPointsRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -64,6 +60,10 @@
     <ProjectReference Include="..\SocketServers\SocketServers.csproj">
       <Project>{6eeabb49-2f57-42b0-96fc-e7a2f5723d36}</Project>
       <Name>SocketServers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utillity\Utillity\Utillity.csproj">
+      <Project>{01177e8d-1a3d-4e01-a32f-42b62e989dfb}</Project>
+      <Name>Utillity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

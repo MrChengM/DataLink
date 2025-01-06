@@ -6,11 +6,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SocketServers.SAEA;
+using DataServer.Log;
 
 namespace SocketServers
 {
     public  class SocketServerFactroy
     {
+        private string _serverName;
         public string IPString
         {
             get;
@@ -49,8 +51,9 @@ namespace SocketServers
             set;
         }
 
-        public SocketServerFactroy(string ipString,int port,ILog log,TimeOut timeout,int readCacheSize,int maxConnecter)
+        public SocketServerFactroy(string serverName,string ipString,int port,ILog log,TimeOut timeout,int readCacheSize,int maxConnecter)
         {
+            _serverName = serverName;
             IPString = ipString;
             IpPort = port;
             Log = log;
@@ -64,9 +67,9 @@ namespace SocketServers
             switch (type)
             {
                 case SocketServerType.ApmServer:
-                    return new APMServer(IPString, IpPort, Log, TimeOut, MaxConnecter, ReadCacheSize);
+                    return new APMServer(_serverName,IPString, IpPort, Log, TimeOut, MaxConnecter, ReadCacheSize);
                 case SocketServerType.SaeaServer:
-                    return new SAEAServer(IPString, IpPort, Log, TimeOut, MaxConnecter, ReadCacheSize);
+                    return new SAEAServer(_serverName,IPString, IpPort, Log, TimeOut, MaxConnecter, ReadCacheSize);
                 default:
                     return null;
             }

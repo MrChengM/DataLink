@@ -1,4 +1,5 @@
 ﻿using DataServer;
+using DataServer.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ using System.IO.Ports;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
-using DataServer.Utillity;
+using Utillity.Data;
 using System.Globalization;
 
 namespace DL645Driver
 {
-    [Description("DL645-2007电能表协议")]
+    [DriverDescription("DL645-2007电能表协议",CommunicationType.Serialport)]
     public sealed class DL645_2007Driver : DLDriver
     {
         #region IDriver
@@ -43,7 +44,7 @@ namespace DL645Driver
         {
             byte[] CSdatas = new byte[datas.Length - 2];
             Array.Copy(datas, CSdatas, CSdatas.Length);
-            if (datas[datas.Length - 1] == Utility.CSCheck(CSdatas))
+            if (datas[datas.Length - 1] == ByteCheck.CSCheck(CSdatas))
             {
                 for (int i = 0; i < ids.Length; i++)
                 {

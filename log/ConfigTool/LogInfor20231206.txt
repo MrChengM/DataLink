@@ -1,0 +1,15 @@
+2023-12-06 13:41:31,903 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   
+2023-12-06 13:49:29,583 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40001' have added!   
+2023-12-06 13:49:29,584 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40002' have added!   
+2023-12-06 13:49:29,584 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40003' have added!   
+2023-12-06 13:51:28,330 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40001' have added!   
+2023-12-06 13:51:28,331 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40002' have added!   
+2023-12-06 13:51:28,331 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40003' have added!   
+2023-12-06 13:53:11,282 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   
+2023-12-06 15:09:09,836 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40004' have added!   
+2023-12-06 15:23:41,659 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   
+2023-12-06 16:06:08,081 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   
+2023-12-06 16:06:14,057 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\×ÀÃæ\222.json'  
+2023-12-06 16:06:16,295 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-12-06 16:11:54,638 INFO  ConfigToolLogger Add Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have added !   
+2023-12-06 17:58:50,337 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\×ÀÃæ\222.json'  

@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="ConfigTool.Views.ComPortConfigView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="400" Width="380">
+    <Grid TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right" >
+        <StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock  Width="160" Height="30" Text="COM Port:" HorizontalAlignment="Left" TextAlignment="Right" Margin="0,20,20,0"/>
+                <ComboBox  HorizontalAlignment="Left"  Width="160" Height="30"  SelectedValue="{Binding ComPort}" ItemsSource="{Binding ComPorts}"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock  Width="160" Height="30" Text="Baud Rate:" HorizontalAlignment="Left" TextAlignment="Right" Margin="0,20,20,0"/>
+                <ComboBox  HorizontalAlignment="Left"  Width="160" Height="30"  SelectedValue="{Binding BaudRate}" ItemsSource="{Binding BaudRates}"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock  Width="160" Height="30" Text="Data Bit:" HorizontalAlignment="Left" TextAlignment="Right" Margin="0,20,20,0"/>
+                <TextBox HorizontalAlignment="Left" Width="160" Height="30" Grid.Row="2"  Text="{Binding DataBit}"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock  Width="160" Height="30" Text="Stop Bit:" HorizontalAlignment="Left" TextAlignment="Right" Margin="0,20,20,0"/>
+                <TextBox HorizontalAlignment="Left" Width="160" Height="30"  Text="{Binding StopBit}"   Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock  Width="160" Height="30" Text="OddEvenCheck:" HorizontalAlignment="Left" TextAlignment="Right" Margin="0,20,20,0"/>
+                <ComboBox  HorizontalAlignment="Left"  Width="160" Height="30"  SelectedValue="{Binding OddEventCheck}" ItemsSource="{Binding OddEventChecks}"  Margin="0,20,20,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

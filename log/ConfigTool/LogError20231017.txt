@@ -1,0 +1,11 @@
+2023-10-17 11:33:31,253 ERROR ConfigToolLogger 无法连接到远程服务器  
+2023-10-17 14:36:28,522 ERROR ConfigToolLogger ResstAPI Client error:Method "GET", information"无法连接到远程服务器"  
+2023-10-17 14:42:45,023 ERROR ConfigToolLogger ResstAPI Client error:Method "PUT", information"无法连接到远程服务器"  
+2023-10-17 14:52:34,684 ERROR ConfigToolLogger ResstAPI Client error:Method "PUT", information"无法连接到远程服务器"  
+2023-10-17 15:07:19,680 ERROR ConfigToolLogger ResstAPI Client error:Method "PUT", information"无法连接到远程服务器"  
+2023-10-17 15:17:30,344 ERROR ConfigToolLogger Down Load Project to Server error,information:无法连接到远程服务器   
+2023-10-17 15:28:36,547 ERROR ConfigToolLogger DownLoad Project to Server error,information:无法连接到远程服务器   
+2023-10-17 15:29:05,253 WARN  ConfigToolLogger Add channel failed: 'Channel1' have duplicated!   
+2023-10-17 16:31:36,043 ERROR ConfigToolLogger DownLoad Project to Server error,information:无法连接到远程服务器   
+2023-10-17 16:31:45,701 ERROR ConfigToolLogger DownLoad Project to Server error,information:无法连接到远程服务器   
+2023-10-17 16:31:51,643 ERROR ConfigToolLogger DownLoad Project to Server error,information:无法连接到远程服务器   

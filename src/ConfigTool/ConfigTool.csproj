@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BF267BCA-7BB5-4D0E-9600-9BD2A91AA35A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ConfigTool</RootNamespace>
+    <AssemblyName>ConfigTool</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>setup.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.17.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.17\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=3.0.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.3.0.0\lib\net462\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.9.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.4.9.0\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.8.1.97\lib\net47\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.8.1.97\lib\net47\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=5.11.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.7\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.11.11\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Helper\Convert.cs" />
+    <Compile Include="Helper\Log4ListAppender.cs" />
+    <Compile Include="Helper\LogFilter.cs" />
+    <Compile Include="Helper\ValidationRules.cs" />
+    <Compile Include="Models\BindingProxy.cs" />
+    <Compile Include="Models\ButtonConfrimEvent.cs" />
+    <Compile Include="Models\ListItem.cs" />
+    <Compile Include="Models\DeviceSpecailPropertyMVVM.cs" />
+    <Compile Include="Models\DialogServiceWithRegionManager.cs" />
+    <Compile Include="Models\LogListItem.cs" />
+    <Compile Include="Models\ViewDespatcher.cs" />
+    <Compile Include="Models\NodeType.cs" />
+    <Compile Include="Models\PropertyData.cs" />
+    <Compile Include="Models\PropertyOptionItem.cs" />
+    <Compile Include="Models\TreeNode.cs" />
+    <Compile Include="Service\ConfigDataServer.cs" />
+    <Compile Include="Service\IConfigDataServer.cs" />
+    <Compile Include="Service\ISingleLoggerServer.cs" />
+    <Compile Include="Service\SingleLoggerServer.cs" />
+    <Compile Include="ViewModels\AlarmItemGeneral2ViewModel.cs" />
+    <Compile Include="ViewModels\AlarmItemGeneralViewModel.cs" />
+    <Compile Include="ViewModels\BaseBuildDialogViewModel.cs" />
+    <Compile Include="ViewModels\RecordGeneralViewModel.cs" />
+    <Compile Include="ViewModels\RecordListViewModel.cs" />
+    <Compile Include="ViewModels\RecordTagsListViewModel.cs" />
+    <Compile Include="ViewModels\RecordTagsManagerViewModel.cs" />
+    <Compile Include="ViewModels\SearchTagDialogViewModel.cs" />
+    <Compile Include="ViewModels\ServerItemGeneralViewModel.cs" />
+    <Compile Include="ViewModels\ServerListViewModel.cs" />
+    <Compile Include="ViewModels\TagBindingGenralViewModel.cs" />
+    <Compile Include="ViewModels\TagBindingListViewModel.cs" />
+    <Compile Include="ViewModels\AlarmListViewModel.cs" />
+    <Compile Include="ViewModels\TagListViewModel.cs" />
+    <Compile Include="ViewModels\TagGroupListViewModel.cs" />
+    <Compile Include="ViewModels\ChannelListViewModel.cs" />
+    <Compile Include="ViewModels\DeviceListViewModel.cs" />
+    <Compile Include="ViewModels\TagGeneralViewModel.cs" />
+    <Compile Include="ViewModels\TagGroupGeneralViewModel.cs" />
+    <Compile Include="ViewModels\ChannelGeneralViewModel.cs" />
+    <Compile Include="ViewModels\ComPortConfigViewModel.cs" />
+    <Compile Include="ViewModels\DetailedListViewModel.cs" />
+    <Compile Include="ViewModels\DeviceGeneralViewModel.cs" />
+    <Compile Include="ViewModels\DeviceSpecialPropertyViewModel.cs" />
+    <Compile Include="ViewModels\EthernetConfigViewModel.cs" />
+    <Compile Include="ViewModels\LogDisplayViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\PropertyDialogViewModel.cs" />
+    <Compile Include="ViewModels\RegisterDialogViewModel.cs" />
+    <Compile Include="ViewModels\TagScalingViewModel.cs" />
+    <Compile Include="ViewModels\TreeViewModel.cs" />
+    <Compile Include="Views\AlarmItemGeneral2View.xaml.cs">
+      <DependentUpon>AlarmItemGeneral2View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmItemGeneralView.xaml.cs">
+      <DependentUpon>AlarmItemGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AlarmListView.xaml.cs">
+      <DependentUpon>AlarmListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseBuildDialog.xaml.cs">
+      <DependentUpon>BaseBuildDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChannelListView.xaml.cs">
+      <DependentUpon>ChannelListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ComPortConfigView.xaml.cs">
+      <DependentUpon>ComPortConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DetailedView.xaml.cs">
+      <DependentUpon>DetailedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeviceGeneralView.xaml.cs">
+      <DependentUpon>DeviceGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeviceListView.xaml.cs">
+      <DependentUpon>DeviceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeviceSpecialPropertyView.xaml.cs">
+      <DependentUpon>DeviceSpecialPropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EthernetConfigView.xaml.cs">
+      <DependentUpon>EthernetConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FileCommConfigView.xaml.cs">
+      <DependentUpon>FileCommConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChannelGeneralView.xaml.cs">
+      <DependentUpon>ChannelGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogDisplayView.xaml.cs">
+      <DependentUpon>LogDisplayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemoryCommConfigView.xaml.cs">
+      <DependentUpon>MemoryCommConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyDialog.xaml.cs">
+      <DependentUpon>PropertyDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordGeneralView.xaml.cs">
+      <DependentUpon>RecordGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordListView.xaml.cs">
+      <DependentUpon>RecordListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordTagsListView.xaml.cs">
+      <DependentUpon>RecordTagsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecordTagsManagerView.xaml.cs">
+      <DependentUpon>RecordTagsManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegisterDialog.xaml.cs">
+      <DependentUpon>RegisterDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchTagDialog.xaml.cs">
+      <DependentUpon>SearchTagDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServerItemGeneralView.xaml.cs">
+      <DependentUpon>ServerItemGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServerListView.xaml.cs">
+      <DependentUpon>ServerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagBindingGenralView.xaml.cs">
+      <DependentUpon>TagBindingGenralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagBindingListView.xaml.cs">
+      <DependentUpon>TagBindingListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagGeneralView.xaml.cs">
+      <DependentUpon>TagGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagGroupGeneralView.xaml.cs">
+      <DependentUpon>TagGroupGeneralView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagGroupListView.xaml.cs">
+      <DependentUpon>TagGroupListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagListView.xaml.cs">
+      <DependentUpon>TagListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TagScalingView.xaml.cs">
+      <DependentUpon>TagScalingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TreeView.xaml.cs">
+      <DependentUpon>TreeView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ResourceDictionaries\IconDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionaries\StyleDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmItemGeneral2View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmItemGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AlarmListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseBuildDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ChannelListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ComPortConfigView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DetailedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceGeneralView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceSpecialPropertyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EthernetConfigView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FileCommConfigView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChannelGeneralView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogDisplayView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\MemoryCommConfigView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordTagsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordTagsManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegisterDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchTagDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServerItemGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServerListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagBindingGenralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagBindingListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagGroupGeneralView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagGroupListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TagScalingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UserContorl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataServer\DataServer.csproj">
+      <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
+      <Name>DataServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketServers\SocketServers.csproj">
+      <Project>{6eeabb49-2f57-42b0-96fc-e7a2f5723d36}</Project>
+      <Name>SocketServers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utillity\Utillity\Utillity.csproj">
+      <Project>{01177e8d-1a3d-4e01-a32f-42b62e989dfb}</Project>
+      <Name>Utillity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCFRestFullAPI\WCFRestFullAPI.csproj">
+      <Project>{da8bfd23-e12f-4030-900e-e4fcd60a65e2}</Project>
+      <Name>WCFRestFullAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="setup.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
+</Project>

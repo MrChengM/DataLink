@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskHandler.Config;
 using ts=TaskHandler.Factory;
-using DataServer.Utillity;
 using DataServer;
 using TaskHandler.Builder;
 
@@ -31,7 +30,7 @@ namespace TaskHandler
             _configs = ReaderXMLUtil.ReadXMLConfig<TaskConfig>(_configFath, ConfigUtilly.ReadConfig, _nodeElement, _handler);
             if (_configs != null)
             {
-                _log.NormalLog(string.Format("{0}:Down=>Creating","SetUp()"));
+                _log.InfoLog(string.Format("{0}:Down=>Creating","SetUp()"));
 
                 //创建外部task
                 var taskFactory = new ts.TaskFactory(_configFath);
@@ -46,7 +45,7 @@ namespace TaskHandler
                         if (task != null)
                         {
                             task.InitLevel = config.InitLevel;
-                            _log.NormalLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", config.TaskName));
+                            _log.InfoLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", config.TaskName));
                             addTask(task);
                         }
                     }
@@ -60,7 +59,7 @@ namespace TaskHandler
                 TimeOut freeTimeout = new TimeOut(freeTaskName, 1000, freelog);
                 EthernetSetUp freeSetup = new EthernetSetUp("127.0.0.1", 9527);
                 FreedomServerTask freeServerTask = new FreedomServerTask(freeTaskName,freelog,freeTimeout,freeSetup);
-                _log.NormalLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", freeServerTask.TaskName));
+                _log.InfoLog(string.Format("{0}:Task<{1}>,Creating=>Created", "SetUp()", freeServerTask.TaskName));
                 addTask(freeServerTask);
 
                 sortTasks();
@@ -122,7 +121,7 @@ namespace TaskHandler
         {
             if (initLevel != _initLevel)
             {
-                _log.NormalLog("Changing to init level {0} (from {1})", initLevel, _initLevel);
+                _log.InfoLog("Changing to init level {0} (from {1})", initLevel, _initLevel);
                 _initLevel = initLevel;
             }
         }

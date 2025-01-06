@@ -1,0 +1,229 @@
+{
+  "Client": {
+    "Channels": {
+      "Channel2": {
+        "Name": "Channel2",
+        "DriverInformation": {
+          "FullName": "ModbusDrivers.Client.ModbusTCPClient",
+          "CommType": 2,
+          "Description": "Modbus TCP",
+          "DevicePropertyInfos": []
+        },
+        "ScanTimes": 100,
+        "InitLevel": 1,
+        "Devices": {
+          "Device1": {
+            "Name": "Device1",
+            "ID": "127.0.0.1",
+            "SpecialProperties": [],
+            "ConnectTimeOut": 3000,
+            "RequestTimeOut": 2000,
+            "RetryTimes": 3,
+            "Timing": 0,
+            "TagGroups": {
+              "Group1": {
+                "Name": "Group1",
+                "Tags": {
+                  "Tag1": {
+                    "Name": "Tag1",
+                    "Address": "40001",
+                    "DataType": 5,
+                    "Length": 10,
+                    "Scaling": {
+                      "ScaleType": 0,
+                      "DataType": 1,
+                      "RawLow": 0,
+                      "RawHigh": 1000,
+                      "ScaledLow": 0,
+                      "ScaledHigh": 1000
+                    },
+                    "Operate": 2
+                  },
+                  "Tag2": {
+                    "Name": "Tag2",
+                    "Address": "40021",
+                    "DataType": 5,
+                    "Length": 1,
+                    "Scaling": {
+                      "ScaleType": 0,
+                      "DataType": 1,
+                      "RawLow": 0,
+                      "RawHigh": 1000,
+                      "ScaledLow": 0,
+                      "ScaledHigh": 1000
+                    },
+                    "Operate": 0
+                  }
+                }
+              }
+            },
+            "ByteOrder": 0
+          }
+        },
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": null,
+            "BuadRate": 0,
+            "DataBit": 0,
+            "StopBit": 0,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": "127.0.0.1",
+            "IPAddress": null,
+            "PortNumber": 502,
+            "ProtocolType": 6
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        }
+      }
+    }
+  },
+  "Server": {
+    "Items": {
+      "ModbusTCPServer": {
+        "Name": "ModbusTCPServer",
+        "Option": 0,
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": null,
+            "BuadRate": 0,
+            "DataBit": 0,
+            "StopBit": 0,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": "127.0.0.1",
+            "IPAddress": null,
+            "PortNumber": 501,
+            "ProtocolType": 6
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        },
+        "ID": 1,
+        "MaxConnect": 100,
+        "TimeOut": 1000,
+        "TagBindingList": {
+          "40001": {
+            "DestTagName": "40001",
+            "SourceTagName": "Channel2.Device1.Group1.Tag1"
+          }
+        }
+      },
+      "FreedomServer": {
+        "Name": "FreedomServer",
+        "Option": 2,
+        "ComunicationSetUp": {
+          "SerialportSet": {
+            "ComPort": null,
+            "BuadRate": 0,
+            "DataBit": 0,
+            "StopBit": 0,
+            "OddEvenCheck": 0
+          },
+          "EthernetSet": {
+            "LocalNetworkAdpt": "127.0.0.1",
+            "IPAddress": null,
+            "PortNumber": 9527,
+            "ProtocolType": 6
+          },
+          "MemorySetUp": {
+            "IPAddress": null,
+            "ServerName": null,
+            "TopicName": null
+          }
+        },
+        "ID": 1,
+        "MaxConnect": 100,
+        "TimeOut": 1000,
+        "TagBindingList": {}
+      }
+    }
+  },
+  "Alarms": {
+    "AlarmGroup": {
+      "Channel2.Device1.Group1.Tag1[0].part1.AL4001": {
+        "TagName": "Channel2.Device1.Group1.Tag1[0]",
+        "AlarmTag": "Channel2.Device1.Group1.Tag1[0].part1.AL4001",
+        "PartName": "part1",
+        "AlarmDescription": "door open",
+        "AlarmType": 25,
+        "ALNumber": "AL4001",
+        "Level1View": "L1ViewA",
+        "Level2View": "ViewA",
+        "ConditionType": 0,
+        "ConditionValue": 0.0,
+        "AlarmGroup": "Channel2.Device1"
+      },
+      "Channel2.Device1.Group1.Tag1[0].part2.AL4002": {
+        "TagName": "Channel2.Device1.Group1.Tag1[0]",
+        "AlarmTag": "Channel2.Device1.Group1.Tag1[0].part2.AL4002",
+        "PartName": "part2",
+        "AlarmDescription": "空开跳闸",
+        "AlarmType": 50,
+        "ALNumber": "AL4002",
+        "Level1View": "L1ViewA",
+        "Level2View": "ViewA",
+        "ConditionType": 0,
+        "ConditionValue": 1.0,
+        "AlarmGroup": "Channel2.Device1"
+      },
+      "Channel2.Device1.Group1.Tag1[0].part2.AL4003": {
+        "TagName": "Channel2.Device1.Group1.Tag1[0]",
+        "AlarmTag": "Channel2.Device1.Group1.Tag1[0].part2.AL4003",
+        "PartName": "part3",
+        "AlarmDescription": "主电源故障",
+        "AlarmType": 75,
+        "ALNumber": "AL4003",
+        "Level1View": "L1ViewA",
+        "Level2View": "ViewA",
+        "ConditionType": 0,
+        "ConditionValue": 2.0,
+        "AlarmGroup": "Channel2.Device1"
+      },
+      "Channel2.Device1.Group1.Tag1[0].part2.AL4004": {
+        "TagName": "Channel2.Device1.Group1.Tag1[0]",
+        "AlarmTag": "Channel2.Device1.Group1.Tag1[0].part2.AL4004",
+        "PartName": "part4",
+        "AlarmDescription": "急停",
+        "AlarmType": 100,
+        "ALNumber": "AL4004",
+        "Level1View": "L1ViewA",
+        "Level2View": "ViewA",
+        "ConditionType": 0,
+        "ConditionValue": 3.0,
+        "AlarmGroup": "Channel2.Device1"
+      }
+    }
+  },
+  "Records": {
+    "RecordGroup": {
+      "Record01": {
+        "Name": "Record01",
+        "Option": 0,
+        "TimeSpan": 6000,
+        "TagNames": [
+          "Channel2.Device1.Group1.Tag1[0]",
+          "Channel2.Device1.Group1.Tag1[1]",
+          "Channel2.Device1.Group1.Tag1[2]",
+          "Channel2.Device1.Group1.Tag1[3]",
+          "Channel2.Device1.Group1.Tag1[4]",
+          "Channel2.Device1.Group1.Tag1[5]",
+          "Channel2.Device1.Group1.Tag1[6]",
+          "Channel2.Device1.Group1.Tag1[7]",
+          "Channel2.Device1.Group1.Tag1[8]",
+          "Channel2.Device1.Group1.Tag1[9]",
+          "Channel2.Device1.Group1.Tag2"
+        ]
+      }
+    }
+  }
+}

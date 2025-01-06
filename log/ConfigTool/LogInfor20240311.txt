@@ -1,0 +1,3 @@
+2024-03-11 11:43:32,505 INFO  ConfigToolLogger Replace Record Item tags successfully:  Record item 'Record01' tags have Repalced !   
+2024-03-11 11:44:05,057 INFO  ConfigToolLogger Replace Record Item tags successfully:  Record item 'Record01' tags have Repalced !   
+2024-03-11 13:33:17,965 INFO  ConfigToolLogger Remove Alarm Item successfully: Alarm Item name 'Channel1.Device1.Group1.Tag1.AL4001' have removed !   

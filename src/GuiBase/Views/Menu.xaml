@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="GuiBase.Views.Menu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GuiBase.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:convert="clr-namespace:GuiBase.Convert"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" Width="400">
+    <UserControl.Resources>
+        <convert:BoolToVisibilityConvert x:Key="BoolToVisiblity" />
+    </UserControl.Resources>
+    <Grid  >
+        <materialDesign:DrawerHost x:Name="DrawerHost"  BottomDrawerBackground="{StaticResource COLOR_BRUSH_HeaderBackground}"   BottomDrawerCornerRadius="0" IsBottomDrawerOpen="{Binding ElementName=MenuToggleButton,Path=IsChecked}">
+            <materialDesign:DrawerHost.BottomDrawerContent>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="80"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!--<RadioButton Grid.Row="0" Grid.Column="0" Margin="4" IsChecked="False" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding DialogClickCommand}" CommandParameter="{Binding Path=Text,ElementName=LogOnTxBlock}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="AccountCircle" HorizontalAlignment="Center" VerticalAlignment="Center"  Width="45" Height="45"/>
+                            <TextBlock x:Name="LogOnTxBlock" Margin="0,4,0,0" Text="LogOn" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </RadioButton>-->
+                    <RadioButton Grid.Row="0" Grid.Column="0" Margin="4" IsChecked="{Binding ButtonIsChecked}" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding DialogClickCommand}" CommandParameter="AccManager" Visibility="{Binding AccManagerEnable,Converter={StaticResource BoolToVisiblity}}">
+                        <StackPanel VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="AccountCogOutline" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock x:Name="AccManagerTxBlock" Margin="0,4,0,0" Text="{Binding AccManagerText}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Grid.Row="0" Grid.Column="1" Margin="4" IsChecked="{Binding ButtonIsChecked}" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding DialogClickCommand}" CommandParameter="OperRecord" Visibility="{Binding OperRecordEnable,Converter={StaticResource BoolToVisiblity}}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="BookOpenVariant" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock x:Name="OperRecordTxBlock" Margin="0,4,0,0" Text="{Binding OperRecordText}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Grid.Row="0" Grid.Column="2" Margin="4" IsChecked="{Binding ButtonIsChecked}" Style="{StaticResource MaterialDesignTabRadioButton}"  Command="{Binding DialogClickCommand}" CommandParameter="Alarm" Visibility="{Binding AlarmEnable,Converter={StaticResource BoolToVisiblity}}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="Alarm" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock x:Name="AlarmTxBlock" Margin="0,4,0,0" Text="{Binding AlarmText}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Grid.Row="1" Grid.Column="0" Margin="4" IsChecked="{Binding ButtonIsChecked}" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding DialogClickCommand}" CommandParameter="HistoryAlarm" Visibility="{Binding HistoryAlarmEnable,Converter={StaticResource BoolToVisiblity}}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="AlarmPanelOutline" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock x:Name="HistoryAlarmTxBlock" Margin="0,4,0,0" Text="{Binding HistoryAlarmText}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Grid.Row="1" Grid.Column="1" Margin="4" IsChecked="{Binding ButtonIsChecked}" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding DialogClickCommand}" CommandParameter="SignalMonitor" Visibility="{Binding SignalMonitorEnable,Converter={StaticResource BoolToVisiblity}}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="Glasses" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock x:Name="SignalMonTxBlock" Margin="0,4,0,0" Text="{Binding SignalMonitorText}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Grid.Row="1" Grid.Column="2" Margin="4" IsChecked="{Binding ButtonIsChecked}" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding DialogClickCommand}" CommandParameter="DeviceConfig" Visibility="{Binding DeviceConfigEnable,Converter={StaticResource BoolToVisiblity}}">
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="CogTransfer" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+                            <TextBlock Margin="0,4,0,0" Text="{Binding DeviceConfigText}" />
+                        </StackPanel>
+                    </RadioButton>
+                </Grid>
+            </materialDesign:DrawerHost.BottomDrawerContent>
+        </materialDesign:DrawerHost>
+        <ToggleButton x:Name="MenuToggleButton"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  Width="65" Height="45" AutomationProperties.Name="HamburgerToggleButton" 
+                      Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" 
+                      IsChecked="{Binding MenuIsChecked}" 
+                      Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                      Visibility="{Binding MenuEnable,Converter={StaticResource BoolToVisiblity}}"/>
+    </Grid>
+</UserControl>

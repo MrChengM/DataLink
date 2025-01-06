@@ -22,10 +22,10 @@ namespace FreedomDrivers
         private ISockteServer _socketServer;
         private SocketServerType _socketServerType;
         private List<SubscribeItem> _subscribeGroup;
-
+        private string _serverName;
         private int _maxConnect = 100;
 
-        private PointMeDataList _pointMeDataList = PointMeDataList.GetInstance();
+        private IPointMapping _pointMapping;
         ///// <summary>
         ///// 报头长度+后续报文数量长度6
         ///// </summary>
@@ -64,8 +64,9 @@ namespace FreedomDrivers
         /// <param name="log">消息记录</param>
         /// <param name="timeOut">超时时间</param>
         /// <param name="type">socket服务格式：Apm，SAEA等</param>
-        public FreedomServer(EthernetSetUp setUp, TimeOut timeOut, ILog log, SocketServerType type = SocketServerType.SaeaServer)
+        public FreedomServer(string severName, EthernetSetUp setUp, TimeOut timeOut, ILog log, SocketServerType type = SocketServerType.SaeaServer)
         {
+            _serverName = severName;
             _log = log;
             _timeOut = timeOut;
             _socketServerType = type;
@@ -77,7 +78,7 @@ namespace FreedomDrivers
         public bool Init()
         {
 
-            var factory = new SocketServerFactroy(_ipString, _port, _log, _timeOut,_readCacheSize, _maxConnect);
+            var factory = new SocketServerFactroy( _serverName,_ipString, _port, _log, _timeOut,_readCacheSize, _maxConnect);
             _socketServer = factory.CreateInstance(_socketServerType);
             if (_socketServer.Init())
             {
@@ -224,7 +225,6 @@ namespace FreedomDrivers
                 {
                     var pointName = source[i];
                     var pointType = source[i + 1];
-                    string typeInMapping;
                     var pointNameArrary = pointName.Split('[');
                     byte index = 0;
                     if (pointNameArrary.Length >= 2)
@@ -232,11 +232,13 @@ namespace FreedomDrivers
                         pointNameArrary[1] = pointNameArrary[1].Replace("]", "");
                         byte.TryParse(pointNameArrary[1], out index);
                     }
-                    if (_pointMeDataList.Find(pointNameArrary[0], out typeInMapping))
+                    var pointMeta = _pointMapping.GetPointMetaData(pointNameArrary[0]);
+
+                    if (pointMeta != null)
                     {
-                        if (pointType.ToLower() == typeInMapping)
+                        if (pointType.ToLower() == pointMeta.ValueType.ToString().ToLower())
                         {
-                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameArrary[0], Index = index, Type = typeInMapping };
+                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameArrary[0], Index = index, Type = pointMeta.ValueType };
                             strList.AddRange(readFeedBack(nameGroup));
                         }
                         else
@@ -289,18 +291,19 @@ namespace FreedomDrivers
                     var pointName = source[i];
                     var pointType = source[i + 1];
                     var pointValue = source[i + 2];
-                    string typeInMapping;
                     var pointNameStruct = pointName.Split('[');
                     byte index = 0;
                     if (pointNameStruct.Length >= 2)
                     {
                         byte.TryParse(pointNameStruct[1].Replace("]", ""), out index);
                     }
-                    if (_pointMeDataList.Find(pointNameStruct[0], out typeInMapping))
+                    var pointMeta = _pointMapping.GetPointMetaData(pointNameStruct[0]);
+
+                    if (pointMeta!=null)
                     {
-                        if (pointType.ToLower() == typeInMapping)
+                        if (pointType.ToLower() == pointMeta.ValueType.ToString().ToLower())
                         {
-                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameStruct[0], Index = index, Type = typeInMapping };
+                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameStruct[0], Index = index, Type = pointMeta.ValueType };
                             if (writeMapping(nameGroup, pointValue) == -1)
                             {
                                 errorInfoList.Add(string.Concat("the point name:", pointName, " type : ", pointType, " write error"));
@@ -355,17 +358,17 @@ namespace FreedomDrivers
                     var pointType = source[i + 1];
                     var pointNameArrary = pointName.Split(new char[] { '[' }, StringSplitOptions.RemoveEmptyEntries);
                     byte index = 0;
-                    string type;
                     if (pointNameArrary.Length >= 2)
                     {
                         byte.TryParse(pointNameArrary[1].Replace("]", ""), out index);
                     }
-                    if (_pointMeDataList.Find(pointNameArrary[0], out type))
+                    var pointMeta = _pointMapping.GetPointMetaData(pointNameArrary[0]);
+                    if (pointMeta!=null)
                     {
-                        if (pointType.ToLower() == type)
+                        if (pointType.ToLower() == pointMeta.ValueType.ToString().ToLower())
                         {
 
-                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameArrary[0], Index = index, Type = type };
+                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameArrary[0], Index = index, Type = pointMeta.ValueType };
                             //反馈第一次订阅值
                             strList.AddRange(readFeedBack(nameGroup));
 
@@ -443,17 +446,17 @@ namespace FreedomDrivers
                     var pointType = source[i + 1];
                     var pointNameArrary = pointName.Split(new char[] { '[' }, StringSplitOptions.RemoveEmptyEntries);
                     byte index = 0;
-                    string type;
                     if (pointNameArrary.Length >= 2)
                     {
                         byte.TryParse(pointNameArrary[1].Replace("]", ""), out index);
                     }
-                    if (_pointMeDataList.Find(pointNameArrary[0], out type))
+                    var pointMeta = _pointMapping.GetPointMetaData(pointNameArrary[0]);
+                    if (pointMeta!=null)
                     {
-                        if (pointType.ToLower() == type)
+                        if (pointType.ToLower() == pointMeta.ValueType.ToString().ToLower())
                         {
 
-                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameArrary[0], Index = index, Type = type };
+                            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameArrary[0], Index = index, Type = pointMeta.ValueType };
                             //反馈第一次订阅值
 
                             //取消添加订阅
@@ -520,12 +523,13 @@ namespace FreedomDrivers
             byte[] result = null;
             List<string> strList = new List<string>();
             ASCIIEncoding encoding = new ASCIIEncoding();
-            foreach(var metaData in _pointMeDataList.Data)
+            var pointMetas = _pointMapping.GetPointMetadatas();
+            foreach(var metaData in pointMetas)
             {
-                strList.Add(metaData.Name);
-                strList.Add(metaData.ValueType);
-                strList.Add(metaData.IsVirtual.ToString());
-                strList.Add(metaData.Length.ToString());
+                strList.Add(metaData.Value.Name);
+                strList.Add(metaData.Value.ValueType.ToString());
+                strList.Add(metaData.Value.IsVirtual.ToString());
+                strList.Add(metaData.Value.Length.ToString());
             }
             if (strList.Count != 0)
             {
@@ -539,7 +543,7 @@ namespace FreedomDrivers
                     }
                     strList.RemoveRange(0, 5000);
 
-                    if((connecter.Send(encoding.GetBytes(string.Concat(_headStr, funCodeStr, resultStr, _endStr)))!=1))
+                    if(connecter.Send(encoding.GetBytes(string.Concat(_headStr, funCodeStr, resultStr, _endStr)))!=1)
                         return null;
                 }
                 resultStr = "";
@@ -566,88 +570,88 @@ namespace FreedomDrivers
         {
             string pointName = nameGroup.PointName;
             byte index = nameGroup.Index;
-            string type = nameGroup.Type;
+            var type = nameGroup.Type;
             List<string> result = new List<string>();
-            if (type == DataServer.ValueType.Bool)
+            if (type == DataType.Bool)
             {
-                var pointMapping = PointMapping<bool>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetBoolPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName,"[",index,"]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
 
             }
-            else if (type == DataServer.ValueType.Byte)
+            else if (type == DataType.Byte)
             {
-                var pointMapping = PointMapping<byte>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetBytePoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
 
             }
-            else if (type == DataServer.ValueType.UInt16)
+            else if (type == DataType.UShort)
             {
-                var pointMapping = PointMapping<ushort>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetUShortPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
 
             }
-            else if (type == DataServer.ValueType.Int16)
+            else if (type == DataType.Short)
             {
-                var pointMapping = PointMapping<short>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetShortPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
             }
-            else if (type == DataServer.ValueType.UInt32)
+            else if (type == DataType.UInt)
             {
-                var pointMapping = PointMapping<uint>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetUIntPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
             }
-            else if (type == DataServer.ValueType.Int32)
+            else if (type == DataType.Int)
             {
-                var pointMapping = PointMapping<int>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetIntPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
             }
-            else if (type == DataServer.ValueType.Float)
+            else if (type == DataType.Float)
             {
-                var pointMapping = PointMapping<float>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetFloatPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value.ToString());
                 result.Add(quality.ToString());
             }
-            else if (type == DataServer.ValueType.String)
+            else if (type == DataType.String)
             {
-                var pointMapping = PointMapping<string>.GetInstance(_log);
-                var value = pointMapping.GetValue(pointName, index);
-                byte quality = pointMapping.GetPoint(pointName).GetQuality(index);
+                var point = _pointMapping.GetStringPoint(pointName);
+                var value = point[index];
+                var quality = point.GetQuality();
                 result.Add(string.Concat(pointName, "[", index, "]"));
-                result.Add(type);
+                result.Add(type.ToString());
                 result.Add(value);
                 result.Add(quality.ToString());
             }
@@ -657,95 +661,95 @@ namespace FreedomDrivers
         {
             string pointName = nameGroup.PointName;
             byte index = nameGroup.Index;
-            string type = nameGroup.Type;
+            var type = nameGroup.Type;
             List<string> result = new List<string>();
-            if (type == DataServer.ValueType.Bool)
+            if (type == DataType.Bool)
             {
                 bool temp;
                 if(bool.TryParse(value,out temp))
                 {
-                    var pointMapping = PointMapping<bool>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point =_pointMapping.GetBoolPoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
                     return -1;
                 }
-            
+
 
             }
-            else if (type == DataServer.ValueType.Byte)
+            else if (type == DataType.Byte)
             {
                 byte temp;
                 if (byte.TryParse(value, out temp))
                 {
-                    var pointMapping = PointMapping<byte>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point = _pointMapping.GetBytePoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
                     return -1;
                 }
             }
-            else if (type == DataServer.ValueType.UInt16)
+            else if (type == DataType.UShort)
             {
                 ushort temp;
                 if (ushort.TryParse(value, out temp))
                 {
-                    var pointMapping = PointMapping<ushort>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point = _pointMapping.GetUShortPoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
                     return -1;
                 }
             }
-            else if (type == DataServer.ValueType.Int16)
+            else if (type == DataType.Short)
             {
                 short temp;
                 if (short.TryParse(value, out temp))
                 {
-                    var pointMapping = PointMapping<short>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point = _pointMapping.GetShortPoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
                     return -1;
                 }
             }
-            else if (type == DataServer.ValueType.UInt32)
+            else if (type == DataType.UInt)
             {
                 uint temp;
                 if (uint.TryParse(value, out temp))
                 {
-                    var pointMapping = PointMapping<uint>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point = _pointMapping.GetUIntPoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
                     return -1;
                 }
             }
-            else if (type == DataServer.ValueType.Int32)
+            else if (type ==DataType.Int)
             {
                 int temp;
                 if (int.TryParse(value, out temp))
                 {
-                    var pointMapping = PointMapping<int>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point = _pointMapping.GetIntPoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
                     return -1;
                 }
             }
-            else if (type == DataServer.ValueType.Float)
+            else if (type == DataType.Float)
             {
                 float temp;
                 if (float.TryParse(value, out temp))
                 {
-                    var pointMapping = PointMapping<float>.GetInstance(_log);
-                    return pointMapping.SetValue(pointName, temp, index);
+                    var point = _pointMapping.GetFloatPoint(pointName);
+                    return point.SetValue(temp, index) ? 1 : -1;
                 }
                 else
                 {
@@ -811,7 +815,8 @@ namespace FreedomDrivers
     {
         private IConnectState _connectState;
         private List<PointNameGroup> _pointNames;
-        private PointMeDataList pointIndex = PointMeDataList.GetInstance();
+        //private PointMeDataList pointIndex = PointMeDataList.GetInstance();
+        private IPointMapping _pointMapping;
         private ILog _log;
         private string _headStr = "<F0>";
         private string _endStr = "<F1>";
@@ -834,13 +839,13 @@ namespace FreedomDrivers
                 byte.TryParse(pointNameStruct[1].Remove(']'), out index);
             }
             string type;
-            pointIndex.Find(pointNameStruct[0], out type);
-            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameStruct[0], Index = index,Type=type };
+            var pointMeta = _pointMapping.GetPointMetaData(pointNameStruct[0]);
+            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameStruct[0], Index = index,Type= pointMeta.ValueType };
             return Add(nameGroup);
         }
         public bool Add(PointNameGroup nameGroup)
         {
-            if (_pointNames.Exists((s) => (s == nameGroup)))
+            if (_pointNames.Exists((s) => s == nameGroup))
             {
                 return false;
             }
@@ -848,52 +853,52 @@ namespace FreedomDrivers
 
             if (!_pointNames.Exists(s => s.PointName == nameGroup.PointName))
             {
-                if (type == DataServer.ValueType.Bool)
+                if (type == DataType.Bool)
                 {
-                    var point = PointMapping<bool>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendBoolData;
+                    var point = _pointMapping.GetBoolPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendBoolData;
 
                 }
-                else if (type == DataServer.ValueType.Byte)
+                else if (type == DataType.Byte)
                 {
-                    var point = PointMapping<byte>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendByteData;
+                    var point =_pointMapping.GetBytePoint(nameGroup.PointName);
+                    point.UpdataEvent += sendByteData;
 
 
                 }
-                else if (type == DataServer.ValueType.Int16)
+                else if (type == DataType.Short)
                 {
-                    var point = PointMapping<short>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendShortData;
+                    var point = _pointMapping.GetShortPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendShortData;
 
                 }
-                else if (type == DataServer.ValueType.UInt16)
+                else if (type == DataType.UShort)
                 {
-                    var point = PointMapping<ushort>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendUshortData;
+                    var point = _pointMapping.GetUShortPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendUshortData;
 
                 }
-                else if (type == DataServer.ValueType.Int32)
+                else if (type == DataType.Int)
                 {
-                    var point = PointMapping<int>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendIntData;
+                    var point = _pointMapping.GetIntPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendIntData;
 
                 }
-                else if (type == DataServer.ValueType.UInt32)
+                else if (type == DataType.UInt)
                 {
-                    var point = PointMapping<uint>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendUintData;
+                    var point = _pointMapping.GetUIntPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendUintData;
 
                 }
-                else if (type == DataServer.ValueType.Float)
+                else if (type ==DataType.Float)
                 {
-                    var point = PointMapping<float>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendFloatData;
+                    var point = _pointMapping.GetFloatPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendFloatData;
                 }
-                else if (type == DataServer.ValueType.String)
+                else if (type == DataType.String)
                 {
-                    var point = PointMapping<string>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged += sendStringData;
+                    var point = _pointMapping.GetStringPoint(nameGroup.PointName);
+                    point.UpdataEvent += sendStringData;
                 }
             }
             _pointNames.Add(nameGroup);
@@ -910,62 +915,62 @@ namespace FreedomDrivers
                 byte.TryParse(pointNameStruct[1].Replace("]",""), out index);
             }
             string type;
-            pointIndex.Find(pointNameStruct[0], out type);
-            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameStruct[0], Index = index, Type = type };
+            var pointMeta = _pointMapping.GetPointMetaData(pointNameStruct[0]);
+            PointNameGroup nameGroup = new PointNameGroup { PointName = pointNameStruct[0], Index = index, Type = pointMeta.ValueType };
            return Remove(nameGroup);
         }
         public bool Remove(PointNameGroup nameGroup)
         {
             bool result = false;
-            if (_pointNames.Exists((s) => (s == nameGroup)))
+            if (_pointNames.Exists((s) => s == nameGroup))
             {
                 var type = nameGroup.Type;
-                if (type == DataServer.ValueType.Bool)
+                if (type == DataType.Bool)
                 {
-                    var point = PointMapping<bool>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendBoolData;
+                    var point = _pointMapping.GetBoolPoint(nameGroup.PointName);
+                    point.UpdataEvent -= sendBoolData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.Byte)
+                else if (type ==DataType.Byte)
                 {
-                    var point = PointMapping<byte>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendByteData;
+                    var point = _pointMapping.GetBytePoint(nameGroup.PointName);
+                    point.UpdataEvent -= sendByteData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.Int16)
+                else if (type == DataType.Short)
                 {
-                    var point = PointMapping<short>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendShortData;
+                    var point = _pointMapping.GetShortPoint(nameGroup.PointName); 
+                    point.UpdataEvent -= sendShortData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.UInt16)
+                else if (type == DataType.UShort)
                 {
-                    var point = PointMapping<ushort>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendUshortData;
+                    var point = _pointMapping.GetUShortPoint(nameGroup.PointName); 
+                    point.UpdataEvent -= sendUshortData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.Int32)
+                else if (type == DataType.Int)
                 {
-                    var point = PointMapping<int>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendIntData;
+                    var point = _pointMapping.GetIntPoint(nameGroup.PointName); 
+                    point.UpdataEvent -= sendIntData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.UInt32)
+                else if (type == DataType.UInt)
                 {
-                    var point = PointMapping<uint>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendUintData;
+                    var point = _pointMapping.GetUIntPoint(nameGroup.PointName);
+                    point.UpdataEvent -= sendUintData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.Float)
+                else if (type == DataType.Float)
                 {
-                    var point = PointMapping<float>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendFloatData;
+                    var point = _pointMapping.GetFloatPoint(nameGroup.PointName);
+                    point.UpdataEvent -= sendFloatData;
                     result = true;
                 }
-                else if (type == DataServer.ValueType.Float)
+                else if (type == DataType.String)
                 {
-                    var point = PointMapping<string>.GetInstance(_log).GetPoint(nameGroup.PointName);
-                    point.PropertyChanged -= sendStringData;
+                    var point = _pointMapping.GetStringPoint(nameGroup.PointName);
+                    point.UpdataEvent -= sendStringData;
                     result = true;
                 }
             }
@@ -991,138 +996,132 @@ namespace FreedomDrivers
         private static readonly object _locker8 = new object();
         private static readonly object _locker9 = new object();
 
-        private void sendBoolData(object sender,PropertyChangedEventArgs e)
+        private void sendBoolData(IPoint<bool> point,int index)
         {
             lock (_locker1)
             {
                 ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<bool>;
                 var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
                 if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
                 {
                     var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.Bool, ">", "<", value, ">", "<", quality, ">", _endStr);
+                    var quality = point.GetQuality();
+                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.Bool.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
                     _connectState.Send(endcoding.GetBytes(sendStr));
                 }
             }
         }
-        private void sendByteData(object sender, PropertyChangedEventArgs e)
+        private void sendByteData(IPoint<byte> point, int index)
         {
             lock (_locker2)
             {
                 ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<byte>;
                 var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
                 if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
                 {
                     var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.Byte, ">", "<", value, ">", "<", quality, ">", _endStr);
+                    var quality = point.GetQuality();
+                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.Byte.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
                     _connectState.Send(endcoding.GetBytes(sendStr));
                 }
             }
         }
-        private void sendUshortData(object sender, PropertyChangedEventArgs e)
+        private void sendUshortData(IPoint<ushort> point, int index)
         {
             lock (_locker3)
             {
                 ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<ushort>;
                 var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
                 if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
                 {
                     var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.UInt16, ">", "<", value, ">", "<", quality, ">", _endStr);
+                    var quality = point.GetQuality();
+                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.UShort.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
                     _connectState.Send(endcoding.GetBytes(sendStr));
                 }
             }
         }
-        private void sendShortData(object sender, PropertyChangedEventArgs e)
+        private void sendShortData(IPoint<short> point, int index)
         {
             lock (_locker4)
             {
                 ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<short>;
                 var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
                 if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
                 {
                     var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.Int16, ">", "<", value, ">", "<", quality, ">", _endStr);
+                    var quality = point.GetQuality();
+                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.Short.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
                     _connectState.Send(endcoding.GetBytes(sendStr));
                 }
             }
         }
-        private void sendIntData(object sender, PropertyChangedEventArgs e)
+        private void sendIntData(IPoint<int> point, int index)
         {
             lock (_locker5)
             {
-                ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<int>;
-                var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
-                if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
+                lock (_locker4)
                 {
-                    var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.Int32, ">", "<", value, ">", "<", quality, ">", _endStr);
-                    _connectState.Send(endcoding.GetBytes(sendStr));
+                    ASCIIEncoding endcoding = new ASCIIEncoding();
+                    var pointName = point.Name;
+                    if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
+                    {
+                        var value = point.GetValue(index);
+                        var quality = point.GetQuality();
+                        string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.Int.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
+                        _connectState.Send(endcoding.GetBytes(sendStr));
+                    }
                 }
             }
         }
-        private void sendUintData(object sender, PropertyChangedEventArgs e)
+        private void sendUintData(IPoint<uint> point, int index)
         {
             lock (_locker6)
             {
-                ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<uint>;
-                var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
-                if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
+
+                lock (_locker4)
                 {
-                    var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.UInt32, ">", "<", value, ">", "<", quality, ">", _endStr);
-                    _connectState.Send(endcoding.GetBytes(sendStr));
+                    ASCIIEncoding endcoding = new ASCIIEncoding();
+                    var pointName = point.Name;
+                    if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
+                    {
+                        var value = point.GetValue(index);
+                        var quality = point.GetQuality();
+                        string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.UInt.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
+                        _connectState.Send(endcoding.GetBytes(sendStr));
+                    }
                 }
             }
         }
-        private void sendFloatData(object sender, PropertyChangedEventArgs e)
+        private void sendFloatData(IPoint<float> point, int index)
         {
             lock (_locker7)
             {
-                ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<float>;
-                var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
-                if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
+                lock (_locker4)
                 {
-                    var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.Float, ">", "<", value, ">", "<", quality, ">", _endStr);
-                    _connectState.Send(endcoding.GetBytes(sendStr));
+                    ASCIIEncoding endcoding = new ASCIIEncoding();
+                    var pointName = point.Name;
+                    if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
+                    {
+                        var value = point.GetValue(index);
+                        var quality = point.GetQuality();
+                        string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.Float.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
+                        _connectState.Send(endcoding.GetBytes(sendStr));
+                    }
                 }
             }
         }
-        private void sendStringData(object sender, PropertyChangedEventArgs e)
+        private void sendStringData(IPoint<string> point, int index)
         {
             lock (_locker8)
             {
                 ASCIIEncoding endcoding = new ASCIIEncoding();
-                var point = sender as IPoint<string>;
                 var pointName = point.Name;
-                var index = byte.Parse(e.PropertyName);
                 if (_pointNames.Exists(s => s.PointName == pointName && s.Index == index))
                 {
                     var value = point.GetValue(index);
-                    byte quality = point.GetQuality(index);
-                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataServer.ValueType.Float, ">", "<", value, ">", "<", quality, ">", _endStr);
+                    var quality = point.GetQuality();
+                    string sendStr = string.Concat(_headStr, "<15>", "<", pointName, "[", index, "]", ">", "<", DataType.String.ToString(), ">", "<", value, ">", "<", quality, ">", _endStr);
                     _connectState.Send(endcoding.GetBytes(sendStr));
                 }
             }
@@ -1133,7 +1132,7 @@ namespace FreedomDrivers
     {
         public string PointName;
         public byte Index;
-        public string Type;
+        public DataType Type;
         public static bool operator ==(PointNameGroup a, PointNameGroup b)
         {
             if (a.PointName == b.PointName && a.Index == b.Index)

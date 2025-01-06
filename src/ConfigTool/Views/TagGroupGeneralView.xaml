@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ConfigTool.Views.TagGroupGeneralView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="400" Width="380">
+    <Grid>
+        <StackPanel TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
+            <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">
+                <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                <TextBox Text="{Binding Name,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <!--<StackPanel Orientation="Horizontal">
+                <TextBlock Text="Scan Times:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
+                <TextBox Text="{Binding ScanTimes}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>-->
+        </StackPanel>
+    </Grid>
+</UserControl>

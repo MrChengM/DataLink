@@ -1,0 +1,9 @@
+2023-10-19 13:55:56,419 ERROR ConfigToolLogger Updata Project from Server error,information:无法连接到远程服务器   
+2023-10-19 13:57:31,323 ERROR ConfigToolLogger Dll Register error，information:'无法连接到远程服务器'  
+2023-10-19 13:58:23,702 ERROR ConfigToolLogger Dll Register error，information:'无法连接到远程服务器'  
+2023-10-19 14:00:55,858 ERROR ConfigToolLogger Dll Register error，information:'远程服务器返回错误: (400) 错误的请求。'  
+2023-10-19 14:15:30,678 ERROR ConfigToolLogger Dll Register error，information:'远程服务器返回错误: (400) 错误的请求。'  
+2023-10-19 16:21:01,883 ERROR ConfigToolLogger Dll Register error，information:'远程服务器返回错误: (400) 错误的请求。'  
+2023-10-19 16:21:31,770 ERROR ConfigToolLogger Dll Register error，information:'远程服务器返回错误: (400) 错误的请求。'  
+2023-10-19 17:25:42,674 ERROR ConfigToolLogger Dll Register error，information:'远程服务器返回错误: (400) 错误的请求。'  
+2023-10-19 17:29:20,960 ERROR ConfigToolLogger Dll Register error，information:'远程服务器返回错误: (400) 错误的请求。'  

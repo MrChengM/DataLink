@@ -1,0 +1,8 @@
+2023-11-04 23:14:33,528 INFO  ConfigToolLogger Updata Project from Server failed!   
+2023-11-04 23:14:33,549 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-04 23:14:41,481 INFO  ConfigToolLogger Updata Project from Server failed!   
+2023-11-04 23:14:41,482 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-04 23:18:39,529 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-04 23:18:39,558 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-04 23:29:21,951 INFO  ConfigToolLogger Add TagGroup sucessfully : 'Channel1.Device1.Group1'.  
+2023-11-04 23:30:16,273 INFO  ConfigToolLogger Add Tag sucessfully : 'Channel1.Device1.Group1.Tag1'.  

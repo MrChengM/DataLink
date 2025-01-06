@@ -1,0 +1,8 @@
+2024-04-09 16:59:41,337 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-04-09 16:59:41,338 ERROR DataLinksLogger Task<Channel1> Start failed!  
+2024-04-09 17:31:48,298 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-04-09 17:31:48,300 ERROR DataLinksLogger Task<Channel1> Start failed!  
+2024-04-09 17:35:31,642 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-04-09 17:35:31,642 ERROR DataLinksLogger Task<Channel1> Start failed!  
+2024-04-09 17:51:27,053 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-04-09 17:51:27,055 ERROR DataLinksLogger Task<Channel1> Start failed!  

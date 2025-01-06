@@ -8,11 +8,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using DataServer;
-using DataServer.Utillity;
-
+using DataServer.Log;
+using Utillity.Data;
 namespace DL645Driver
 {
-    [Description("DL645-1997电能表协议")]
+    [DriverDescription("DL645-1997电能表协议",CommunicationType.Serialport)]
     //DL645_1997Driver : IPLCDriver         IPLCDriver : IDriver, IReaderWriter              IDriver : IDisposable
     public sealed class DL645_1997Driver:DLDriver
     {
@@ -43,7 +43,7 @@ namespace DL645Driver
         {
             byte[] CSdatas = new byte[datas.Length - 2];
             Array.Copy(datas, CSdatas, CSdatas.Length);
-            if (datas[datas.Length - 1] == Utility.CSCheck(CSdatas))
+            if (datas[datas.Length - 1] == ByteCheck.CSCheck(CSdatas))
             {
                 for (int i = 0; i < ids.Length; i++)
                 {

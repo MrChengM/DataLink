@@ -127,7 +127,7 @@ namespace TaskHandler.Config
             str = reader["drivertype"];
             if (str != null)
             {
-                 DriverType drType;
+                 CommunicationType drType;
                 if (Enum.TryParse(str, out drType))
                     config.DrType = drType;
             }

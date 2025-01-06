@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FreedomServer</RootNamespace>
     <AssemblyName>FreedomServer</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,9 +55,9 @@
       <Project>{45bc48e7-c7a9-48ba-bb72-a213ddf042ab}</Project>
       <Name>DataServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\FreedomDrivers\FreedomDrivers.csproj">
-      <Project>{f75323b8-2e50-4457-809d-82e7a9c03159}</Project>
-      <Name>FreedomDrivers</Name>
+    <ProjectReference Include="..\..\src\FreedomDriverV2\FreedomDriversV2.csproj">
+      <Project>{d8c4fc33-2adf-42c7-94eb-730da8da8b20}</Project>
+      <Name>FreedomDriversV2</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\SocketServers\SocketServers.csproj">
       <Project>{6eeabb49-2f57-42b0-96fc-e7a2f5723d36}</Project>

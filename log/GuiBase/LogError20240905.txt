@@ -1,0 +1,14 @@
+2024-09-05 09:14:16,622 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:14:22,566 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:14:44,884 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:16:35,493 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:18:20,621 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/5 1:16:35 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-05 09:18:20,623 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/5 1:16:35 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-05 09:34:45,075 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Login error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-05 09:37:41,189 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'Couldn't reconnect within the configured timeout of 00:00:30, disconnecting.'!  
+2024-09-05 09:38:20,096 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:39:50,572 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:41:03,161 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 09:41:32,573 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 10:10:23,659 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  
+2024-09-05 11:15:02,846 ERROR GuiBaseLogger SecurityService:http://localhost:3051/api/Permission change password  error':远程服务器返回错误: (401) 未经授权。'!  

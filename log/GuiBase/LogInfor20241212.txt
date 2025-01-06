@@ -1,0 +1,12 @@
+2024-12-12 00:29:02,859 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-12-12 00:29:06,271 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-12-12 00:29:06,275 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-12-12 00:29:06,703 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2024-12-12 00:35:27,020 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-12-12 00:35:29,881 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-12-12 00:35:29,885 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-12-12 00:35:30,298 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2024-12-12 00:36:55,947 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-12-12 00:36:58,824 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-12-12 00:36:58,827 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2024-12-12 00:36:59,205 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  

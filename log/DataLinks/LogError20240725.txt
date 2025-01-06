@@ -1,0 +1,17 @@
+2024-07-25 14:20:22,128 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:20:24,342 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:20:31,407 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:20:38,470 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:20:45,522 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:20:52,575 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:20:59,627 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:06,675 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:13,744 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:20,794 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:27,858 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:34,908 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:41,950 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:48,995 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:21:56,068 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-07-25 14:22:02,087 ERROR DataLinksLogger Channel2.Device1: Modbus 远程主机强迫关闭了一个现有的连接。   
+2024-07-25 17:52:21,622 ERROR DataLinksLogger Channel2.Device1: Modbus 你的主机中的软件中止了一个已建立的连接。   

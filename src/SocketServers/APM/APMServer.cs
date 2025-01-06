@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using DataServer;
+using DataServer.Log;
 
 namespace SocketServers
 {
@@ -23,6 +24,7 @@ namespace SocketServers
         private ILog log;
         private TimeOut timeOut;
         private int readSize;
+        private string serverName;
 
         private APMConnectState[] connecters;
         #endregion
@@ -63,8 +65,9 @@ namespace SocketServers
         #endregion
         #region 方法
 
-        public APMServer(string ipstring, int ipport, ILog log, TimeOut timeOut, int maxConnect,int size)
+        public APMServer(string serverName,string ipstring, int ipport, ILog log, TimeOut timeOut, int maxConnect,int size)
         {
+            this.serverName = serverName;
             this.ipString = ipstring;
             this.ipPort = ipport;
             this.log = log;
@@ -87,7 +90,7 @@ namespace SocketServers
 
                 for (int i = 0; i < connecters.Length; i++)
                 {
-                    connecters[i] = new APMConnectState(log, timeOut, i,readSize);
+                    connecters[i] = new APMConnectState(serverName,log, timeOut, i,readSize);
                     connecters[i].ReadComplete += APMServer_ReadComplete;
                     Connecters[i].SendComplete += APMServer_SendComplete;
                     connecters[i].DisconnectEvent += APMServer_DisconnectEvent;
@@ -165,7 +168,7 @@ namespace SocketServers
             }
             catch (Exception e)
             {
-                string errorInfor = string.Format("Server start error: {0}", e.Message);
+                string errorInfor = string.Format("{0} Server start error: {1}",serverName, e.Message);
                 log.ErrorLog(errorInfor);
                 return false;
             }
@@ -176,7 +179,7 @@ namespace SocketServers
             int index = newIndex();
             if (index == -1)
             {
-                string errorInfor = string.Format("Server connect error: {0}", "Over the max connect number.");
+                string errorInfor = string.Format("{0 }Server connect error: {1}",serverName, "Over the max connect number.");
                 log.ErrorLog(errorInfor);
                 server.EndAccept(result);
                 server.BeginAccept(acceptCallBack, listenSocket);
@@ -186,7 +189,7 @@ namespace SocketServers
             connecter.Init();
             connecter.IsUsed = true;
             connecter.CurrentSocket = server.EndAccept(result);
-            log.NormalLog(  string.Format("connect information,ID:{0} , IPAdderss:{1}", connecter.ID, connecter.CurrentSocket.RemoteEndPoint));
+            log.InfoLog(  string.Format("{0} connect information,ID:{1} , IPAdderss:{2}",serverName, connecter.ID, connecter.CurrentSocket.RemoteEndPoint));
             //first Receive data
             connecter.ReceiveAsync(readSize);
             //继续监听新的连接

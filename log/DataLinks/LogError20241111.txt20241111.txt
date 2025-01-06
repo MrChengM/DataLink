@@ -1,0 +1,12 @@
+2024-11-11 15:58:50,147 ERROR DataLinksLogger ModbusTCPServer Server start error: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。  
+2024-11-11 15:58:50,148 ERROR DataLinksLogger Task<ModbusTCPServer> Start failed!  
+2024-11-11 15:58:50,150 ERROR DataLinksLogger FreedomServer Server start error: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。  
+2024-11-11 15:58:50,151 ERROR DataLinksLogger Task<FreedomServer> Start failed!  
+2024-11-11 15:59:37,528 ERROR DataLinksLogger ModbusTCPServer Server start error: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。  
+2024-11-11 15:59:37,530 ERROR DataLinksLogger Task<ModbusTCPServer> Start failed!  
+2024-11-11 15:59:37,530 ERROR DataLinksLogger FreedomServer Server start error: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。  
+2024-11-11 15:59:37,531 ERROR DataLinksLogger Task<FreedomServer> Start failed!  
+2024-11-11 16:51:36,475 ERROR DataLinksLogger ModbusTCPServer Server start error: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。  
+2024-11-11 16:51:36,476 ERROR DataLinksLogger Task<ModbusTCPServer> Start failed!  
+2024-11-11 16:51:36,478 ERROR DataLinksLogger FreedomServer Server start error: 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。  
+2024-11-11 16:51:36,478 ERROR DataLinksLogger Task<FreedomServer> Start failed!  

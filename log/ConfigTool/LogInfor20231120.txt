@@ -1,0 +1,77 @@
+2023-11-20 02:43:53,801 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-20 02:46:01,930 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-20 02:47:10,048 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 02:47:10,058 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 02:51:52,461 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 02:51:52,488 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 02:52:07,937 INFO  ConfigToolLogger Add channel successfully: 'Channel1'  
+2023-11-20 02:52:21,790 INFO  ConfigToolLogger Add Device sucessfully: 'Channel1.Device1' .  
+2023-11-20 02:52:28,000 INFO  ConfigToolLogger Add TagGroup sucessfully : 'Channel1.Device1.Group1'.  
+2023-11-20 02:52:45,970 INFO  ConfigToolLogger Add Tag sucessfully : 'Channel1.Device1.Group1.Tag1'.  
+2023-11-20 02:53:10,342 INFO  ConfigToolLogger Add Tag sucessfully : 'Channel1.Device1.Group1.Tag2'.  
+2023-11-20 02:53:30,060 INFO  ConfigToolLogger Add channel successfully: 'Channel2'  
+2023-11-20 02:53:44,253 INFO  ConfigToolLogger Add Device sucessfully: 'Channel2.Device1' .  
+2023-11-20 02:53:52,872 INFO  ConfigToolLogger Add TagGroup sucessfully : 'Channel2.Device1.Group1'.  
+2023-11-20 02:54:16,105 INFO  ConfigToolLogger Add Tag sucessfully : 'Channel2.Device1.Group1.Tag1'.  
+2023-11-20 02:54:45,263 INFO  ConfigToolLogger Add Tag sucessfully : 'Channel2.Device1.Group1.Tag2'.  
+2023-11-20 02:54:53,541 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-20 02:56:48,875 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 02:56:50,263 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 02:56:56,526 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\111.json'  
+2023-11-20 03:00:59,068 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:00:59,091 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:08:01,008 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:08:01,049 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:08:56,207 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:08:56,228 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:13:25,280 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:13:25,300 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:17:19,008 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:17:19,028 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:26:29,452 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:26:29,477 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:31:13,868 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:31:13,889 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:31:50,034 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40001' have added!   
+2023-11-20 03:31:59,802 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\222.json'  
+2023-11-20 03:32:01,503 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 03:32:06,341 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2023-11-20 03:32:08,837 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2023-11-20 03:32:15,651 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:32:15,670 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:33:03,543 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:33:03,547 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 03:33:38,731 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40002' have added!   
+2023-11-20 03:33:50,472 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 03:41:27,676 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40003' have added!   
+2023-11-20 03:45:18,846 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\222.json'  
+2023-11-20 03:45:20,861 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 03:49:18,378 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 03:49:18,394 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 04:03:02,189 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\222.json'  
+2023-11-20 04:22:08,685 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 04:22:17,211 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 04:22:17,212 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 04:41:55,502 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 04:41:55,523 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 04:42:24,512 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40005' have added!   
+2023-11-20 04:44:47,236 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-20 04:44:50,962 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 04:44:50,962 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 04:45:02,582 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40005' have added!   
+2023-11-20 04:45:14,722 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40007' have added!   
+2023-11-20 04:48:18,818 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 04:48:18,851 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 04:48:45,352 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2023-11-20 04:49:00,231 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40005' have added!   
+2023-11-20 04:49:33,238 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2023-11-20 05:03:55,241 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 05:03:55,271 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 05:04:15,104 INFO  ConfigToolLogger Add TagBinding successfully: tagbinding name 'Server01.40007' have added!   
+2023-11-20 05:05:55,859 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2023-11-20 05:43:13,327 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 05:43:13,346 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 05:44:30,620 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2023-11-20 05:44:30,636 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2023-11-20 05:45:48,559 INFO  ConfigToolLogger Remove server item successfully: server name 'Server01' have removed !   
+2023-11-20 05:45:58,939 INFO  ConfigToolLogger Remove server item faile: server name 'Server01' isn't exit!   

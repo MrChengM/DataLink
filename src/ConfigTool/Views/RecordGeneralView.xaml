@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="ConfigTool.Views.RecordGeneralView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="400" Width="380">
+    <Grid>
+        <StackPanel TextBlock.FontSize="18" TextBlock.FontFamily="宋体" TextBlock.TextAlignment="Right">
+            <StackPanel Orientation="Horizontal" IsEnabled="{Binding BuildMode}">
+                <TextBlock Text="Name:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                <TextBox Text="{Binding Name,ValidatesOnDataErrors=True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Option:" Width="160" Height="30" HorizontalAlignment="Left" Margin="0,20,20,0" />
+                <ComboBox ItemsSource="{Binding Options}" SelectedValue="{Binding CurrentOption}"  Width="160" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,20,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Update Times:"  Width="160" Height="30" HorizontalAlignment="Left"   Margin="0,20,20,0"/>
+                <TextBox Text="{Binding Times,ValidatesOnDataErrors= True}"  Width="160" Height="30"  HorizontalAlignment="Left"  Margin="0,20,20,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

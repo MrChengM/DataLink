@@ -34,7 +34,7 @@ namespace TaskHandler.Factory
                         List<ServerConfig> serverConfigs = configFactory.CreatServerConfigs(servername);
                         switch (config.DrType)
                         {
-                            case DriverType.Ethernet:
+                            case CommunicationType.Ethernet:
                                 foreach(var serverconfig in serverConfigs)
                                 {
                                     var builder = new TCPServerTaskBuilder(servername, log, serverconfig);
@@ -42,7 +42,7 @@ namespace TaskHandler.Factory
                                     tasks.Add(task);
                                 }
                                 break;
-                            case DriverType.Serialport:
+                            case CommunicationType.Serialport:
                                 foreach (var serverconfig in serverConfigs)
                                 {
                                     var builder1 = new ComServerTaskBuilder(servername, log, serverconfig);
@@ -59,7 +59,7 @@ namespace TaskHandler.Factory
                         List<ClientConfig> clientConfigs = configFactory.CreatClientConfigs(clientname);
                         switch (config.DrType)
                         {
-                            case DriverType.Ethernet:
+                            case CommunicationType.Ethernet:
                                 foreach(var clientConfig in clientConfigs)
                                 {
                                     var builder2 = new TCPClientTaskBuilder(clientname, log,clientConfig);
@@ -67,7 +67,7 @@ namespace TaskHandler.Factory
                                     tasks.Add(task);
                                 }
                                 break;
-                            case DriverType.Serialport:
+                            case CommunicationType.Serialport:
                                 foreach(var clientConfig in clientConfigs)
                                 {
                                     var builder3 = new ComClientTaskBuilder(clientname, log,clientConfig);

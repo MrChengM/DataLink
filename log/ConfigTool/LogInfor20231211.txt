@@ -1,0 +1,1 @@
+2023-12-11 11:02:18,721 INFO  ConfigToolLogger Add Record Item successfully: Record Item name 'Record02' have added !   

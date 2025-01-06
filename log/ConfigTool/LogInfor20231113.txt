@@ -1,0 +1,9 @@
+2023-11-13 13:51:05,630 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-13 13:51:29,263 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-13 13:51:41,637 INFO  ConfigToolLogger Add Server successfully: server name 'Server03' have added!   
+2023-11-13 14:01:06,328 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-13 14:01:24,424 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-13 14:02:05,920 INFO  ConfigToolLogger Add Server successfully: server name 'Server03' have added!   
+2023-11-13 14:44:14,121 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-13 14:44:28,767 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-13 14:44:40,280 INFO  ConfigToolLogger Add Server successfully: server name 'Server03' have added!   

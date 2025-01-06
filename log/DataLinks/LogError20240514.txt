@@ -1,0 +1,114 @@
+2024-05-14 15:42:53,638 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 15:42:53,639 ERROR DataLinksLogger Task<Channel2> Start failed!  
+2024-05-14 17:43:48,440 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:43:48,563 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:45:58,314 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:23,941 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:25,955 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:25,955 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:28,006 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:28,007 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:30,038 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:30,038 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:32,086 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:32,087 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:34,134 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:34,135 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:36,176 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:36,177 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:38,217 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:38,217 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:40,275 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:40,276 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:42,309 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:42,309 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:44,349 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:44,350 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:46,399 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:46,399 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:48,439 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:48,439 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:46:50,486 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:46:50,486 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:47:37,054 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:50:12,083 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:19,671 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:50:19,806 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:21,883 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:21,884 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:23,923 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:23,923 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:25,958 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:25,959 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:27,986 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:27,987 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:30,072 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:30,073 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:32,111 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:32,112 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:34,140 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:34,140 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:36,195 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:36,196 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:38,241 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:38,242 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:40,285 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:40,286 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:42,337 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:42,338 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:44,377 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:44,377 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:46,414 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:46,414 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:48,478 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:48,479 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:50,514 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:50,515 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:52,556 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:52,557 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:50:54,608 ERROR DataLinksLogger Channel2.Device1: Modbus 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。   
+2024-05-14 17:50:54,609 ERROR DataLinksLogger ModbusMapping Get Point Error: Point not exsit ,Key : 40001   
+2024-05-14 17:54:32,133 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:34,312 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:36,483 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:38,645 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:40,806 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:42,983 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:45,150 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:47,303 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:49,471 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:51,614 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:53,769 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:55,947 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:54:58,107 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:00,274 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:02,424 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:04,568 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:06,749 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:08,912 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:11,073 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:13,209 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:15,373 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:17,528 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:19,680 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:21,845 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:24,001 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:26,158 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:28,328 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:30,482 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:32,648 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:34,789 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:36,967 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:39,124 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:41,288 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:43,477 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:45,632 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:47,784 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:49,958 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:52,143 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:54,309 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:56,468 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:55:58,629 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:56:00,782 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:56:02,947 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  
+2024-05-14 17:56:05,125 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于目标计算机积极拒绝，无法连接。 [::ffff:127.0.0.1]:502  

@@ -1,0 +1,26 @@
+2023-11-11 17:55:23,948 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:13:12,879 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:24:01,560 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:27:50,792 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:27:54,864 INFO  ConfigToolLogger Remove server item successfully: server name 'Server01' have removed !   
+2023-11-11 19:35:27,766 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:35:57,075 INFO  ConfigToolLogger Remove server item successfully: server name 'Server01' have removed !   
+2023-11-11 19:41:12,932 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:41:17,209 INFO  ConfigToolLogger Remove server item successfully: server name 'Server01' have removed !   
+2023-11-11 19:41:21,053 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:47:22,185 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\111.json'  
+2023-11-11 19:47:53,468 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-11 19:49:56,786 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:50:09,120 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-11 19:50:22,942 INFO  ConfigToolLogger Add Server successfully: server name 'Server03' have added!   
+2023-11-11 19:51:38,699 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\111.json'  
+2023-11-11 19:53:42,382 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 19:53:55,244 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\111.json'  
+2023-11-11 19:54:24,911 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-11 19:54:33,079 INFO  ConfigToolLogger Add Server successfully: server name 'Server03' have added!   
+2023-11-11 19:54:57,286 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\111.json'  
+2023-11-11 20:23:19,098 INFO  ConfigToolLogger Add Server successfully: server name 'Server01' have added!   
+2023-11-11 20:23:36,340 INFO  ConfigToolLogger Add Server successfully: server name 'Server02' have added!   
+2023-11-11 20:23:44,922 INFO  ConfigToolLogger Add Server successfully: server name 'Server03' have added!   
+2023-11-11 20:23:47,613 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-11-11 20:24:01,931 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\桌面\111.json'  

@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="GuiBase.Views.AlarmLiteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:GuiBase.Views">
+    <Grid>
+        <ListView ItemsSource="{Binding Alarms}" Style="{StaticResource MaterialDesignListView}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                    <Setter Property="Background" Value="{Binding RowColor}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmName}" Header="{ Binding Columns.AlarmName}"  Width="300"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PartName}" Header="{Binding Columns.PartName}" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmLevel}" Header="{Binding Columns.AlarmLevel}" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding LocalizationDescrible}" Header="{Binding Columns.Description}" Width="500"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AlarmGroup}" Header="{Binding Columns.Group}" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding AppearTime}" Header="{Binding Columns.AppearTime}" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Counts}" Header="{Binding Columns.Counts}" Width="100" />
+                    <GridViewColumn Header="{Binding Columns.Confirm}" Width="175">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button  Content="{materialDesign:PackIcon Check}" Command="{Binding ConfirmCommand}" Height="25" ToolTip="Confrim this information by opeartor"  HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding ConfirmEnable}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

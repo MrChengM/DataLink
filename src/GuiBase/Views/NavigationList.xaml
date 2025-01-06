@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="GuiBase.Views.NavigationList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:models="clr-namespace:GuiBase.Models"
+             xmlns:local="clr-namespace:GuiBase.Views"
+             xmlns:control="clr-namespace:GuiBase.Controls"
+             xmlns:I="http://schemas.microsoft.com/xaml/behaviors" xmlns:convert="clr-namespace:GuiBase.Convert"
+             mc:Ignorable="d" Height="850">
+    <UserControl.Resources>
+        <Style x:Key="HorizontalDividerBorder" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="Height" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="UseLayoutRounding" Value="True" />
+        </Style>
+        <convert:BoolToVisibilityConvert x:Key="BoolToVisiblity" />
+    </UserControl.Resources>
+    <Grid >
+        <StackPanel >
+            <Expander HorizontalAlignment="Stretch"  Header="{Binding OverViewText}" Background="{StaticResource COLOR_BRUSH_HeaderBackground}" Visibility="{Binding OverViewEnable,Converter={StaticResource BoolToVisiblity}}"  FontSize="16">
+            </Expander>
+            <Border BorderThickness="0.5" BorderBrush="Gray" Visibility="{Binding OverViewEnable,Converter={StaticResource BoolToVisiblity}}"/>
+            <Expander HorizontalAlignment="Stretch" Header="{Binding L1ViewText}"  Background="{StaticResource COLOR_BRUSH_HeaderBackground}"  Visibility="{Binding L1ViewEnable,Converter={StaticResource BoolToVisiblity}}"  FontSize="16" >
+                <!--<StackPanel Margin="24,8,24,16" Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                </StackPanel>-->
+                <!--<Expander.Header  Width="230" Height="46">
+                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Background="{StaticResource HeaderLightBackground}" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ViewCarousel" HorizontalAlignment="Center" VerticalAlignment="Center"   />
+                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center"  Text="L1View" Margin="5,5"  />
+                        </StackPanel>
+                    </Border>
+                </Expander.Header>-->
+                <!--<Expander.Content >-->
+                <ListBox VerticalAlignment="Top" ItemsSource="{Binding L1Views}" SelectedValue="{Binding L1ViewSelectedItem}" Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
+                    <I:Interaction.Triggers>
+                        <I:EventTrigger EventName="MouseLeftButtonUp">
+                            <prism:InvokeCommandAction Command="{Binding NavigationToViewCommand}" CommandParameter="{x:Static models:ViewType.Base_L1View}" />
+                        </I:EventTrigger>
+                    </I:Interaction.Triggers>
+                    <ListBox.Resources>
+                        <DataTemplate DataType="{x:Type models:NavigationItem}">
+                            <TextBlock Text="{Binding Title}" />
+                        </DataTemplate>
+                    </ListBox.Resources>
+                    <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource BaseNavigationAlarmListBoxItem}">
+                            <Setter Property="Margin" Value="0,2,0,2"/>
+                            <Setter Property="Width" Value="230"/>
+                            <Setter Property="Height" Value="46"/>
+                            <Setter Property="FontSize" Value="16"/>
+                            <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_HeaderBackground}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm25Counts" Value="{Binding Alarm25Counts}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm50Counts" Value="{Binding Alarm50Counts}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm75Counts" Value="{Binding Alarm75Counts}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm100Counts" Value="{Binding Alarm100Counts}"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="materialDesign:NavigationDrawerAssist.CornerRadius" Value="5"/>
+                            <Setter Property="materialDesign:NavigationDrawerAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
+                            <Setter Property="materialDesign:NavigationDrawerAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <!--</Expander.Content>-->
+            </Expander>
+            <Border BorderThickness="0.5" BorderBrush="Gray"  Visibility="{Binding L1ViewEnable,Converter={StaticResource BoolToVisiblity}}"/>
+            <Expander HorizontalAlignment="Stretch" Header="{Binding L2ViewText}" VerticalAlignment="Stretch" Background="{StaticResource COLOR_BRUSH_HeaderBackground}" Visibility="{Binding L2ViewEnable,Converter={StaticResource BoolToVisiblity}}">
+                <ListBox VerticalAlignment="Top" ItemsSource="{Binding L2Views}" SelectedValue="{Binding L2ViewSelectedItem}" Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
+                    <I:Interaction.Triggers>
+                        <I:EventTrigger EventName="MouseLeftButtonUp">
+                            <prism:InvokeCommandAction Command="{Binding NavigationToViewCommand}" CommandParameter="{x:Static models:ViewType.Base_L2View}"/>
+                        </I:EventTrigger>
+                    </I:Interaction.Triggers>
+                    <ListBox.Resources>
+                        <DataTemplate DataType="{x:Type models:NavigationItem}">
+                            <TextBlock Text="{Binding Title}" />
+                        </DataTemplate>
+                    </ListBox.Resources>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource BaseNavigationAlarmListBoxItem}">
+                            <Setter Property="Margin" Value="0,2,0,2"/>
+                            <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_HeaderBackground}"/>
+                            <Setter Property="Width" Value="230"/>
+                            <Setter Property="Height" Value="46"/>
+                            <Setter Property="FontSize" Value="16"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm25Counts" Value="{Binding Alarm25Counts}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm50Counts" Value="{Binding Alarm50Counts}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm75Counts" Value="{Binding Alarm75Counts}"/>
+                            <Setter Property="control:NavigationALarmCountsAssist.Alarm100Counts" Value="{Binding Alarm100Counts}"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="materialDesign:NavigationDrawerAssist.CornerRadius" Value="5"/>
+                            <Setter Property="materialDesign:NavigationDrawerAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
+                            <Setter Property="materialDesign:NavigationDrawerAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Expander>
+            <Border BorderThickness="0.5" BorderBrush="Gray" Visibility="{Binding L2ViewEnable,Converter={StaticResource BoolToVisiblity}}"/>
+            <Expander HorizontalAlignment="Stretch" Header="{Binding CommandText}" Background="{StaticResource COLOR_BRUSH_HeaderBackground }" Visibility="{Binding CommandEnable,Converter={StaticResource BoolToVisiblity}}">
+                <!--<StackPanel Margin="24,8,24,16" Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                </StackPanel>-->
+            </Expander>
+            <Border BorderThickness="0.5" BorderBrush="Gray" Visibility="{Binding CommandEnable,Converter={StaticResource BoolToVisiblity}}"/>
+            <Expander HorizontalAlignment="Stretch" Header="{Binding OtherText}" Background="{StaticResource COLOR_BRUSH_HeaderBackground}" Visibility="{Binding OtherEnable,Converter={StaticResource BoolToVisiblity}}">
+                <!--<StackPanel Margin="24,8,24,16" Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                </StackPanel>-->
+            </Expander>
+            <Border BorderThickness="0.5" BorderBrush="Gray" Visibility="{Binding OtherEnable,Converter={StaticResource BoolToVisiblity}}"/>
+            <Button Background="{StaticResource COLOR_BRUSH_HeaderBackground}"  HorizontalContentAlignment="Left" Command="{Binding GoForwardCommand}" Height="40" Foreground="Black" Margin="0,0,0,0" Visibility="{Binding GoButtonDisplay,Converter={StaticResource BoolToVisiblity}}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <materialDesign:PackIcon Kind="ArrowForward" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="0,0,10,0" />
+                        <TextBlock x:Name="TeBlock_GoForward" Margin="0,0,0,0" Text="{Binding GoForwardText}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="0,0,0,0" Background="{StaticResource COLOR_BRUSH_HeaderBackground}" HorizontalContentAlignment="Left" Command="{Binding GoBackCommand}"  Height="40" Foreground="Black" Visibility="{Binding GoButtonDisplay,Converter={StaticResource BoolToVisiblity}}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
+                        <materialDesign:PackIcon Kind="ArrowBack" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"  />
+                        <TextBlock x:Name="TeBlock_GoBack" Margin="0,0,0,0" Text="{Binding GoBackText}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

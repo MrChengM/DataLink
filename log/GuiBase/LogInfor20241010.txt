@@ -1,0 +1,9 @@
+2024-10-10 10:46:06,794 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-10-10 10:46:11,036 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ failed  
+2024-10-10 10:47:46,620 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-10-10 10:47:50,323 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-10-10 16:55:54,551 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-10-10 16:55:59,282 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-10-10 17:19:54,957 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2024-10-10 17:19:58,201 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2024-10-10 17:50:36,572 INFO  GuiBaseLogger AlarmService: Disconnect to http://localhost:3051/ succefully  

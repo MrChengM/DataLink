@@ -5,12 +5,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Log;
 namespace SocketServers
 {
      public class APMConnectState:IConnectState
     {
         #region 字段
         //当前连接的Socket
+        private string serverName;
         private Socket currentSocket;
         //最大缓存数
         private  int buffSize ;
@@ -83,8 +85,9 @@ namespace SocketServers
         }
         #endregion
         #region 方法
-        public APMConnectState(ILog log,TimeOut timeOut,int ID,int bufferSize )
+        public APMConnectState(string serverName,ILog log,TimeOut timeOut,int ID,int bufferSize )
         {
+            this.serverName = serverName;
             this.log = log;
             this.timeOut = timeOut;
             id = ID;
@@ -123,7 +126,7 @@ namespace SocketServers
             }
             catch (SocketException ex)
             {
-                string error = string.Format("Read Callback data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message,id,currentSocket.RemoteEndPoint);
+                string error = string.Format("{0} Read Callback data Error：{1}, ID:{2}, IPAdderss:{3}",serverName, ex.Message,id,currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
                 Disconnect();
                 Dispose();
@@ -152,7 +155,7 @@ namespace SocketServers
             }
             catch(SocketException ex)
             {
-                string error = string.Format("Send Callback data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
+                string error = string.Format("{0} Send Callback data Error：{1}, ID:{2}, IPAdderss:{3}",serverName, ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
                 Disconnect();
                 Dispose();
@@ -174,7 +177,7 @@ namespace SocketServers
             }
             catch(SocketException ex)
             {
-                string error = string.Format("Async Receive data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
+                string error = string.Format("{0} Async Receive data Error：{1}, ID:{2}, IPAdderss:{3}", serverName, ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
                 Disconnect();
                 Dispose();
@@ -196,7 +199,7 @@ namespace SocketServers
             }
             catch(SocketException ex)
             {
-                string error = string.Format("Async Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
+                string error = string.Format("{0} Async Send data Error：{1}, ID:{2}, IPAdderss:{3}", serverName, ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
                 Disconnect();
                 Dispose();
@@ -224,7 +227,7 @@ namespace SocketServers
             }
             catch (SocketException ex)
             {
-                string error = string.Format("Sync Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, currentSocket.RemoteEndPoint);
+                string error = string.Format("{0} Sync Send data Error：{1}, ID:{2}, IPAdderss:{3}", serverName, ex.Message, id, currentSocket.RemoteEndPoint);
                 log.ErrorLog(error);
                 Disconnect();
                 Dispose();
@@ -236,7 +239,7 @@ namespace SocketServers
         {
             if (currentSocket.Connected)
             {
-                log.NormalLog(string.Format("Disconnect information,ID:{0} , IPAdderss:{1}", ID, CurrentSocket.RemoteEndPoint));
+                log.InfoLog(string.Format("{0} Disconnect information,ID:{1} , IPAdderss:{2}",serverName, ID, CurrentSocket.RemoteEndPoint));
                 currentSocket.Disconnect(true);
                 DisconnectEvent?.Invoke(this);
             }

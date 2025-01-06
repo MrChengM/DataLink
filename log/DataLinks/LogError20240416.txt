@@ -1,0 +1,2 @@
+2024-04-16 16:19:30,445 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:¶Ë¿Ú¡°COM1¡±²»´æÔÚ¡£  
+2024-04-16 16:19:30,446 ERROR DataLinksLogger Task<Channel1> Start failed!  

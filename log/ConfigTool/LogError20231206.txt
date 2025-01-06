@@ -1,0 +1,25 @@
+2023-12-06 13:41:08,284 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 13:41:10,543 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-12-06 13:42:12,022 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:42:12,022 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:42:12,022 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:42:41,454 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:42:41,459 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:42:41,460 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:43:55,089 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 13:43:57,466 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-12-06 13:46:06,611 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:46:06,611 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:46:06,611 WARN  ConfigToolLogger Add TagBinding failed: server name 'Servers' isn't exit!   
+2023-12-06 13:49:02,122 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 13:49:04,398 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-12-06 13:50:47,964 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 13:50:50,270 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-12-06 15:06:15,264 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 15:06:17,568 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-12-06 15:08:56,232 WARN  ConfigToolLogger Add TagBinding failed: tagbinding name 'Server01.40001' have duplicated!   
+2023-12-06 15:09:04,939 WARN  ConfigToolLogger Add TagBinding failed: tagbinding name 'Server01.40002' have duplicated!   
+2023-12-06 16:03:08,533 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 16:03:10,990 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2023-12-06 16:11:17,427 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2023-12-06 16:11:19,845 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   

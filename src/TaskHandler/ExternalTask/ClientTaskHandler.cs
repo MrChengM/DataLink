@@ -1,13 +1,11 @@
 ﻿using DataServer;
 using ds = DataServer;
-using DataServer.Serialization;
 using DataServer.Points;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataServer.Utillity;
 using System.Xml;
 using System.Threading;
 using Timer = System.Timers;
@@ -46,7 +44,7 @@ namespace TaskHandler
                 {
                     if (_clientBuilder.BuildLog())
                     {
-                        _log.NormalLog(string.Format("{0}:Init=>Initing ", "OnInit()"));
+                        _log.InfoLog(string.Format("{0}:Init=>Initing ", "OnInit()"));
                         if (_clientBuilder.BuildConfig())
                         {
                             if (_clientBuilder.BuildPoints())
@@ -54,7 +52,7 @@ namespace TaskHandler
                                 if (_clientBuilder.BuildClient())
                                 {
                                     _timeRead = new Timer.Timer(_config.PollingTime);
-                                    _log.NormalLog(string.Format("{0}:Initing=>Inited ", "OnInit()"));
+                                    _log.InfoLog(string.Format("{0}:Initing=>Inited ", "OnInit()"));
                                     return true;
                                 }
                             }
@@ -75,7 +73,7 @@ namespace TaskHandler
 
         public override bool OnStart()
         {
-            _log.NormalLog(string.Format("{0}:Start=>Starting ", "OnStart()"));
+            _log.InfoLog(string.Format("{0}:Start=>Starting ", "OnStart()"));
             if (_client != null && _timeRead != null)
             {
                 _client.Connect();
@@ -84,7 +82,7 @@ namespace TaskHandler
                 _timeRead.AutoReset = true;
                 _timeRead.Start();
                 subscribeSendData();
-                _log.NormalLog(string.Format("{0}:Starting=>Started ", "OnStart()"));
+                _log.InfoLog(string.Format("{0}:Starting=>Started ", "OnStart()"));
                 return true;
             }
             else

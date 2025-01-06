@@ -1,0 +1,561 @@
+2025-01-06 12:46:20,547 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 12:46:20,562 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 12:46:20,563 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 12:46:20,821 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 12:46:20,821 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 12:46:20,822 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 12:46:20,822 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 12:46:20,825 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 12:46:20,826 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 12:46:20,826 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 12:46:20,826 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 12:46:20,826 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 12:46:22,871 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 12:46:22,871 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 12:46:22,872 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 12:46:22,872 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 12:46:22,872 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 12:46:22,873 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 12:46:22,873 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 12:46:22,873 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 12:46:22,873 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 12:46:23,937 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 12:46:24,995 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:55639  
+2025-01-06 12:47:10,101 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:55639  
+2025-01-06 12:47:25,521 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 12:47:25,528 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 12:47:25,528 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 12:47:25,822 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 12:47:25,822 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 12:47:25,822 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 12:47:25,822 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 12:47:25,822 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 12:47:25,822 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 12:47:25,822 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 12:47:25,822 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 12:47:25,822 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 12:47:27,875 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 12:47:27,875 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 12:47:27,876 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 12:47:27,876 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 12:47:27,876 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 12:47:27,876 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 12:47:27,877 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 12:47:27,877 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 12:47:27,877 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 12:47:28,022 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 12:47:29,161 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '9def341f-c251-43db-9fed-2e9734ae30ed',HubName 'Alarm'  
+2025-01-06 12:47:29,578 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'c7b55131-4bc3-4ef2-9569-1a8f180a4a9a',HubName 'Signals'  
+2025-01-06 12:47:30,553 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:55716  
+2025-01-06 14:17:37,023 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:17:37,041 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:17:37,041 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:17:37,060 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:17:37,060 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:17:37,060 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:17:37,060 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:17:37,060 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:17:37,060 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:17:37,060 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:17:37,066 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:17:37,066 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:17:39,102 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:17:39,102 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:17:39,103 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:17:39,103 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:17:39,103 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:17:39,104 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:17:39,104 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:17:39,104 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:17:39,104 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:17:39,163 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:56179  
+2025-01-06 14:17:39,284 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:17:40,416 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'e63ec6f5-1871-46bd-bdf4-3a9a12e9ea7f',HubName 'Alarm'  
+2025-01-06 14:17:40,803 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '67e016d9-f4fb-469e-882f-e5eb9ee19512',HubName 'Signals'  
+2025-01-06 14:17:46,005 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:56179  
+2025-01-06 14:19:24,778 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:19:24,793 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:19:24,793 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:19:24,806 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:19:24,806 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:19:24,808 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:19:24,808 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:19:24,810 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:19:24,810 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:19:24,810 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:19:24,811 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:19:24,811 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:19:26,857 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:19:26,857 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:19:26,858 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:19:26,858 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:19:26,858 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:19:26,858 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:19:26,860 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:19:26,860 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:19:26,860 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:19:26,885 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:56262  
+2025-01-06 14:19:27,011 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:19:28,004 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'dc52d702-c4be-4024-af2d-f7ed9603f9a2',HubName 'Alarm'  
+2025-01-06 14:19:28,391 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '65ca6de4-6f1e-4f7a-b1d7-58627c70660f',HubName 'Signals'  
+2025-01-06 14:24:47,024 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId '65ca6de4-6f1e-4f7a-b1d7-58627c70660f',HubName 'Signals'  
+2025-01-06 14:24:47,034 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId 'dc52d702-c4be-4024-af2d-f7ed9603f9a2',HubName 'Alarm'  
+2025-01-06 14:24:50,045 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'dc52d702-c4be-4024-af2d-f7ed9603f9a2',HubName 'Alarm'  
+2025-01-06 14:24:51,796 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId '65ca6de4-6f1e-4f7a-b1d7-58627c70660f',HubName 'Signals'  
+2025-01-06 14:24:51,991 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'dc52d702-c4be-4024-af2d-f7ed9603f9a2',HubName 'Alarm'  
+2025-01-06 14:25:00,188 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'dc52d702-c4be-4024-af2d-f7ed9603f9a2',HubName 'Alarm'  
+2025-01-06 14:26:05,192 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId '65ca6de4-6f1e-4f7a-b1d7-58627c70660f',HubName 'Signals'  
+2025-01-06 14:26:05,246 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId 'dc52d702-c4be-4024-af2d-f7ed9603f9a2',HubName 'Alarm'  
+2025-01-06 14:26:15,405 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '56941537-b353-479d-9e72-113cd95a244c',HubName 'Alarm'  
+2025-01-06 14:26:58,997 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:26:59,040 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:26:59,040 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:26:59,052 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:26:59,052 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:26:59,053 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:26:59,053 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:26:59,056 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:26:59,056 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:26:59,057 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:26:59,057 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:26:59,057 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:26:59,058 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:26:59,058 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:26:59,059 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:26:59,059 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:26:59,059 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:26:59,059 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:26:59,060 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:26:59,060 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:26:59,060 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:26:59,083 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:56620  
+2025-01-06 14:26:59,202 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:27:13,430 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:56620  
+2025-01-06 14:27:34,710 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:27:34,727 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:27:34,727 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:27:34,945 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:27:34,945 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:27:34,946 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:27:34,946 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:27:34,948 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:27:34,948 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:27:34,948 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:27:34,949 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:27:34,949 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:27:34,950 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:27:34,950 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:27:34,950 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:27:34,950 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:27:34,951 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:27:34,951 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:27:34,951 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:27:34,952 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:27:34,952 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:27:35,084 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:56647  
+2025-01-06 14:27:35,108 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:27:37,220 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '8b117dcc-8234-4eab-8c3c-3c56d4853b14',HubName 'Alarm'  
+2025-01-06 14:27:37,615 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '701457b8-a9e5-4717-bf92-a8f0f8168912',HubName 'Signals'  
+2025-01-06 14:30:54,707 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:56647  
+2025-01-06 14:30:58,029 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:30:58,042 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:30:58,042 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:30:58,055 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:30:58,055 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:30:58,056 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:30:58,056 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:30:58,059 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:30:58,060 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:30:58,060 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:30:58,060 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:30:58,061 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:30:58,062 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:30:58,062 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:30:58,062 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:30:58,062 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:30:58,063 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:30:58,063 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:30:58,063 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:30:58,063 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:30:58,063 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:30:58,132 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:56796  
+2025-01-06 14:30:58,251 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:30:59,391 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'e4e718e1-8d93-4117-9c69-ddb57d7b9d0d',HubName 'Alarm'  
+2025-01-06 14:30:59,802 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'bb37522e-48d0-44e6-bc3d-a8f921e3477c',HubName 'Signals'  
+2025-01-06 14:34:27,104 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:34:27,116 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:34:27,116 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:34:27,128 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:34:27,128 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:34:27,128 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:34:27,128 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:34:27,131 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:34:27,131 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:34:27,131 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:34:27,131 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:34:27,132 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:34:27,133 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:34:27,133 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:34:27,134 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:34:27,134 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:34:27,134 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:34:27,134 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:34:27,136 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:34:27,136 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:34:27,136 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:34:27,284 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:34:27,519 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:56961  
+2025-01-06 14:34:28,317 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '4e0528d3-0261-48d1-81fb-b3538c5240cf',HubName 'Alarm'  
+2025-01-06 14:34:28,717 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '2e05478c-897c-4e79-8d98-d1672fe6639d',HubName 'Signals'  
+2025-01-06 14:37:28,045 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:56961  
+2025-01-06 14:45:11,261 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:45:11,275 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:45:11,276 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:45:11,288 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:45:11,288 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:45:11,288 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:45:11,289 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:45:11,291 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:45:11,291 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:45:11,292 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:45:11,292 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:45:11,292 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:45:11,294 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:45:11,294 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:45:11,295 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:45:11,295 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:45:11,296 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:45:11,296 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:45:11,296 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:45:11,297 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:45:11,297 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:45:11,456 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:45:11,693 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:57503  
+2025-01-06 14:45:12,304 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'd3cb0ba6-a084-4cef-b697-dcdf8f0f01d6',HubName 'Alarm'  
+2025-01-06 14:45:12,722 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '2a69de77-9bad-44ce-87d5-a2bd1132631a',HubName 'Signals'  
+2025-01-06 14:45:26,757 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:57503  
+2025-01-06 14:45:29,360 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:45:29,403 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:45:29,403 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:45:29,417 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:45:29,417 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:45:29,417 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:45:29,417 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:45:29,421 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:45:29,421 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:45:29,421 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:45:29,423 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:45:29,423 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:45:29,424 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:45:29,424 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:45:29,425 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:45:29,425 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:45:29,425 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:45:29,425 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:45:29,426 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:45:29,426 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:45:29,426 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:45:29,575 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:45:29,899 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:57537  
+2025-01-06 14:45:30,695 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '3c46903e-bc67-4426-ac85-cbd157770e63',HubName 'Alarm'  
+2025-01-06 14:45:31,081 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'bfea561d-40ed-46bb-b674-c2ab6c2551d7',HubName 'Signals'  
+2025-01-06 14:48:10,900 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:57537  
+2025-01-06 14:48:14,214 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 14:48:14,228 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 14:48:14,230 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 14:48:14,242 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 14:48:14,242 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 14:48:14,243 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 14:48:14,243 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 14:48:14,246 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 14:48:14,247 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 14:48:14,247 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 14:48:14,247 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 14:48:14,247 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 14:48:14,248 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 14:48:14,248 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 14:48:14,250 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 14:48:14,250 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 14:48:14,250 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 14:48:14,250 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 14:48:14,250 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 14:48:14,250 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 14:48:14,251 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 14:48:14,288 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:57662  
+2025-01-06 14:48:14,417 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 14:48:15,574 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '11b18303-cf24-4563-ac78-dc1edddb04fa',HubName 'Alarm'  
+2025-01-06 14:48:16,015 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '93f9e5d7-9fe7-4b0c-830a-2cc05a65a9b2',HubName 'Signals'  
+2025-01-06 14:51:43,862 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:57662  
+2025-01-06 18:35:05,621 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:35:05,633 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:35:05,634 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:35:05,654 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:35:05,654 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:35:05,654 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:35:05,655 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:35:05,658 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:35:05,658 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:35:05,658 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:35:05,658 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:35:05,658 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:35:05,660 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:35:05,660 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:35:05,660 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:35:05,661 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:35:05,661 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:35:05,661 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:35:05,661 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:35:05,662 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:35:05,662 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:35:05,785 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:61647  
+2025-01-06 18:35:05,823 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:35:06,920 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'c18daf35-9d25-45b3-80f5-1ae1ea05e99b',HubName 'Alarm'  
+2025-01-06 18:35:07,442 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '7008c171-c6c0-4ed5-8244-69185e3f2087',HubName 'Signals'  
+2025-01-06 18:35:16,016 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:61647  
+2025-01-06 18:35:19,202 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:35:19,219 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:35:19,219 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:35:19,232 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:35:19,232 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:35:19,233 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:35:19,233 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:35:19,235 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:35:19,236 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:35:19,236 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:35:19,236 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:35:19,236 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:35:19,237 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:35:19,237 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:35:19,238 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:35:19,238 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:35:19,238 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:35:19,239 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:35:19,239 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:35:19,240 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:35:19,240 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:35:19,398 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:35:19,443 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:61676  
+2025-01-06 18:35:20,707 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'd83cd127-d45b-43d1-8525-9771393eed66',HubName 'Alarm'  
+2025-01-06 18:35:21,108 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '42348fa4-a455-4095-badf-04b7a02fbf66',HubName 'Signals'  
+2025-01-06 18:38:32,387 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:61676  
+2025-01-06 18:39:15,530 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:39:15,548 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:39:15,548 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:39:15,570 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:39:15,571 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:39:15,571 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:39:15,571 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:39:15,574 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:39:15,574 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:39:15,574 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:39:15,575 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:39:15,575 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:39:15,578 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:39:15,578 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:39:15,578 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:39:15,628 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:61851  
+2025-01-06 18:39:15,737 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:39:16,924 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'b8e10c08-eeeb-4e53-ad75-16d3a71bbc79',HubName 'Alarm'  
+2025-01-06 18:39:17,335 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '940bfc84-c559-423c-b4c5-bb0735152ffe',HubName 'Signals'  
+2025-01-06 18:40:09,277 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:40:09,292 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:40:09,292 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:40:09,306 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:40:09,306 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:40:09,307 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:40:09,307 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:40:09,309 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:40:09,309 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:40:09,309 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:40:09,310 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:40:09,310 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:40:09,311 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:40:09,311 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:40:09,312 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:40:09,312 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:40:09,312 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:40:09,312 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:40:09,313 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:40:09,313 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:40:09,313 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:40:09,399 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:61898  
+2025-01-06 18:40:09,466 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:40:10,725 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'b826f475-d1d7-4024-9d18-f817851d5064',HubName 'Alarm'  
+2025-01-06 18:40:11,141 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'a05f3cf9-a591-45c0-b1dd-40e15ef46a9f',HubName 'Signals'  
+2025-01-06 18:41:44,194 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'b826f475-d1d7-4024-9d18-f817851d5064',HubName 'Alarm'  
+2025-01-06 18:41:44,194 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'a05f3cf9-a591-45c0-b1dd-40e15ef46a9f',HubName 'Signals'  
+2025-01-06 18:42:18,679 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'b826f475-d1d7-4024-9d18-f817851d5064',HubName 'Alarm'  
+2025-01-06 18:42:18,699 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'a05f3cf9-a591-45c0-b1dd-40e15ef46a9f',HubName 'Signals'  
+2025-01-06 18:44:10,829 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:61898  
+2025-01-06 18:44:14,018 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:44:14,033 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:44:14,034 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:44:14,047 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:44:14,047 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:44:14,047 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:44:14,048 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:44:14,050 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:44:14,051 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:44:14,051 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:44:14,051 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:44:14,051 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:44:14,052 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:44:14,052 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:44:14,054 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:44:14,054 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:44:14,054 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:44:14,054 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:44:14,055 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:44:14,055 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:44:14,055 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:44:14,207 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:44:14,589 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:62082  
+2025-01-06 18:44:15,539 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '9c8019f5-beea-4f9d-a19e-5bb9a7e1d924',HubName 'Alarm'  
+2025-01-06 18:44:15,974 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'd85b52b3-f18b-4a4a-9512-006af47748c5',HubName 'Signals'  
+2025-01-06 18:49:16,081 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId 'd85b52b3-f18b-4a4a-9512-006af47748c5',HubName 'Signals'  
+2025-01-06 18:49:16,081 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId '9c8019f5-beea-4f9d-a19e-5bb9a7e1d924',HubName 'Alarm'  
+2025-01-06 18:49:57,360 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'b6a05f1b-b2bf-46c7-b26f-b7e04cbeb83a',HubName 'Signals'  
+2025-01-06 18:49:57,499 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '6843ff5f-be74-439a-8f3a-61a634d8caf8',HubName 'Alarm'  
+2025-01-06 18:51:49,859 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:62082  
+2025-01-06 18:53:20,646 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:53:20,659 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:53:20,659 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:53:21,117 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:53:21,117 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:53:21,118 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:53:21,118 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:53:21,120 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:53:21,120 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:53:21,121 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:53:21,121 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:53:21,121 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:53:21,123 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:53:21,124 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:53:21,125 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:53:21,125 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:53:21,125 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:53:21,125 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:53:21,126 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:53:21,126 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:53:21,126 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:53:21,223 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:62477  
+2025-01-06 18:53:21,307 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:53:22,434 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'dab6275b-a47f-4717-a80b-163a89c88745',HubName 'Alarm'  
+2025-01-06 18:53:22,840 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '8054b316-9d07-4028-adc0-f59483caf926',HubName 'Signals'  
+2025-01-06 18:54:50,794 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:62477  
+2025-01-06 18:54:57,044 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 18:54:57,056 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 18:54:57,057 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 18:54:57,068 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 18:54:57,068 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 18:54:57,068 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 18:54:57,068 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 18:54:57,071 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 18:54:57,072 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 18:54:57,072 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 18:54:57,072 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 18:54:57,072 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 18:54:57,073 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 18:54:57,073 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 18:54:57,074 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 18:54:57,074 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 18:54:57,074 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 18:54:57,074 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 18:54:57,074 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 18:54:57,076 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 18:54:57,076 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 18:54:57,222 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 18:54:57,246 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:62561  
+2025-01-06 18:54:58,454 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'f71d88e5-703a-449f-9d1f-5d9abf42a66b',HubName 'Alarm'  
+2025-01-06 18:54:58,937 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId 'd4430420-2a41-48cd-8de3-adb70e4f0e99',HubName 'Signals'  
+2025-01-06 18:59:34,258 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'f71d88e5-703a-449f-9d1f-5d9abf42a66b',HubName 'Alarm'  
+2025-01-06 18:59:35,428 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId 'd4430420-2a41-48cd-8de3-adb70e4f0e99',HubName 'Signals'  
+2025-01-06 19:01:05,233 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId 'd4430420-2a41-48cd-8de3-adb70e4f0e99',HubName 'Signals'  
+2025-01-06 19:02:12,785 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 19:02:12,798 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 19:02:12,799 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 19:02:12,812 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 19:02:12,813 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 19:02:12,813 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 19:02:12,813 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 19:02:12,815 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 19:02:12,816 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 19:02:12,816 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 19:02:12,816 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 19:02:12,816 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 19:02:12,817 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 19:02:12,817 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 19:02:12,818 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 19:02:12,818 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 19:02:12,818 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 19:02:12,818 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 19:02:12,818 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 19:02:12,820 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 19:02:12,820 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 19:02:13,429 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:62879  
+2025-01-06 19:02:13,430 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 19:02:14,162 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '0f36e47f-41e7-4af9-80c5-9f95fda6bcaa',HubName 'Alarm'  
+2025-01-06 19:02:14,557 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '77893d47-68ed-443f-bbd7-df42a097248e',HubName 'Signals'  
+2025-01-06 19:02:50,062 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId '77893d47-68ed-443f-bbd7-df42a097248e',HubName 'Signals'  
+2025-01-06 19:02:50,091 INFO  DataLinksLogger SignalServer: Client have Reconnected ,connectId '0f36e47f-41e7-4af9-80c5-9f95fda6bcaa',HubName 'Alarm'  
+2025-01-06 19:05:55,032 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:62879  
+2025-01-06 19:06:01,410 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 19:06:01,427 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 19:06:01,427 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 19:06:01,447 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 19:06:01,447 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 19:06:01,448 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 19:06:01,448 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 19:06:01,450 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 19:06:01,450 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 19:06:01,450 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 19:06:01,451 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 19:06:01,451 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 19:06:01,452 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 19:06:01,452 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 19:06:01,454 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 19:06:01,454 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 19:06:01,454 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 19:06:01,454 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 19:06:01,455 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 19:06:01,455 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 19:06:01,455 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 19:06:01,583 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 19:06:02,636 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:63056  
+2025-01-06 19:06:03,513 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '950b3539-4282-4270-987d-48fe3ae57fe3',HubName 'Alarm'  
+2025-01-06 19:06:03,973 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '4db7b437-3341-4ed7-8021-4bdec3930157',HubName 'Signals'  
+2025-01-06 19:08:58,718 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:63056  
+2025-01-06 19:09:04,247 INFO  DataLinksLogger Channel2: Init => Initing   
+2025-01-06 19:09:04,259 INFO  DataLinksLogger Channel2: Initing => Inited   
+2025-01-06 19:09:04,260 INFO  DataLinksLogger ModbusTCPServer: Init => Initing   
+2025-01-06 19:09:04,273 INFO  DataLinksLogger ModbusTCPServer: Initing=>Inited  
+2025-01-06 19:09:04,273 INFO  DataLinksLogger FreedomServer: Init => Initing   
+2025-01-06 19:09:04,273 INFO  DataLinksLogger FreedomServer: Initing=>Inited  
+2025-01-06 19:09:04,273 INFO  DataLinksLogger AlarmServer: Init => Initing   
+2025-01-06 19:09:04,276 INFO  DataLinksLogger AlarmServer: Initing=>Inited  
+2025-01-06 19:09:04,276 INFO  DataLinksLogger Record01: Init => Initing   
+2025-01-06 19:09:04,276 INFO  DataLinksLogger Record01: Initing=>Inited  
+2025-01-06 19:09:04,277 INFO  DataLinksLogger Channel2: Start => Starting   
+2025-01-06 19:09:04,277 INFO  DataLinksLogger Channel2.Device1: Start=>Starting   
+2025-01-06 19:09:04,279 INFO  DataLinksLogger Channel2.Device1: Starting=>Started   
+2025-01-06 19:09:04,279 INFO  DataLinksLogger ModbusTCPServer: Start=>Starting   
+2025-01-06 19:09:04,280 INFO  DataLinksLogger ModbusTCPServer: Starting=>Started   
+2025-01-06 19:09:04,280 INFO  DataLinksLogger FreedomServer: Start=>Starting   
+2025-01-06 19:09:04,280 INFO  DataLinksLogger FreedomServer: Starting=>Started   
+2025-01-06 19:09:04,280 INFO  DataLinksLogger AlarmServer: Start=>Starting   
+2025-01-06 19:09:04,281 INFO  DataLinksLogger AlarmServer: Starting=>Started   
+2025-01-06 19:09:04,281 INFO  DataLinksLogger Record01: Start=>Starting   
+2025-01-06 19:09:04,281 INFO  DataLinksLogger Record01: Starting=>Started   
+2025-01-06 19:09:04,410 INFO  DataLinksLogger SignalServer: Server running on http://localhost:3051  
+2025-01-06 19:09:05,526 INFO  DataLinksLogger FreedomServer connect information,ReceiveAsync Start,ID:0 , IPAdderss:127.0.0.1:63192  
+2025-01-06 19:09:06,430 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '6c7f34d0-a97f-4922-96ff-a522aa2b6a22',HubName 'Alarm'  
+2025-01-06 19:09:06,878 INFO  DataLinksLogger SignalServer: Client have Connected ,ConnectId '8483fbeb-236e-431e-ad2d-c1fc7777f490',HubName 'Signals'  
+2025-01-06 19:13:32,284 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId '6c7f34d0-a97f-4922-96ff-a522aa2b6a22',HubName 'Alarm'  
+2025-01-06 19:13:32,501 INFO  DataLinksLogger SignalServer: Client have Disconnected ,connectId '8483fbeb-236e-431e-ad2d-c1fc7777f490',HubName 'Signals'  
+2025-01-06 19:13:34,795 INFO  DataLinksLogger FreedomServer Disconnect information,ID:0 , IPAdderss:127.0.0.1:63192  

@@ -1,0 +1,2 @@
+2024-02-28 11:38:03,555 INFO  ConfigToolLogger Replace Record Item tags successfully:  Record item 'Record01' tags have Repalced !   
+2024-02-28 11:38:11,704 INFO  ConfigToolLogger Replace Record Item tags successfully:  Record item 'Record01' tags have Repalced !   

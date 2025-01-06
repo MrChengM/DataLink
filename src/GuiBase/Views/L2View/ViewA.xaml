@@ -1,0 +1,29 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GuiBase.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:controls="clr-namespace:GuiBase.Controls" 
+             xmlns:behaviors="clr-namespace:GuiBase.Behaviors" 
+             xmlns:common="clr-namespace:GuiBase.Common"
+             x:Class="GuiBase.Views.L2View.ViewA"
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1680">
+    <Grid>
+        <TextBlock Text="ViewA" FontSize="40"  FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <controls:BaseElement x:Name="Channel2_Device1" ElementName="PB001" NavigationViewName="ViewB" Style="{StaticResource BG_ControlBox_Double}" ChooseLeftClick="Level3Open"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="514,418,0,0" CommandSignalName="Channel2.Device1.Group1.Tag1[9]" CommandType="PowerBoxCommand" Height="60" Width="106" TypeDescription="Power Box" HasRightClickMenu="True" L3ViewName="PowerBox001">
+            <controls:BaseElement.Signals>
+                <common:GSignal Id="Signal1" SignalName="Channel2.Device1.Group1.Tag1[0]"  KeepAliveSignalName="Channel2.Device1.Group1.Tag2[0]" />
+            </controls:BaseElement.Signals>
+            <i:Interaction.Behaviors>
+                <behaviors:PowerBox_Test_Behavior />
+            </i:Interaction.Behaviors>
+        </controls:BaseElement>
+        <controls:BitCommands x:Name="Channel2_Device1_Command"  ElementName="PB001" Style="{StaticResource G_DefaultCommandsVertical}" CommandSignalName="Channel2.Device1.Group1.Tag1[9]" CommandType="PowerBoxCommand" Behavior="GuiBase.Behaviors.PowerBox_Test_Behavior" Width="150" Height="250" Margin="970,346,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <controls:BitCommands.Signals>
+                <common:GSignal Id="Signal1" SignalName="Channel2.Device1.Group1.Tag1[0]"  KeepAliveSignalName="Channel2.Device1.Group1.Tag2[0]" />
+            </controls:BitCommands.Signals>
+        </controls:BitCommands>
+    </Grid>
+</UserControl>

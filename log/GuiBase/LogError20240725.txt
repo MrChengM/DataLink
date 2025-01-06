@@ -1,0 +1,22 @@
+2024-07-25 14:40:17,304 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:41:16,293 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:42:39,412 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:42:54,452 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:43:02,721 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:45:16,356 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:45:40,431 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:47:58,892 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 14:47:59,605 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:06:25,376 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:22:05,987 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:23:51,179 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:25:40,015 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/7/25 7:24:41 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-07-25 15:25:40,030 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/7/25 7:24:41 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-07-25 15:29:25,637 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:29:58,140 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:30:28,801 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:32:20,801 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。'!  
+2024-07-25 15:32:28,295 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/7/25 7:31:14 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-07-25 15:32:28,295 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/7/25 7:31:14 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-07-25 15:32:28,295 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/7/25 7:31:14 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-07-25 17:52:14,440 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/7/25 9:37:22 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  

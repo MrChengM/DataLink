@@ -1,0 +1,60 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- AlarmColor-->
+    <SolidColorBrush x:Key="Alarm25" Color="LightBlue"/>
+    <SolidColorBrush x:Key="Alarm50" Color="Yellow"/>
+    <SolidColorBrush x:Key="Alarm75" Color="Red"/>
+    <SolidColorBrush x:Key="Alarm100" Color="DarkRed"/>
+    <SolidColorBrush x:Key="AlarmDisapperWithUncheck" Color="Green"/>
+    <SolidColorBrush x:Key="AlarmEnableWithChecked" Color="Blue"/>
+    
+    <!-- ScadaViewThemesColor-->
+    <SolidColorBrush x:Key="COLOR_BRUSH_HeaderBackground" Color="#FF0E5FB2"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_ScadaBodyBackground" Color="Gainsboro" />
+
+    <SolidColorBrush x:Key="COLOR_BRUSH_ButtonMainBackground" Color="#FF0E5FB2" Opacity="50"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_TextMainBackground" Color="White" />
+    <SolidColorBrush x:Key="COLOR_BRUSH_TextMainForeground" Color="Black" />
+    <SolidColorBrush x:Key="COLOR_BRUSH_ButtonForeground" Color="Black" />
+
+    <!-- Element State Colors -->
+    <SolidColorBrush x:Key="Level0LineDefault_Color" Color="#FF001F9B"/>
+
+    <!-- ElementCommon Standard Colors Start -->
+    <Color x:Key="COLOR_Unknown">Magenta</Color>
+    <Color x:Key="COLOR_NoConState">Black</Color>
+    <Color x:Key="COLOR_NotParsable">Cyan</Color>
+    <Color x:Key="COLOR_NotConnected">LightSteelBlue</Color>
+    <Color x:Key="COLOR_Normal">Green</Color>
+    <Color x:Key="COLOR_ElementDefault">Blue</Color>
+
+    <SolidColorBrush x:Key="COLOR_BRUSH_Unknown" Color="{StaticResource COLOR_Unknown}"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_NoConState" Color="{StaticResource COLOR_NoConState}"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_NotParsable" Color="{StaticResource COLOR_NotParsable}"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_NotConnected" Color="{StaticResource COLOR_NotConnected}"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_Normal" Color="{StaticResource COLOR_Normal}"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_ElementDefault" Color="{StaticResource COLOR_ElementDefault}"/>
+
+    <!-- ElementCommon Standard Colors End -->
+
+    <SolidColorBrush x:Key="BaseNoConColor_BRUSH" Color="Black"/>
+    <SolidColorBrush x:Key="BaseNoConColor_TEXT_BRUSH" Color="White"/>
+    <!--Element Default Color -->
+    <SolidColorBrush x:Key="COLOR_BRUSH_FrameDefault" Color="Blue"/>
+    <SolidColorBrush x:Key="COlOR_BRUSH_PowerBox_Body" Color="LightGray"/>
+
+    <!-- PowerBox Test-->
+    <SolidColorBrush x:Key="COLOR_BRUSH_AL4001" Color="LightBlue"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_AL4002" Color="Yellow"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_AL4003" Color="Red"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_AL4004" Color="DarkRed"/>
+    
+    <!--Command Button Color-->
+    <SolidColorBrush x:Key="COLOR_BRUSH_CommandBtnNoConState" Color="Black"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_CommandBtnSetState" Color="ForestGreen"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_CommandBtnNormalState" Color="LightGray"/>
+    
+    <SolidColorBrush x:Key="COLOR_BRUSH_CommandBtnNoConStateFore" Color="White"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_CommandBtnSetStateFore" Color="White"/>
+    <SolidColorBrush x:Key="COLOR_BRUSH_CommandBtnNormalStateFore" Color="Black"/>
+</ResourceDictionary>

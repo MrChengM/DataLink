@@ -5,7 +5,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Log;
 using System.Threading;
+using Utillity.Data;
 
 namespace SocketServers.SAEA
 {
@@ -15,7 +17,7 @@ namespace SocketServers.SAEA
         //当前连接的Socket
         private SocketAsyncEventArgs socketArg;
         //private SocketAsyncEventArgs sendsocketArg;
-
+        private string serverName;
         //最大缓存数
         private int buffSize ;
         private BufferMangment bufferPool;
@@ -65,8 +67,9 @@ namespace SocketServers.SAEA
         #endregion
         #region 方法
 
-        public SaeaConnectState(ILog log, int id ,TimeOut timeOut,SaeaConnectStatePool pool)
+        public SaeaConnectState(string serverName,ILog log, int id ,TimeOut timeOut,SaeaConnectStatePool pool)
         {
+            this.serverName = serverName;
             this.log = log;
             this.id = id;
             this.timeOut = timeOut;
@@ -106,7 +109,7 @@ namespace SocketServers.SAEA
                             ///收到报文记录
                             byte[] logByte = new byte[socketArg.BytesTransferred];
                             Array.Copy(socketArg.Buffer, logByte, logByte.Length);
-                            log.ByteSteamLog(ActionType.RECEIVE, logByte);
+                            log.DebugLog($"{serverName}:Rx <= {NetConvert.GetHexString(logByte)}");
 
                             ReadComplete?.Invoke(this);
                         }
@@ -157,7 +160,7 @@ namespace SocketServers.SAEA
             }
             catch (SocketException ex)
             {
-                string error = string.Format("Async Receive data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, s.RemoteEndPoint);
+                string error = string.Format("{0} Async Receive data Error：{1}, ID:{2}, IPAdderss:{3}", serverName, ex.Message, id, s.RemoteEndPoint);
                 log.ErrorLog(error);
                 Clear();
                 if (_m_ConnectStatePool != null)
@@ -177,11 +180,11 @@ namespace SocketServers.SAEA
                 socketArg.SetBuffer(buff, 0, buff.Length);
                 s.SendAsync(socketArg);
                 //发送报文记录
-                log.ByteSteamLog(ActionType.SEND, buff);
+                log.DebugLog($"{serverName}:Tx => {NetConvert.GetHexString(buff)}");
             }
             catch (SocketException ex)
             {
-                string error = string.Format("Async Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, s.RemoteEndPoint);
+                string error = string.Format("{0} Async Send data Error：{1}, ID:{2}, IPAdderss:{3}", serverName,ex.Message, id, s.RemoteEndPoint);
                 log.ErrorLog(error);
                 Clear();
                 if (_m_ConnectStatePool != null)
@@ -205,7 +208,7 @@ namespace SocketServers.SAEA
             }
             catch (SocketException ex)
             {
-                string error = string.Format("Sync Send data Error：{0}, ID:{1}, IPAdderss:{2}", ex.Message, id, s.RemoteEndPoint);
+                string error = string.Format("{0} Sync Send data Error：{1}, ID:{2}, IPAdderss:{3}",serverName, ex.Message, id, s.RemoteEndPoint);
                 log.ErrorLog(error);
                 Clear();
                 if (_m_ConnectStatePool != null)
@@ -220,7 +223,7 @@ namespace SocketServers.SAEA
             {
                 s.Shutdown(SocketShutdown.Both);
             }
-            log.NormalLog(string.Format("Disconnect information,ID:{0} , IPAdderss:{1}", ID, s.RemoteEndPoint));
+            log.InfoLog(string.Format("{0} Disconnect information,ID:{1} , IPAdderss:{2}",serverName, ID, s.RemoteEndPoint));
             s.Close();
             DisconnectEvent?.Invoke(this);
         }

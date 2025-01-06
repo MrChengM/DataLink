@@ -1,0 +1,8 @@
+2023-12-13 15:50:21,304 INFO  ConfigToolLogger Replace  Record tag successfully:  Tag names 'Record01' have Repalced !   
+2023-12-13 15:50:24,365 INFO  ConfigToolLogger Replace  Record tag successfully:  Tag names 'Record01' have Repalced !   
+2023-12-13 15:50:28,149 INFO  ConfigToolLogger Replace  Record tag successfully:  Tag names 'Record01' have Repalced !   
+2023-12-13 15:50:35,459 INFO  ConfigToolLogger Replace  Record tag successfully:  Tag names 'Record01' have Repalced !   
+2023-12-13 15:50:46,861 INFO  ConfigToolLogger Replace  Record tag successfully:  Tag names 'Record01' have Repalced !   
+2023-12-13 15:52:23,785 INFO  ConfigToolLogger Save project config sucessfully,Path:'../../../../conf/ProjectConfig.Json'  
+2023-12-13 15:52:28,591 INFO  ConfigToolLogger Save project config sucessfully,Path:'d:\user\01417261\×ÀÃæ\222.json'  
+2023-12-13 16:02:25,232 INFO  ConfigToolLogger Replace Record Item tags successfully:  Record item 'Record01' tags have Repalced !   

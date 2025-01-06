@@ -23,11 +23,11 @@ namespace TaskHandler
         public override bool OnInit()
         {
             
-            _log.NormalLog(string.Format("{0}:Init=>Initing ", "OnInit()"));
+            _log.InfoLog(string.Format("{0}:Init=>Initing ", "OnInit()"));
 
             if(_freedomServer.Init())
             {
-                _log.NormalLog(string.Format("{0}:Initing=>Inited ", "OnInit()"));
+                _log.InfoLog(string.Format("{0}:Initing=>Inited ", "OnInit()"));
                 return true;
             }
             return false;
@@ -36,11 +36,11 @@ namespace TaskHandler
 
         public override bool OnStart()
         {
-            _log.NormalLog(string.Format("{0}:Start=>Starting ", "OnStart()"));
+            _log.InfoLog(string.Format("{0}:Start=>Starting ", "OnStart()"));
 
             if(_freedomServer.Start())
             {
-                _log.NormalLog(string.Format("{0}:Starting=>Started ", "OnStart()"));
+                _log.InfoLog(string.Format("{0}:Starting=>Started ", "OnStart()"));
                 return true;
             }
             return false;

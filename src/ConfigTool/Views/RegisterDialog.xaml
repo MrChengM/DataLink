@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="ConfigTool.Views.RegisterDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConfigTool.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True" 
+             Height="180" Width="500" >
+    <Grid>
+        <GroupBox Header="Register DLL" Margin="10">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" TextBlock.FontSize="22" Margin="0,10,0,0" VerticalAlignment="Top" >
+                    <TextBlock x:Name="PathTeBlock" Text="Path:" Height="30"  Margin="20,0"/>
+                    <TextBox x:Name="PathTeBox" Text="{Binding AssemblyPath}" Width="250" Height="30"  FontSize="16"/>
+                    <Button  x:Name="RegisterButton" Content="Open" Command="{Binding OpenDLLCommand}" Width="100" Height="30" Margin="20,5" />
+                </StackPanel>
+                <Separator Style="{StaticResource MaterialDesignDarkSeparator}"></Separator>
+                <Grid   Height="40">
+                    <Button  Width="80" Height="25" Content="OK"  Margin="288,7,0,8" HorizontalAlignment="Left" Command="{Binding CloseDialogCommand}" CommandParameter="OK"/>
+                    <Button  Width="80" Height="25" Content="Cancel"  Margin="377,7,0,8" HorizontalAlignment="Left" Command="{Binding CloseDialogCommand}" CommandParameter="Cancel"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,412 @@
+2024-03-15 09:34:42,239 ERROR DataLinksLogger Server01 Server init error: 值不能为 null。
+参数名: ipString  
+2024-03-15 09:34:42,239 ERROR DataLinksLogger Server01: Init error   
+2024-03-15 09:34:42,241 ERROR DataLinksLogger Task<Server01> init failed!  
+2024-03-15 09:39:15,900 ERROR DataLinksLogger Server01 Server init error: 值不能为 null。
+参数名: ipString  
+2024-03-15 09:39:15,901 ERROR DataLinksLogger Server01: Init error   
+2024-03-15 09:39:15,901 ERROR DataLinksLogger Task<Server01> init failed!  
+2024-03-15 09:40:12,350 ERROR DataLinksLogger Server01 Server init error: 值不能为 null。
+参数名: ipString  
+2024-03-15 09:40:12,353 ERROR DataLinksLogger Server01: Init error   
+2024-03-15 09:40:12,353 ERROR DataLinksLogger Task<Server01> init failed!  
+2024-03-15 10:19:43,969 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 10:19:43,972 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,092 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,210 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,318 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,427 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,537 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,645 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,765 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,873 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:44,980 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,084 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,192 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,300 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,411 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,520 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,640 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,745 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,851 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:45,961 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,070 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,178 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,283 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,403 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,509 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,617 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,725 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,833 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:46,940 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,050 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,160 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,267 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,379 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,486 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,596 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,718 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,822 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:47,927 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,037 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,142 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,262 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,370 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,477 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,583 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,691 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,803 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:48,915 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,021 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,130 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,239 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,349 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,457 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,565 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,675 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,784 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:49,892 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,016 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,125 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,235 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,347 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,454 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,564 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,674 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,786 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:19:50,894 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:02,965 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,076 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,184 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,290 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,397 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,504 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,616 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,723 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,831 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:03,941 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,051 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,158 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,280 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,389 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,497 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,605 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,714 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,822 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:04,933 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,044 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,153 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,260 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,369 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,480 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,588 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,696 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,804 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:05,913 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,019 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,130 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,240 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,349 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,458 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,565 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,675 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,785 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:06,894 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,002 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,123 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,233 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,339 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,444 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,549 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,668 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,773 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,878 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:07,997 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,102 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,207 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,327 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,435 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,546 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,655 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,762 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,874 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:08,982 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,087 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,192 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,300 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,410 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,520 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,632 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,741 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,851 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:09,961 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,070 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,182 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,292 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,400 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,509 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,614 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,724 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,832 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:10,940 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,048 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,169 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,275 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,382 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,492 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,600 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,709 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:20:11,815 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:18,984 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 10:22:18,986 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,107 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,217 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,324 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,432 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,542 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,650 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,756 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,865 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:19,973 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,082 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,202 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,307 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,413 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,520 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,628 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,740 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,847 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:20,954 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,077 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,184 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,294 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,402 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,510 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,619 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,727 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,839 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:21,944 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,055 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,164 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,274 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,384 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,492 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,599 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,709 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,817 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:22,925 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,046 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,156 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,267 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,376 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,486 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,610 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,721 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,829 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:23,953 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,063 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,170 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,280 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,385 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,493 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,599 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,706 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,814 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:24,926 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,035 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,142 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,253 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,374 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,483 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,593 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,700 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,806 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:25,915 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,021 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,130 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,240 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,349 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,459 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,571 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,680 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,790 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:26,901 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,007 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,116 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,227 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,333 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,442 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,552 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,661 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,771 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,881 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:27,992 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,099 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,208 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,319 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,427 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,536 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,644 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,755 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:28,866 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,202 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,315 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,431 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,537 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,647 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,754 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,863 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:57,985 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,094 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,203 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,311 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,418 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,526 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,633 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,744 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,848 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:58,968 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:59,077 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:59,185 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:59,294 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:59,401 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:59,512 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:22:59,617 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,160 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 10:26:16,163 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,286 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,395 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,505 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,626 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,730 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,836 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:16,945 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,054 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,175 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,297 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,405 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,511 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,621 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,730 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,838 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:17,945 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,053 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,174 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,281 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,387 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,492 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,611 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,717 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,822 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:18,932 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,039 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,147 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,254 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,364 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,485 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,590 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,695 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,814 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:19,919 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,024 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,128 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,248 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,353 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,458 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,577 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,682 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,789 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:20,895 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,005 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,114 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,238 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,344 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,451 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,560 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,669 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,778 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,889 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:21,998 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,108 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,216 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,325 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,431 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,539 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,651 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,758 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,869 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:26:22,978 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:04,448 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:04,557 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:04,663 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:04,773 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:04,882 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:04,994 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,104 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,212 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,320 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,426 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,549 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,659 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:05,768 ERROR DataLinksLogger : IP地址无效  
+2024-03-15 10:27:42,394 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 10:31:34,883 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 10:32:01,333 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:32:22,515 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:32:43,670 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:33:04,840 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:54:33,295 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 10:54:54,363 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:55:15,531 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:55:36,687 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:55:57,838 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:56:19,002 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:56:40,148 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:57:01,309 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:57:22,476 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:57:43,638 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:58:04,808 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:58:25,988 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:58:47,153 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:59:08,315 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:59:29,476 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 10:59:50,629 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:00:11,803 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:00:32,962 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:00:54,129 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:01:15,296 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:01:36,435 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:01:57,600 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:02:18,764 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:02:39,908 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:03:01,089 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:03:22,241 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:03:43,397 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:04:04,564 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:04:25,738 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:04:46,903 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:05:08,067 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:05:29,226 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:05:50,389 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:06:11,587 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:06:32,756 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:06:53,911 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:07:15,081 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:07:36,246 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:07:57,409 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:08:18,595 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:08:39,786 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:09:00,949 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:09:22,093 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:09:43,254 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:10:04,410 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 11:10:25,569 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 16:38:25,290 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 16:38:46,380 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 16:39:07,538 ERROR DataLinksLogger Channel2.Device1: ModbusTCP Connect Error:由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 [::ffff:10.10.10.1]:502  
+2024-03-15 16:54:13,878 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 16:54:13,878 ERROR DataLinksLogger Task<Channel1> Start failed!  
+2024-03-15 16:54:40,587 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 16:54:40,588 ERROR DataLinksLogger Task<Channel1> Start failed!  
+2024-03-15 17:30:16,189 ERROR DataLinksLogger Channel1.Device1:ModbusRTU Connect Error:端口“COM1”不存在。  
+2024-03-15 17:30:16,190 ERROR DataLinksLogger Task<Channel1> Start failed!  

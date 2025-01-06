@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataServer;
+using DataServer.Log;
 
 namespace SocketServers.SAEA
 {
@@ -12,8 +13,10 @@ namespace SocketServers.SAEA
         private ILog _log;
         private int _id;
         private TimeOut _timeout;
-        public SaeaConnectStatePool(ILog log, TimeOut timeout) :base()
+        private string _serverName;
+        public SaeaConnectStatePool(string serverName,ILog log, TimeOut timeout) :base()
         {
+            _serverName = serverName;
             _log = log;
             _id = 0;
             _timeout = timeout;
@@ -31,7 +34,7 @@ namespace SocketServers.SAEA
         }
         protected override SaeaConnectState Create()
         {
-            var item= new SaeaConnectState(_log, _id++, _timeout,this);
+            var item= new SaeaConnectState(_serverName,_log, _id++, _timeout,this);
             item.Init();
             return item;
         }

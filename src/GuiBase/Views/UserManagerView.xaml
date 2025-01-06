@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="GuiBase.Views.UserManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GuiBase.Views" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Height="900" Width="1450" >
+    <Grid Background="{StaticResource COLOR_BRUSH_ScadaBodyBackground}">
+        <StackPanel Orientation="Vertical"  Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock  Text="{Binding Captions.Name}" Margin="10,0"    VerticalAlignment="Center" />
+                <TextBlock  Text=":" VerticalAlignment="Center" />
+
+                <TextBox  Text="{ Binding UserFilter.Name}"   Margin="10,0"  MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
+                <TextBlock  Text="{Binding Captions.Account}" Margin="10,0"   VerticalAlignment="Center"    />
+                <TextBlock  Text=":" VerticalAlignment="Center" />
+                <TextBox  Text="{ Binding UserFilter.Account}" Margin="10,0"  MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
+                <Button  Margin="40,0" MinHeight="25" MinWidth="60" Command="{Binding SearchUsersCommand}"  Style="{StaticResource MaterialDesignRaisedLightButton}"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}">
+                    <materialDesign:PackIcon Width="20" Height="20"  Kind="Search" />
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20,10,20,10">
+                <Button  Margin="10,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding AddUserCommand}"   Content="{Binding Captions.Add}" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
+                <Button  Margin="5,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding ImportUsersCommand}"    Content="Import" Visibility="Hidden" />
+                <Button  Margin="5,0,5,0" MinHeight="25" MinWidth="60" Command="{Binding ExportUsersCommand}"    Content="Export" Visibility="Hidden" />
+            </StackPanel>
+            <ListView Grid.Row="0" ItemsSource="{Binding UserWrappers}" Width="1405" >
+                <ListView.Style >
+                    <Style  TargetType="ListView">
+                        <Setter Property="BorderBrush" Value="Gray"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Background" Value="{StaticResource COLOR_BRUSH_ScadaBodyBackground}"/>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource BaseGirdViewColumHeader}">
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="{Binding Captions.Id}"  Width="300" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Account}" Header="{Binding Captions.Account}" Width="100"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="{Binding Captions.Name}" Width="100" />
+                        <GridViewColumn DisplayMemberBinding="{Binding SSex}" Header="{Binding Captions.Sex}" Width="100" />
+                        <GridViewColumn  Header="Status" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ToggleButton  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.EnableOpertCommand}" CommandParameter="{Binding }" MinHeight="25" IsChecked="{Binding Status}"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding CreateTime}" Header="{Binding Captions.CreateTime}" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CreateId}" Header="{Binding Captions.CreateId}" Width="300"/>
+                        <GridViewColumn  Header="Operate" Width="180">
+                           <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.Captions.Edit}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.EditUserCommand}"  CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground }"/>
+                                        <Button  Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.Captions.Delete}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView},Path=DataContext.DeleteUserCommand}" CommandParameter="{Binding }" Height="25"   HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</UserControl>

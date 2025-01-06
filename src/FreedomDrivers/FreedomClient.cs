@@ -9,33 +9,34 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System.Globalization;
-using DataServer.Utillity;
 using SocketServers;
+using Utillity.Data;
 
 namespace FreedomDrivers
 {
     public class FreedomClient:IDisposable
     {
-        private DriverType _driverType;
+        private CommunicationType _driverType;
         private TimeOut _timeOut;
         private bool _isConnect = false;
         private ILog _log;
         private EthernetSetUp _ethernetSetUp = new EthernetSetUp();
         private Socket _socket;
         private int _readCacheSize = 16384;
-
+        private string _name;
 
         private bool _subSocketArgFlag;
 
         private string _headStr = "<F0>";
         private string _endStr = "<F1>";
 
-        public FreedomClient(EthernetSetUp ethernetSetUp, TimeOut timeOut, ILog log)
+        public FreedomClient(string name, EthernetSetUp ethernetSetUp, TimeOut timeOut, ILog log)
         {
+            _name = name;
             _ethernetSetUp = ethernetSetUp;
             _timeOut = timeOut;
             _log = log;
-            _driverType = DriverType.Ethernet;
+            _driverType = CommunicationType.Ethernet;
             _subSocketArgFlag = false;
         }
 
@@ -45,7 +46,7 @@ namespace FreedomDrivers
             get { return _ethernetSetUp; }
             set { _ethernetSetUp = value; }
         }
-        public DriverType DriType
+        public CommunicationType DriType
         {
             get
             {
@@ -117,7 +118,7 @@ namespace FreedomDrivers
                     }
                     else
                     {
-                        Log.ErrorLog("IP address invalid");
+                        Log.ErrorLog($"{_name}:IP address invalid");
                         return _isConnect = false;
                     }
                 }
@@ -126,12 +127,12 @@ namespace FreedomDrivers
             catch (Exception ex)
             {
                 DisConnect();
-                Log.ErrorLog("FreedomServer Connect Error:" + ex.Message);
+                Log.ErrorLog($"{_name}:FreedomServer Connect Error:" + ex.Message);
                 return _isConnect = false;
             }
         }
         #region read
-        private byte[] createReadbytes<T>(List<PointGroup<T>> pointStructList)
+        private byte[] createReadbytes<T>(List<PointGroup<T>> pointStructList,DataType type)
         {
             string resultStr = "";
             foreach (var pointStruct in pointStructList)
@@ -139,8 +140,7 @@ namespace FreedomDrivers
                 var point = pointStruct.Point;
                 var index = pointStruct.Index;
                 var name = string.Concat(point.Name, "[", index, "]");
-                var type = point.ValueType;
-                resultStr = string.Concat(resultStr, "<", name, ">", "<", type, ">");
+                resultStr = string.Concat(resultStr, "<", name, ">", "<", type.ToString(), ">");
             }
             var funCode = "<01>";
             resultStr = string.Concat(_headStr, funCode, resultStr, _endStr);
@@ -148,16 +148,16 @@ namespace FreedomDrivers
             return encoding.GetBytes(resultStr);
         }
         #region sync read
-        private int read<T>(List<PointGroup<T>> pointGroups, readDataProcess<T> process)
+        private int read<T>(List<PointGroup<T>> pointGroups, DataType type, readDataProcess<T> process)
         {
             try
             {
                 if (_isConnect)
                 {
                     ASCIIEncoding encoding = new ASCIIEncoding();
-                    var sendBytes = createReadbytes(pointGroups);
+                    var sendBytes = createReadbytes(pointGroups,type);
                     var receiveBuffer = new byte[12768];
-                    _log.ByteSteamLog(ActionType.SEND, sendBytes);//数据流Log记录
+                    Log.DebugLog($"{_name}:Tx => {NetConvert.GetHexString(sendBytes)}");
                     if (_socket.Send(sendBytes) != -1)
                     {
                         Thread.Sleep(10);
@@ -165,7 +165,7 @@ namespace FreedomDrivers
 
                         var receivedata = new byte[count];
                         Array.Copy(receiveBuffer, receivedata, count);
-                        _log.ByteSteamLog(ActionType.RECEIVE, receiveBuffer);
+                        Log.DebugLog($"{_name}:Rx <= {NetConvert.GetHexString(receiveBuffer)}");
                         var receiveStr = encoding.GetString(receivedata);
                         receiveStr=receiveStr.Replace("<", "");
                         var strArrary = receiveStr.Split(new char[] { '>'},StringSplitOptions.RemoveEmptyEntries);
@@ -179,7 +179,7 @@ namespace FreedomDrivers
                                 }
                                 else
                                 {
-                                    Log.ErrorLog(string.Format("Freedom Read {0} ", "receive data length too less!"));
+                                    Log.ErrorLog(string.Format("{0}: Freedom Read {1} ",_name, "receive data length too less!"));
                                     return -1;
                                 }
                             }
@@ -190,30 +190,30 @@ namespace FreedomDrivers
                                 {
                                     errorInfo = string.Concat(errorInfo, "<", strArrary[i], ">");
                                 }
-                                Log.ErrorLog(string.Format("Freedom Read {0} ", errorInfo));
+                                Log.ErrorLog(string.Format("{0} :Freedom Read {1} ",_name, errorInfo));
                                 return -1;
                             }
                             else
                             {
-                                Log.ErrorLog(string.Format("Freedom Read {0} ", "receive function code error!"));
+                                Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, "receive function code error!"));
                                 return -1;
                             }
                         }
                         else
                         {
-                            Log.ErrorLog(string.Format("Freedom Read {0} ", "receive data length too less!"));
+                            Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, "receive data length too less!"));
                             return -1;
                         }
                     }
                     else
                     {
-                        Log.ErrorLog(string.Format("Freedom Read {0} ", "send buffer fail!"));
+                        Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, "send buffer fail!"));
                         return -1;
                     }
                 }
                 else
                 {
-                    Log.ErrorLog(string.Format("Freedom Read {0} ", "connect is not build!"));
+                    Log.ErrorLog(string.Format("{0}:Freedom Read {1} ", _name,"connect is not build!"));
                     return -1;
                 }
 
@@ -221,7 +221,7 @@ namespace FreedomDrivers
             catch (Exception e)
             {
                 DisConnect();
-                Log.ErrorLog(string.Format("Freedom Read {0} ", e.Message));
+                Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, e.Message));
                 return -1;
             }
         }
@@ -239,7 +239,7 @@ namespace FreedomDrivers
                 if (bool.TryParse(data[4 * i + 2], out updateValue) && byte.TryParse(data[4 * i + 3], out updataQuality))
                 {
                     point.SetValue(updateValue, index);
-                    point.SetQuality((QUALITIES)(updataQuality), index);
+                    point.SetQuality((QUALITIES)updataQuality, index);
                 }
                 else
                 {
@@ -318,7 +318,7 @@ namespace FreedomDrivers
                 }
                 else
                 {
-                    Log.ErrorLog(string.Format("Freedom Read {0} ", "data type error!"));
+                    Log.ErrorLog(string.Format("{0}:Freedom Read {1} ", _name ,"data type error!")) ;
 
                     return -1;
                 }
@@ -342,7 +342,7 @@ namespace FreedomDrivers
                 }
                 else
                 {
-                    Log.ErrorLog(string.Format("Freedom Read {0} ", "data type error!"));
+                    Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, "data type error!"));
                     return -1;
                 }
             }
@@ -365,7 +365,7 @@ namespace FreedomDrivers
                 }
                 else
                 {
-                    Log.ErrorLog(string.Format("Freedom Read {0} ", "data type error!"));
+                    Log.ErrorLog(string.Format("{0}:Freedom Read {0} ",_name, "data type error!"));
 
                     return -1;
                 }
@@ -389,7 +389,7 @@ namespace FreedomDrivers
                 }
                 else
                 {
-                    Log.ErrorLog(string.Format("Freedom Read {0} ", "data type error!"));
+                    Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, "data type error!"));
 
                     return -1;
                 }
@@ -413,7 +413,7 @@ namespace FreedomDrivers
                 }
                 else
                 {
-                    Log.ErrorLog(string.Format("Freedom Read {0} ", "data type error!"));
+                    Log.ErrorLog(string.Format("{0}:Freedom Read {1} ",_name, "data type error!"));
 
                     return -1;
                 }
@@ -422,90 +422,86 @@ namespace FreedomDrivers
         }
         public int ReadBool(PointGroup<bool> pointGroup)
         {
-            return read(new List<PointGroup<bool>> { pointGroup }, boolDataProcess);
+            return read(new List<PointGroup<bool>> { pointGroup },DataType.Bool, boolDataProcess);
         }
        
         public int ReadBools(List<PointGroup<bool>> pointGroups)
         {
-            return read(pointGroups, boolDataProcess);
+            return read(pointGroups, DataType.Bool, boolDataProcess);
         }
         public int ReadByte(PointGroup<byte> pointGroup)
         {
-            return read(new List<PointGroup<byte>> { pointGroup }, byteDataProcess);
+            return read(new List<PointGroup<byte>> { pointGroup },DataType.Byte, byteDataProcess);
 
         }
 
         public int ReadBytes(List<PointGroup<byte>> pointGroups)
         {
-            return read(pointGroups, byteDataProcess);
+            return read(pointGroups,DataType.Byte, byteDataProcess);
         }
         public int ReadShort(PointGroup<short> pointGroup)
         {
-            return read(new List<PointGroup<short>> { pointGroup }, shortDataProcess);
+            return read(new List<PointGroup<short>> { pointGroup },DataType.Short, shortDataProcess);
 
         }
 
         public int ReadShorts(List<PointGroup<short>> pointGroups)
         {
-            return read(pointGroups, shortDataProcess);
+            return read(pointGroups,DataType.Short, shortDataProcess);
 
         }
         public int ReadUShort(PointGroup<ushort> pointGroup)
         {
-            return read(new List<PointGroup<ushort>> { pointGroup },ushortDataProcess);
+            return read(new List<PointGroup<ushort>> { pointGroup } ,DataType.UShort, ushortDataProcess);
         }
 
         public int ReadUShorts(List<PointGroup<ushort>> pointGroups)
         {
-            return read(pointGroups, ushortDataProcess);
+            return read(pointGroups, DataType.UShort, ushortDataProcess);
         }
         public int ReadInt(PointGroup<int> pointGroup)
         {
-            return read(new List<PointGroup<int>> { pointGroup }, intDataProcess);
+            return read(new List<PointGroup<int>> { pointGroup },DataType.Int, intDataProcess);
         }
 
         public int ReadInts(List<PointGroup<int>> pointGroups)
         {
-            return read(pointGroups, intDataProcess);
+            return read(pointGroups,DataType.Int, intDataProcess);
         }
         public int ReadUInt(PointGroup<uint> pointGroup)
         {
-            return read(new List<PointGroup<uint>> { pointGroup }, uintDataProcess);
+            return read(new List<PointGroup<uint>> { pointGroup },DataType.UInt, uintDataProcess);
         }
 
         public int ReadUInts(List<PointGroup<uint>> pointGroups)
         {
-            return read(pointGroups, uintDataProcess);
+            return read(pointGroups,DataType.UInt, uintDataProcess);
         }
 
         public int Readfloat(PointGroup<float> pointGroup)
         {
-            return read(new List<PointGroup<float>> { pointGroup }, floatDataProcess);
+            return read(new List<PointGroup<float>> { pointGroup },DataType.Float, floatDataProcess);
         }
 
         public int Readfloats(List<PointGroup<float>> pointGroups)
         {
-            return read(pointGroups, floatDataProcess);
+            return read(pointGroups,DataType.Float, floatDataProcess);
         }
 
         public int ReadString(PointGroup<string> pointGroup)
         {
-            return read(new List<PointGroup<string>> { pointGroup }, stringDataProcess);
+            return read(new List<PointGroup<string>> { pointGroup },DataType.String, stringDataProcess);
         }
 
         public int ReadStrings(List<PointGroup<string>> pointGroups)
         {
-            return read(pointGroups, stringDataProcess);
-        }
-        public int ReadData<T>(PointGroup<T> pointGroup)
-        {
-            throw new NotImplementedException();
+            return read(pointGroups,DataType.String, stringDataProcess);
         }
 
-        public int ReadDatas<T>(List<PointGroup<T>> pointGroups)
-        {
-            throw new NotImplementedException();
-        }
+        //public ITag[] ReadTags( Address address)
+        //{
+
+        //}
         #endregion
         #endregion
         #region write
@@ -517,7 +513,42 @@ namespace FreedomDrivers
                 var point = pointStruct.Point;
                 var index = pointStruct.Index;
                 var name = string.Concat(point.Name, "[", index, "]");
-                var type = point.ValueType;
+                DataType type=DataType.Int;
+                if (typeof(T) == typeof(bool))
+                {
+                    type = DataType.Bool;
+                }
+                else if (typeof(T) == typeof(byte))
+                {
+                    type = DataType.Byte;
+                }
+                else if(typeof(T)==typeof(short))
+                {
+                    type = DataType.Short;
+                }
+                else if (typeof(T) == typeof(ushort))
+                {
+                    type = DataType.UShort;
+
+                }
+                else if (typeof(T) == typeof(int))
+                {
+                    type = DataType.Int;
+
+                }
+                else if (typeof(T) == typeof(uint))
+                {
+                    type = DataType.UInt;
+
+                }
+                else if (typeof(T) == typeof(float))
+                {
+                    type = DataType.Float;
+                }
+                else if (typeof(T) == typeof(string))
+                {
+                    type = DataType.String;
+                }
                 var value = point.GetValue(index);
                 resultStr = string.Concat(resultStr, "<", name, ">", "<", type, ">", "<", value, ">");
             }
@@ -536,14 +567,14 @@ namespace FreedomDrivers
                     ASCIIEncoding encoding = new ASCIIEncoding();
                     var sendBytes = creatWriteData(new List<PointGroup<T>>{ pointGroup });
                     var receiveBuffer = new byte[12768];
-                    _log.ByteSteamLog(ActionType.SEND, sendBytes);
+                    Log.DebugLog($"{_name}:Tx => {NetConvert.GetHexString(sendBytes)}");
                     if (_socket.Send(sendBytes) != -1)
                     {
                        Thread.Sleep(10);
                        int count= _socket.Receive(receiveBuffer);
                         var receivedata = new byte[count];
                         Array.Copy(receiveBuffer, receivedata, count);
-                        _log.ByteSteamLog(ActionType.RECEIVE, receiveBuffer);
+                        Log.DebugLog($"{_name}:Rx <= {NetConvert.GetHexString(receivedata)}");
                         var receiveStr = encoding.GetString(receivedata);
                         receiveStr.Replace("<", "");
                         var strArrary = receiveStr.Split('>');
@@ -604,15 +635,14 @@ namespace FreedomDrivers
                     ASCIIEncoding encoding = new ASCIIEncoding();
                     var sendBytes = creatWriteData(pointGroupList);
                     var receiveBuffer = new byte[12768];
-                    _log.ByteSteamLog(ActionType.SEND, sendBytes);
-
+                    Log.DebugLog($"{_name}:Tx => {NetConvert.GetHexString(sendBytes)}");
                     if (_socket.Send(sendBytes) != -1)
                     {
                         Thread.Sleep(10);
                         int count = _socket.Receive(receiveBuffer);
                         var receivedata = new byte[count];
                         Array.Copy(receiveBuffer, receivedata, count);
-                        _log.ByteSteamLog(ActionType.RECEIVE, receiveBuffer);
+                        Log.DebugLog($"{_name}:Rx <= {NetConvert.GetHexString(receivedata)}");
 
                         var receiveStr = encoding.GetString(receivedata);
                         receiveStr=receiveStr.Replace("<", "");

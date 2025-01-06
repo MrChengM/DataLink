@@ -45,7 +45,7 @@ namespace TaskHandler
                 {
                     if (_builder.BuildLog())
                     {
-                        _log.NormalLog(string.Format("{0}:Init=>Initing ", "OnInit()"));
+                        _log.InfoLog(string.Format("{0}:Init=>Initing ", "OnInit()"));
                         if (_builder.BuildConfig())
                         {
                             if (_builder.BuildPoints())
@@ -53,7 +53,7 @@ namespace TaskHandler
                                 if (_builder.BuildServer())
                                 {
                                     _server.Init();
-                                    _log.NormalLog(string.Format("{0}:Initing=>Inited ", "OnInit()"));
+                                    _log.InfoLog(string.Format("{0}:Initing=>Inited ", "OnInit()"));
                                     return true;
                                 }
                             }
@@ -70,9 +70,9 @@ namespace TaskHandler
         }
         public override bool OnStart()
         {
-            _log.NormalLog(string.Format("{0}:Start=>Starting", "OnStart"));
+            _log.InfoLog(string.Format("{0}:Start=>Starting", "OnStart"));
             var result = _server.Start();
-            _log.NormalLog(string.Format("{0}:Starting=>Sarted", "OnStart"));
+            _log.InfoLog(string.Format("{0}:Starting=>Sarted", "OnStart"));
             return result;
         }
         public override bool OnStop()

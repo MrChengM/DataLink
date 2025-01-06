@@ -6,69 +6,80 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 namespace DataServer.Points
 {
-    public interface Send<T>
+    public interface IWrite<T>
     {
-        event Action<IPoint<T>, int, bool> SendEvent;
+        WriteResult Write(int index, T value);
+        WriteResult Writes(T[] values);
+
+        event Func<DevicePoint<T>, int, T , WriteResult> WriteEvent;
+        event Func<DevicePoint<T>, T[], WriteResult> WritesEvent;
 
     }
-    public interface Update<T>
+    public interface IUpdate<T>
     {
-        void ValueUpdate(T value, int index,OperateSource source);
+        event Action<IPoint<T>,int> UpdataEvent;
 
     }
-    public interface IPoint<T>:INotifyPropertyChanged
+    //public interface ISinglPoint<T>
+    //{
+    //    string Name { get; }
+    //    string Index { get; }
+
+    //}
+    public interface IPoint<T> : IUpdate<T>
     {
-        T this[byte index] { get;set; }
+        T this[int index] { get;set; }
         string Name { get; }
 
         //string DataType { get; }
         int Length { get; }
-        T GetValue( byte index);
-        string ValueType { get; }
+        T GetValue( int index);
 
         T [] GetValues();
 
-        byte GetQuality(int index);
+        void SetQuality(QUALITIES qualitity, int index);
+        QUALITIES GetQuality();
 
-        string GetQualityString(int index);
-        bool SetQuality(QUALITIES quality, int index=0);
-        bool SetValue( T value, byte index);
+        //void SetQuaility(QUALITIES qualitues);
+        bool SetValue( T value, int index);
 
         bool SetValue(T[] value);
 
         bool IsVirtual();
 
-        void ValueUpdate(T value, int index);
-
-        event Action<IPoint<T>, int,bool> SendEvent;
-
     }
-
-
-    public enum PointType
+    public interface IDevicePoint<T>: IPoint<T>, IWrite<T>
     {
-        DevicePoint=0x01,
-        VirtualPoint=0x02,
+        string DeviceName { get; set; }
+
 
     }
-    public class DevicePoint<T> : IPoint<T> 
+    public class DevicePoint<T> : IDevicePoint<T>
     {
 
         private string _name;
 
         private DeviceAddress _address;
 
-        private string _valueType;
-
         private int _length;
 
         private Item<T>[] _value;
 
-        private PointType _type = PointType.DevicePoint;
+        private ReadWriteWay rw;
 
 
+        private string _deviceName;
 
-        public T this[byte index]
+        public string DeviceName { get { return _deviceName; } set { _deviceName = value; } }
+
+        public ReadWriteWay RW
+        {
+            get { return rw; }
+            set { rw = value; }
+        }
+
+
+        public T this[int index]
         {
             get { return GetValue(index); }
             set { SetValue(value, index); }
@@ -85,33 +96,22 @@ namespace DataServer.Points
                 _address = value;
             }
         }
-
-        public  Item<T>[] Value
+        public Scaling Scaling { get; set; }
+        public Item<T>[] Value
         {
-            get
+            private get
             {
                 return _value;
             }
-
             set
             {
 
                 for (int i = 0; i < _length; i++)
                 {
-                    if (_value[i] == null)
+                    if (!_value[i].Equals(value[i]))
                     {
                         _value[i] = value[i];
-                        OnValueChange(i);
-                    }
-                    else
-                    {
-                        if (!_value[i].Vaule.Equals(value[i].Vaule))
-                        {
-                            _value[i].Vaule = value[i].Vaule;
-                            OnValueChange(i);
-                        }
-                        _value[i].Quality = value[i].Quality;
-                        _value[i].UpdateTime = value[i].UpdateTime;
+                        UpdataEvent?.Invoke(this, i);
                     }
 
                 }
@@ -133,48 +133,31 @@ namespace DataServer.Points
                 return _length;
             }
         }
-
-        public string ValueType
-        {
-            get
-            {
-               return _valueType;
-            }
-        }
-
-        public DevicePoint(string name,string valueType,int length, DeviceAddress address)
+        public DevicePoint(string name,int length, DeviceAddress address,string deviceName)
         {
             _name = name;
-            _valueType = valueType;
             _length = length;
             _address = address;
+            _deviceName = deviceName;
             _value = new Item<T>[Length];
             for(int i = 0; i < length; i++)
             {
                 _value[i] = Item<T>.CreateDefault();
             }
+
         }
 
-
-        public byte GetQuality(int index)
+        public QUALITIES GetQuality()
         {
-            return (byte)_value[index].Quality;
+            return _value[0].Quality;
         }
 
-        public string GetQualityString(int index)
-        {
-            return _value[index].Quality.ToString();
-        }
 
         public bool IsVirtual()
         {
-            if (_type == PointType.VirtualPoint)
-            {
-                return true;
-            }
             return false;
         }
-        public T GetValue(byte index)
+        public T GetValue(int index)
         {
 
             if (index < _length)
@@ -189,23 +172,20 @@ namespace DataServer.Points
         public T[] GetValues()
         {
             T[] value = new T[_value.Length];
-           for(int i = 0; i < _value.Length; i++)
+            for (int i = 0; i < _value.Length; i++)
             {
                 value[i] = _value[i].Vaule;
             }
             return value;
         }
 
-        public bool SetValue( T value, byte index)
+        public bool SetValue(T value, int index)
         {
             if (index < _length)
             {
-                
                 if (!_value[index].Vaule.Equals(value))
                 {
                     _value[index].Vaule = value;
-                    OnValueChange(index);
-                    SendEvent?.Invoke(this, index, false);
                 }
                 return true;
             }
@@ -216,98 +196,108 @@ namespace DataServer.Points
         }
         public bool SetValue(T[] value)
         {
-            if(value.Length<= _value.Length)
+            
+            if (value.Length <= _value.Length)
             {
                 for (int i = 0; i < value.Length; i++)
                 {
                     if (!_value[i].Vaule.Equals(value))
                     {
                         _value[i].Vaule = value[i];
-                        OnValueChange(i);
-                        SendEvent?.Invoke(this, i, false);
                     }
                 }
                 return true;
             }
-            return false;
-        }
-
-        public bool SetQuality( QUALITIES quality, int index=0)
-        {
-            _value[index].Quality = quality;
-            return true;
-        }
-        #region INotifyPropertyChanged接口
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event Action<IPoint<T>, int,bool> SendEvent;
-
-        /// <summary>
-        /// 设置数据时触发绑定（用户设置或读取设备值）
-        /// </summary>
-        /// <param name="index"></param>                                         
-        protected void OnValueChange(int index)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(index.ToString()));
-        }
-        /// <summary>
-        /// 绑定的数据源数据变化触发
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="index"></param>
-        public void ValueUpdate(T value, int index)
-        {
-            if (index < _length)
+            else
             {
+                return false;
 
-                if (!_value[index].Vaule.Equals(value))
+            }
+        }
+        WriteResult RaisWriteEvent( int index,T value)
+        {
+            if (RW == ReadWriteWay.Read)
+            {
+                return new WriteResult()
                 {
-                    _value[index].Vaule = value;
-                    SendEvent?.Invoke(this, index, false);
-                }
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',Index:'{index }',not have write Permissions !"
+                };
+            }
+            if (WriteEvent != null)
+            {
+                return WriteEvent.Invoke(this, index,value);
+            }
+            else
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',Index:'{index }',Not find writting channel!"
+                };
+            }
+        }
+        WriteResult RaisWriteEvent(T[] value)
+        {
+            if (RW == ReadWriteWay.Read)
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',not have write Permissions !"
+                };
+            }
+            if (WriteEvent != null)
+            {
+                return WritesEvent.Invoke(this, value);
+            }
+            else
+            {
+                return new WriteResult()
+                {
+                    Result = OperateResult.NG,
+                    Messages = $"PointName:'{ Name}',Not find writting channel!"
+                };
+            }
+        }
+        public void SetQuality(QUALITIES qualitity, int index)
+        {
+            if (index < Length)
+            {
+                Value[index].Quality = qualitity;
             }
         }
 
-        #endregion
+        public WriteResult Write(int index,T value)
+        {
+            return RaisWriteEvent( index, value);
+        }
 
+        public WriteResult Writes(T[] values)
+        {
+            return RaisWriteEvent(values);
+        }
+
+        public event Action<IPoint<T>, int> UpdataEvent;
+        public event Func<DevicePoint<T>, int, T,WriteResult> WriteEvent;
+        public event Func<DevicePoint<T>, T[], WriteResult> WritesEvent;
     }
     public class VirtulPoint<T>: IPoint<T>
     {
         private string _name;
 
-        private string _valueType;
         private T[] _value;
         private QUALITIES _qualitiy = QUALITIES.QUALITY_GOOD;
         private int _length;
-        private PointType _type = PointType.VirtualPoint;
 
-     
+        public event Action<IPoint<T>, int> UpdataEvent;
 
-        public T this[byte index]
+        public T this[int index]
         {
             get { return GetValue(index); }
             set { SetValue(value,index); }
         }
-        public T[] Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            set
-            {
-                for (int i = 0; i < value.Length; i++)
-                {
-                    if (!value[i].Equals(_value[i]))
-                    {
-                        _value[i] = value[i];
-                        OnValueChange(i);
-                    }
-                }
-            }
-        }
-
+       
         public string Name
         {
             get
@@ -323,43 +313,28 @@ namespace DataServer.Points
                 return _length;
             }
         }
-        public string ValueType
-        {
-            get { return _valueType; }
-        }
-        public VirtulPoint(string name,string type, T[] Value)
+
+        public VirtulPoint(string name, T[] Value)
         {
             _name = name;
             _value = Value;
             _length = Value.Length;
-            _valueType = type;
         }
-        public VirtulPoint(string name, string type,int length=1)
+        public VirtulPoint(string name, T Value)
         {
             _name = name;
-            _length = length;
-            _valueType = type;
-            _value = new T[length];
-            for(int i = 0; i < length; i++)
-            {
-                _value[i] = default(T);
-            }
+            _value = new T[] { Value};
+            _length =1;
         }
         public T[] GetValues()
         {
             return _value;
         }
 
-        public byte GetQuality(int index)
+        public QUALITIES GetQuality()
         {
-            return (byte)_qualitiy;
+            return _qualitiy;
         }
-
-        public string GetQualityString(int index)
-        {
-            return _qualitiy.ToString();
-        }
-
         public bool SetValue(T[] value)
         {
             if (value.Length <= _value.Length)
@@ -369,10 +344,9 @@ namespace DataServer.Points
                     if (!value[i].Equals(_value[i]))
                     {
                         _value[i] = value[i];
-                        OnValueChange(i);
                     }
                 }
-               
+                UpdataEvent?.Invoke(this, -1);
                 return true;
             }
             return false;
@@ -380,12 +354,10 @@ namespace DataServer.Points
 
         public bool IsVirtual()
         {
-            if (_type == PointType.VirtualPoint)
-                return true;
-            return false;
+            return true;
         }
 
-        public T GetValue(byte index)
+        public T GetValue(int index)
         {
             if (index < _length)
             {
@@ -396,15 +368,14 @@ namespace DataServer.Points
                 return default(T);
             }
         }
-
-        public bool SetValue(T value, byte index)
+        public bool SetValue(T value, int index)
         {
             if (index < _length)
             {
                 if (!_value[index].Equals(value))
                 {
                     _value[index] = value;
-                    OnValueChange(index);
+                    UpdataEvent?.Invoke(this, index);
                 }
                 return true;
             }
@@ -412,48 +383,10 @@ namespace DataServer.Points
             {
                 return false;
             }
-            
         }
-        public bool SetQuality(QUALITIES quality, int index=0)
+        public void SetQuality(QUALITIES qualitity, int index)
         {
-            _qualitiy = quality;
-            return true;
+            _qualitiy = qualitity;
         }
-        #region INotifyPropertyChanged 接口实现
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event Action<IPoint<T>, int, bool> SendEvent;
-        /// <summary>
-        /// 设置数据时触发绑定（用户设置或读取设备值）
-        /// </summary>
-        /// <param name="index"></param>
-        protected void OnValueChange(int index)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(index.ToString()));
-        }
-
-        /// <summary>
-        /// 绑定的数据源数据变化触发
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="index"></param>
-        public void ValueUpdate(T value, int index)
-        {
-            if (index < _length)
-            {
-                if (!_value[index].Equals(value))
-                {
-                    _value[index] = value;
-                    SendEvent?.Invoke(this, index, false);
-                }
-            }
-        }
-        #endregion
-    }
-
-    public enum OperateSource
-    {
-        FromDevice,
-        FromPointBinding,
-        FormUserSet
     }
 }

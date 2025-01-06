@@ -1,0 +1,11 @@
+2024-09-13 14:06:52,170 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-13 14:07:31,768 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-13 14:13:52,703 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'Couldn't reconnect within the configured timeout of 00:00:30, disconnecting.'!  
+2024-09-13 14:14:38,211 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update role  error':操作超时'!  
+2024-09-13 14:14:38,212 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/13 6:13:05 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-13 14:14:38,213 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/13 6:13:05 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-13 14:34:05,987 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'发生了内部 WebSocket 错误。有关详细信息，请参见 InnerException (如果存在)。'!  
+2024-09-13 15:02:15,194 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/13 7:00:34 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-13 15:02:15,202 ERROR GuiBaseLogger AlarmService: Connect http://localhost:3051/ error'The client has been inactive since 2024/9/13 7:00:34 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2024-09-13 15:03:09,098 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update User  error':远程服务器返回错误: (500) 内部服务器错误。'!  
+2024-09-13 15:03:35,259 ERROR GuiBaseLogger SecurityService: http://localhost:3051/api/Permission Update User  error':远程服务器返回错误: (500) 内部服务器错误。'!  
