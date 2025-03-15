@@ -1,0 +1,28 @@
+2025-02-21 15:07:32,824 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:07:32,836 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:12:10,174 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:12:10,212 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:13:27,404 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:13:27,479 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:13:44,452 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 15:14:11,731 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 15:19:06,172 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 15:20:21,602 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:20:21,619 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:21:39,932 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:21:39,946 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:22:02,894 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 15:22:56,104 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:22:56,118 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:23:22,331 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 15:26:56,208 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 15:26:56,354 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 15:27:14,868 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 17:42:46,179 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 17:42:46,193 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 17:43:48,254 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   
+2025-02-21 17:55:14,188 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 17:55:14,202 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 17:56:15,391 INFO  ConfigToolLogger Updata Project from Server sucessfully!   
+2025-02-21 17:56:15,404 INFO  ConfigToolLogger Updata drivers information from Server sucessfully!   
+2025-02-21 17:56:39,333 INFO  ConfigToolLogger DownLoad Project to Server sucessfully!   

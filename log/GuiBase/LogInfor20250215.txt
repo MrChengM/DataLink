@@ -1,0 +1,8 @@
+2025-02-15 11:52:34,409 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-15 11:52:38,306 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-15 11:52:38,308 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-15 11:52:38,815 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-15 11:55:37,276 INFO  GuiBaseLogger AlarmService: Connection have closed,Url 'http://localhost:3051/' !  
+2025-02-15 11:55:37,276 INFO  GuiBaseLogger AlarmService: Start to disconnect http://localhost:3051/!  
+2025-02-15 11:55:37,429 INFO  GuiBaseLogger SignalService: Connection have closed ,Url 'http://localhost:3051/'!  
+2025-02-15 11:55:37,430 INFO  GuiBaseLogger SignalService: Stop the connection,Url 'http://localhost:3051/'  

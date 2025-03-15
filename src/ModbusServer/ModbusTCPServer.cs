@@ -522,6 +522,9 @@ namespace ModbusServer
             {
                 
                 _isRunning = false;
+                _socketServer.ReadComplete -= recivceDataHanding;
+                _socketServer.SendComplete -= sendComplete;
+                
                 return _socketServer.Stop();
             }
             return true;

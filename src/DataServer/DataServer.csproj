@@ -66,6 +66,9 @@
     <Compile Include="Alarm\AlarmInstance.cs" />
     <Compile Include="Alarm\HistoryAlarm.cs" />
     <Compile Include="Alarm\HistoryAlarmSelectCondition.cs" />
+    <Compile Include="Config\IConfigServer.cs" />
+    <Compile Include="Config\RestAPIResult.cs" />
+    <Compile Include="Config\UpFileMessage.cs" />
     <Compile Include="Log\IHisAlarmRecordCRUD.cs" />
     <Compile Include="Config\AlarmsConfig.cs" />
     <Compile Include="Config\AlarmItemConfig.cs" />
