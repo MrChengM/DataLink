@@ -1,0 +1,32 @@
+2025-02-18 19:52:21,036 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-18 19:52:22,446 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-18 19:52:22,448 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-18 19:52:22,878 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-18 19:55:52,438 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-18 19:55:53,246 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-18 19:55:53,249 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-18 19:55:53,632 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-18 20:01:06,356 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-18 20:01:07,199 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-18 20:01:07,201 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-18 20:01:07,576 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:09:20,146 INFO  GuiBaseLogger SignalService: Connection have closed ,Url 'http://localhost:3051/'!  
+2025-02-18 21:09:20,146 INFO  GuiBaseLogger AlarmService: Connection have closed,Url 'http://localhost:3051/' !  
+2025-02-18 21:09:30,154 INFO  GuiBaseLogger SignalService:Reconnect to 'http://localhost:3051/' by manual,times:1  
+2025-02-18 21:09:30,154 INFO  GuiBaseLogger AlarmService:Reconnect to 'http://localhost:3051/' by manual,times:1  
+2025-02-18 21:09:30,154 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-18 21:09:30,154 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-18 21:09:31,130 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:09:31,130 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:14:53,368 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-18 21:14:54,383 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:14:54,387 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-18 21:14:54,874 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:16:54,884 INFO  GuiBaseLogger AlarmService: Start to connecting http://localhost:3051/  
+2025-02-18 21:16:55,849 INFO  GuiBaseLogger AlarmService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:16:55,851 INFO  GuiBaseLogger SignalService: Start to connecting http://localhost:3051/  
+2025-02-18 21:16:56,263 INFO  GuiBaseLogger SignalService: Connect to http://localhost:3051/ succefully  
+2025-02-18 21:20:04,870 INFO  GuiBaseLogger AlarmService: Connection have closed,Url 'http://localhost:3051/' !  
+2025-02-18 21:20:04,870 INFO  GuiBaseLogger AlarmService: Start to disconnect http://localhost:3051/!  
+2025-02-18 21:20:05,076 INFO  GuiBaseLogger SignalService: Connection have closed ,Url 'http://localhost:3051/'!  
+2025-02-18 21:20:05,077 INFO  GuiBaseLogger SignalService: Stop the connection,Url 'http://localhost:3051/'  

@@ -5,7 +5,6 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using WCFRestFullAPI.Models;
 using System.Text;
 using DataServer.Config;
 using System.IO;

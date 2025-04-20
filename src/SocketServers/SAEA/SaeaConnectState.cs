@@ -199,6 +199,7 @@ namespace SocketServers.SAEA
         /// <param name="buff"></param>
         public int Send(byte[] buff)
         {
+
             var s = ((AsyncUserToken)socketArg.UserToken).AcceptSocket;
             try
             {
@@ -208,7 +209,7 @@ namespace SocketServers.SAEA
             }
             catch (SocketException ex)
             {
-                string error = string.Format("{0} Sync Send data Error：{1}, ID:{2}, IPAdderss:{3}",serverName, ex.Message, id, s.RemoteEndPoint);
+                string error = string.Format("{0} Sync Send data Error：{1}, ID:{2}, IPAdderss:{3}", serverName, ex.Message, id, s.RemoteEndPoint);
                 log.ErrorLog(error);
                 Clear();
                 if (_m_ConnectStatePool != null)
@@ -218,14 +219,17 @@ namespace SocketServers.SAEA
         }
         public void Disconnect()
         {
-            var s = ((AsyncUserToken)socketArg.UserToken).AcceptSocket;
-            if (s.Connected)
+            if ((AsyncUserToken)socketArg.UserToken != null)
             {
-                s.Shutdown(SocketShutdown.Both);
+                var s = ((AsyncUserToken)socketArg.UserToken).AcceptSocket;
+                if (s.Connected)
+                {
+                    log.InfoLog(string.Format("{0} Disconnect information,ID:{1} , IPAdderss:{2}", serverName, ID, s.RemoteEndPoint));
+                    s.Shutdown(SocketShutdown.Both);
+                }
+                s.Close();
+                DisconnectEvent?.Invoke(this);
             }
-            log.InfoLog(string.Format("{0} Disconnect information,ID:{1} , IPAdderss:{2}",serverName, ID, s.RemoteEndPoint));
-            s.Close();
-            DisconnectEvent?.Invoke(this);
         }
         public void Clear()
         {

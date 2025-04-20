@@ -12,7 +12,6 @@ using Utillity.Reflection;
 using System.Reflection;
 using DataServer;
 using WCFRestFullAPI.Client;
-using WCFRestFullAPI.Models;
 using System.IO;
 
 namespace ConfigTool.Service
@@ -28,17 +27,18 @@ namespace ConfigTool.Service
         private const string CONFIGPATH = "../../../../conf";
         private string sFilePath = "";
         private string sFilter = "json|*.json";
-        private string basUrl = "http://127.0.0.1:3271/ConfigService";
+        //private string basUrl = "http://127.0.0.1:3271/ConfigService";
+        private string basUrl = "http://localhost:3051/api/Config";
 
         private const string DRIVERFILE_DEFAULT = "/DriverInformation.Json";
 
         private const string PROJECTFILE_DEFAULT = "/ProjectConfig.Json";
 
-        private const string CLIENTFILE_DEFAULT = "/ClientConfig.Json";
+        //private const string CLIENTFILE_DEFAULT = "/ClientConfig.Json";
 
-        private const string SEVERFILE_DEFAULT = "/ServerConfig.Jsosn";
+        //private const string SEVERFILE_DEFAULT = "/ServerConfig.Jsosn";
 
-        private const string ALARMFILE_DEFAULT = "/AlarmConfig.Jsosn";
+        //private const string ALARMFILE_DEFAULT = "/AlarmConfig.Jsosn";
 
         private const string DLLPATH = "../../../../dll";
 
@@ -588,8 +588,6 @@ namespace ConfigTool.Service
         public bool UpdataDLL()
         {
             bool result;
-
-
             string url = basUrl + "/DriverInformation";
             try
             {
@@ -620,28 +618,25 @@ namespace ConfigTool.Service
         public bool DownLoad()
         {
             bool result;
-
             string url = basUrl + "/Project";
-
             try
             {
                 var rar = RestAPIOpertor.PutFuncJson<ProjectConfig, RestAPIResult>(url, _projectConfig);
                 if (rar == RestAPIResult.OK)
                 {
                     _log.Info($"DownLoad Project to Server sucessfully! ");
-                    result= true;
+                    result = true;
                 }
                 else
                 {
                     _log.Info($"DownLoad Project to Server failed! ");
-
-                    result= false;
+                    result = false;
                 }
             }
             catch (Exception e)
             {
                 _log.Error($"DownLoad Project to Server error,information:{e.Message}({url})! ");
-                result= false;
+                result = false;
             }
             OnlineChangeEvent?.Invoke(this, result);
             IsConnect = result;
@@ -673,7 +668,6 @@ namespace ConfigTool.Service
                 return false;
             }
         }
-
         public bool IsExit_TagGroup(string channelName, string deviceName, string TagGroupNmae)
         {
             if (IsExit_Deveice(channelName,deviceName))

@@ -4,6 +4,7 @@ using DataServer.Permission;
 using System;
 using System.Collections.Generic;
 using Utillity.Communication;
+using Utillity.Security;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace GuiBase.Services
         private readonly string ServerUrl = "http://localhost:3051/api/Permission";
         string _taskName;
         private List<string> resourceNames;
+        
         public User CurrentUser
         {
             get { return currentUser; }
@@ -47,12 +49,13 @@ namespace GuiBase.Services
         {
             bool result = false;
             var url = $"{ServerUrl}/User";
-            var aut= RestAPIClient.UserNameToBase64Str(userName, oldPassword);
-            CurrentUser.Password = newPassword;
+            var oldPsdHash = PasswordHash(oldPassword);
+            var newPsdHash= PasswordHash(newPassword);
+            var aut= RestAPIClient.UserNameToBase64Str(userName, oldPsdHash);
+            CurrentUser.Password = newPsdHash;
             try
             {
-                result = RestAPIClient.PutFuncJson<User,bool>(url,currentUser,aut);
-
+                result = RestAPIClient.PutFuncJson<User,bool>(url,CurrentUser,aut);
             }
             catch (Exception e)
             {
@@ -162,13 +165,35 @@ namespace GuiBase.Services
         {
             return CurrentUser;
         }
+        //账号密码暴露在URL中，不安全，故弃用
+        //public bool IsValidLogin(string userName, string password)
+        //{
+        //    bool result = false;
+        //    var url = $"{ServerUrl}/User?account={userName}&pwd={password}";
+        //    try
+        //    {
+        //        var user = RestAPIClient.GetFuncJson<User>(url);
+        //        if (user != null)
+        //        {
+        //            CurrentUser = user;
+        //            result = true;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _log.ErrorLog($"{_taskName}: { ServerUrl} Login error':{e.Message}'!");
+        //    }
+        //    return result;
+        //}
         public bool IsValidLogin(string userName, string password)
         {
             bool result = false;
-            var url = $"{ServerUrl}/User?account={userName}&pwd={password}";
+            var url = $"{ServerUrl}/Login";
+
+            var loginRequest = new LoginRequest() { Account = userName, Password = PasswordHash(password)};
             try
             {
-                var user = RestAPIClient.GetFuncJson<User>(url);
+                var user = RestAPIClient.PutFuncJson<LoginRequest, User>(url, loginRequest);
                 if (user != null)
                 {
                     CurrentUser = user;
@@ -181,7 +206,6 @@ namespace GuiBase.Services
             }
             return result;
         }
-
         public bool UpdateResource(Resource resource)
         {
             bool result = false;
@@ -319,6 +343,12 @@ namespace GuiBase.Services
         public List<string> GetResourceNames()
         {
             return resourceNames;
+        }
+
+        public string PasswordHash(string password)
+        {
+            var saltBytes = SHA256Code.ConvertToSalt();
+            return SHA256Code.HashPasswordWithSalt(password, saltBytes);
         }
     }
 }

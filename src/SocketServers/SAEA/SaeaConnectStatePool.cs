@@ -38,5 +38,14 @@ namespace SocketServers.SAEA
             item.Init();
             return item;
         }
+
+        public void Clear()
+        {
+            foreach (var connectState in Queue)
+            {
+                connectState.Clear();
+
+            }
+        }
     }
 }

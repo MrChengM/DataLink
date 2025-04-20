@@ -69,8 +69,6 @@
     <Compile Include="Json\NewtonsoftJsonClientFormatter.cs" />
     <Compile Include="Json\NewtonsoftJsonDispatchFormatter.cs" />
     <Compile Include="Json\RawBodyWriter.cs" />
-    <Compile Include="Models\RestAPIResult.cs" />
-    <Compile Include="Models\UpFileMessage.cs" />
     <Compile Include="Service\ConfigRestServerHost.cs" />
     <Compile Include="Service\IConfigRestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

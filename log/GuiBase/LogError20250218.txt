@@ -1,0 +1,4 @@
+2025-02-18 21:08:50,109 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2025/2/18 12:22:42 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2025-02-18 21:08:50,113 ERROR GuiBaseLogger SignalService: Connect to http://localhost:3051/ error'The client has been inactive since 2025/2/18 12:22:42 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2025-02-18 21:08:50,124 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2025/2/18 12:22:42 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  
+2025-02-18 21:08:50,126 ERROR GuiBaseLogger AlarmService: Connect to http://localhost:3051/ error,'The client has been inactive since 2025/2/18 12:22:42 and it has exceeded the inactivity timeout of 00:00:50. Stopping the connection.'!  

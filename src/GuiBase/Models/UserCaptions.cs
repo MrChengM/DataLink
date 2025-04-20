@@ -172,6 +172,14 @@ namespace GuiBase.Models
             set { SetProperty(ref password, value, "Password"); }
         }
 
+        private string reset;
+
+        public string Reset
+        {
+            get { return reset; }
+            set { SetProperty(ref reset, value, "Reset"); }
+        }
+
 
         public UserCaptions(ILocalizationService localizationService)
         {
@@ -200,6 +208,7 @@ namespace GuiBase.Models
             Logout = _localizationService[TranslateCommonId.LogoutId];
             Roles = _localizationService[TranslateCommonId.RolesId];
             Password = _localizationService[TranslateCommonId.PasswordId];
+            Reset= _localizationService[TranslateCommonId.ResetId];
         }
     }
 }

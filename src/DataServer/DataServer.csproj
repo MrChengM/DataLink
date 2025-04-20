@@ -66,6 +66,9 @@
     <Compile Include="Alarm\AlarmInstance.cs" />
     <Compile Include="Alarm\HistoryAlarm.cs" />
     <Compile Include="Alarm\HistoryAlarmSelectCondition.cs" />
+    <Compile Include="Config\IConfigServer.cs" />
+    <Compile Include="Config\RestAPIResult.cs" />
+    <Compile Include="Config\UpFileMessage.cs" />
     <Compile Include="Log\IHisAlarmRecordCRUD.cs" />
     <Compile Include="Config\AlarmsConfig.cs" />
     <Compile Include="Config\AlarmItemConfig.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Permission\IResourcesCRUD.cs" />
     <Compile Include="Permission\IRolesCRUD.cs" />
     <Compile Include="Permission\IUsersCRUD.cs" />
+    <Compile Include="Permission\LoginRequest.cs" />
     <Compile Include="Permission\Resource.cs" />
     <Compile Include="Permission\ResourceType.cs" />
     <Compile Include="Permission\Role.cs" />

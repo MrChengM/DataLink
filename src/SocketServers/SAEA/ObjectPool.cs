@@ -11,6 +11,8 @@ namespace SocketServers.SAEA
     {
 
         private ConcurrentQueue<T> _queue;
+
+        public ConcurrentQueue<T> Queue => _queue;
         public ObjectPool()
         {
             _queue = new ConcurrentQueue<T>();

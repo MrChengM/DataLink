@@ -40,7 +40,14 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBox Text="{Binding UserW.Password}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}"/>
+        <StackPanel  Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+            <TextBox Text="{Binding UserW.Password,Mode=OneWayToSource}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" MinWidth="100" Background="{StaticResource BaseNoConColor_TEXT_BRUSH}" IsEnabled="{Binding PasswordEnable}"/>
+            <StackPanel Margin="10,0" Visibility="{Binding ResetVisiblilty}" >
+                <TextBlock Text="{Binding Captions.Reset}" HorizontalAlignment="Center"/>
+                <ToggleButton   IsChecked="{Binding ResetStatus}"   HorizontalAlignment="Center" VerticalAlignment="Center"  Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}" />
+            </StackPanel>
+        </StackPanel>
+        
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" >
             <Button Content="{Binding Captions.Confirm}" MinWidth="60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="0,0,20,0" Command="{Binding ConfrimBtnCommand}"   CommandParameter="OK" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>
             <Button Content="{Binding Captions.Cancel}" MinWidth="60" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"  Margin="20,0,0,0" Command="{Binding ConfrimBtnCommand}" CommandParameter="Cancel" Background="{StaticResource COLOR_BRUSH_ButtonMainBackground}"/>

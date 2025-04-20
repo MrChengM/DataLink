@@ -116,5 +116,7 @@ namespace GuiBase.Models
         public static string TimeId = "G_Text_Time";
         internal static string ComputerInforId= "G_Text_ComputerInfor";
         internal static string MessageId= "G_Text_Message";
+        internal static string ResetId = "G_Text_Reset";
+
     }
 }

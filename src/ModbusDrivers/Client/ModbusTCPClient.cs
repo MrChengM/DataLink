@@ -92,7 +92,7 @@ namespace ModbusDrivers.Client
         {
             try
             {
-                if (_socket != null)
+                if (_socket != null&&_socket.Connected)
                 {
                     _socket.Shutdown(SocketShutdown.Both);
                     _socket.Close(5000);
@@ -428,7 +428,7 @@ namespace ModbusDrivers.Client
         }
         public override void Dispose()
         {
-            if (_socket != null)
+            if (_socket != null&& _socket.Connected)
             {
                 _socket.Shutdown(SocketShutdown.Both);
                 _socket.Close(3000);

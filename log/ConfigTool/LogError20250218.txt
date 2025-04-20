@@ -1,0 +1,12 @@
+2025-02-18 19:52:21,282 ERROR ConfigToolLogger Updata Project from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/Project)!   
+2025-02-18 19:52:23,355 ERROR ConfigToolLogger Updata drivers information from Server failed:无法连接到远程服务器(http://127.0.0.1:3271/ConfigService/DriverInformation)!   
+2025-02-18 19:55:52,327 ERROR ConfigToolLogger Updata Project from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/Project)!   
+2025-02-18 19:55:52,349 ERROR ConfigToolLogger Updata drivers information from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/DriverInformation)!   
+2025-02-18 19:56:14,102 ERROR ConfigToolLogger Updata Project from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/Project)!   
+2025-02-18 19:56:14,111 ERROR ConfigToolLogger Updata drivers information from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/DriverInformation)!   
+2025-02-18 19:57:14,230 ERROR ConfigToolLogger Updata Project from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/Project)!   
+2025-02-18 19:57:14,238 ERROR ConfigToolLogger Updata drivers information from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/DriverInformation)!   
+2025-02-18 19:57:48,362 ERROR ConfigToolLogger Updata Project from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/Project)!   
+2025-02-18 19:57:48,369 ERROR ConfigToolLogger Updata drivers information from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/Config/DriverInformation)!   
+2025-02-18 20:01:06,434 ERROR ConfigToolLogger Updata Project from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/api/Config/Project)!   
+2025-02-18 20:01:06,465 ERROR ConfigToolLogger Updata drivers information from Server failed:远程服务器返回错误: (400) 错误的请求。(http://127.0.0.1:3051/api/Config/DriverInformation)!   

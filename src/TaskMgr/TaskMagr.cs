@@ -108,6 +108,7 @@ namespace TaskMgr
                 _tasks.Sort((AbstractTask TaskA, AbstractTask TaskB) => TaskA.InitLevel != TaskB.InitLevel ? TaskA.InitLevel - TaskB.InitLevel : string.Compare(TaskA.TaskName, TaskB.TaskName, StringComparison.Ordinal));
             }
         }
+     
         private bool run()
         {
             foreach (var t in _tasks)
@@ -117,50 +118,72 @@ namespace TaskMgr
                     _log.ErrorLog(string.Format("Task<{0}> Start failed!", t.TaskName));
                 }
             }
-            openSignalRServer();
+            //openSignalRServer();
             return true;
         }
 
         private bool stop()
         {
+            bool result = true;
+            _tasks.Reverse();
             foreach (var task in _tasks)
             {
-                if (task.OnStop())
+                if (!task.OnStop())
                 {
-                    continue;
-                }
-                else
-                {
-                    _log.ErrorLog(string.Format("Task<{0}> Stop failed!", task.TaskName));
-                    return false;
+                    //_log.ErrorLog(string.Format("Task<{0}> Stop failed!", task.TaskName));
+                    result = false;
                 }
             }
-            return true;
+            _tasks.Clear();
+            return result;
         }
-        private void openConfigRestApiServer()
+        private bool restart()
         {
-            ConfigRestServerHost configRestServerHost = new ConfigRestServerHost();
+            bool result = true;
+            _log.InfoLog(string.Format("Restarting"));
 
-            configRestServerHost.Open();
+            if (!stop())
+            {
+                return false;
+            }
+            if (!init())
+            {
+                return false;
 
-            _projectConfig = configRestServerHost.RestService.Config;
-            _driverTypes= configRestServerHost.RestService.DriverTypes;
-            configRestServerHost.RestService.ProConfRefreshEvent += RestService_ProConfRefreshEvent;
+            }
+            if (!run())
+            {
+                return false;
+            }
+            return result;
         }
+        //private void openConfigRestApiServer()
+        //{
+        //    ConfigRestServerHost configRestServerHost = new ConfigRestServerHost();
+
+        //    configRestServerHost.Open();
+
+        //    _projectConfig = configRestServerHost.RestService.Config;
+        //    _driverTypes= configRestServerHost.RestService.DriverTypes;
+        //    configRestServerHost.RestService.ProConfRefreshEvent += RestService_ProConfRefreshEvent;
+        //}
 
         private void openSignalRServer() 
         {
             var signalR = _container.Resolve<SignalRServer>();
             signalR.StartServer("http://localhost:3051",_container);
+
+            var configServer = _container.Resolve<IConfigServer>();
+            _projectConfig = configServer.Config;
+            _driverTypes = configServer.DriverTypes;
+            configServer.ProConfRefreshEvent += RestService_ProConfRefreshEvent;
         }
         private void RestService_ProConfRefreshEvent(ProjectConfig config)
         {
-            if (stop() && init())
-            {
-                run();
-            }
+            restart();
         }
 
+        
         //private void ChangInitLevel(int initLevel)
         //{
         //    if (initLevel != _initLevel)
@@ -189,12 +212,13 @@ namespace TaskMgr
             _container.RegisterSingleton<ISignalsHubProxy, SignalsHubProxy>();
             _container.RegisterSingleton<IAlarmHubProxy, AlarmHubProxy>();
 
+            _container.RegisterSingleton<IConfigServer, ConfigService>();
             _intance._log = _container.Resolve<ILog>();
             _intance._log.Init(loggerName);
             _intance._log.LogNotifyEvent += (l, m) => { if (l != LogLevel.Debug) Console.WriteLine($"{DateTime.Now} {l} {m}"); };
 
             
-            _intance.openConfigRestApiServer();
+            _intance.openSignalRServer();
             _intance.creatTask();
             if (_intance.init())
                 _intance.run();

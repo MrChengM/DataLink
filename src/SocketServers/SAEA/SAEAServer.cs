@@ -25,6 +25,7 @@ namespace SocketServers.SAEA
         private TimeOut timeOut;
         private int readCacheSize;
         private string serverName;
+        private bool isRunning = false;
 
         private SaeaConnectStatePool connectStatePool;
         #endregion
@@ -107,32 +108,31 @@ namespace SocketServers.SAEA
         {
             try
             {
+                isRunning = true;
                 listenSocket.Bind(ipEndPoint);
                 listenSocket.Listen(maxConnectNum);
-                startAccept(null);
+                startAccept();
                 return true;
             }
             catch (Exception e)
             {
                 string errorInfor = string.Format("{0} Server start error: {1}", serverName, e.Message);
                 log.ErrorLog(errorInfor);
+                isRunning = false;
                 return false;
+
             }
         }
 
-        private void startAccept(SocketAsyncEventArgs accpetEventArg)
+        private void startAccept()
         {
-            if (accpetEventArg == null)
+            if (isRunning)
             {
-                accpetEventArg = new SocketAsyncEventArgs();
+                var accpetEventArg = new SocketAsyncEventArgs();
                 accpetEventArg.Completed += AccpetEventArg_Completed;
+                var willRaiseEvent = listenSocket.AcceptAsync(accpetEventArg);
             }
-            else
-            {
-                //Use for next.
-                accpetEventArg.AcceptSocket = null;
-            }
-            var willRaiseEvent =  listenSocket.AcceptAsync(accpetEventArg);
+            
             //
             //if (!willRaiseEvent)
             //{
@@ -143,7 +143,15 @@ namespace SocketServers.SAEA
 
         private void AccpetEventArg_Completed(object sender, SocketAsyncEventArgs e)
         {
-            ProcessAccept(e);
+            if (e.SocketError==SocketError.Success)
+            {
+                ProcessAccept(e);
+            }
+            else
+            {
+                //log.ErrorLog(string.Format("{0} connect information,ReceiveAsync Start,ID:{1} , IPAdderss:{2}", serverName, connectState.ID, accpetEventArg.AcceptSocket.RemoteEndPoint));
+
+            }
         }
 
         private void ProcessAccept(SocketAsyncEventArgs accpetEventArg)
@@ -160,13 +168,17 @@ namespace SocketServers.SAEA
             log.InfoLog(string.Format("{0} connect information,ReceiveAsync Start,ID:{1} , IPAdderss:{2}",serverName, connectState.ID, accpetEventArg.AcceptSocket.RemoteEndPoint));
 
             //Accept Next;
-            startAccept(accpetEventArg);
+            accpetEventArg.Completed -= AccpetEventArg_Completed;
+            startAccept();
 
         }
 
-        private void ConnectState_DisconnectEvent(SaeaConnectState obj)
+        private void ConnectState_DisconnectEvent(SaeaConnectState connectState)
         {
-            DisconnectEvent?.Invoke(obj);
+            connectState.ReadComplete -= ConnectState_ReadComplete;
+            connectState.SendComplete -= ConnectState_SendComplete;
+            connectState.DisconnectEvent -= ConnectState_DisconnectEvent;
+            DisconnectEvent?.Invoke(connectState);
         }
 
         private void ConnectState_SendComplete(SaeaConnectState obj)
@@ -176,13 +188,22 @@ namespace SocketServers.SAEA
 
         private void ConnectState_ReadComplete(SaeaConnectState obj)
         {
+
             ReadComplete?.Invoke(obj);
         }
 
         public bool Stop()
         {
-            listenSocket.Shutdown(SocketShutdown.Both);
+            if (listenSocket.Connected)
+            {
+                listenSocket.Shutdown(SocketShutdown.Both);
+            }
             listenSocket.Close();
+            isRunning = false;
+            ReadComplete = null;
+            SendComplete = null;
+            DisconnectEvent = null;
+            connectStatePool.Clear();
             return true;
            
         }
