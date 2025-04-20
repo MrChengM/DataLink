@@ -96,6 +96,7 @@
     <Compile Include="Permission\IResourcesCRUD.cs" />
     <Compile Include="Permission\IRolesCRUD.cs" />
     <Compile Include="Permission\IUsersCRUD.cs" />
+    <Compile Include="Permission\LoginRequest.cs" />
     <Compile Include="Permission\Resource.cs" />
     <Compile Include="Permission\ResourceType.cs" />
     <Compile Include="Permission\Role.cs" />

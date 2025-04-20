@@ -42,9 +42,6 @@ namespace GuiBase.ViewModels
             get { return ssexS; }
             set { SetProperty(ref ssexS, value, "SsexS"); }
         }
-
-        
-
         public DelegateCommand<string> ConfrimBtnCommand { get; set; }
 
         private string title;
@@ -63,9 +60,29 @@ namespace GuiBase.ViewModels
             set { SetProperty(ref captions, value, "Captions"); }
         }
 
+        private bool resetStatus;
 
+        public bool ResetStatus
+        {
+            get { return resetStatus; }
+            set { SetProperty(ref resetStatus, value,()=>setPasswordEnable() , "ResetStatus"); }
+        }
 
+        private bool passwordEnable;
 
+        public bool PasswordEnable
+        {
+            get { return passwordEnable; }
+            set { SetProperty(ref passwordEnable, value, "PasswordEnable"); }
+        }
+
+        private Visibility resetVisiblilty;
+
+        public Visibility ResetVisiblilty
+        {
+            get { return resetVisiblilty; }
+            set { SetProperty(ref resetVisiblilty, value, "ResetVisiblilty"); }
+        }
         public UserEditViewModel (ISecurityService securityService,ILocalizationService localizationService)
         {
             _securityService = securityService;
@@ -101,6 +118,7 @@ namespace GuiBase.ViewModels
                     user.CreateId = _securityService.GetCurrentUser().Id;
                     user.CreateTime = DateTime.Now;
                     user.Status = 0;
+                    user.Password = _securityService.PasswordHash(UserW.Password);
                     if (!_securityService.CreateUser(user))
                     {
                         MessageBox.Show("Create user fail!");
@@ -109,6 +127,10 @@ namespace GuiBase.ViewModels
                 }
                 else
                 {
+                    if (ResetStatus)
+                    {
+                        user.Password = _securityService.PasswordHash(UserW.Password);
+                    }
                     if (!_securityService.UpdateUser(user))
                     {
                         MessageBox.Show("Update user fail!");
@@ -135,6 +157,7 @@ namespace GuiBase.ViewModels
         public void OnDialogOpened(IDialogParameters parameters)
         {
             BuildMode = parameters.GetValue<bool>("isBuild");
+            setPasswordEnable();
             if (BuildMode)
             {
                 UserW = new UserWrapper()
@@ -147,6 +170,7 @@ namespace GuiBase.ViewModels
                 {
                     UserW.RoleNameExs.Add(new RoleNameEx() { Name = role.Name, IsChecked = false });
                 }
+
             }
             else
             {
@@ -162,5 +186,18 @@ namespace GuiBase.ViewModels
 
         }
 
+        private void setPasswordEnable()
+        {
+            if (BuildMode)
+            {
+                PasswordEnable = true;
+                ResetVisiblilty = Visibility.Hidden;
+            }
+            else
+            {
+                ResetVisiblilty = Visibility.Visible;
+                PasswordEnable = resetStatus;
+            }
+        }
     }
 }

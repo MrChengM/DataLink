@@ -22,11 +22,18 @@ namespace SignalRSelfHost.WebApi
         {
             return _permissionManager.ValidateUser(account, pwd);
         }
-        [ActionName("User")]
-        [HttpGet]
-        public User GetUser(string account,string pwd)
+        // 采用Get方法，账号密码暴露风险，不安全，故弃用
+        //[ActionName("User")]
+        //[HttpGet]
+        //public User GetUser(string account,string pwd)
+        //{
+        //   return _permissionManager.GetUser(account, pwd);
+        //}
+        [ActionName("Login")]
+        [HttpPut]
+        public User Login(LoginRequest request)
         {
-           return _permissionManager.GetUser(account, pwd);
+            return _permissionManager.GetUser(request.Account, request.Password);
         }
         [ActionName("AllUsers")]
         [HttpGet]

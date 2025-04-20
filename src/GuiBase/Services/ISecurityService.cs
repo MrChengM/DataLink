@@ -13,6 +13,7 @@ namespace GuiBase.Services
         bool IsValidLogin(string userName, string password);
         void CancelLogin();
         bool ChangePassword(string userName, string oldPassword, string newPassword);
+        string PasswordHash(string password);
         User GetCurrentUser();
         List<User> GetAllUsers();
         bool CreateUser(User user);

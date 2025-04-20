@@ -1,0 +1,6 @@
+2025-04-20 16:47:23,486 ERROR GuiBaseLogger Localization Service:Load language file error'G_Text_Reset have exit'!  
+2025-04-20 16:47:23,491 ERROR GuiBaseLogger Localization Service:Load language file error'G_Text_Reset have exit'!  
+2025-04-20 16:49:45,232 ERROR GuiBaseLogger Localization Service:Load language file error'G_Text_Reset have exit'!  
+2025-04-20 16:49:45,236 ERROR GuiBaseLogger Localization Service:Load language file error'G_Text_Reset have exit'!  
+2025-04-20 16:53:14,224 ERROR GuiBaseLogger Localization Service:Load language file error'G_Text_Reset have exit'!  
+2025-04-20 16:53:14,228 ERROR GuiBaseLogger Localization Service:Load language file error'G_Text_Reset have exit'!  
